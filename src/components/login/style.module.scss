@@ -1,0 +1,63 @@
+form {
+    font-family: "Gilroy", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .input_field{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .eye{
+        position: absolute;
+        right: 16px;
+        top: 25px;
+        cursor: pointer;
+    }
+    span{
+        color: red;
+        font-weight: 300;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+  }
+  h1 {
+    padding: 15px 0;
+  }
+  input {
+    background-color: #eeeeee;
+    color: #a2a2a2;
+    padding: 20px 15px;
+    width: 280px;
+    border: none;
+    border-radius: 15px;
+    margin: 5px 0;
+    font-weight: 400;
+    font-size: 14px;
+  }
+ .forgot{
+margin-left: 150px;
+margin-top: 2px;
+  }
+  .remember_me {
+    display: flex;
+    gap: 10px;
+margin-left: -200px;
+    input {
+      width: 15px;
+    }
+    p{
+        margin-left: 0;
+    }
+  }
+  button{
+    background-color: #FA4500;
+    padding: 20px 15px;
+    width: 310px;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+  }
+}
