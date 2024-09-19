@@ -1,24 +1,37 @@
 form {
-    font-family: "Gilroy", sans-serif;
+  font-family: "Gilroy", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
-  .input_field{
+  .input_field {
     display: flex;
     flex-direction: column;
     position: relative;
-    .eye{
-        position: absolute;
-        right: 16px;
-        top: 25px;
-        cursor: pointer;
+    .eye {
+      position: absolute;
+      right: 16px;
+      top: 25px;
+      cursor: pointer;
     }
-    span{
-        color: red;
-        font-weight: 300;
-        display: flex;
-        align-items: center;
-        gap: 5px;
+    span {
+      color: red;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .password-requirements {
+      margin-top: 10px;
+    }
+    
+    .password-requirements div {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+    
+    .password-requirements span {
+      margin-left: 8px;
     }
   }
   h1 {
@@ -28,30 +41,56 @@ form {
     background-color: #eeeeee;
     color: #a2a2a2;
     padding: 20px 15px;
-    width: 280px;
+    width: 320px;
     border: none;
     border-radius: 15px;
     margin: 5px 0;
     font-weight: 400;
     font-size: 14px;
   }
- .forgot{
-margin-left: 150px;
-margin-top: 2px;
+  select {
+    background-color: #eeeeee;
+    color: #a2a2a2;
+    padding: 20px 15px;
+    width: 350px;
+    border-radius: 15px;
+    border: none;
+    margin: 5px 0;
+    font-weight: 400;
+    font-size: 14px;
+    appearance: none;
+  }
+  
+  .select-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    pointer-events: none; 
+  }
+  .forgot {
+    margin-left: 150px;
+    margin-top: 2px;
   }
   .remember_me {
     display: flex;
     gap: 10px;
-margin-left: -200px;
+    // margin-left: -200px;
+
+    max-width: 330px;
+    align-items:first baseline;
     input {
       width: 15px;
     }
-    p{
-        margin-left: 0;
+    p {
+      margin-left: 0;
+      span{
+        color: #FA4500;
+      }
     }
   }
-  button{
-    background-color: #FA4500;
+  button {
+    background-color: #fa4500;
     padding: 20px 15px;
     width: 310px;
     border: none;

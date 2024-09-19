@@ -16,19 +16,19 @@ const Login = () => {
         </div>
         <div className={styles["navigate_btns"]}>
         <button
-            className={`${styles["btn"]} ${authClick ? styles["active"] : ""}`}
+            className={`${styles["btn"]} ${authClick && styles["active"]}`}
             onClick={() => AuthBtnClick()}
           >
             Giriş
           </button>
           <button
-            className={`${styles["btn"]} ${!authClick ? styles["active"] : ""}`}
+            className={`${styles["btn"]} ${!authClick && styles["active"]}`}
             onClick={() => AuthBtnClick()}
           >
             Qeydiyyat
           </button>
         </div>
-        <Form />
+        <Form isSignUp={!authClick}/>
       </div>
     </div>
   );

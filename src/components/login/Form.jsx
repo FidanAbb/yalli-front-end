@@ -4,50 +4,55 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { api } from "../../../api.config";
 import styles from "./style.module.scss";
-import Warning from "../ui/Warning"
-import PasswordEye from "../ui/PasswordEye"
+import Warning from "../ui/Warning";
+import PasswordEye from "../ui/PasswordEye";
+import {
+  loginValidationSchema,
+  signUpValidationSchema,
+} from "./validationSchema";
+import Xicon from "../ui/Xicon";
+import TrueIcon from "../ui/TrueIcon";
 
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .email("Düzgün e-poçt daxil edin")
-    .required("e-poçt tələb olunur"),
-  password: yup
-    .string()
-    .min(6, "Şifrə ən az 6 simvol olmalıdır")
-    .required("şifrə tələb olunur"),
-});
-
-const Form = () => {
+const Form = ({ isSignUp }) => {
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const [successState, setSuccessState] = useState(null);
+
+  const validationSchema = isSignUp
+    ? signUpValidationSchema
+    : loginValidationSchema;
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState,
     setError,
+    watch,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
+  const password = watch("password", "");
+  const { errors, touchedFields } = formState; 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const resp = await api.post("user/sign-in", data);
+      const endpoint = isSignUp ? "user/sign-up" : "user/sign-in";
+      const resp = await api.post(endpoint, data);
       if (resp.status === 200) {
         const { accessToken } = resp.data;
 
         if (checked) {
           sessionStorage.removeItem("accessToken");
           sessionStorage.removeItem("userInfo");
+
           sessionStorage.setItem("accessToken", accessToken);
           localStorage.setItem("userInfo", JSON.stringify(data));
         } else {
           sessionStorage.removeItem("accessToken");
           localStorage.removeItem("userInfo");
+
           sessionStorage.setItem("accessToken", accessToken);
           sessionStorage.setItem("userInfo", JSON.stringify(data));
         }
@@ -73,7 +78,28 @@ const Form = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>Xoş Gəlmisiniz 👋🏻</h1>
+      <h1>{isSignUp ? "Qeydiyyatdan keçin 👋🏻" : "Xoş Gəlmisiniz 👋🏻"}</h1>
+
+      {isSignUp && (
+        <div className={styles["input_field"]}>
+          <input
+            {...register("fullname")}
+            type="text"
+            id="fullname"
+            placeholder="Ad və Soyad"
+            style={{
+              color: `${errors.fullname && "red"}`,
+              border: `1px solid ${errors.fullname && "red"}`,
+            }}
+          />
+          {errors.fullname && (
+            <span>
+              <Xicon />
+              {errors.fullname.message}
+            </span>
+          )}
+        </div>
+      )}
 
       <div className={styles["input_field"]}>
         <input
@@ -81,50 +107,171 @@ const Form = () => {
           type="text"
           id="email"
           placeholder="E-posta ünvanı"
-          style={{color: `${errors.email && "red"}`, border: `1px solid ${errors.email && "red"}`}}
+          style={{
+            color: `${errors.email && "red"}`,
+            border: `1px solid ${errors.email && "red"}`,
+          }}
         />
         {errors.email && (
           <span>
-       <Warning/>
+            <Warning />
             {errors.email.message}
           </span>
         )}
       </div>
 
+      {isSignUp && (
+        <>
+          <div className={styles["input_field"]}>
+            <input
+              {...register("birtdate")}
+              type="date"
+              id="birtdate"
+              placeholder="DD/MM/YY"
+              style={{
+                color: `${errors.birtdate && "red"}`,
+                border: `1px solid ${errors.birtdate && "red"}`,
+              }}
+            />
+            {errors.birtdate && (
+              <span>
+                <Warning />
+                {errors.birtdate.message}
+              </span>
+            )}
+          </div>
+
+          <div className={styles["input_field"]}>
+            <select
+              {...register("country")}
+              id="country"
+              style={{
+                color: `${errors.country ? "red" : ""}`,
+                border: `1px solid ${errors.country ? "red" : ""}`,
+              }}
+            >
+              <option value="" disabled selected hidden>
+                Ölkə seçin
+              </option>
+              <option value="azerbaijan">Azərbaycan</option>
+              <option value="turkey">Türkiyə</option>
+              <option value="usa">ABŞ</option>
+              <option value="uk">Böyük Britaniya</option>
+            </select>
+            <span className={styles["select-icon"]}>▼</span>
+            {errors.country && (
+              <span>
+                <Warning />
+                {errors.country.message}
+              </span>
+            )}
+          </div>
+        </>
+      )}
+
       <div className={styles["input_field"]}>
-      
         <input
           {...register("password")}
           type="password"
           id="password"
           placeholder="Şifrə"
-          style={{color: `${errors.password && "red"}`, border: `1px solid ${errors.password && "red"}`}}
+          style={{
+            color: `${errors.password && "red"}`,
+            border: `1px solid ${errors.password && "red"}`,
+          }}
         />
-        {errors.password && (
+        {touchedFields.password && errors.password && (
           <span>
-       <Warning/>
+            <Warning />
             {errors.password.message}
           </span>
         )}
-       <div className={styles["eye"]}>
-       <PasswordEye/>
-       </div>
+        <div className={styles["eye"]}>
+          <PasswordEye />
+        </div>
+        {isSignUp && (
+        <div className={styles[`${touchedFields.password && "password-requirements"}`]}>
+          <div>
+            {touchedFields.password && (password.length >= 8 ? <TrueIcon /> : <Xicon />)}
+            <span style={{ color: password.length >= 8 ? 'green' : 'red' }}>
+              {touchedFields.password && (password.length >= 8 ? "Parol 8 simvoldan ibarət olmalıdır." : "8 simvol")}
+            </span>
+          </div>
+          <div>
+            {touchedFields.password && (password.length <= 20 ? <TrueIcon /> : <Xicon />)}
+            <span style={{ color: password.length <= 20 ? 'green' : 'red' }}>
+              {touchedFields.password && (password.length <= 20 ? "Parol 20 simvoldan çox olmamalıdır." : "20 simvola qədər")}
+            </span>
+          </div>
+          <div>
+            {touchedFields.password && (/[A-Z]/.test(password) ? <TrueIcon /> : <Xicon />)}
+            <span style={{ color: /[A-Z]/.test(password) ? 'green' : 'red' }}>
+              {touchedFields.password && (/[A-Z]/.test(password) ? "Parolda ən azı bir böyük hərf olmalıdır." : "1 böyük hərf")}
+            </span>
+          </div>
+          <div>
+            {touchedFields.password && (/[0-9!@%^&*()_+=-]/.test(password) ? <TrueIcon /> : <Xicon />)}
+            <span style={{ color: /[0-9!@%^&*()_+=-]/.test(password) ? 'green' : 'red' }}>
+              {touchedFields.password && (/[0-9!@%^&*()_+=-]/.test(password) ? "Parolda ən azı bir rəqəm/simvol olmalıdır." : "1 rəqəm/simvol")}
+            </span>
+          </div>
+        </div>
+  )}
       </div>
+      {isSignUp && (
+        <div className={styles["input_field"]}>
+          <input
+            {...register("confirmPassword")}
+            type="password"
+            id="confirmPassword"
+            placeholder="Şifrəni təkrarlayın"
+            style={{
+              color: `${errors.confirmPassword && "red"}`,
+              border: `1px solid ${errors.confirmPassword && "red"}`,
+            }}
+          />
+          {errors.confirmPassword && (
+            <span>
+              <Warning />
+              {errors.confirmPassword.message}
+            </span>
+          )}
+          <div className={styles["eye"]}>
+            <PasswordEye />
+          </div>
+        </div>
+      )}
+      <p className={styles["forgot"]}>
+        {!isSignUp && "Şifrənizi unutmusunuz?"}
+      </p>
 
-      <p className={styles["forgot"]}>Şifrənizi unutmusunuz?</p>
-
-      <div className={styles["remember_me"]}>
+      <div
+        className={styles["remember_me"]}
+        style={{ marginLeft: `${!isSignUp ? "-200px" : ""}` }}
+      >
         <input
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
           type="checkbox"
           id="rememberme"
         />
-        <p>Məni xatırla</p>
+        <p>
+          {!isSignUp ? (
+            "Məni xatırla"
+          ) : (
+            <>
+              {`Mən `}
+              <span>Yalli-nin Məxfilik Siyasəti</span>
+              {` və `}
+              <span>Xidmət Şərtləri</span>
+              {` ilə razıyam`}
+            </>
+          )}
+        </p>
       </div>
 
       <button type="submit" disabled={loading}>
-        {loading ? "yüklənir..." : "Giriş"}
+        {loading ? "Yüklənir..." : isSignUp ? "Qeydiyyatdan Keç" : "Giriş"}
       </button>
 
       {successState !== null && (
