@@ -12,6 +12,7 @@ import {
 } from "./validationSchema";
 import Xicon from "../ui/Xicon";
 import TrueIcon from "../ui/TrueIcon";
+import DownArrow from "../ui/DownArrow";
 
 const Form = ({ isSignUp }) => {
   const [loading, setLoading] = useState(false);
@@ -22,25 +23,38 @@ const Form = ({ isSignUp }) => {
     ? signUpValidationSchema
     : loginValidationSchema;
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState,
-    setError,
-    watch,
-  } = useForm({
-    resolver: yupResolver(validationSchema),
-  });
+  const { register, handleSubmit, reset, formState, setError, watch } = useForm(
+    {
+      resolver: yupResolver(validationSchema),
+    }
+  );
 
   const password = watch("password", "");
-  const { errors, touchedFields } = formState; 
+  const { errors, touchedFields } = formState;
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const endpoint = isSignUp ? "user/sign-up" : "user/sign-in";
-      const resp = await api.post(endpoint, data);
+      const endpoint = isSignUp ? "/users/register" : "/users/login";
+
+      const signUpdata = {
+        fullName: data.fullName,
+        email: data.email,
+        password: data.password,
+        country: data.country,
+        birthDate: data.birthDate,
+      };
+
+      const signIndata = {
+        email: data.email,
+        password: data.password,
+      };
+
+      const resp = isSignUp
+        ? await api.post(endpoint, signUpdata)
+        : await api.post(endpoint, signIndata);
+
       if (resp.status === 200) {
+        console.log(resp.data, "lalalalla");
         const { accessToken } = resp.data;
 
         if (checked) {
@@ -78,24 +92,24 @@ const Form = ({ isSignUp }) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h1>{isSignUp ? "Qeydiyyatdan keçin 👋🏻" : "Xoş Gəlmisiniz 👋🏻"}</h1>
+      <h1>{isSignUp ? "Hesabınızı yaradın" : "Xoş Gəlmisiniz 👋🏻"}</h1>
 
       {isSignUp && (
         <div className={styles["input_field"]}>
           <input
-            {...register("fullname")}
+            {...register("fullName")}
             type="text"
-            id="fullname"
+            id="fullName"
             placeholder="Ad və Soyad"
             style={{
-              color: `${errors.fullname && "red"}`,
-              border: `1px solid ${errors.fullname && "red"}`,
+              color: `${errors.fullName && "red"}`,
+              border: `1px solid ${errors.fullName && "red"}`,
             }}
           />
-          {errors.fullname && (
+          {errors.fullName && (
             <span>
               <Xicon />
-              {errors.fullname.message}
+              {errors.fullName.message}
             </span>
           )}
         </div>
@@ -124,19 +138,19 @@ const Form = ({ isSignUp }) => {
         <>
           <div className={styles["input_field"]}>
             <input
-              {...register("birtdate")}
+              {...register("birthDate")}
               type="date"
-              id="birtdate"
+              id="birthDate"
               placeholder="DD/MM/YY"
               style={{
-                color: `${errors.birtdate && "red"}`,
-                border: `1px solid ${errors.birtdate && "red"}`,
+                color: `${errors.birthDate && "red"}`,
+                border: `1px solid ${errors.birthDate && "red"}`,
               }}
             />
-            {errors.birtdate && (
+            {errors.birthDate && (
               <span>
                 <Warning />
-                {errors.birtdate.message}
+                {errors.birthDate.message}
               </span>
             )}
           </div>
@@ -158,7 +172,10 @@ const Form = ({ isSignUp }) => {
               <option value="usa">ABŞ</option>
               <option value="uk">Böyük Britaniya</option>
             </select>
-            <span className={styles["select-icon"]}>▼</span>
+            <div className={styles["downarrow"]}>
+              <DownArrow />
+            </div>
+            
             {errors.country && (
               <span>
                 <Warning />
@@ -190,33 +207,57 @@ const Form = ({ isSignUp }) => {
           <PasswordEye />
         </div>
         {isSignUp && (
-        <div className={styles[`${touchedFields.password && "password-requirements"}`]}>
-          <div>
-            {touchedFields.password && (password.length >= 8 ? <TrueIcon /> : <Xicon />)}
-            <span style={{ color: password.length >= 8 ? 'green' : 'red' }}>
-              {touchedFields.password && (password.length >= 8 ? "Parol 8 simvoldan ibarət olmalıdır." : "8 simvol")}
-            </span>
+          <div
+            className={
+              styles[`${touchedFields.password && "password-requirements"}`]
+            }
+          >
+            <div>
+              {touchedFields.password &&
+                (password.length >= 8 ? <TrueIcon /> : <Xicon />)}
+              <span style={{ color: password.length >= 8 ? "green" : "red" }}>
+                {touchedFields.password &&
+                  (password.length >= 8
+                    ? "Parol 8 simvoldan ibarət olmalıdır."
+                    : "8 simvol")}
+              </span>
+            </div>
+            <div>
+              {touchedFields.password &&
+                (password.length <= 20 ? <TrueIcon /> : <Xicon />)}
+              <span style={{ color: password.length <= 20 ? "green" : "red" }}>
+                {touchedFields.password &&
+                  (password.length <= 20
+                    ? "Parol 20 simvoldan çox olmamalıdır."
+                    : "20 simvola qədər")}
+              </span>
+            </div>
+            <div>
+              {touchedFields.password &&
+                (/[A-Z]/.test(password) ? <TrueIcon /> : <Xicon />)}
+              <span style={{ color: /[A-Z]/.test(password) ? "green" : "red" }}>
+                {touchedFields.password &&
+                  (/[A-Z]/.test(password)
+                    ? "Parolda ən azı bir böyük hərf olmalıdır."
+                    : "1 böyük hərf")}
+              </span>
+            </div>
+            <div>
+              {touchedFields.password &&
+                (/[0-9!@%^&*()_+=-]/.test(password) ? <TrueIcon /> : <Xicon />)}
+              <span
+                style={{
+                  color: /[0-9!@%^&*()_+=-]/.test(password) ? "green" : "red",
+                }}
+              >
+                {touchedFields.password &&
+                  (/[0-9!@%^&*()_+=-]/.test(password)
+                    ? "Parolda ən azı bir rəqəm/simvol olmalıdır."
+                    : "1 rəqəm/simvol")}
+              </span>
+            </div>
           </div>
-          <div>
-            {touchedFields.password && (password.length <= 20 ? <TrueIcon /> : <Xicon />)}
-            <span style={{ color: password.length <= 20 ? 'green' : 'red' }}>
-              {touchedFields.password && (password.length <= 20 ? "Parol 20 simvoldan çox olmamalıdır." : "20 simvola qədər")}
-            </span>
-          </div>
-          <div>
-            {touchedFields.password && (/[A-Z]/.test(password) ? <TrueIcon /> : <Xicon />)}
-            <span style={{ color: /[A-Z]/.test(password) ? 'green' : 'red' }}>
-              {touchedFields.password && (/[A-Z]/.test(password) ? "Parolda ən azı bir böyük hərf olmalıdır." : "1 böyük hərf")}
-            </span>
-          </div>
-          <div>
-            {touchedFields.password && (/[0-9!@%^&*()_+=-]/.test(password) ? <TrueIcon /> : <Xicon />)}
-            <span style={{ color: /[0-9!@%^&*()_+=-]/.test(password) ? 'green' : 'red' }}>
-              {touchedFields.password && (/[0-9!@%^&*()_+=-]/.test(password) ? "Parolda ən azı bir rəqəm/simvol olmalıdır." : "1 rəqəm/simvol")}
-            </span>
-          </div>
-        </div>
-  )}
+        )}
       </div>
       {isSignUp && (
         <div className={styles["input_field"]}>

@@ -6,11 +6,11 @@ export const loginValidationSchema = Yup.object().shape({
 });
 
 export const signUpValidationSchema = Yup.object().shape({
-  fullname: Yup.string()
-  .matches(/^[a-zA-ZşŞğĞöÖçÇıİ]+$/, "Zəhmət olmasa yalnız hərf daxil edin")
+  fullName: Yup.string()
+  .required("Zəhmət olmasa yalnız hərf daxil edin")
   .required("Adınız tələb olunur"),
   email: Yup.string().email("Düzgün e-poçt daxil edin").required("E-poçt tələb olunur"),
-  birthdate: Yup.date().required("Doğum tarixi tələb olunur"),
+  birthDate: Yup.date().required("Doğum tarixi tələb olunur"),
   country: Yup.string().required("Ölkə tələb olunur"),
   password: Yup.string()
   .required("Parol tələb olunur")

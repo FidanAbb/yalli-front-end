@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const apiURL = "https://yalli.com/";
+const apiURL = "https://yalli-back-end.onrender.com/v1";
 
 export const apiConfig = {
-  baseUrl: `${apiURL}api/web/`,
+  baseUrl: `${apiURL}`,
   imagePath: `imageurl`,
 };
 

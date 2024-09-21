@@ -20,6 +20,15 @@ form {
       align-items: center;
       gap: 5px;
     }
+    .downarrow{
+      position: absolute;
+      right: 16px;
+      top: 50%; 
+      transform: translateY(-50%); 
+      pointer-events: none; 
+      
+  }
+
     .password-requirements {
       margin-top: 10px;
     }
@@ -60,14 +69,7 @@ form {
     font-size: 14px;
     appearance: none;
   }
-  
-  .select-icon {
-    position: absolute;
-    right: 16px;
-    top: 50%; 
-    transform: translateY(-50%); 
-    pointer-events: none; 
-  }
+
   .forgot {
     margin-left: 150px;
     margin-top: 2px;
