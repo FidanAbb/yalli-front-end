@@ -1,0 +1,70 @@
+// @import "/styles/main.module.scss";
+
+.card_group, .card_event {
+  max-width: 308px;
+  padding: 9px 9px 17px 9px;
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+  .groupImage {
+    width: 100%;
+    object-fit: cover;
+    height: 122px;
+    background-position: center;
+  }
+  .event_time {
+    font-size: 12px;
+    font-weight: 400;
+    color: #a2a2a2;
+  }
+  .group_title {
+    color: #fa4500;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 0;
+  }
+  .event_title {
+    color: #fa4500;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  .card_detail {
+    display: flex;
+    align-items:center;
+    gap: 4px;
+    p {
+      font-size: 13px;
+      font-weight: 400;
+      color: #A2A2A2;
+      padding-top: 4px;
+    }
+  }
+ .card_footer {
+      font-size: 14px;
+      font-weight: 400;
+      color: #A2A2A2;
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+    }
+ button {
+    position: absolute;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #FF0000;
+    display: flex;
+    gap: 6px;
+    right: 8px;
+    bottom: 8px;
+  }
+}
+.card_group{
+  height: 263px;
+}
+.card_event{
+  height: 279px;
+}

@@ -1,5 +1,14 @@
+body {
+  font-family: "Gilroy", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: rgb(245,245,245);
+  /* max-width: 1600px; */
+}
+
 .container {
-  max-width: 1280px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 0;
 }

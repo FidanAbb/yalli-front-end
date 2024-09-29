@@ -136,7 +136,7 @@ const Form = ({ isSignUp }) => {
 
       {isSignUp && (
         <>
-          <div className={styles["input_field"]}>
+          {/* <div className={styles["input_field"]}>
             <input
               {...register("birthDate")}
               type="date"
@@ -153,7 +153,7 @@ const Form = ({ isSignUp }) => {
                 {errors.birthDate.message}
               </span>
             )}
-          </div>
+          </div> */}
 
           <div className={styles["input_field"]}>
             <select

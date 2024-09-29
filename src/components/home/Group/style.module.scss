@@ -1,0 +1,78 @@
+.group{
+
+  .groups{
+    text-align: center;
+  
+    .headGroup {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .h2Group {
+        font-size: 28px;
+        font-weight: bold;
+      }
+  
+      .pGroup {
+        color: #e65c2e;
+        font-size: 14px;
+        border-bottom: 1px solid #e65c2e;
+        cursor: pointer;
+        padding-bottom: 2px;
+      }
+
+    }
+
+
+    .sliderContainer {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+
+      .swiper-wrapper {
+        display: flex;
+        gap: 50px;
+      }
+      .card {
+        gap: 20px;
+      }
+      .arrow {
+        width: 35px;
+        height: 35px;
+        cursor: pointer;
+        color: gray;
+
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &:hover {
+          color: #e65c2e;
+        }
+      }
+    }
+
+    .createGroupBtn {
+      margin: 20px auto 0;
+      padding: 12px 55px;
+      border:1px solid #e8460b;
+      color: #e8460b;
+background-color: transparent;
+      // border: none;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 30px;
+
+      &:hover {
+        background-color: #e8460b;
+        color: #fff;
+        border:1px solid #fff;
+      }
+    }
+  }
+}
+

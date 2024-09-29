@@ -1,0 +1,141 @@
+// .container {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 100%;
+//   margin: 0 auto;
+//   background-color: white;
+// }
+// .navbar {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   width: 90%;
+//   margin: 0 auto;
+
+//   .left {
+//    display: flex;
+//    align-items: center;
+//    gap: 70px;
+//   }
+
+//   ul {
+//     display: flex;
+//     list-style: none;
+//     justify-content: space-between;
+//     align-items: center;
+//     gap: 38px;
+//     margin: 0;
+//     padding: 0;
+
+//     li {
+//       color: #a2a2a2;
+//       font-size: 16px;
+//       font-weight: lighter;
+//       line-height: 22px;
+//       // border: 1px solid;
+// height: 30px;
+// margin-top: 5px;
+//       cursor: pointer;
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: space-between;
+
+//       &:hover {
+//         color: #ff4b2b;
+//       }
+//       // :active {
+//       //   color: #ff4b2b;
+//       //   border-bottom: 1px solid #ff4b2b;
+//       // }
+//       .line{
+//         height: 1px;
+//         background-color: #ff4b2b;
+//         width: auto;
+
+//       }
+//     }
+//     .language:hover{
+//       color: rgba(162, 162, 162, 1);;
+//     }
+//     .language{
+//       display: flex;
+//       flex-direction: row;
+//       align-items: center;
+//       gap: 5px;
+//       margin-bottom: 6px;
+//       img{
+//         width: 24px;
+//         height: 22px;
+//         border-radius: 50%;
+//       }
+//     }
+//   }
+
+//   .auth_btns {
+//     display: flex;
+//     align-items: center;
+//     gap: 30px;
+
+//     button {
+//       background-color: transparent;
+//       border: none;
+//       color: rgba(162, 162, 162, 1);
+
+//       font-size: 16px;
+//       font-weight: lighter;
+//       cursor: pointer;
+
+//       // &:hover {
+//       //   color: #333333;
+//       // }
+//     }
+//     .register_btn{
+//       background-color: #ff4b2b;
+//       color: #fff;
+//       padding:10px 17px;
+//       border-radius: 10px;
+//     }
+//   }
+// }
+
+.navbar {
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      display: flex;
+      gap: 50px;
+
+      ul{
+        display: flex;
+        align-items: center;
+        gap: 35px;
+        li{
+          list-style: none;
+          cursor: pointer;
+
+          .line{
+            height: 1px;
+            width: auto;
+            background-color: #ff5722;
+            margin-top: 10px;
+          }
+        }
+
+        .language{
+          display: flex;
+          gap: 4px;
+          align-items: center;
+        }
+      }
+
+
+    }
+
+    .right {
+    }
+  }
+}

@@ -11,6 +11,7 @@
     // height: 500px;
     margin: 0 auto;
     padding: 26px;
+    overflow-x: hidden;
     .arrow {
         padding-bottom: 20px;
     }
@@ -49,5 +50,51 @@
         }
       }
       
+  }
+  .formContainer {
+    position: relative;
+    transition: transform 0.5s ease;
+    
+    &.slideInFromLeft {
+      transform: translateX(0); // Start from the left (initial load)
+      animation: slideInFromLeft 0.5s forwards;
+    }
+  
+    &.slideInFromRight {
+      transform: translateX(100%); // Start from the right
+      animation: slideInFromRight 0.5s forwards;
+    }
+  
+    &.slideOutToLeft {
+      transform: translateX(0); // Start at the center
+      animation: slideOutToLeft 0.5s forwards;
+    }
+  }
+
+}
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%); // Start off-screen to the left
+  }
+  100% {
+    transform: translateX(0); // End at the center
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100%); // Start off-screen to the right
+  }
+  100% {
+    transform: translateX(0); // End at the center
+  }
+}
+
+@keyframes slideOutToLeft {
+  0% {
+    transform: translateX(0); // Start at the center
+  }
+  100% {
+    transform: translateX(-100%); // End off-screen to the left
   }
 }
