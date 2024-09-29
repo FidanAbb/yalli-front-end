@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./style.module.scss";
-import Jalal from "../../../../assets/img/Jalal.svg";
-import Lale from "../../../../assets/img/Lale.svg";
-import Emil from "../../../../assets/img/Emil.svg";
-import Fidan from "../../../../assets/img/Fidan.svg";
-import Vuqar from "../../../../assets/img/Vuqar.svg";
+import Jalal from "../../../assets/img/Jalal.svg";
+import Lale from "../../../assets/img/Lale.svg";
+import Emil from "../../../assets/img/Emil.svg";
+import Fidan from "../../../assets/img/Fidan.svg";
+import Vuqar from "../../../assets/img/Vuqar.svg";
 
 const MentorsCard = () => {
   return (

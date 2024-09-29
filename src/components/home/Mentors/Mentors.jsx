@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./style.module.scss";
-import MentorsCard from "./MentorsCard/MentorsCard";
+import MentorsCard from "../../ui/MentorsCard/MentorsCard";
 
 const Mentors = () => {
   return (
