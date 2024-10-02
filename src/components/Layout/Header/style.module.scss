@@ -58,6 +58,21 @@
 
         }
       }
+      p{
+        font-weight: 400;
+        font-size: 18px;
+        color: rgba(162, 162, 162, 1);
+        margin-right: 10px;
+      }
+      button{
+        font-weight: 400;
+        font-size: 18px;
+        background-color:rgba(250, 69, 0, 1);
+        color: rgba(255, 255, 255, 1);
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+      }
     }
   }
 }

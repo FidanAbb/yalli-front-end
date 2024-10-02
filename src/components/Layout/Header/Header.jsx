@@ -5,32 +5,60 @@ import languageAz from "../../../assets/img/AzFlag.svg";
 import Bell from "../../ui/Bell";
 import styles from "./style.module.scss";
 import DownArrow from "../../ui/DownArrow";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const navLinks = [
-  "Əsas səhifə",
-  "Haqqımızda",
-  "Üzvlər",
-  "Mentorlar",
-  "Qruplar",
-  "Tədbirlər",
+  {
+    page: "Əsas səhifə",
+    link: "/",
+  },
+  {
+    page: "Haqqımızda",
+    link: "/about",
+  },
+  {
+    page: "Üzvlər",
+    link: "/member",
+  },
+  {
+    page: "Mentorlar",
+    link: "/mentor",
+  },
+  {
+    page: "Qruplar",
+    link: "/qrup",
+  },
+  {
+    page: "Tədbirlər",
+    link: "/event",
+  },
 ];
-
 
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [isActive, setisActive] = useState(0);
-
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleScroll = (index) => {
-    setisActive(index);
-    if (index === 3) {
-      scrollToSection(mentorRef);
-    } else if (index === 4) {
-      scrollToSection(groupRef);
-    } else if (index === 5) {
-      scrollToSection(eventRef); 
+    if (location.pathname === "/") {
+      setisActive(index);
+      if (index === 3) {
+        scrollToSection(mentorRef);
+      } else if (index === 4) {
+        scrollToSection(groupRef);
+      } else if (index === 5) {
+        scrollToSection(eventRef);
+      } else {
+        navigate(navLinks[index].link);
+      }
+    } else {
+      setisActive(index);
+      navigate(navLinks[index].link);
     }
   };
 
   const refs = { groupRef, eventRef, mentorRef };
+
+const [isLoged, setIsLoged] = useState(false)
 
   return (
     <div className={styles["navbar"]}>
@@ -41,24 +69,25 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               <img className={styles["logo"]} src={navLogo} alt="Logo" />
               <p>Polşa</p>
               <div className={styles["arrow_down"]}>
-              <DownArrow />
-
+                <DownArrow />
               </div>
             </div>
 
             <ul>
               {navLinks.map((link, i) => (
                 <li
-                onClick={() => {
-                  setisActive(i);
-                  handleScroll(i)
-                }}
+                  onClick={() => {
+                    setisActive(i);
+                    handleScroll(i);
+                    // navigate(`${link.link}`);
+                  }}
                   key={i}
                   style={{
-                    color: `${isActive === i ? "#ff4b2b" : "#a2a2a2"}`,
+                    color:
+                      location.pathname === link.link ? "#ff4b2b" : "#a2a2a2",
                   }}
                 >
-                  {link}
+                  {link.page}
                   {/* {isActive === i && <div className={styles["line"]}></div>} */}
                 </li>
               ))}
@@ -70,14 +99,22 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
           </div>
 
           <div className={styles["right"]}>
-            {/* <button>Giriş</button> */}
-            <Bell />
-            <div className={styles["user_img"]}>
-              <img
-                src="https://s3-alpha-sig.figma.com/img/d250/02ca/a486cbf1a8d2566983e8aa209f87c968?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ONtHBuMnW9ojHNwXDIdu0aZA87BqkwFEo8h0C6Wg6YB57gptRDNfJQ4XLS4-y52cmu8CmkpafMuR2xj2u4TTjI~AlJgrfNkX43o9zL2jG~7UR5yz8L0FPYvWWZkk63RYZzOfe-8aSC7YMxkhht5V945ONY4Zy1cBvUqlsocznQHUQjddDtINKt-czH7BZuGLuA7vHKE~O0kkdeCh0g1Q7OobAh3jHXL7~fnq~71l5rXHx-HGeHvTI4ElWKhWPyuF5DyRGiQSNIzU9Iy2YRtj9~iv2oC5OnUkFUdFWLj36Qd5eI0GWsuZoOda-gbV4Cx2w7Kvh7yENCkfDa8qsbH0ew__"
-                alt=""
-              />
-            </div>
+            {!isLoged ? (
+              <>
+                <p>Giriş</p>
+                <button>Qeydiyyat</button>
+              </>
+            ) : (
+              <>
+                <Bell />
+                <div className={styles["user_img"]}>
+                  <img
+                    src="https://s3-alpha-sig.figma.com/img/d250/02ca/a486cbf1a8d2566983e8aa209f87c968?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ONtHBuMnW9ojHNwXDIdu0aZA87BqkwFEo8h0C6Wg6YB57gptRDNfJQ4XLS4-y52cmu8CmkpafMuR2xj2u4TTjI~AlJgrfNkX43o9zL2jG~7UR5yz8L0FPYvWWZkk63RYZzOfe-8aSC7YMxkhht5V945ONY4Zy1cBvUqlsocznQHUQjddDtINKt-czH7BZuGLuA7vHKE~O0kkdeCh0g1Q7OobAh3jHXL7~fnq~71l5rXHx-HGeHvTI4ElWKhWPyuF5DyRGiQSNIzU9Iy2YRtj9~iv2oC5OnUkFUdFWLj36Qd5eI0GWsuZoOda-gbV4Cx2w7Kvh7yENCkfDa8qsbH0ew__"
+                    alt=""
+                  />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,18 +1,10 @@
 import "./App.css";
-import About from "./pages/About/About";
-import Login from "./pages/Auth";
-import Home from "./pages/Home/Home";
-import Mentor from "./pages/Mentor/Mentor";
+import { RouterProvider } from "react-router-dom";
+
+import router from "./routes/Root";
 
 function App() {
-  return (
-    <>
-      {/* <Login/> */}
-      {/* <Home /> */}
-      {/* <About/> */}
-      <Mentor/>
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

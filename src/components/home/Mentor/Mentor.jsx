@@ -6,6 +6,7 @@ import Arrow from "../../ui/Arrow";
 import Emil from "../../../assets/img/Emil.svg";
 import Fidan from "../../../assets/img/Fidan.svg";
 import Vuqar from "../../../assets/img/Vuqar.svg";
+import { useNavigate } from "react-router-dom";
 
 const Mentor = () => {
   const mentorData = [
@@ -46,7 +47,7 @@ const Mentor = () => {
       image: Vuqar,
     },
   ];
-
+  const navigate = useNavigate();
   const sliderRef = useRef(null);
 
   const scrollLeft = () => {
@@ -67,7 +68,9 @@ const Mentor = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
-            <p>Hamısına bax</p>
+            <p onClick={()=>(
+               navigate(`/mentor`)
+            )}>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
           <div className={styles["left_arrow"]} onClick={scrollLeft}>
