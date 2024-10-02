@@ -1,21 +1,40 @@
-import React from "react";
+import React, { useRef } from "react";
+import Header from "../../components/Layout/Header/Header";
 import Hero from "../../components/home/Hero/Hero";
-import FindLocation from "../../components/home/FindLocation/FindLocation";
 import Group from "../../components/home/Group/Group";
-import Events from "../../components/home/Event/Events";
-import Border from "../../components/home/Border/Border";
-import Mentors from "../../components/home/Mentors/Mentors";
-
+import Event from "../../components/home/Event/Event";
+import Mentor from "../../components/home/Mentor/Mentor";
+import Footer from "../../components/Layout/Footer/Footer";
 const Home = () => {
+  const groupRef = useRef(null);
+  const eventRef = useRef(null);
+  const mentorRef = useRef(null);
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div>
+    <>
+      <Header
+        scrollToSection={scrollToSection}
+        groupRef={groupRef}
+        eventRef={eventRef}
+        mentorRef={mentorRef}
+      />
       <Hero />
-      <FindLocation />
-      <Group />
-      <Events />
-      <Border />
-      <Mentors />
-    </div>
+      <div ref={groupRef}>
+        <Group />
+      </div>
+      <div ref={eventRef}>
+        <Event />
+      </div>
+      <div ref={mentorRef}>
+        <Mentor />
+      </div>
+      <Footer />
+    </>
   );
 };
 

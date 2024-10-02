@@ -1,78 +1,51 @@
-.group{
-
-  .groups{
-    text-align: center;
-  
-    .headGroup {
+.group {
+  padding-top: 100px;
+  .groups {
+    .hero_text {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
-      .h2Group {
-        font-size: 28px;
-        font-weight: bold;
+      h2 {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 48px;
       }
-  
-      .pGroup {
-        color: #e65c2e;
-        font-size: 14px;
-        border-bottom: 1px solid #e65c2e;
+      p {
+        height: 30px;
+        color: #ff5722;
+        border-bottom: 1px solid #ff5722;
+        width: 121px;
+        text-align: center;
         cursor: pointer;
-        padding-bottom: 2px;
       }
-
     }
-
-
-    .sliderContainer {
+    .slider{
+      margin-top: 20px;
       display: flex;
       align-items: center;
-      gap: 30px;
-
-      .swiper-wrapper {
+      overflow: hidden; 
+      .cards {
         display: flex;
-        gap: 50px;
-      }
-      .card {
-        gap: 20px;
-      }
-      .arrow {
-        width: 35px;
-        height: 35px;
-        cursor: pointer;
-        color: gray;
+        gap: 32px;
+        overflow: hidden;
+        scroll-behavior: smooth;
+        flex-wrap: nowrap;
+        width: 100%;
+        margin: 0 40px;
 
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-          color: #e65c2e;
+        > * {
+          flex-shrink: 0; 
+          width: 300px; 
         }
       }
-    }
 
-    .createGroupBtn {
-      margin: 20px auto 0;
-      padding: 12px 55px;
-      border:1px solid #e8460b;
-      color: #e8460b;
-background-color: transparent;
-      // border: none;
-      border-radius: 8px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      margin-top: 30px;
-
-      &:hover {
-        background-color: #e8460b;
-        color: #fff;
-        border:1px solid #fff;
+      .left_arrow, .right_arrow {
+        cursor: pointer;
+        user-select: none;
+      }
+      .right_arrow{
+        transform: rotate(180deg);
       }
     }
   }
 }
-

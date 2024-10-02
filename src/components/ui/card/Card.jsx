@@ -1,7 +1,7 @@
 import React from "react";
 import GroupIcon from "../GroupIcon";
 import Location from "../Location";
-import PageArrow from "../PageArrow";
+import EventArrow from "../EventArrow";
 import styles from "./style.module.scss";
 const Card = ({ sectionName, event, group }) => {
   return (
@@ -43,7 +43,7 @@ const Card = ({ sectionName, event, group }) => {
         <p className={styles["card_footer"]}>{group?.country}</p>
       ) : (
         <button>
-          Daha Ətraflı <PageArrow />
+          Daha Ətraflı <EventArrow />
         </button>
       )}
     </div>

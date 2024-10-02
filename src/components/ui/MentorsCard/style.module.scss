@@ -1,44 +1,27 @@
-.Container {
-    width: 90%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #f5f5f5;
-}
-
-.groupCard {
-  width: 200px;
-  padding: 20px;
+.mentor {
   background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px 0px;
+  border-radius: 10px;
   text-align: center;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: translateY(-10px);
+  img{
+    width: 248px;
+    height: 230px;
+    border-radius: 10px;
   }
-}
-
-.mentorImg {
-  width: 100%;
-  height: auto;
-  max-height: 160px;
-  border-radius: 5px;
-}
-
-.mentorName {
-  font-size: 18px;
-  color: #ff5722;
-  margin: 10px 0 5px 0;
-}
-
-.country {
-  margin: 0;
-}
-
-.status {
-  color: #ff5722;
-  font-size: 16px;
+  h3{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    height: 0;
+  }
+  span{
+    font-size: 30px;
+    height: 0;
+  }
+  p{
+    font-weight: 500;
+    font-size: 16px;
+    color:#7f7f7f;
+    margin-top: 0;
+  }
 }
