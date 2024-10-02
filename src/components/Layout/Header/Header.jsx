@@ -58,7 +58,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
 
   const refs = { groupRef, eventRef, mentorRef };
 
-const [isLoged, setIsLoged] = useState(false)
+  const [isLoged, setIsLoged] = useState(false);
 
   return (
     <div className={styles["navbar"]}>
@@ -102,7 +102,7 @@ const [isLoged, setIsLoged] = useState(false)
             {!isLoged ? (
               <>
                 <p>Giriş</p>
-                <button>Qeydiyyat</button>
+                <button onClick={() => navigate("/auth")}>Qeydiyyat</button>
               </>
             ) : (
               <>

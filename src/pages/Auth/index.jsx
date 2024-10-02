@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect} from "react";
 import styles from "./style.module.scss";
 import Form from "../../components/login/Form";
 import Arrow from "../../components/ui/Arrow";
@@ -17,6 +17,7 @@ const Login = () => {
     }, 10);
     return () => clearTimeout(timer);
   }, []);
+
   return (
     <div className={styles["login"]}>
       <div className={styles["login_window"]}>
@@ -26,18 +27,26 @@ const Login = () => {
         <div className={styles["navigate_btns"]}>
           <button
             className={`${styles["btn"]} ${authClick && styles["active"]}`}
-            onClick={() => AuthBtnClick()}
+            onClick={() => handleAuthClick()}
           >
             Giriş
           </button>
           <button
             className={`${styles["btn"]} ${!authClick && styles["active"]}`}
-            onClick={() => AuthBtnClick()}
+            onClick={() => handleAuthClick()}
           >
             Qeydiyyat
           </button>
         </div>
-        <div className={`${styles.formContainer} ${initialLoad ? styles.slideInFromLeft : (authClick ? styles.slideInFromRight : styles.slideOutToLeft)}`}>
+        <div
+          className={`${styles.formContainer} ${
+            initialLoad
+              ? styles.slideInFromRight // Load from right initially
+              : authClick
+              ? styles.slideInFromLeft // Slide in from left when switching back to "Giriş"
+              : styles.slideInFromRight // Slide in from right when switching to "Qeydiyyat"
+          }`}
+        >
           <Form isSignUp={!authClick} />
         </div>
       </div>
