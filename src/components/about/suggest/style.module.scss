@@ -1,0 +1,37 @@
+.suggest {
+    padding-bottom: 50px;
+  .suggest {
+    h1 {
+      font-weight: 600;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .cards {
+      display: flex;
+      justify-content: space-between;
+      .card {
+        background-color: #fff;
+        max-width: 410px;
+        height: 240px;
+        text-align: center;
+        padding: 0px 15px;
+        display: flex;
+        flex-direction: column;
+        img {
+            width: 36px;
+            margin: 0 auto;
+            margin-top: 40px;
+        }
+        h2 {
+          font-weight: 600;
+          font-size: 28px;
+          margin: 5px;
+        }
+        p {
+          font-weight: 400;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

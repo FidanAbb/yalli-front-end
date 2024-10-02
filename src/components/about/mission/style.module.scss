@@ -1,0 +1,43 @@
+.mission, .mission2 {
+    background-color: #fff;
+  .mission, .mission2 {
+    display: flex;
+    gap: 80px;
+    padding: 20px 0;
+    .left {
+      position: relative;
+      padding: 30px 0;
+
+      img {
+        max-width: 590px;
+        height: 245px;
+      }
+      h2 {
+        position: absolute;
+        font-weight: 600;
+        font-size: 28px;
+        color: #fff;
+        top: 30%;
+        left: 33%;
+      }
+    }
+    .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        p{
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+        }
+    }
+  }
+}
+.mission2{
+    margin-top: 20px;
+    .left{
+        .img{
+            transform: rotate(180deg);
+        }
+    }
+}

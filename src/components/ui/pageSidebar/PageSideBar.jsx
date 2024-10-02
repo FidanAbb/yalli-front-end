@@ -3,13 +3,13 @@ import styles from "./style.module.scss";
 const PageSideBar = ({ mentorCategory, groupCategory, eventCategory }) => {
   return (
     <div className={styles["sidebar"]}>
-      <input type="text" name="" id="" placeholder="" />
+      <input type="text" name="" id="" placeholder="Ad və Soyad" />
       <select name="" id="">
         <option value=""></option>
         <option value=""></option>
       </select>
 
-      <p>Kateqoriyalar</p>
+      <p className={styles["category_text"]}>Kateqoriyalar</p>
 
       <div className={styles["categories"]}>
         {mentorCategory
