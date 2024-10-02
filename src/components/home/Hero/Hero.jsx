@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./style.module.scss";
-// import { FaArrowRightLong } from "react-icons/fa6";
 import heroBackk from "../../../assets/img/heroBackk.svg";
 import Arrow from "../../ui/Arrow";
 import DownArrow from "../../ui/DownArrow";

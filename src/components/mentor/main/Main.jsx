@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import Sidebar from "../../ui/pageSidebar/PageSideBar";
 import MentorsCard from "../../ui/MentorsCard/MentorsCard";
 import Card from "../../ui/card/Card";
@@ -147,37 +147,38 @@ const eventCategory = [
 ];
 
 const Main = ({ page }) => {
-  let categoryData;
 
-  if (page === "mentor") {
-    categoryData = mentorCategory;
-  } else if (page === "group") {
-    categoryData = groupCategory;
-  } else if (page === "event") {
-    categoryData = eventCategory;
-  }
+  const [categoryData, setCategoryData] = useState(null);
+
+  useEffect(() => {
+    if (page === "mentor") {
+      setCategoryData(mentorCategory);
+    } else if (page === "group") {
+      setCategoryData(groupCategory);
+    } else if (page === "event") {
+      setCategoryData(eventCategory);
+    }
+  }, [page]); 
   return (
     <div className={styles["main"]}>
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
             <Sidebar
-              mentorCategory={mentorCategory}
-              groupCategory={groupCategory}
-              eventCategory={eventCategory}
+              categoryData={categoryData}
             />
           </div>
           <div className={styles["cards"]}>
-            {page == "mentor"
+            {page === "mentor"
               ? mentorData.map((m, i) => <MentorsCard key={i} data={m} />)
-              : page == "group"
-              ? groupData.map((g, i) => {
-                  <Card key={i} sectionName="group" group={g} />;
-                })
-              : page == "event"
-              ? eventData.map((e, i) => {
-                  <Card key={i} sectionName="event" event={e} />;
-                })
+              : page === "group"
+              ? groupData.map((g, i) => (
+                  <Card key={i} sectionName="group" group={g} />
+                ))
+              : page === "event"
+              ? eventData.map((e, i) => (
+                  <Card key={i} sectionName="event" event={e} />
+                ))
               : null}
           </div>
         </div>

@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Mentor from "../pages/Mentor/Mentor";
-// import Qrup from "../pages/Qrup/Qrup";
-// import Event from "../pages/Event/Event";
+import Qrup from "../pages/Qrup/Group";
+import Event from "../pages/Event/Event";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -18,13 +18,13 @@ const Router = createBrowserRouter([
     element: <Mentor />,
   },
 
-//   {
-//     path: "/qrup",
-//     element: <Qrup />,
-//   },
-//   {
-//     path: "/event",
-//     element: <Event />,
-//   },
+  {
+    path: "/qrup",
+    element: <Qrup />,
+  },
+  {
+    path: "/event",
+    element: <Event />,
+  },
 ]);
 export default Router;
