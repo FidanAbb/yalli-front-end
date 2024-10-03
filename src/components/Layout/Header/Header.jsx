@@ -102,7 +102,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
             <div className={styles["right"]}>
               {!isLoged ? (
                 <>
-                  <p>Giriş</p>
+                  <p onClick={() => navigate("/auth")}>Giriş</p>
                   <button onClick={() => navigate("/auth")}>Qeydiyyat</button>
                 </>
               ) : (

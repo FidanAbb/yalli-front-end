@@ -7,10 +7,14 @@ export const loginValidationSchema = Yup.object().shape({
 
 export const signUpValidationSchema = Yup.object().shape({
   fullName: Yup.string()
-  .required("Zəhmət olmasa yalnız hərf daxil edin")
-  .required("Adınız tələb olunur"),
+  .required('Adınız tələb olunur')
+  .matches(/^[A-Za-z\s]+$/, "Zəhmət olmasa yalnız hərf daxil edin") 
+  .test('Adınız tələb olunur', 'Adınız tələb olunur', value => {
+    return value && value.trim().length > 0; 
+  }),
+
   email: Yup.string().email("Düzgün e-poçt daxil edin").required("E-poçt tələb olunur"),
-  birthDate: Yup.date().required("Doğum tarixi tələb olunur"),
+  // birthDate: Yup.date().required("Doğum tarixi tələb olunur"),
   country: Yup.string().required("Ölkə tələb olunur"),
   password: Yup.string()
   .required("Parol tələb olunur")

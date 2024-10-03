@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,19 +20,26 @@ const Form = ({ isSignUp }) => {
   const [successState, setSuccessState] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorFields, setErrorFields] = useState({}); 
 
   const validationSchema = isSignUp
     ? signUpValidationSchema
     : loginValidationSchema;
 
-  const { register, handleSubmit, reset, formState, setError, watch } = useForm(
-    {
+    const { register, handleSubmit, reset, formState, setError, watch, setValue } = useForm({
       resolver: yupResolver(validationSchema),
-    }
-  );
-
+      mode: "onChange",
+    });
   const password = watch("password", "");
-  const { errors, touchedFields } = formState;
+  const { errors, touchedFields, isValid, isSubmitting  } = formState;
+  useEffect(() => {
+    const currentErrors = Object.keys(errors).reduce((acc, key) => {
+      acc[key] = true;
+      return acc;
+    }, {});
+    setErrorFields(currentErrors);
+  }, [errors]);
+
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -92,6 +99,8 @@ const Form = ({ isSignUp }) => {
     }
   };
 
+  
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1>{isSignUp ? "Hesabınızı yaradın" : "Xoş Gəlmisiniz 👋🏻"}</h1>
@@ -104,8 +113,8 @@ const Form = ({ isSignUp }) => {
             id="fullName"
             placeholder="Ad və Soyad"
             style={{
-              color: `${errors.fullName && "red"}`,
-              border: `1px solid ${errors.fullName && "red"}`,
+              color: `${errorFields.fullName && "red"}`,
+              border: `1px solid ${errorFields.fullName && "red"}`,
             }}
           />
           {errors.fullName && (
@@ -124,8 +133,8 @@ const Form = ({ isSignUp }) => {
           id="email"
           placeholder="E-posta ünvanı"
           style={{
-            color: `${errors.email && "red"}`,
-            border: `1px solid ${errors.email && "red"}`,
+            color: `${errorFields.email && "red"}`,
+            border: `1px solid ${errorFields.email && "red"}`,
           }}
         />
         {errors.email && (
@@ -143,8 +152,8 @@ const Form = ({ isSignUp }) => {
               {...register("country")}
               id="country"
               style={{
-                color: `${errors.country ? "red" : ""}`,
-                border: `1px solid ${errors.country ? "red" : ""}`,
+                color: `${errorFields.country ? "red" : ""}`,
+                border: `1px solid ${errorFields.country ? "red" : ""}`,
               }}
             >
               <option value="" disabled selected hidden>
@@ -176,8 +185,8 @@ const Form = ({ isSignUp }) => {
           id="password"
           placeholder="Şifrə"
           style={{
-            color: `${errors.password && "red"}`,
-            border: `1px solid ${errors.password && "red"}`,
+            color: `${errorFields.password && "red"}`,
+            border: `1px solid ${errorFields.password && "red"}`,
           }}
         />
         {touchedFields.password && errors.password && (
@@ -250,8 +259,8 @@ const Form = ({ isSignUp }) => {
             id="confirmPassword"
             placeholder="Şifrəni təkrarlayın"
             style={{
-              color: `${errors.confirmPassword && "red"}`,
-              border: `1px solid ${errors.confirmPassword && "red"}`,
+              color: `${errorFields.confirmPassword && "red"}`,
+              border: `1px solid ${errorFields.confirmPassword && "red"}`,
             }}
           />
           {errors.confirmPassword && (
@@ -294,13 +303,23 @@ const Form = ({ isSignUp }) => {
         </p>
       </div>
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Yüklənir..." : isSignUp ? "Qeydiyyatdan Keç" : "Giriş"}
+      <button
+        type="submit"
+        className={styles["submit-button"]}
+        disabled={!isValid || isSubmitting || loading} 
+      >
+        {loading ? "Göndərilir..." : isSignUp ? "Qeydiyyatdan keç" : "Giriş"}
       </button>
 
-      {successState !== null && (
-        <div className={styles["success__message"]}>
-          <h1>{successState ? "Ugurlu!" : "Ugursuz!"}</h1>
+      {successState === false && (
+        <div className={styles["error-message"]}>
+          Xəta baş verdi. Yenidən cəhd edin.
+        </div>
+      )}
+
+      {successState === true && (
+        <div className={styles["success-message"]}>
+          Uğurla tamamlandı!
         </div>
       )}
     </form>
