@@ -7,7 +7,7 @@ const Hero = () => {
         <div className={styles["hero"]}>
 
      <div className={styles["detail"]}>
-     <p>Platformamızda yer alan “Mentorlar” bölümü 3 sahəyə ayrılır (təhsil, karyera, yaşam). Mentorların əsas rolları sizlərə düzgün istiqamət göstərmək, dəstək vermək, öz sahələrində yığdıqları təcrübə və bilikləri sizinlə paylaşmaq və sizi motivasiya edərək potensiallarınızı reallaşdırmalarına yardım etməkdir.</p>
+     <div className={styles["p"]}>Platformamızda yer alan “<span className={styles["mentor_text"]}>Mentorlar</span>” bölümü 3 sahəyə ayrılır (təhsil, karyera, yaşam). Mentorların əsas rolları sizlərə düzgün istiqamət göstərmək, dəstək vermək, öz sahələrində yığdıqları təcrübə və bilikləri sizinlə paylaşmaq və sizi motivasiya edərək potensiallarınızı reallaşdırmalarına yardım etməkdir.</div>
       <span>Unutma ki, hər bir çətinlik bizi daha güclü edir və hər bir uğursuzluq bizi bir addım irəli aparır.</span>
       {/* <button></button> */}
      </div>

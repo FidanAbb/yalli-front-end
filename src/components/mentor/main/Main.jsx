@@ -231,7 +231,7 @@ const Main = ({ page }) => {
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar categoryData={categoryData} />
+            <Sidebar categoryData={categoryData} page={page}/>
           </div>
           <div className={styles["cards"]}>
             {page === "mentor"

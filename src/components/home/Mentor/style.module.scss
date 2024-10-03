@@ -1,57 +1,51 @@
-.main{
-  width: 100%;
-  .group {
-    width: 90%;
-    margin: 0 auto;
-    padding: 100px 0;
-    .groups {
-      .hero_text {
+.group {
+  padding: 100px 0;
+  .groups {
+    .hero_text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h2 {
+        font-weight: 600;
+        font-size: 32px;
+        line-height: 48px;
+      }
+      p {
+        height: 30px;
+        color: #ff5722;
+        border-bottom: 1px solid #ff5722;
+        width: 121px;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+    .slider{
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      overflow: hidden; 
+      .cards {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        h2 {
-          font-weight: 600;
-          font-size: 32px;
-          line-height: 48px;
-        }
-        p {
-          height: 30px;
-          color: #ff5722;
-          border-bottom: 1px solid #ff5722;
-          width: 121px;
-          text-align: center;
-          cursor: pointer;
+        gap: 35px;
+        overflow: hidden;
+        scroll-behavior: smooth;
+        flex-wrap: nowrap;
+        width: 100%;
+        margin: 0 40px;
+
+        > * {
+          flex-shrink: 0; 
+          width: 300px; 
         }
       }
-      .slider{
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        overflow: hidden; 
-        .cards {
-          display: flex;
-          gap: 35px;
-          overflow: hidden;
-          scroll-behavior: smooth;
-          flex-wrap: nowrap;
-          width: 100%;
-          margin: 0 40px;
-  
-          > * {
-            flex-shrink: 0; 
-            width: 300px; 
-          }
-        }
-  
-        .left_arrow, .right_arrow {
-          cursor: pointer;
-          user-select: none;
-        }
-        .right_arrow{
-          transform: rotate(180deg);
-        }
+
+      .left_arrow, .right_arrow {
+        cursor: pointer;
+        user-select: none;
+      }
+      .right_arrow{
+        transform: rotate(180deg);
       }
     }
   }
-  
 }

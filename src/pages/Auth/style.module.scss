@@ -13,7 +13,9 @@
     padding: 26px;
     overflow-x: hidden;
     .arrow {
-        padding-bottom: 20px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        width: 30px;
     }
     .navigate_btns {
         border: 1px solid #eeeeee;

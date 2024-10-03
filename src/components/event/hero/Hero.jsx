@@ -6,9 +6,9 @@ const Hero = () => {
       <div className="container">
         <div className={styles["hero"]}>
           <div className={styles["detail"]}>
-            <p>
-            Burada siz xaricdə yaşayan həmyerlilərimiz üçün təşkil olunan müxtəlif “Tədbirlər” görə bilərsiniz. Tədbirlər arasında seminarlar, workshoplar, mədəni tədbirlər, idman fəaliyyətləri, əyləncəli görüşlər və daha çoxu yer alır. İştirakçılarımız öz bilik və bacarıqlarını artırmaq, yeni dostlar qazanmaq və xaricdə yaşamağın üstünlüklərindən faydalanmaq üçün bu tədbirlərdən yararlana bilərlər. 
-            </p>
+            <div className={styles["p"]}>
+            Burada siz xaricdə yaşayan həmyerlilərimiz üçün təşkil olunan müxtəlif “<span className={styles["event_text"]}>Tədbirlər</span>” görə bilərsiniz. Tədbirlər arasında seminarlar, workshoplar, mədəni tədbirlər, idman fəaliyyətləri, əyləncəli görüşlər və daha çoxu yer alır. İştirakçılarımız öz bilik və bacarıqlarını artırmaq, yeni dostlar qazanmaq və xaricdə yaşamağın üstünlüklərindən faydalanmaq üçün bu tədbirlərdən yararlana bilərlər. 
+            </div>
             <p>
             Tədbirlərə qoşulun və icmamızın bir parçası olun!
             </p>

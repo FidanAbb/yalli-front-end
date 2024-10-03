@@ -68,7 +68,6 @@ const Group = () => {
   };
 
   return (
-    <div className={styles["main"]}>
       <div className={styles["group"]}>
         <div className="container">
           <div className={styles["groups"]}>
@@ -92,7 +91,6 @@ const Group = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

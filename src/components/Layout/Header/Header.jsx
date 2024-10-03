@@ -61,13 +61,14 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [isLoged, setIsLoged] = useState(false);
 
   return (
-    <div className={styles["main"]}>
       <div className={styles["navbar"]}>
         <div className="container">
           <div className={styles["nav"]}>
             <div className={styles["left"]}>
               <div className={styles["logo_side"]}>
-                <img className={styles["logo"]} src={navLogo} alt="Logo" />
+                <img className={styles["logo"]} src={navLogo} alt="Logo" onClick={()=>(
+                  navigate("/")
+                )}/>
                 <p>Polşa</p>
                 <div className={styles["arrow_down"]}>
                   <DownArrow />
@@ -120,7 +121,6 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

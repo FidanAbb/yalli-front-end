@@ -28,7 +28,9 @@ const Hero = () => {
           <div className={styles["find_box"]}>
             <h2>Yaşadığın ölkədə yerlilərini tap</h2>
             <div className={styles["find_inp"]}>
+            <div className={styles["earthicon"]}>
               <EarthIcon />
+              </div>
               <select name="" id="">
                 <option value=""></option>
                 <option value="">ENG</option>

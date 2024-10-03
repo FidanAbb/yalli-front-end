@@ -63,7 +63,6 @@ const Mentor = () => {
   };
 
   return (
-    <div className={styles["main"]}>
       <div className={styles["group"]}>
         <div className="container">
           <div className={styles["groups"]}>
@@ -87,7 +86,6 @@ const Mentor = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

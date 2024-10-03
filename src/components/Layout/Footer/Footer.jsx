@@ -5,7 +5,29 @@ import EmailIcon from "../../ui/EmailIcon";
 import Fc from "../../ui/Fc";
 import Ins from "../../ui/Ins";
 import Tik from "../../ui/Tik";
-const pages = ["Əsas səhifə", "Haqqımızda", "Tədbirlər", "Üzvlər", "Qruplar"];
+import { useNavigate, useLocation } from "react-router-dom";
+const pages = [
+  {
+    page: "Əsas səhifə",
+    link: "/",
+  },
+  {
+    page: "Haqqımızda",
+    link: "/about",
+  },
+  {
+    page: "Tədbirlər",
+    link: "/event",
+  },
+  {
+    page: "Üzvlər",
+    link: "/member",
+  },
+  {
+    page: "Qruplar",
+    link: "/qrup",
+  },
+];
 const support = [
   "Müştəri dəstəyi",
   "Şərtlər və Xidmətlər",
@@ -13,8 +35,8 @@ const support = [
 ];
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
- <div className={styles["main"]}>
      <div className={styles["footer"]}>
       <div className="container">
         <div className={styles["footer"]}>
@@ -26,7 +48,9 @@ const Footer = () => {
             <ul>
               <h4>Səhifələr</h4>
               {pages.map((p) => (
-                <li>{p}</li>
+                <li onClick={()=>(
+                  navigate(`${p.link}`)
+                )}>{p.page}</li>
               ))}
             </ul>
 
@@ -56,7 +80,6 @@ const Footer = () => {
         </p>
       </div>
     </div>
- </div>
   );
 };
 

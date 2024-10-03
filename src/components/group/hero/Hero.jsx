@@ -9,13 +9,13 @@ const Hero = () => {
       <div className="container">
         <div className={styles["hero"]}>
           <div className={styles["detail"]}>
-            <p>
-              Bizim platformamızda müxtəlif maraq və ehtiyaclara uyğun “Qruplar”
+            <div className={styles["p"]}>
+              Bizim platformamızda müxtəlif maraq və ehtiyaclara uyğun “<span className={styles["group_text"]}>Qruplar</span>”
               mövcuddur. Əyləncə, təhsil, iş imkanları və digər mövzularda
               yaradılmış qruplar vasitəsilə xaricdə yaşayan həmyerlilərimiz bir
               araya gələ, bilik və təcrübə paylaşa, yeni dostluqlar qura
               bilərlər.{" "}
-            </p>
+            </div>
             <p>
               Həyatına dəyərli insanlar qat və birləşməyin gücünü hiss et!
             </p>
