@@ -1,6 +1,7 @@
-import React,{useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../ui/pageSidebar/PageSideBar";
 import MentorsCard from "../../ui/MentorsCard/MentorsCard";
+import MembersCard from "../../member/MembersCard";
 import Card from "../../ui/card/Card";
 import styles from "./style.module.scss";
 import Emil from "../../../assets/img/Emil.svg";
@@ -127,6 +128,56 @@ const groupData = [
     image: Abd,
   },
 ];
+const memberData = [
+  {
+    name: "Humay Mustafazadə",
+    flag: "🇵🇱",
+    location: "Varşava, Polşa",
+    image: Emil,
+  },
+  {
+    name: "Fidan Abbaslı",
+    flag: "🇵🇱",
+    location: "Poznan, Polşa",
+    image: Fidan,
+  },
+  {
+    name: "Rəvanə Kərimova",
+    flag: "🇵🇱",
+    location: "Krakov, Polşa",
+    image: Vuqar,
+  },
+  {
+    name: "Tural Jafarli",
+    flag: "🇵🇱",
+    location: "Belostok, Polşa",
+    image: Fidan,
+  },
+  {
+    name: "Zarema Muradova",
+    flag: "🇵🇱",
+    location: "Qdansk, Polşa",
+    image: Vuqar,
+  },
+  {
+    name: "Nigar Qasımova",
+    flag: "🇵🇱",
+    location: "Varşova, Polşa",
+    image: Vuqar,
+  },
+  {
+    name: "Vüsal İslamzadə",
+    flag: "🇵🇱",
+    location: "Lodz, Polşa",
+    image: Vuqar,
+  },
+  {
+    name: "Elmir Əliyev",
+    flag: "🇵🇱",
+    location: "Belostok, Polşa",
+    image: Vuqar,
+  },
+];
 
 const mentorCategory = ["Yaşam", "Karyera", "Təhsil"];
 const groupCategory = [
@@ -145,9 +196,23 @@ const eventCategory = [
   "Yadda saxlanılan",
   "Keçmiş",
 ];
+const countryCategory = [
+  "Polşa",
+  "Almaniya",
+  "Amerika",
+  "Kanada",
+  "Avstraliya",
+  "İngiltərə",
+  "Fransa",
+  "İspaniya",
+  "İtaliya",
+  "Çin",
+  "Hindistan",
+  "Rusiya",
+  "Qazaxıstan",
+];
 
 const Main = ({ page }) => {
-
   const [categoryData, setCategoryData] = useState(null);
 
   useEffect(() => {
@@ -157,16 +222,16 @@ const Main = ({ page }) => {
       setCategoryData(groupCategory);
     } else if (page === "event") {
       setCategoryData(eventCategory);
+    } else if (page === "member") {
+      setCategoryData(countryCategory);
     }
-  }, [page]); 
+  }, [page]);
   return (
     <div className={styles["main"]}>
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar
-              categoryData={categoryData}
-            />
+            <Sidebar categoryData={categoryData} />
           </div>
           <div className={styles["cards"]}>
             {page === "mentor"
@@ -179,6 +244,8 @@ const Main = ({ page }) => {
               ? eventData.map((e, i) => (
                   <Card key={i} sectionName="event" event={e} />
                 ))
+              : page === "member"
+              ? memberData.map((c, i) => <MembersCard key={i} data={c} />)
               : null}
           </div>
         </div>

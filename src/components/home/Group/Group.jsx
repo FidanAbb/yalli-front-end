@@ -67,24 +67,26 @@ const Group = () => {
   };
 
   return (
-    <div className={styles["group"]}>
-      <div className="container">
-        <div className={styles["groups"]}>
-          <div className={styles["hero_text"]}>
-            <h2>Qruplar</h2>
-            <p>Hamısına bax</p>
-          </div>
-          <div className={styles["slider"]}>
-          <div className={styles["left_arrow"]} onClick={scrollLeft}>
-              <Arrow />
+    <div className={styles["main"]}>
+      <div className={styles["group"]}>
+        <div className="container">
+          <div className={styles["groups"]}>
+            <div className={styles["hero_text"]}>
+              <h2>Qruplar</h2>
+              <p>Hamısına bax</p>
             </div>
-            <div className={styles["cards"]} ref={sliderRef}>
-              {groupData.map((group, index) => (
-                <Card key={index} sectionName={"group"} group={group} />
-              ))}
-            </div>
-            <div className={styles["right_arrow"]} onClick={scrollRight}>
-              <Arrow />
+            <div className={styles["slider"]}>
+              <div className={styles["left_arrow"]} onClick={scrollLeft}>
+                <Arrow />
+              </div>
+              <div className={styles["cards"]} ref={sliderRef}>
+                {groupData.map((group, index) => (
+                  <Card key={index} sectionName={"group"} group={group} />
+                ))}
+              </div>
+              <div className={styles["right_arrow"]} onClick={scrollRight}>
+                <Arrow />
+              </div>
             </div>
           </div>
         </div>

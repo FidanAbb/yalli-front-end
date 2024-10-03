@@ -53,7 +53,8 @@ const Event = () => {
   };
 
   return (
-    <div className={styles["group"]}>
+   <div className={styles["main"]}>
+     <div className={styles["group"]}>
       <div className="container">
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
@@ -82,6 +83,7 @@ const Event = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

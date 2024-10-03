@@ -14,7 +14,8 @@ const support = [
 
 const Footer = () => {
   return (
-    <div className={styles["footer"]}>
+ <div className={styles["main"]}>
+     <div className={styles["footer"]}>
       <div className="container">
         <div className={styles["footer"]}>
           <div className={styles["left"]}>
@@ -43,9 +44,9 @@ const Footer = () => {
                 info@yalli.org
               </li>
               <li className={styles["links"]}>
-                <Fc />
-                <Ins />
-                <Tik />
+                <Fc className={styles["icon"]}/>
+                <Ins className={styles["icon"]}/>
+                <Tik className={styles["icon"]} />
               </li>
             </ul>
           </div>
@@ -55,6 +56,7 @@ const Footer = () => {
         </p>
       </div>
     </div>
+ </div>
   );
 };
 

@@ -5,6 +5,7 @@ import Mentor from "../pages/Mentor/Mentor";
 import Qrup from "../pages/Qrup/Group";
 import Event from "../pages/Event/Event";
 import Auth from "../pages/Auth/index"
+import Member from "../pages/Member/Member";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +14,10 @@ const Router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/member",
+    element: <Member />,
   },
   {
     path: "/mentor",

@@ -1,4 +1,6 @@
 .suggest {
+  width: 95%;
+  margin: 0 auto;
     padding-bottom: 50px;
   .suggest {
     h1 {
@@ -9,6 +11,7 @@
     .cards {
       display: flex;
       justify-content: space-between;
+      gap: 30px;
       .card {
         background-color: #fff;
         max-width: 410px;
@@ -17,6 +20,7 @@
         padding: 0px 15px;
         display: flex;
         flex-direction: column;
+        border-radius: 10px;
         img {
             width: 36px;
             margin: 0 auto;

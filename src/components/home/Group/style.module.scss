@@ -1,50 +1,57 @@
-.group {
-  padding-top: 100px;
-  .groups {
-    .hero_text {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      h2 {
-        font-weight: 600;
-        font-size: 32px;
-        line-height: 48px;
-      }
-      p {
-        height: 30px;
-        color: #ff5722;
-        border-bottom: 1px solid #ff5722;
-        width: 121px;
-        text-align: center;
-        cursor: pointer;
-      }
-    }
-    .slider{
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      overflow: hidden; 
-      .cards {
-        display: flex;
-        gap: 32px;
-        overflow: hidden;
-        scroll-behavior: smooth;
-        flex-wrap: nowrap;
-        width: 100%;
-        margin: 0 40px;
+.main {
+  width: 100%;
+  .group {
 
-        > * {
-          flex-shrink: 0; 
-          width: 300px; 
+    width: 90%;
+    padding-top: 100px;
+    margin: 0 auto;
+    .groups {
+      .hero_text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h2 {
+          font-weight: 600;
+          font-size: 32px;
+          line-height: 48px;
+        }
+        p {
+          height: 30px;
+          color: #ff5722;
+          border-bottom: 1px solid #ff5722;
+          width: 121px;
+          text-align: center;
+          cursor: pointer;
         }
       }
+      .slider {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        .cards {
+          display: flex;
+          gap: 32px;
+          overflow: hidden;
+          scroll-behavior: smooth;
+          flex-wrap: nowrap;
+          width: 100%;
+          margin: 0 40px;
 
-      .left_arrow, .right_arrow {
-        cursor: pointer;
-        user-select: none;
-      }
-      .right_arrow{
-        transform: rotate(180deg);
+          > * {
+            flex-shrink: 0;
+            width: 300px;
+          }
+        }
+
+        .left_arrow,
+        .right_arrow {
+          cursor: pointer;
+          user-select: none;
+        }
+        .right_arrow {
+          transform: rotate(180deg);
+        }
       }
     }
   }
