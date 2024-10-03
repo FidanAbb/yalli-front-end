@@ -18,6 +18,8 @@ const Form = ({ isSignUp }) => {
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const [successState, setSuccessState] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validationSchema = isSignUp
     ? signUpValidationSchema
@@ -136,25 +138,6 @@ const Form = ({ isSignUp }) => {
 
       {isSignUp && (
         <>
-          {/* <div className={styles["input_field"]}>
-            <input
-              {...register("birthDate")}
-              type="date"
-              id="birthDate"
-              placeholder="DD/MM/YY"
-              style={{
-                color: `${errors.birthDate && "red"}`,
-                border: `1px solid ${errors.birthDate && "red"}`,
-              }}
-            />
-            {errors.birthDate && (
-              <span>
-                <Warning />
-                {errors.birthDate.message}
-              </span>
-            )}
-          </div> */}
-
           <div className={styles["input_field"]}>
             <select
               {...register("country")}
@@ -189,7 +172,7 @@ const Form = ({ isSignUp }) => {
       <div className={styles["input_field"]}>
         <input
           {...register("password")}
-          type="password"
+          type={showPassword ? "text" : "password"} 
           id="password"
           placeholder="Şifrə"
           style={{
@@ -203,7 +186,7 @@ const Form = ({ isSignUp }) => {
             {errors.password.message}
           </span>
         )}
-        <div className={styles["eye"]}>
+       <div className={styles["eye"]} onClick={() => setShowPassword(!showPassword)}>
           <PasswordEye />
         </div>
         {isSignUp && (
@@ -263,7 +246,7 @@ const Form = ({ isSignUp }) => {
         <div className={styles["input_field"]}>
           <input
             {...register("confirmPassword")}
-            type="password"
+            type={showConfirmPassword ? "text" : "password"} 
             id="confirmPassword"
             placeholder="Şifrəni təkrarlayın"
             style={{
@@ -277,7 +260,7 @@ const Form = ({ isSignUp }) => {
               {errors.confirmPassword.message}
             </span>
           )}
-          <div className={styles["eye"]}>
+          <div className={styles["eye"]} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
             <PasswordEye />
           </div>
         </div>
