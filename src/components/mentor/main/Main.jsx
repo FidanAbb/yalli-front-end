@@ -7,7 +7,7 @@ import styles from "./style.module.scss";
 import Emil from "../../../assets/img/Emil.svg";
 import Fidan from "../../../assets/img/Fidan.svg";
 import Vuqar from "../../../assets/img/Vuqar.svg";
-import Meal from "../../../assets/img/Meal.svg";
+import Meal from "../../../assets/img/meal.svg";
 import badminton from "../../../assets/img/badminton.svg";
 import kitchen from "../../../assets/img/kitchen.svg";
 import German from "../../../assets/img/German.svg";

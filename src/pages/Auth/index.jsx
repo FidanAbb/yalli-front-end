@@ -3,6 +3,8 @@ import styles from "./style.module.scss";
 import Form from "../../components/login/Form";
 import Arrow from "../../components/ui/Arrow";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [authClick, setAuthClick] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
@@ -17,11 +19,13 @@ const Login = () => {
     }, 10);
     return () => clearTimeout(timer);
   }, []);
+  const navigate = useNavigate();
+
 
   return (
     <div className={styles["login"]}>
       <div className={styles["login_window"]}>
-        <div className={styles["arrow"]}>
+        <div className={styles["arrow"]} onClick={() => navigate(`/`)}>
           <Arrow />
         </div>
         <div className={styles["navigate_btns"]}>

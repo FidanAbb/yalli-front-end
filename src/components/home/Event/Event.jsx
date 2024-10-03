@@ -1,10 +1,11 @@
 import React, { useRef } from "react";
 import styles from "./style.module.scss";
-import Meal from "../../../assets/img/Meal.svg";
+import Meal from "../../../assets/img/meal.svg";
 import badminton from "../../../assets/img/badminton.svg";
 import kitchen from "../../../assets/img/kitchen.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
+import { useNavigate } from "react-router-dom";
 
 const Event = () => {
   const eventData = [
@@ -51,6 +52,8 @@ const Event = () => {
       sliderRef.current.scrollBy({ left: 420, behavior: "smooth" });
     }
   };
+  const navigate = useNavigate();
+
 
   return (
    <div className={styles["main"]}>
@@ -59,7 +62,7 @@ const Event = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Tədbirlər</h2>
-            <p>Hamısına bax</p>
+            <p onClick={() => navigate(`/event`)}>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeft}>

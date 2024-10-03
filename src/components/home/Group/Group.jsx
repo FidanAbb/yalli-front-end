@@ -5,6 +5,7 @@ import Abd from "../../../assets/img/Abd.svg";
 import Network from "../../../assets/img/Network.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
+import { useNavigate } from "react-router-dom";
 
 const Group = () => {
   const groupData = [
@@ -53,7 +54,7 @@ const Group = () => {
   ];
 
   const sliderRef = useRef(null);
-
+  const navigate = useNavigate();
   const scrollLeft = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -420, behavior: "smooth" });
@@ -73,7 +74,7 @@ const Group = () => {
           <div className={styles["groups"]}>
             <div className={styles["hero_text"]}>
               <h2>Qruplar</h2>
-              <p>Hamısına bax</p>
+              <p onClick={() => navigate(`/qrup`)}>Hamısına bax</p>
             </div>
             <div className={styles["slider"]}>
               <div className={styles["left_arrow"]} onClick={scrollLeft}>

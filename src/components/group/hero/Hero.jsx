@@ -1,6 +1,9 @@
-import React from "react";
+
+import React, {useState} from "react";
 import styles from "./style.module.scss";
+import CreateGroup from "../../creategroup/CreateGroup";
 const Hero = () => {
+  const [modal, setModal] = useState(false)
   return (
     <div className={styles["hero"]}>
       <div className="container">
@@ -16,9 +19,17 @@ const Hero = () => {
             <p>
               Həyatına dəyərli insanlar qat və birləşməyin gücünü hiss et!
             </p>
-            <button>Öz icmanı əlavə et</button>
+            <button onClick={()=> setModal(true)}>Öz icmanı əlavə et</button>
           </div>
         </div>
+
+        {modal && (
+          <div className={styles["modalOverlay"]} onClick={() => setModal(false)}>
+            <div className={styles["modalContent"]} onClick={(e) => e.stopPropagation()}>
+              <CreateGroup />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
