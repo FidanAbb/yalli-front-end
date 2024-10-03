@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon"
+import { useSelector, useDispatch } from 'react-redux'
 const CreateGroup = () => {
+  const dispatch = useDispatch()
+
   return (
     <div className={styles["create_group"]}>
       <h1>Öz icmanı yarat</h1>
