@@ -48,6 +48,7 @@
         rgba(250, 69, 0, 0.8) 22.06%,
         rgba(255, 0, 0, 0.8) 77.94%
       );
+      
       h2 {
         font-size: 24px;
         font-weight: 600;
@@ -62,6 +63,17 @@
         align-items: center;
         position: relative;
         border-radius: 10px;
+        .texts{
+          position: absolute;
+          left: 20%;
+          p{
+            font-size: 14px;
+            font-weight: 400;
+            opacity: 0;
+            transform: scale(0);
+            animation: textAnimation 6s ease-in-out infinite;
+          }
+        }
         .earthicon{
           margin-left: 10px;
           margin-top: 2px;
@@ -93,5 +105,29 @@
       z-index: 0;
       scale: 1.2;
     }
+  }
+}
+
+
+@keyframes textAnimation {
+  0% {
+    opacity: 0;
+    transform: scale(0); 
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1); 
+  }
+  20%, 80% {
+    opacity: 1;
+    transform: scale(1); 
+  }
+  90% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
   }
 }
