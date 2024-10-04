@@ -6,13 +6,22 @@ const baseURL = "https://yalli-back-end.onrender.com/v1/groups";
 export const postGroupData = createAsyncThunk(
   "groups/postGroupData",
   async (newp) => {
-    const response = await axios.post(baseURL, newp);
+    const response = await axios.post(
+      baseURL,
+      newp, 
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Authorization: `Bearer ${yourToken}`, 
+        },
+      }
+    );
     return response.data;
   }
 );
 
 const initialState = {
-  location: {
+  group: {
     id: 0,
     data: {
       title: "",

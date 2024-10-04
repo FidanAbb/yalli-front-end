@@ -4,42 +4,35 @@
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  border-radius: 7px;
-
+  margin-bottom: -8px;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0 10px 10px 0;
+padding: 20px ;
   .left {
     display: flex;
     align-items: center;
-    width: 50%;
-    padding-left: 20px;
-
-    .img {
-      width: 100px;
-      height: 100px;
-
-      .profile {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-      }
+    gap: 10px;
+    img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
     }
+
     .content {
-      margin-bottom: 25px;
       .name {
-        font-family: Gilroy;
         font-size: 20px;
         font-weight: 500;
         line-height: 24.26px;
         text-align: left;
-
         color: rgba(250, 69, 0, 1);
+        height: 12px;
       }
       .location {
-        font-family: Gilroy;
         font-size: 16px;
         font-weight: 500;
         line-height: 19.41px;
         text-align: left;
-
         color: rgba(162, 162, 162, 1);
       }
     }
@@ -48,8 +41,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-  padding-right: 70px;
-
     .icon {
       width: 24px;
       height: 24px;

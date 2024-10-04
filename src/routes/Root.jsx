@@ -6,6 +6,7 @@ import Qrup from "../pages/Qrup/Group";
 import Event from "../pages/Event/Event";
 import Auth from "../pages/Auth/index"
 import Member from "../pages/Member/Member";
+import GroupDetail from "../pages/groupDetail/GroupDetail";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +28,10 @@ const Router = createBrowserRouter([
   {
     path: "/qrup",
     element: <Qrup />,
+  },
+  {
+    path: "/qrup/:id",
+    element: <GroupDetail />,
   },
   {
     path: "/event",

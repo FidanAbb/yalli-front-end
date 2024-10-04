@@ -13,6 +13,7 @@ import kitchen from "../../../assets/img/kitchen.svg";
 import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
 import Network from "../../../assets/img/Network.svg";
+import { useNavigate } from "react-router-dom";
 
 const mentorData = [
   {
@@ -133,7 +134,13 @@ const memberData = [
     name: "Humay Mustafazadə",
     flag: "🇵🇱",
     location: "Varşava, Polşa",
-    image: Emil,
+    image: Fidan,
+  },
+  {
+    name: "Elmir Əliyev",
+    flag: "🇵🇱",
+    location: "Belostok, Polşa",
+    image: Vuqar,
   },
   {
     name: "Fidan Abbaslı",
@@ -142,28 +149,16 @@ const memberData = [
     image: Fidan,
   },
   {
-    name: "Rəvanə Kərimova",
-    flag: "🇵🇱",
-    location: "Krakov, Polşa",
-    image: Vuqar,
-  },
-  {
     name: "Tural Jafarli",
     flag: "🇵🇱",
     location: "Belostok, Polşa",
+    image: Vuqar,
+  },
+  {
+    name: "Rəvanə Kərimova",
+    flag: "🇵🇱",
+    location: "Krakov, Polşa",
     image: Fidan,
-  },
-  {
-    name: "Zarema Muradova",
-    flag: "🇵🇱",
-    location: "Qdansk, Polşa",
-    image: Vuqar,
-  },
-  {
-    name: "Nigar Qasımova",
-    flag: "🇵🇱",
-    location: "Varşova, Polşa",
-    image: Vuqar,
   },
   {
     name: "Vüsal İslamzadə",
@@ -172,10 +167,10 @@ const memberData = [
     image: Vuqar,
   },
   {
-    name: "Elmir Əliyev",
+    name: "Nigar Qasımova",
     flag: "🇵🇱",
-    location: "Belostok, Polşa",
-    image: Vuqar,
+    location: "Varşova, Polşa",
+    image: Fidan,
   },
 ];
 
@@ -214,6 +209,7 @@ const countryCategory = [
 
 const Main = ({ page }) => {
   const [categoryData, setCategoryData] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (page === "mentor") {
@@ -226,19 +222,24 @@ const Main = ({ page }) => {
       setCategoryData(countryCategory);
     }
   }, [page]);
+  const handleCardClick = (id) => {
+    navigate(`/qrup/${id}`);
+  };
   return (
     <div className={styles["main"]}>
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar categoryData={categoryData} page={page}/>
+            <Sidebar categoryData={categoryData} page={page} />
           </div>
           <div className={styles["cards"]}>
             {page === "mentor"
               ? mentorData.map((m, i) => <MentorsCard key={i} data={m} />)
               : page === "group"
               ? groupData.map((g, i) => (
-                  <Card key={i} sectionName="group" group={g} />
+                  <div key={i} onClick={() => handleCardClick(i)}>
+                    <Card sectionName="group" group={g} />
+                  </div>
                 ))
               : page === "event"
               ? eventData.map((e, i) => (

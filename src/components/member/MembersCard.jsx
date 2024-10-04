@@ -8,9 +8,7 @@ const MembersCard = ({ data }) => {
   return (
     <div className={styles["container"]}>
       <div className={styles["left"]}>
-        <div className={styles["img"]}>
           <img src={data.image} alt="" className={styles["profile"]} />
-        </div>
         <div className={styles["content"]}>
           <p className={styles["name"]}>{data.name}</p>
           <p className={styles["location"]}>
@@ -18,6 +16,7 @@ const MembersCard = ({ data }) => {
           </p>
         </div>
       </div>
+      
       <div className={styles["right"]}>
         <Telegram className={styles["icon"]} />
         <Inst className={styles["icon"]} />

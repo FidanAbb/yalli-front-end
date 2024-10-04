@@ -1,0 +1,59 @@
+.hero {
+    padding: 50px 0;
+  .hero {
+    display: flex;
+    justify-content: center;
+    .card {
+      max-width: 963px;
+      background-color: #fff;
+      border-radius: 10px;
+      .upper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 20px;
+        border-bottom: 1px solid #56565680;
+        h1 {
+          font-size: 28px;
+          font-weight: 700;
+          color: #111111;
+        }
+        button {
+          background-color: rgba(250, 69, 0, 1);
+          padding: 10px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          border: none;
+          color: #fff;
+          gap: 3px;
+        }
+      }
+      .down {
+        display: flex;
+        gap: 10px;
+        padding: 19px;
+        .detail{
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            p{
+                color: #11111180;
+            }
+            .foot{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: rgba(17, 17, 17, 1);
+                p{
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    color: rgba(17, 17, 17, 1);
+                }
+            }
+        }
+      }
+    }
+  }
+}
