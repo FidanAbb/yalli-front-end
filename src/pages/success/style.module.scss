@@ -1,0 +1,31 @@
+.success {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100vh;
+  .success_window {
+    max-width: 508px;
+    background-color: #fff;
+    padding: 30px 100px;
+    border-radius: 10px;
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+    p {
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(162, 162, 162, 1);
+    }
+    button{
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(250, 69, 0, 1);
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        width: 200px;
+        cursor: pointer;
+    }
+  }
+}

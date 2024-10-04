@@ -1,35 +1,76 @@
-import React from "react";
+import React, {useState} from "react";
 import styles from "./style.module.scss"
 import { useNavigate } from "react-router-dom";
+import Warning from "../../components/ui/Warning";
 const ForgotPass = () => {
     const navigate = useNavigate();
+    const [email, setEmail] = useState(""); 
+    const [errorMessage, setErrorMessage] = useState(""); 
+    const [loading, setLoading] = useState(false);
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setErrorMessage("");
+      
+      if (!email) {
+        setErrorMessage("E-poçt daxil edin");
+        return;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        setErrorMessage("Düzgün e-poçt daxil edin");
+        return;
+      }
+  
+      try {
+        setLoading(true);
+        const response = await fetch("/api/forgot-password", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        
+        if (response.status === 200) {
+            navigate("confirm-email")
+        } 
+        else if (response.status === 404){
+            setErrorMessage("E-poçt ünvanı tapılmadı");
+        }
+        else {
+          setErrorMessage("E-poçt ünvanı yalnışdır");
+        }
+      } catch (error) {
+        setErrorMessage("Serverə qoşulmadı");
+      } finally {
+        setLoading(false);
+      }
+    };
   return (
     <div className={styles["forgot_pass"]}>
       <div className={styles["forgot_window"]}>
         <h1>Şifrənizi unutmusunuz?</h1>
         <p>Narahat olmayın, biz sizə sıfırlama təlimatlarını göndərəcəyik.</p>
 
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className={styles["input_field"]}>
-            <input
-            //   {...register("email")}
+          <input
               type="text"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="E-posta ünvanı"
-            //   style={{
-            //     color: `${errorFields.email && "red"}`,
-            //     border: `1px solid ${errorFields.email && "red"}`,
-            //   }}
+              style={{
+                border: `1px solid ${errorMessage ? "red" : ""}`,
+              }}
             />
-            {/* {errors.email && (
-              <span>
-                <Warning />
-                {errors.email.message}
-              </span>
-            )} */}
+            {errorMessage && <span style={{ color: "red" }}> <Warning />{errorMessage}</span>}
+            
           </div>
 
-          <button type="submit">Təqdim edin</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Göndərilir..." : "Təqdim edin"}
+          </button>
         </form>
         <div className={styles["giris"]} onClick={()=> navigate("/auth")}>
           <svg
@@ -49,7 +90,7 @@ const ForgotPass = () => {
           </svg>
           <span>Girişə qayıt</span>
         </div>
-        
+
       </div>
     </div>
   );

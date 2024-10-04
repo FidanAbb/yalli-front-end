@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -22,18 +22,26 @@ const Form = ({ isSignUp }) => {
   const [successState, setSuccessState] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [errorFields, setErrorFields] = useState({}); 
+  const [errorFields, setErrorFields] = useState({});
 
   const validationSchema = isSignUp
     ? signUpValidationSchema
     : loginValidationSchema;
 
-    const { register, handleSubmit, reset, formState, setError, watch, setValue } = useForm({
-      resolver: yupResolver(validationSchema),
-      mode: "onChange",
-    });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState,
+    setError,
+    watch,
+    setValue,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    mode: "onChange",
+  });
   const password = watch("password", "");
-  const { errors, touchedFields, isValid, isSubmitting  } = formState;
+  const { errors, touchedFields, isValid, isSubmitting } = formState;
   useEffect(() => {
     const currentErrors = Object.keys(errors).reduce((acc, key) => {
       acc[key] = true;
@@ -64,7 +72,7 @@ const Form = ({ isSignUp }) => {
         ? await api.post(endpoint, signUpdata)
         : await api.post(endpoint, signIndata);
 
-      if (resp.status === 200) {
+      if (resp.status === 200 && !isSignUp) {
         console.log(resp.data, "lalalalla");
         const { accessToken } = resp.data;
 
@@ -83,6 +91,9 @@ const Form = ({ isSignUp }) => {
         }
         setSuccessState(true);
         reset();
+      } else if (resp.status === 201 && isSignUp) {
+        localStorage.setItem("email-confirm", JSON.stringify(signUpdata.email));
+        navigate("/confirm-email");
       }
     } catch (error) {
       const findError = error.response?.data;
@@ -100,8 +111,6 @@ const Form = ({ isSignUp }) => {
       setLoading(false);
     }
   };
-
-  
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -169,7 +178,7 @@ const Form = ({ isSignUp }) => {
             <div className={styles["downarrow"]}>
               <DownArrow />
             </div>
-            
+
             {errors.country && (
               <span>
                 <Warning />
@@ -183,7 +192,7 @@ const Form = ({ isSignUp }) => {
       <div className={styles["input_field"]}>
         <input
           {...register("password")}
-          type={showPassword ? "text" : "password"} 
+          type={showPassword ? "text" : "password"}
           id="password"
           placeholder="Şifrə"
           style={{
@@ -197,7 +206,10 @@ const Form = ({ isSignUp }) => {
             {errors.password.message}
           </span>
         )}
-       <div className={styles["eye"]} onClick={() => setShowPassword(!showPassword)}>
+        <div
+          className={styles["eye"]}
+          onClick={() => setShowPassword(!showPassword)}
+        >
           <PasswordEye />
         </div>
         {isSignUp && (
@@ -257,7 +269,7 @@ const Form = ({ isSignUp }) => {
         <div className={styles["input_field"]}>
           <input
             {...register("confirmPassword")}
-            type={showConfirmPassword ? "text" : "password"} 
+            type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
             placeholder="Şifrəni təkrarlayın"
             style={{
@@ -271,12 +283,18 @@ const Form = ({ isSignUp }) => {
               {errors.confirmPassword.message}
             </span>
           )}
-          <div className={styles["eye"]} onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+          <div
+            className={styles["eye"]}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
             <PasswordEye />
           </div>
         </div>
       )}
-      <p className={styles["forgot"]} onClick={()=>navigate("/forgot-password")}>
+      <p
+        className={styles["forgot"]}
+        onClick={() => navigate("/forgot-password")}
+      >
         {!isSignUp && "Şifrənizi unutmusunuz?"}
       </p>
 
@@ -308,7 +326,7 @@ const Form = ({ isSignUp }) => {
       <button
         type="submit"
         className={styles["submit-button"]}
-        disabled={!isValid || isSubmitting || loading} 
+        disabled={!isValid || isSubmitting || loading}
       >
         {loading ? "Göndərilir..." : isSignUp ? "Qeydiyyatdan keç" : "Giriş"}
       </button>
@@ -320,9 +338,7 @@ const Form = ({ isSignUp }) => {
       )}
 
       {successState === true && (
-        <div className={styles["success-message"]}>
-          Uğurla tamamlandı!
-        </div>
+        <div className={styles["success-message"]}>Uğurla tamamlandı!</div>
       )}
     </form>
   );

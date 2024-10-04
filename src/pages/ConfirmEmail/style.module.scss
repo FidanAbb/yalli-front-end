@@ -1,0 +1,59 @@
+.confirm_email {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  .confirm_window {
+    max-width: 508px;
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    .otp_sent {
+        margin-top: 10px;
+      }
+    .arrow {
+      position: absolute;
+      left: 20px;
+      cursor: pointer;
+    }
+    p {
+      font-weight: 500;
+      font-size: 14px;
+      color: rgba(162, 162, 162, 1);
+      max-width: 60%;
+      margin: 0 auto;
+    }
+    .otp_code {
+        margin: 20px 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .otp {
+      width: 30px;
+      height: 20px;
+      border-radius: 10px;
+      border: 1px solid;
+      background-color: #fff;
+      text-align: center;
+    }
+    span {
+      font-weight: 400;
+      font-size: 14px;
+      color: rgba(162, 162, 162, 1);
+      margin-bottom: 40px;
+    }
+    button {
+      padding: 12px 10px;
+      margin-top: 10px;
+    }
+    .legv {
+      background-color: rgba(238, 238, 238, 1);
+      color: rgba(250, 69, 0, 1);
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+}

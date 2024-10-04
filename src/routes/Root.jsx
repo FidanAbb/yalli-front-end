@@ -8,6 +8,8 @@ import Auth from "../pages/Auth/index"
 import Member from "../pages/Member/Member";
 import GroupDetail from "../pages/groupDetail/GroupDetail";
 import ForgotPass from "../pages/forgotpass";
+import ConfirmEmail from "../pages/ConfirmEmail";
+import Success from "../pages/success";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -45,6 +47,14 @@ const Router = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPass/>,
+  },
+  {
+    path: "/confirm-email",
+    element: <ConfirmEmail/>,
+  },
+  {
+    path: "/success",
+    element: <Success/>,
   },
 
 ]);
