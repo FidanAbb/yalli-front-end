@@ -13,8 +13,10 @@ import {
 import Xicon from "../ui/Xicon";
 import TrueIcon from "../ui/TrueIcon";
 import DownArrow from "../ui/DownArrow";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ isSignUp }) => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState(false);
   const [successState, setSuccessState] = useState(null);
@@ -274,7 +276,7 @@ const Form = ({ isSignUp }) => {
           </div>
         </div>
       )}
-      <p className={styles["forgot"]}>
+      <p className={styles["forgot"]} onClick={()=>navigate("/forgot-password")}>
         {!isSignUp && "Şifrənizi unutmusunuz?"}
       </p>
 

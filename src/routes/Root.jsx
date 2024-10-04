@@ -7,6 +7,7 @@ import Event from "../pages/Event/Event";
 import Auth from "../pages/Auth/index"
 import Member from "../pages/Member/Member";
 import GroupDetail from "../pages/groupDetail/GroupDetail";
+import ForgotPass from "../pages/forgotpass";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -40,6 +41,10 @@ const Router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPass/>,
   },
 
 ]);
