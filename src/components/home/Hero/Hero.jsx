@@ -8,8 +8,7 @@ import HeroRightCircle from "../../ui/HeroRightCircle";
 import EarthIcon from "../../ui/EarthIcon";
 import HeroElp from "../../ui/HeroElp";
 const texts = [
-  "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!",
-  "Maraq dairəni və şəhəri qeyd et, müvafiq icmalarla tanış ol!",
+  "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!"
 ];
 const countryCategory = [
   "Polşa",
