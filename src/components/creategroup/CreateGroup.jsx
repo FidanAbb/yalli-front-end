@@ -113,7 +113,7 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Ölkə"
             onChange={handleChange}
           >
-            <option>Please choose one option</option>
+            <option>Ölkə</option>
             {options.map((option, index) => {
               return (
                 <option key={index}>
@@ -122,17 +122,23 @@ const CreateGroup = ({ setModal }) => {
               );
             })}
           </select>
+          <div className={styles["down_arrow"]}>
+                <DownArrow />
+              </div>
           <select
             name="category"
             id="category"
             placeholder="Kateqoriya"
-            className={styles["inp"]}
             onChange={handleChange}
           >
+            <option>Kateqoriya</option>
             <option value=""></option>
             <option value="yaşam">Yaşam</option>
             <option value="əyləncə">Əyləncə</option>
           </select>
+          <div className={styles["down_arrow"]}>
+                <DownArrow />
+              </div>
           <input
             type="url"
             name="link"
