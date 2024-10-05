@@ -8,7 +8,7 @@ export const loginValidationSchema = Yup.object().shape({
 export const signUpValidationSchema = Yup.object().shape({
   fullName: Yup.string()
   .required('Adınız tələb olunur')
-  .matches(/^[\p{L}\s]+$/u, "Zəhmət olmasa yalnız hərf daxil edin") 
+  .matches(/^[\p{L}]+\s+[\p{L}\s]+$/u, "Zəhmət olmasa yalnız hərf daxil edin") 
   .test('Adınız tələb olunur', 'Adınız tələb olunur', value => {
     return value && value.trim().length > 0; 
   }),
