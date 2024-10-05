@@ -21,7 +21,7 @@ const Hero = () => {
                 <div className={styles["detail"]}>
                     <p>Varşavada yaşayan Azərbaycanlılar üçün bu qrup, şəhərdə asudə vaxtlarını səmərəli və maraqlı keçirmək istəyənlərin bir araya gəldiyi məkandır. Burada müxtəlif fəaliyyətlər, görüşlər, və tədbirlər planlanır, mədəniyyətimizi bölüşmək və dostluq bağlarını gücləndirmək üçün şərait yaradılır. </p>
                 <div className={styles["foot"]}>
-                    <p><GroupIcon />3k+ üzv</p>
+                    <p><GroupIcon color="#111111"/>3k+ üzv</p>
                     <ShareIcon/>
                 </div>
                 </div>

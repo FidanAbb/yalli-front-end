@@ -1,5 +1,7 @@
+@import "../../../styles/main.module.scss";
 .hero {
     padding: 50px 0;
+    font-family: "Gilroy", sans-serif;
   .hero {
     display: flex;
     justify-content: center;
@@ -39,6 +41,7 @@
             justify-content: end;
             p{
                 color: #11111180;
+                line-height: 22px;
             }
             .foot{
                 display: flex;
@@ -49,7 +52,7 @@
                     display: flex;
                     align-items: center;
                     gap: 5px;
-                    color: rgba(17, 17, 17, 1);
+                    color: #111111;
                 }
             }
         }

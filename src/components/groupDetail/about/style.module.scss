@@ -1,14 +1,16 @@
-.about{
-    .about{
-        text-align: start;
-        display: flex;
-        flex-direction: column;
-        hanging-punctuation: 20px;
-        color: rgba(17, 17, 17, 1);
-        font-weight: 400;
-        font-size: 18px;
-        gap: 20px;
-        padding: 50px 25px 150px 25px;
+.about {
+  .about {
+    text-align: start;
+    display: flex;
+    flex-direction: column;
+    hanging-punctuation: 20px;
+    color: rgba(17, 17, 17, 1);
+    font-weight: 400;
+    font-size: 18px;
+    gap: 20px;
+    padding: 50px 25px 150px 25px;
+    div {
+      line-height: 27px;
     }
-
+  }
 }
