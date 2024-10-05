@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon";
+import DownArrow from "../../ui/DownArrow";
 import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
