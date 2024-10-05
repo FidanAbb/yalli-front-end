@@ -35,6 +35,14 @@ const navLinks = [
 ];
 
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
+  const [userData, setUserData] = useState("")
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("userInfo");
+    if (loggedUser) {
+      setUserData(JSON.parse(loggedUser));
+    }
+  }, []);
+
   const [isActive, setisActive] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
@@ -101,7 +109,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
             </div>
 
             <div className={styles["right"]}>
-              {!isLoged ? (
+              {!userData ? (
                 <>
                   <p onClick={() => navigate("/auth")}>Giriş</p>
                   <button onClick={() => navigate("/auth")}>Qeydiyyat</button>

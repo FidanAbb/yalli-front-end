@@ -12,11 +12,19 @@ const ConfirmEmail = () => {
   const [email, setEmail] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [errorOccurred, setErrorOccurred] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     const storedEmail = localStorage.getItem("email-confirm");
     if (storedEmail) {
       setEmail(JSON.parse(storedEmail));
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("resetEmail");
+    if (storedEmail) {
+      setResetEmail(JSON.parse(storedEmail));
     }
   }, []);
 
@@ -45,14 +53,25 @@ const ConfirmEmail = () => {
     const otpString = otpCode.join("");
 
     try {
-      const response = await api.post("/users/confirm", {
-        email: email,
-        otp: otpString,
-      });
+      const endpoint = !resetEmail
+        ? "/users/confirm"
+        : "users/reset-password/verify";
 
-      if (response.status === 200) {
+      const response = resetEmail
+        ? await api.post(endpoint, {
+            email: resetEmail,
+            otp: otpString,
+          })
+        : await api.post(endpoint, {
+            email: email,
+            otp: otpString,
+          });
+
+      if (response.status === 204 && !resetEmail) {
         setSuccess(true);
         navigate("/success");
+      } else if (response.status === 204 && resetEmail) {
+        navigate("/reset-password");
       }
     } catch (error) {
       setError("Xəta baş verdi. Yenidən cəhd edin.");

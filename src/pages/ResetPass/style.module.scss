@@ -1,0 +1,48 @@
+.forgot_pass {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  
+  .forgot_window {
+    max-width: 508px;
+    p {
+      max-width: 300px;
+      font-weight: 400;
+      font-size: 14px;
+      color: rgba(162, 162, 162, 1);
+      margin: 0 auto;
+    }
+    form {
+      .input_field {
+        padding: 20px 0;
+        cursor: pointer;
+        span {
+          color: red;
+          font-weight: 300;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          margin-left: 10px;
+        }
+      }
+      button {
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(250, 69, 0, 1);
+        padding: 10px;
+        border-radius: 10px;
+      }
+    }
+    .giris {
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      justify-content: center;
+      cursor: pointer;
+      width: 130px;
+      margin: 0 auto;
+    }
+  }
+}

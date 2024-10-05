@@ -10,6 +10,7 @@ import GroupDetail from "../pages/groupDetail/GroupDetail";
 import ForgotPass from "../pages/forgotpass";
 import ConfirmEmail from "../pages/ConfirmEmail";
 import Success from "../pages/success";
+import ResetPass from "../pages/ResetPass";
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +56,10 @@ const Router = createBrowserRouter([
   {
     path: "/success",
     element: <Success/>,
+  },
+  {
+    path: "/reset-password",
+    element: <ResetPass/>,
   },
 
 ]);

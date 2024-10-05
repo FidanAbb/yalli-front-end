@@ -73,7 +73,6 @@ const Form = ({ isSignUp }) => {
         : await api.post(endpoint, signIndata);
 
       if (resp.status === 200 && !isSignUp) {
-        console.log(resp.data, "lalalalla");
         const { accessToken } = resp.data;
 
         if (checked) {
@@ -265,6 +264,7 @@ const Form = ({ isSignUp }) => {
           </div>
         )}
       </div>
+
       {isSignUp && (
         <div className={styles["input_field"]}>
           <input
@@ -291,6 +291,7 @@ const Form = ({ isSignUp }) => {
           </div>
         </div>
       )}
+
       <p
         className={styles["forgot"]}
         onClick={() => navigate("/forgot-password")}
