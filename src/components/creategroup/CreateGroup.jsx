@@ -74,7 +74,11 @@ const CreateGroup = ({ setModal }) => {
       console.log(error);
     }
   };
+  const options = [
+    "Azerbaijan",
+    "Italy",
 
+  ];
   return (
     <div className={styles["create_group"]}>
       <h1>Öz icmanı yarat</h1>
@@ -106,13 +110,18 @@ const CreateGroup = ({ setModal }) => {
           <select
             name="country"
             id="country"
-            value="Ölkə"
             placeholder="Ölkə"
             className={styles["inp"]}
             onChange={handleChange}
           >
-            <option value=""></option> 
-            <option value="AZ">AZ</option>
+            <option>Please choose one option</option>
+            {options.map((option, index) => {
+              return (
+                <option key={index}>
+                  {option}
+                </option>
+              );
+            })}
           </select>
           <select
             name="category"
