@@ -125,7 +125,7 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Ölkə"
             onChange={handleChange}
           >
-            <option disabled>Ölkə</option>
+            <option disabled selected>Ölkə</option>
             {options.map((option, index) => {
               return (
                 <option key={index}>
@@ -145,7 +145,7 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Kateqoriya"
             onChange={handleChange}
           >
-            <option disabled>Kateqoriya</option>
+            <option disabled selected>Kateqoriya</option>
             <option value="yaşam">Yaşam</option>
             <option value="əyləncə">Əyləncə</option>
             <div className={styles["down_arrow"]}>
