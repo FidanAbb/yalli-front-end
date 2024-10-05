@@ -48,13 +48,14 @@
         max-width: 350px;
         height: 10px; 
        }
-       textarea{
+       .inpp{
         background-color: #eeeeee;
         border-radius: 10px;
         width: 340px;
         height: 88px; 
         border: none;
         padding: 10px 0 0 10px;
+        resize: none; 
        }
     }
   }

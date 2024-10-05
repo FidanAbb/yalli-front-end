@@ -141,7 +141,7 @@ const CreateGroup = ({ setModal }) => {
           <textarea
             name="description"
             placeholder="Haqqında (50-160 simvol)"
-            className={styles["inp"]}
+            className={styles["inpp"]}
             onChange={handleChange}
           ></textarea>
           <button type="submit">Yarat</button>
