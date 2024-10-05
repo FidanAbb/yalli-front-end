@@ -301,7 +301,7 @@ const Form = ({ isSignUp }) => {
         {!isSignUp && "Şifrənizi unutmusunuz?"}
       </p>
 
-      <div
+      {/* <div
         className={styles["remember_me"]}
         style={{ marginLeft: `${!isSignUp ? "-200px" : ""}` }}
       >
@@ -324,7 +324,7 @@ const Form = ({ isSignUp }) => {
             </>
           )}
         </p>
-      </div>
+      </div> */}
 
       <button
         type="submit"
