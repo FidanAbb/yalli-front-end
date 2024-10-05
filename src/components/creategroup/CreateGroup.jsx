@@ -108,38 +108,44 @@ const CreateGroup = ({ setModal }) => {
             className={styles["inp"]}
             onChange={handleChange}
           />
-          <select
-            name="country"
-            id="country"
-            placeholder="Ölkə"
-            onChange={handleChange}
-          >
-            <option>Ölkə</option>
-            {options.map((option, index) => {
-              return (
-                <option key={index}>
-                  {option}
-                </option>
-              );
-            })}
-          </select>
-          <div className={styles["down_arrow"]}>
-                <DownArrow />
-              </div>
-          <select
-            name="category"
-            id="category"
-            placeholder="Kateqoriya"
-            onChange={handleChange}
-          >
-            <option>Kateqoriya</option>
-            <option value=""></option>
-            <option value="yaşam">Yaşam</option>
-            <option value="əyləncə">Əyləncə</option>
-          </select>
-          <div className={styles["down_arrow"]}>
-                <DownArrow />
-              </div>
+          <div className={styles["find_box"]}>
+
+            <select
+              name="country"
+              id="country"
+              placeholder="Ölkə"
+              onChange={handleChange}
+            >
+              <option>Ölkə</option>
+              {options.map((option, index) => {
+                return (
+                  <option key={index}>
+                    {option}
+                  </option>
+                );
+              })}
+            </select>
+            <div className={styles["down_arrow"]}>
+              <DownArrow />
+            </div>
+          </div>
+          <div className={styles["find_box"]}>
+
+            <select
+              name="category"
+              id="category"
+              placeholder="Kateqoriya"
+              onChange={handleChange}
+            >
+              <option>Kateqoriya</option>
+              <option value=""></option>
+              <option value="yaşam">Yaşam</option>
+              <option value="əyləncə">Əyləncə</option>
+            </select>
+            <div className={styles["down_arrow"]}>
+              <DownArrow />
+            </div>
+          </div>
           <input
             type="url"
             name="link"
