@@ -106,11 +106,12 @@ const CreateGroup = ({ setModal }) => {
           <select
             name="country"
             id="country"
+            value="Ölkə"
             placeholder="Ölkə"
             className={styles["inp"]}
             onChange={handleChange}
           >
-            <option value="" disabled selected>Ölkə</option> {'Ölkə'}
+            <option value=""></option> 
             <option value="AZ">AZ</option>
           </select>
           <select
