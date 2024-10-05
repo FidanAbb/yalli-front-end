@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import logo from "../../../assets/Logo/logo.svg";
 import navLogo from "../../../assets/Logo/navLogo.svg";
 import languageAz from "../../../assets/img/AzFlag.svg";
@@ -36,12 +36,15 @@ const navLinks = [
 
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [userData, setUserData] = useState("")
+
   useEffect(() => {
-    const loggedUser = localStorage.getItem("userInfo");
+    const loggedUser = sessionStorage.getItem("userInfo");
     if (loggedUser) {
       setUserData(JSON.parse(loggedUser));
     }
   }, []);
+
+  console.log(userData)
 
   const [isActive, setisActive] = useState(0);
   const navigate = useNavigate();
@@ -119,7 +122,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   <Bell />
                   <div className={styles["user_img"]}>
                     <img
-                      src="https://s3-alpha-sig.figma.com/img/d250/02ca/a486cbf1a8d2566983e8aa209f87c968?Expires=1728864000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ONtHBuMnW9ojHNwXDIdu0aZA87BqkwFEo8h0C6Wg6YB57gptRDNfJQ4XLS4-y52cmu8CmkpafMuR2xj2u4TTjI~AlJgrfNkX43o9zL2jG~7UR5yz8L0FPYvWWZkk63RYZzOfe-8aSC7YMxkhht5V945ONY4Zy1cBvUqlsocznQHUQjddDtINKt-czH7BZuGLuA7vHKE~O0kkdeCh0g1Q7OobAh3jHXL7~fnq~71l5rXHx-HGeHvTI4ElWKhWPyuF5DyRGiQSNIzU9Iy2YRtj9~iv2oC5OnUkFUdFWLj36Qd5eI0GWsuZoOda-gbV4Cx2w7Kvh7yENCkfDa8qsbH0ew__"
+                      src={`https://minio-server-4oyt.onrender.com/yalli/${userData.image} `}
                       alt=""
                     />
                   </div>

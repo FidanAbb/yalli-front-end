@@ -14,7 +14,8 @@ import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
 import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
-
+import { useSelector, useDispatch } from 'react-redux'
+import { getGroupData } from "../../../redux/slice/group/group";
 const mentorData = [
   {
     name: "Emil Cahangirli",
@@ -211,6 +212,23 @@ const Main = ({ page }) => {
   const [categoryData, setCategoryData] = useState(null);
   const navigate = useNavigate();
 
+  const groups = useSelector((state) => state.groups.groups)
+  const dispatch = useDispatch()
+
+  const [allData, setAllData] = useState({
+    ...groups,
+  });
+
+  useEffect(() => {
+    dispatch(getGroupData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setAllData(groups);
+  }, [groups]);
+
+  console.log(allData)
+
   useEffect(() => {
     if (page === "mentor") {
       setCategoryData(mentorCategory);
@@ -236,11 +254,11 @@ const Main = ({ page }) => {
             {page === "mentor"
               ? mentorData.map((m, i) => <MentorsCard key={i} data={m} />)
               : page === "group"
-              ? groupData.map((g, i) => (
-                  <div key={i} onClick={() => handleCardClick(i)}>
-                    <Card sectionName="group" group={g} />
-                  </div>
-                ))
+              ? allData?.content?.map((g, i) => (
+                <div key={i} onClick={() => handleCardClick(i)}>
+                  <Card sectionName="group" group={g} />
+                </div>
+              ))
               : page === "event"
               ? eventData.map((e, i) => (
                   <Card key={i} sectionName="event" event={e} />

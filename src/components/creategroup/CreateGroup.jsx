@@ -3,9 +3,10 @@ import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon";
 import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
+import axios from "axios";
+
 const CreateGroup = () => {
   const dispatch = useDispatch();
-
   const [groupData, setGroupData] = useState({
     title: "",
     description: "",
@@ -16,6 +17,7 @@ const CreateGroup = () => {
   });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageId, setImageId] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +27,7 @@ const CreateGroup = () => {
     });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
@@ -34,24 +36,39 @@ const CreateGroup = () => {
         setImagePreview(reader.result);
       };
       reader.readAsDataURL(file);
+
+      const formData = new FormData();
+      formData.append("file", file);
+      
+      try {
+        const response = await axios.post(
+          "https://yalli-back-end.onrender.com/v1/files/upload",
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
+
+        if (response.status === 201) {
+          setImageId(response.data); 
+        }
+      } catch (error) {
+        console.error("Image upload failed", error);
+      }
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
     const formattedData = {
       ...groupData,
       memberCount: parseInt(groupData.memberCount, 10),
       category: "LIFE",
+      imageId: imageId, // Include the uploaded imageId
     };
 
-    formData.append("data", JSON.stringify(formattedData));
-    if (image) {
-      formData.append("image", image);
-    }
-    dispatch(postGroupData(formData));
+    dispatch(postGroupData(formattedData));
   };
 
   return (
@@ -75,6 +92,7 @@ const CreateGroup = () => {
               className={styles["file_input"]}
             />
           </div>
+          {/* Other input fields remain unchanged */}
           <input
             type="text"
             name="title"

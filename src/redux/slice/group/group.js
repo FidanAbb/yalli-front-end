@@ -3,19 +3,23 @@ import axios from "axios";
 
 const baseURL = "https://yalli-back-end.onrender.com/v1/groups";
 
+export const getGroupData = createAsyncThunk(
+  "groups/getGroupData",
+  async () => {
+    const response = await axios.get(baseURL);
+    return response.data;
+  }
+);
+
 export const postGroupData = createAsyncThunk(
   "groups/postGroupData",
   async (newp) => {
-    const response = await axios.post(
-      baseURL,
-      newp, 
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          // Authorization: `Bearer ${yourToken}`, 
-        },
-      }
-    );
+    const response = await axios.post(baseURL, newp, {
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${yourToken}`,
+      },
+    });
     return response.data;
   }
 );
@@ -23,15 +27,13 @@ export const postGroupData = createAsyncThunk(
 const initialState = {
   group: {
     id: 0,
-    data: {
-      title: "",
-      description: "",
-      country: "",
-      memberCount: 0,
-      link: "",
-      category: "",
-    },
-    image: "",
+    title: "",
+    description: "",
+    country: "",
+    memberCount: 0,
+    link: "",
+    category: "",
+    imageId: "",
   },
   groups: [],
   loading: false,
@@ -46,6 +48,18 @@ export const groupSlice = createSlice({
     // },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(getGroupData.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getGroupData.fulfilled, (state, action) => {
+        state.groups = action.payload;
+        state.loading = false;
+      })
+      .addCase(getGroupData.rejected, (state) => {
+        state.loading = false;
+      });
+
     builder
       .addCase(postGroupData.pending, (state) => {
         state.loading = true;

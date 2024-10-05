@@ -80,13 +80,15 @@ const Form = ({ isSignUp }) => {
           sessionStorage.removeItem("userInfo");
 
           sessionStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("userInfo", JSON.stringify(data));
+          localStorage.setItem("userInfo", JSON.stringify(resp.data));
+          navigate("/")
         } else {
           sessionStorage.removeItem("accessToken");
           localStorage.removeItem("userInfo");
 
           sessionStorage.setItem("accessToken", accessToken);
-          sessionStorage.setItem("userInfo", JSON.stringify(data));
+          sessionStorage.setItem("userInfo", JSON.stringify(resp.data));
+          navigate("/")
         }
         setSuccessState(true);
         reset();
