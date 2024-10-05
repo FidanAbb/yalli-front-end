@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
@@ -6,8 +6,25 @@ import Network from "../../../assets/img/Network.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { getGroupData } from "../../../redux/slice/group/group";
 
 const Group = () => {
+  const groups = useSelector((state) => state.groups.groups)
+  const dispatch = useDispatch()
+
+  const [allData, setAllData] = useState({
+    ...groups,
+  });
+
+  useEffect(() => {
+    dispatch(getGroupData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setAllData(groups);
+  }, [groups]);
+
   const groupData = [
     {
       title: "Almaniyada Ausbildung Edənlər",
@@ -80,7 +97,7 @@ const Group = () => {
                 <Arrow />
               </div>
               <div className={styles["cards"]} ref={sliderRef}>
-                {groupData.map((group, index) => (
+                {allData?.content?.map((group, index) => (
                   <Card key={index} sectionName={"group"} group={group} />
                 ))}
               </div>
