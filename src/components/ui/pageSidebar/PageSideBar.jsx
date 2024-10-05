@@ -11,14 +11,14 @@ const PageSideBar = ({ categoryData, page }) => {
         placeholder={`${
           page === "member" || page === "mentor"
             ? "Ad və Soyad"
-            : page == "event" ? "Tədbir axtar" : "Qrup axtar"
+            : page == "event"
+            ? "Tədbir axtar"
+            : "Qrup axtar"
         }`}
       />
 
       <div className={styles["country_select"]}>
-        <div className={styles["country_text"]}>
-        Ölkə
-        </div>
+        <div className={styles["country_text"]}>Ölkə</div>
         <select name="" id="">
           <option value=""></option>
           <option value="">ENG</option>
@@ -27,11 +27,13 @@ const PageSideBar = ({ categoryData, page }) => {
           <DownArrow />
         </div>
       </div>
-
-      <p className={styles["category_text"]}>Kateqoriyalar</p>
+      {page !== "member" && (
+        <p className={styles["category_text"]}>Kateqoriyalar</p>
+      )}
 
       <div className={styles["categories"]}>
         {categoryData &&
+          page !== "member" &&
           categoryData.map((m) => (
             <div className={styles["category"]}>
               <p>{m}</p>
