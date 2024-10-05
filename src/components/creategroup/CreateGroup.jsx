@@ -76,9 +76,19 @@ const CreateGroup = ({ setModal }) => {
     }
   };
   const options = [
-    "Azerbaijan",
-    "Italy",
-
+    "Polşa",
+    "Almaniya",
+    "Amerika",
+    "Kanada",
+    "Avstraliya",
+    "İngiltərə",
+    "Fransa",
+    "İspaniya",
+    "İtaliya",
+    "Çin",
+    "Hindistan",
+    "Rusiya",
+    "Qazaxıstan",
   ];
   return (
     <div className={styles["create_group"]}>
@@ -135,8 +145,7 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Kateqoriya"
             onChange={handleChange}
           >
-            <option>Kateqoriya</option>
-            <option value=""></option>
+            <option disabled>Kateqoriya</option>
             <option value="yaşam">Yaşam</option>
             <option value="əyləncə">Əyləncə</option>
             <div className={styles["down_arrow"]}>
