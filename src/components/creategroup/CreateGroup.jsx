@@ -109,7 +109,6 @@ const CreateGroup = ({ setModal }) => {
             onChange={handleChange}
           />
           <div className={styles["find_box"]}>
-
             <select
               name="country"
               id="country"
@@ -124,10 +123,10 @@ const CreateGroup = ({ setModal }) => {
                   </option>
                 );
               })}
-            </select>
-            <div className={styles["down_arrow"]}>
+              <div className={styles["down_arrow"]}>
               <DownArrow />
             </div>
+            </select>
           </div>
           <div className={styles["find_box"]}>
 
