@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
 
-const CreateGroup = () => {
+const CreateGroup = ({ setModal }) => {
   const dispatch = useDispatch();
   const [groupData, setGroupData] = useState({
     title: "",
@@ -17,7 +17,7 @@ const CreateGroup = () => {
   });
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
-  const [imageId, setImageId] = useState(""); 
+  const [imageId, setImageId] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ const CreateGroup = () => {
 
       const formData = new FormData();
       formData.append("file", file);
-      
+
       try {
         const response = await axios.post(
           "https://yalli-back-end.onrender.com/v1/files/upload",
@@ -50,7 +50,7 @@ const CreateGroup = () => {
         );
 
         if (response.status === 201) {
-          setImageId(response.data); 
+          setImageId(response.data);
         }
       } catch (error) {
         console.error("Image upload failed", error);
@@ -60,15 +60,19 @@ const CreateGroup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    try {
+      const formattedData = {
+        ...groupData,
+        memberCount: parseInt(groupData.memberCount, 10),
+        category: "LIFE",
+        imageId: imageId,
+      };
 
-    const formattedData = {
-      ...groupData,
-      memberCount: parseInt(groupData.memberCount, 10),
-      category: "LIFE",
-      imageId: imageId, // Include the uploaded imageId
-    };
-
-    dispatch(postGroupData(formattedData));
+      dispatch(postGroupData(formattedData));
+      setModal(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -92,7 +96,6 @@ const CreateGroup = () => {
               className={styles["file_input"]}
             />
           </div>
-          {/* Other input fields remain unchanged */}
           <input
             type="text"
             name="title"

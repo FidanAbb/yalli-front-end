@@ -26,7 +26,7 @@ const Hero = () => {
         {modal && (
           <div className={styles["modalOverlay"]} onClick={() => setModal(false)}>
             <div className={styles["modalContent"]} onClick={(e) => e.stopPropagation()}>
-              <CreateGroup />
+              <CreateGroup setModal={setModal}/>
             </div>
           </div>
         )}
