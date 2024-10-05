@@ -110,7 +110,7 @@ const CreateGroup = ({ setModal }) => {
             className={styles["inp"]}
             onChange={handleChange}
           >
-            <option value=""></option>
+            <option value="">Ölkəni seçin</option>
             <option value="AZ">AZ</option>
           </select>
           <select
