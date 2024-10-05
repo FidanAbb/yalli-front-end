@@ -254,7 +254,7 @@ const Main = ({ page }) => {
             {page === "mentor"
               ? mentorData.map((m, i) => <MentorsCard key={i} data={m} />)
               : page === "group"
-              ? allData?.content?.map((g, i) => (
+              ? groupData.map((g, i) => (
                 <div key={i} onClick={() => handleCardClick(i)}>
                   <Card sectionName="group" group={g} />
                 </div>

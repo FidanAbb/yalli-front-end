@@ -97,7 +97,7 @@ const Group = () => {
                 <Arrow />
               </div>
               <div className={styles["cards"]} ref={sliderRef}>
-                {allData?.content?.map((group, index) => (
+                {groupData.map((group, index) => (
                   <Card key={index} sectionName={"group"} group={group} />
                 ))}
               </div>

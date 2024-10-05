@@ -11,7 +11,7 @@ const Card = ({ sectionName, event, group }) => {
       }
     >
       <img
-        src={sectionName == "group" ? `https://minio-server-4oyt.onrender.com/yalli/${group?.imageId}` : event?.image}
+        src={sectionName == "group" ? group?.image : event?.image}
         alt={group ? group.title : event.title}
         className={styles["groupImage"]}
       />
@@ -33,7 +33,7 @@ const Card = ({ sectionName, event, group }) => {
       <div className={styles["card_detail"]}>
         {sectionName == "group" ? <GroupIcon /> : <Location />}
         {sectionName == "group" ? (
-          <p>{group?.memberCount} üzv</p>
+          <p>{group?.members} üzv</p>
         ) : (
           <p>{event?.location}</p>
         )}
