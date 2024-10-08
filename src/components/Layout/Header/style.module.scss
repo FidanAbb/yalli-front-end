@@ -8,29 +8,47 @@
     .left {
       display: flex;
       gap: 50px;
-      .logo_side{
+      .logo_side {
         display: flex;
         align-items: center;
         color: #a2a2a2;
-        .logo{
+        position: relative;
+        .logo {
           cursor: pointer;
         }
-        .arrow_down{
+        .arrow_down {
+          position: absolute;
+          right: -10px;
           margin-top: 6px;
           margin-left: 2px;
           cursor: pointer;
         }
+        select {
+          border: none;
+          font-size: 18px;
+          font-weight: 500;
+          color: rgba(162, 162, 162, 1);
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background: none;
+          // padding-right: 20px;
+          text-align: center;
+        }
+        select:focus {
+          outline: none;
+        }
       }
 
-      ul{
+      ul {
         display: flex;
         align-items: center;
         gap: 35px;
-        li{
+        li {
           list-style: none;
           cursor: pointer;
           line-height: 21.83px;
-          .line{
+          .line {
             height: 1px;
             width: auto;
             background-color: #ff5722;
@@ -38,40 +56,37 @@
           }
         }
 
-        .language{
+        .language {
           display: flex;
           gap: 5px;
           align-items: center;
           color: #a2a2a2;
         }
       }
-
-
     }
 
     .right {
       display: flex;
       align-items: center;
       gap: 10px;
-      .user_img{
-        img{
+      .user_img {
+        img {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-
         }
       }
-      p{
+      p {
         font-weight: 400;
         font-size: 18px;
         color: rgba(162, 162, 162, 1);
         margin-right: 10px;
         cursor: pointer;
       }
-      button{
+      button {
         font-weight: 400;
         font-size: 18px;
-        background-color:rgba(250, 69, 0, 1);
+        background-color: rgba(250, 69, 0, 1);
         color: rgba(255, 255, 255, 1);
         border: none;
         padding: 10px;
