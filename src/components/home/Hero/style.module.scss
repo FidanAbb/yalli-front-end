@@ -89,11 +89,12 @@
           width: 100%;
           text-align: start;
           border-radius: 10px;
-          background-color: #fbfbfbcf;
+          background-color: #fff;
           padding: 10px 0;
           .p {
             padding: 10px 20px;
             color: rgba(162, 162, 162, 1);
+            cursor: pointer;
           }
           height: 200px;
           overflow-y: auto;
