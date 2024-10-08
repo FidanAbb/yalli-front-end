@@ -8,7 +8,7 @@ import HeroRightCircle from "../../ui/HeroRightCircle";
 import EarthIcon from "../../ui/EarthIcon";
 import HeroElp from "../../ui/HeroElp";
 const texts = [
-  "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!"
+  "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!",
 ];
 const countryCategory = [
   "Polşa",
@@ -27,7 +27,10 @@ const countryCategory = [
 ];
 const Hero = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [selectedCountry, setSelectedCountry] = useState(""); 
+  const [searchedItem, setSearchedItem] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState(countryCategory);
+  const [showOptions, setShowOptions] = useState(false);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTextIndex((prevIndex) =>
@@ -37,8 +40,15 @@ const Hero = () => {
 
     return () => clearInterval(intervalId);
   }, []);
-  const handleSelectChange = (event) => {
-    setSelectedCountry(event.target.value);
+
+  const handleInputChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchedItem(value);
+
+    const filtered = countryCategory.filter((country) =>
+      country.toLowerCase().includes(value)
+    );
+    setFilteredCountries(filtered);
   };
   return (
     <div className={styles["hero"]}>
@@ -60,7 +70,7 @@ const Hero = () => {
           <div className={styles["find_box"]}>
             <h2>Yaşadığın ölkədə yerlilərini tap</h2>
             <div className={styles["find_inp"]}>
-            {selectedCountry === "" && (
+              {searchedItem === "" && (
                 <div className={styles["texts"]}>
                   <p>{texts[currentTextIndex]}</p>
                 </div>
@@ -69,19 +79,38 @@ const Hero = () => {
                 <EarthIcon />
               </div>
 
-              <select
-                value={selectedCountry}
-                onChange={handleSelectChange} 
-              >
-                <option value="" disabled>
-                  
-                </option>
-                {countryCategory.map((c, i) => (
-                  <option value={c} key={i}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+              <input
+                type="text"
+                name=""
+                id=""
+                className={styles["select"]}
+                placeholder=""
+                value={searchedItem}
+                onChange={handleInputChange}
+                onFocus={() => setShowOptions(true)}
+                onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+              />
+
+              {showOptions && (
+                <div className={styles["options"]}>
+                  {filteredCountries.length > 0 ? (
+                    filteredCountries.map((country, i) => (
+                      <div
+                        key={i}
+                        className={styles["p"]}
+                        onClick={() => {
+                          setSearchedItem(country);
+                          setShowOptions(false);
+                        }}
+                      >
+                        {country}
+                      </div>
+                    ))
+                  ) : (
+                    <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+                  )}
+                </div>
+              )}
 
               <div className={styles["down_arrow"]}>
                 <DownArrow />

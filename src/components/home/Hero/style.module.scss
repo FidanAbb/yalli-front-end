@@ -1,7 +1,7 @@
 .hero {
   // width: 100vw;
   // position: relative;
-  
+
   .hero_left_circle {
     position: absolute;
     left: 0;
@@ -36,19 +36,19 @@
     }
     .find_box {
       z-index: 1;
-      overflow: hidden;
+      // overflow: hidden;
       position: relative;
       max-width: 1018px;
       margin: 0 auto;
       margin-top: 110px;
-      padding:5px 0 25px 0;
+      padding: 5px 0 25px 0;
       border-radius: 10px;
       background: linear-gradient(
         140.83deg,
         rgba(250, 69, 0, 0.8) 22.06%,
         rgba(255, 0, 0, 0.8) 77.94%
       );
-      
+
       h2 {
         font-size: 24px;
         font-weight: 600;
@@ -57,16 +57,16 @@
       .find_inp {
         max-width: 604px;
         margin: 0 auto;
-        
+
         background-color: #ffffff;
         display: flex;
         align-items: center;
         position: relative;
         border-radius: 10px;
-        .texts{
+        .texts {
           position: absolute;
           left: 20%;
-          p{
+          p {
             font-size: 14px;
             font-weight: 400;
             opacity: 0;
@@ -74,12 +74,50 @@
             animation: textAnimation 6s ease-in-out infinite;
           }
         }
-        .earthicon{
+        .earthicon {
           margin-left: 10px;
           margin-top: 2px;
         }
-        select {
-          padding:18px 15px 8px 15px;
+
+        .options {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          position: absolute;
+          top: 65px;
+          z-index: 2;
+          width: 100%;
+          text-align: start;
+          border-radius: 10px;
+          background-color: #eeeeeecf;
+          padding: 10px 0;
+          .p {
+            padding: 10px 20px;
+            color: rgba(162, 162, 162, 1);
+          }
+          height: 200px;
+          overflow-y: auto;
+
+          scrollbar-width: thin;
+          scrollbar-color: #a2a2a2 transparent;
+
+          &::-webkit-scrollbar {
+            width: 15px;
+          }
+
+          &::-webkit-scrollbar-track {
+            background: transparent;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            background-color: #a2a2a2;
+            border-radius: 20px;
+            border: 3px solid transparent;
+            background-clip: padding-box;
+          }
+        }
+        .select {
+          padding: 18px 15px 18px 15px;
           cursor: pointer;
           width: 100%;
           -webkit-appearance: none;
@@ -88,8 +126,12 @@
           background: none;
           border: none;
           z-index: 1;
-          margin-bottom: 10px;
-          
+          // option{
+          //   border: 1px solid;
+          // }
+        }
+        .select:focus {
+          outline: none;
         }
         .down_arrow {
           position: absolute;
@@ -101,7 +143,7 @@
         outline: none;
       }
     }
-    .ellipsis{
+    .ellipsis {
       position: absolute;
       bottom: 33px;
       z-index: 0;
@@ -110,19 +152,19 @@
   }
 }
 
-
 @keyframes textAnimation {
   0% {
     opacity: 0;
-    transform: scale(0); 
+    transform: scale(0);
   }
   10% {
     opacity: 1;
-    transform: scale(1); 
+    transform: scale(1);
   }
-  20%, 80% {
+  20%,
+  80% {
     opacity: 1;
-    transform: scale(1); 
+    transform: scale(1);
   }
   90% {
     opacity: 0;
