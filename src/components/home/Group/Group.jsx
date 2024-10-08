@@ -13,7 +13,7 @@ const Group = () => {
   const groups = useSelector((state) => state.groups.groups)
   const dispatch = useDispatch()
 
-  const [allData, setAllData] = useState({
+  const [allData, setAllGroupData] = useState({
     ...groups,
   });
 
@@ -22,7 +22,7 @@ const Group = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    setAllData(groups);
+    setAllGroupData(groups);
   }, [groups]);
 
   const groupData = [
@@ -97,7 +97,7 @@ const Group = () => {
                 <Arrow />
               </div>
               <div className={styles["cards"]} ref={sliderRef}>
-                {groupData.map((group, index) => (
+                {allData && allData.content?.map((group, index) => (
                   <Card key={index} sectionName={"group"} group={group} />
                 ))}
               </div>

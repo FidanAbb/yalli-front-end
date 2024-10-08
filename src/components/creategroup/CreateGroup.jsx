@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
 
-const CreateGroup = ({ setModal }) => {
+const CreateGroup = ({ setModal, setGroupumData }) => {
   const dispatch = useDispatch();
   const [groupData, setGroupData] = useState({
     title: "",
@@ -59,7 +59,7 @@ const CreateGroup = ({ setModal }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formattedData = {
@@ -69,7 +69,20 @@ const CreateGroup = ({ setModal }) => {
         imageId: imageId,
       };
 
-      dispatch(postGroupData(formattedData));
+       dispatch(postGroupData(formattedData));
+       setGroupumData((prev) => {
+        if (prev && Array.isArray(prev.content)) {
+          return {
+            ...prev,
+            content: [...prev.content, formattedData],
+          };
+        } else {
+          return {
+            ...prev,
+            content: [formattedData],
+          };
+        }
+      });
       setModal(false);
     } catch (error) {
       console.log(error);
@@ -90,6 +103,7 @@ const CreateGroup = ({ setModal }) => {
     "Rusiya",
     "Qazaxıstan",
   ];
+
   return (
     <div className={styles["create_group"]}>
       <h1>Öz icmanı yarat</h1>
@@ -125,19 +139,16 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Ölkə"
             onChange={handleChange}
           >
-            <option disabled selected>Ölkə</option>
+            <option disabled selected>
+              Ölkə
+            </option>
             {options.map((option, index) => {
-              return (
-                <option key={index}>
-                  {option}
-                </option>
-              );
+              return <option key={index}>{option}</option>;
             })}
             <div className={styles["down_arrow"]}>
               <DownArrow />
             </div>
           </select>
-
 
           <select
             name="category"
@@ -145,7 +156,9 @@ const CreateGroup = ({ setModal }) => {
             placeholder="Kateqoriya"
             onChange={handleChange}
           >
-            <option disabled selected>Kateqoriya</option>
+            <option disabled selected>
+              Kateqoriya
+            </option>
             <option value="yaşam">Yaşam</option>
             <option value="əyləncə">Əyləncə</option>
             <div className={styles["down_arrow"]}>

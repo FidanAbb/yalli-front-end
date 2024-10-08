@@ -14,7 +14,7 @@ import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
 import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
 const mentorData = [
   {
@@ -86,50 +86,50 @@ const eventData = [
   },
 ];
 
-const groupData = [
-  {
-    title: "Almaniyada Ausbildung Edənlər",
-    members: "9k+ üzv",
-    country: "Almaniya",
-    image: German,
-  },
-  {
-    title: "Amerikada PHD",
-    members: "13k üzv",
-    country: "Amerika",
-    image: Abd,
-  },
-  {
-    title: "Berlində Networking",
-    members: "1k üzv",
-    country: "Almaniya",
-    image: Network,
-  },
-  {
-    title: "Polşada İş",
-    members: "9k üzv",
-    country: "Polşa",
-    image: German,
-  },
-  {
-    title: "Amerikada PHD",
-    members: "13k üzv",
-    country: "Amerika 🇺🇸",
-    image: Abd,
-  },
-  {
-    title: "Almaniyada Ausbildung Edənlər",
-    members: "9k+ üzv",
-    country: "Almaniya 🇩🇪",
-    image: German,
-  },
-  {
-    title: "Amerikada PHD",
-    members: "13k üzv",
-    country: "Amerika 🇺🇸",
-    image: Abd,
-  },
-];
+// const groupData = [
+//   {
+//     title: "Almaniyada Ausbildung Edənlər",
+//     members: "9k+ üzv",
+//     country: "Almaniya",
+//     image: German,
+//   },
+//   {
+//     title: "Amerikada PHD",
+//     members: "13k üzv",
+//     country: "Amerika",
+//     image: Abd,
+//   },
+//   {
+//     title: "Berlində Networking",
+//     members: "1k üzv",
+//     country: "Almaniya",
+//     image: Network,
+//   },
+//   {
+//     title: "Polşada İş",
+//     members: "9k üzv",
+//     country: "Polşa",
+//     image: German,
+//   },
+//   {
+//     title: "Amerikada PHD",
+//     members: "13k üzv",
+//     country: "Amerika 🇺🇸",
+//     image: Abd,
+//   },
+//   {
+//     title: "Almaniyada Ausbildung Edənlər",
+//     members: "9k+ üzv",
+//     country: "Almaniya 🇩🇪",
+//     image: German,
+//   },
+//   {
+//     title: "Amerikada PHD",
+//     members: "13k üzv",
+//     country: "Amerika 🇺🇸",
+//     image: Abd,
+//   },
+// ];
 const memberData = [
   {
     name: "Humay Mustafazadə",
@@ -208,26 +208,26 @@ const countryCategory = [
   "Qazaxıstan",
 ];
 
-const Main = ({ page }) => {
+const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const [categoryData, setCategoryData] = useState(null);
   const navigate = useNavigate();
 
-  const groups = useSelector((state) => state.groups.groups)
-  const dispatch = useDispatch()
+  const groups = useSelector((state) => state.groups.groups);
+  const dispatch = useDispatch();
 
-  const [allData, setAllData] = useState({
-    ...groups,
-  });
+  // const [allData, setAllData] = useState({
+  //   ...groups,
+  // });
 
   useEffect(() => {
     dispatch(getGroupData());
   }, [dispatch]);
 
   useEffect(() => {
-    setAllData(groups);
-  }, [groups]);
-
-  console.log(allData)
+      if (setCategoryData) {
+      setGroupData(groups);
+    }
+    }, [groups]);
 
   useEffect(() => {
     if (page === "mentor") {
@@ -243,28 +243,37 @@ const Main = ({ page }) => {
   const handleCardClick = (id) => {
     navigate(`/qrup/${id}`);
   };
+  const [searchedItem, setSearchedItem] = useState("")
+
   return (
     <div className={styles["main"]}>
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar categoryData={categoryData} page={page} />
+            <Sidebar categoryData={categoryData} page={page} setSearchedItem={setSearchedItem}/>
           </div>
-          <div className={styles["cards"]}>
+          <div className={styles[`${page === "member" ? "member_cards" : "cards"}`]}>
             {page === "mentor"
-              ? mentorData.map((m, i) => <MentorsCard key={i} data={m} />)
+              ? mentorData
+              .filter((m) => m.name.toLowerCase().includes(searchedItem.toLowerCase()))
+              .map((m, i) => <MentorsCard key={i} data={m} />)
               : page === "group"
-              ? groupData.map((g, i) => (
-                <div key={i} onClick={() => handleCardClick(i)}>
-                  <Card sectionName="group" group={g} />
-                </div>
-              ))
+              ? groupData?.content?.filter((g) => g.title.toLowerCase().includes(searchedItem.toLowerCase()))
+              .map((g, i) => (
+                  <div key={i} onClick={() => handleCardClick(i)}>
+                    <Card sectionName="group" group={g} />
+                  </div>
+                ))
               : page === "event"
-              ? eventData.map((e, i) => (
+              ? eventData
+              .filter((e) => e.title.toLowerCase().includes(searchedItem.toLowerCase()))
+              .map((e, i) => (
                   <Card key={i} sectionName="event" event={e} />
                 ))
               : page === "member"
-              ? memberData.map((c, i) => <MembersCard key={i} data={c} />)
+              ? memberData
+              .filter((c) => c.name.toLowerCase().includes(searchedItem.toLowerCase()))
+              .map((c, i) => <MembersCard key={i} data={c} />)
               : null}
           </div>
         </div>

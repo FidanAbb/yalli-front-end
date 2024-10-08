@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./style.module.scss";
 import DownArrow from "../../ui/DownArrow";
-const PageSideBar = ({ categoryData, page }) => {
+const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
+  
   return (
     <div className={styles["sidebar"]}>
       <input
@@ -15,6 +16,7 @@ const PageSideBar = ({ categoryData, page }) => {
             ? "Tədbir axtar"
             : "Qrup axtar"
         }`}
+        onChange={(e)=> setSearchedItem(e.target.value)}
       />
 
       <div className={styles["country_select"]}>

@@ -2,7 +2,7 @@
 import React, {useState} from "react";
 import styles from "./style.module.scss";
 import CreateGroup from "../../creategroup/CreateGroup";
-const Hero = () => {
+const Hero = ({setGroupData}) => {
   const [modal, setModal] = useState(false)
   return (
     <div className={styles["hero"]}>
@@ -26,7 +26,7 @@ const Hero = () => {
         {modal && (
           <div className={styles["modalOverlay"]} onClick={() => setModal(false)}>
             <div className={styles["modalContent"]} onClick={(e) => e.stopPropagation()}>
-              <CreateGroup setModal={setModal}/>
+              <CreateGroup setModal={setModal} setGroupumData={setGroupData}/>
             </div>
           </div>
         )}
