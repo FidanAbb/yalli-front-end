@@ -36,10 +36,15 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
       />
 
       <div className={styles["country_select"]}>
-        <div className={styles["country_text"]}>Ölkə</div>
+        {/* <div className={styles["country_text"]}>Ölkə</div> */}
         <select name="" id="">
+          <option value="" disabled selected hidden>
+            Ölkə
+          </option>
           {countryCategory.map((c) => (
-            <option value="">{c}</option>
+            <option key={c} value={c}>
+              {c}
+            </option>
           ))}
         </select>
         <div className={styles["down_arrow"]}>
