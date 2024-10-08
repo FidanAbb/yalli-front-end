@@ -70,7 +70,7 @@ const Hero = () => {
           <div className={styles["find_box"]}>
             <h2>Yaşadığın ölkədə yerlilərini tap</h2>
             <div className={styles["find_inp"]}>
-              {searchedItem === "" && (
+              {searchedItem === "" && !showOptions && (
                 <div className={styles["texts"]}>
                   <p>{texts[currentTextIndex]}</p>
                 </div>

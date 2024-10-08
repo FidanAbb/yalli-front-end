@@ -65,7 +65,7 @@
         border-radius: 10px;
         .texts {
           position: absolute;
-          left: 20%;
+          left: 7%;
           p {
             font-size: 14px;
             font-weight: 400;
@@ -104,6 +104,7 @@
 
           &::-webkit-scrollbar {
             width: 15px;
+            height: 8px; 
           }
 
           &::-webkit-scrollbar-track {
