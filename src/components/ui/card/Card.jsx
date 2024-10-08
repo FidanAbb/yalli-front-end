@@ -43,7 +43,7 @@ const Card = ({ sectionName, event, group }) => {
         <p className={styles["card_footer"]}>{group?.country}</p>
       ) : (
         <button>
-          Daha Ətraflı <EventArrow />
+          Daha Ətraflı
         </button>
       )}
     </div>
