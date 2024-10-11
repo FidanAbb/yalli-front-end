@@ -11,6 +11,7 @@ const texts = [
   "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!",
 ];
 const countryCategory = [
+  "Azərbaycan",
   "Polşa",
   "Almaniya",
   "Amerika",

@@ -5,7 +5,15 @@ import DownArrow from "../../components/ui/DownArrow";
 import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
-
+const groupCategory = [
+  "Yaşam",
+  "Əyləncə",
+  "Karyera",
+  "Təhsil",
+  "Səyahət",
+  "Yerləşmə",
+  "Qanunlar",
+];
 const CreateGroup = ({ setModal, setGroupumData }) => {
   const dispatch = useDispatch();
   const [groupData, setGroupData] = useState({
@@ -159,8 +167,13 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             <option disabled selected>
               Kateqoriya
             </option>
-            <option value="yaşam">Yaşam</option>
-            <option value="əyləncə">Əyləncə</option>
+            {
+              groupCategory.map((ctgry)=>(
+
+                <option value={ctgry}>{ctgry}</option>
+              ))
+            }
+            
             <div className={styles["down_arrow"]}>
               <DownArrow />
             </div>
