@@ -8,7 +8,9 @@ import Arrow from "../../ui/Arrow";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { getGroupData } from "../../../redux/slice/group/group";
-
+import Germany from "../../ui/countries/Germany"
+import Polsa from "../../ui/countries/Polsa"
+import Usa from "../../ui/countries/Usa"
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups)
@@ -31,43 +33,43 @@ const Group = () => {
       title: "Almaniyada Ausbildung Edənlər",
       members: "9k+ üzv",
       country: "Almaniya",
-      image: German,
+      image: <Germany/>,
     },
     {
       title: "Amerikada PHD",
       members: "13k üzv",
       country: "Amerika",
-      image: Abd,
+      image: <Usa/>,
     },
     {
       title: "Berlində Networking",
       members: "1k üzv",
       country: "Almaniya",
-      image: Network,
+      image: <Germany/>,
     },
     {
       title: "Polşada İş",
       members: "9k üzv",
       country: "Polşa",
-      image: German,
+      image: <Polsa/>,
     },
     {
       title: "Amerikada PHD",
       members: "13k üzv",
-      country: "Amerika 🇺🇸",
-      image: Abd,
+      country: "Amerika",
+      image: <Usa/>,
     },
     {
       title: "Almaniyada Ausbildung Edənlər",
       members: "9k+ üzv",
-      country: "Almaniya 🇩🇪",
-      image: German,
+      country: "Almaniya",
+      image: <Germany/>,
     },
     {
       title: "Amerikada PHD",
       members: "13k üzv",
-      country: "Amerika 🇺🇸",
-      image: Abd,
+      country: "Amerika",
+      image: <Usa/>,
     },
   ];
 

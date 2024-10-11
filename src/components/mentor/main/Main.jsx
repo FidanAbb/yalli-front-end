@@ -16,6 +16,7 @@ import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
+import Polsa from "../../ui/countries/Polsa"
 const mentorData = [
   {
     name: "Emil Cahangirli",
@@ -133,43 +134,43 @@ const eventData = [
 const memberData = [
   {
     name: "Humay Mustafazadə",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Varşava, Polşa",
     image: Fidan,
   },
   {
     name: "Elmir Əliyev",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Belostok, Polşa",
     image: Vuqar,
   },
   {
     name: "Fidan Abbaslı",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Poznan, Polşa",
     image: Fidan,
   },
   {
     name: "Tural Jafarli",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Belostok, Polşa",
     image: Vuqar,
   },
   {
     name: "Rəvanə Kərimova",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Krakov, Polşa",
     image: Fidan,
   },
   {
     name: "Vüsal İslamzadə",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Lodz, Polşa",
     image: Vuqar,
   },
   {
     name: "Nigar Qasımova",
-    flag: "🇵🇱",
+    flag: <Polsa/>,
     location: "Varşova, Polşa",
     image: Fidan,
   },

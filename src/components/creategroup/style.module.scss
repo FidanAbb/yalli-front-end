@@ -14,10 +14,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
-      select:first-child {
-        margin: -5px 0;
+      gap: 3px;
+      select {
+        margin-top: 0px;
       }
+
       .img {
         background-color: #eee;
         border-radius: 10px;
@@ -27,9 +28,8 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        border: 1px solid;
         // cursor: pointer;
-
+        margin-bottom: 10px;
         svg {
           width: 50px;
           height: 50px;
@@ -42,12 +42,11 @@
           top: 0;
           left: 0;
           width: 319px;
-        height: 108px;
-        margin-top: 0px;
-        border-radius: 10px;
+          height: 108px;
+          margin-top: 0px;
+          border-radius: 10px;
           opacity: 0;
           cursor: pointer;
-          border: 1px solid red;
         }
       }
       .inp {
@@ -56,6 +55,13 @@
         max-width: 350px;
         height: 16px;
         margin: 5px;
+      }
+      .link {
+        background-color: #eeeeee;
+        border-radius: 10px;
+        max-width: 350px;
+        height: 16px;
+        margin: 0px;
       }
       .inpp {
         background-color: #eeeeee;
@@ -66,6 +72,18 @@
         padding: 10px 0 0 10px;
         resize: none;
         font-family: "Gilroy", sans-serif;
+      }
+      button {
+        width: 350px;
+        padding: 12px 0;
+        margin-top: 10px;
+        border: 1px solid #ff5722;
+        color: #ff5722;
+        background-color: transparent;
+      }
+      button:hover {
+        background-color: #ff5722;
+        color: #fff;
       }
     }
   }

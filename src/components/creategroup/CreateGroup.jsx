@@ -182,7 +182,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             type="url"
             name="link"
             placeholder="Link"
-            className={styles["inp"]}
+            className={styles["link"]}
             onChange={handleChange}
           />
           <input

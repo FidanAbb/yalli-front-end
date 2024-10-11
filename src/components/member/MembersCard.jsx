@@ -3,12 +3,31 @@ import styles from "./style.module.scss";
 import Inst from "../ui/Inst";
 import Wp from "../ui/Wp";
 import Telegram from "../ui/Telegram";
+import Fc from "../ui/Fc";
 
+const icons = [
+  <Inst className={styles["icon"]} />,
+  <Telegram className={styles["icon"]} />,
+  <Wp className={styles["icon"]} />,
+  <Fc className={styles["icon"]} width="24" />,
+];
 const MembersCard = ({ data }) => {
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  const randomIcons = () => {
+    const numIcons = Math.floor(Math.random() * 3) + 1; 
+    const shuffledIcons = shuffleArray([...icons]); 
+    return shuffledIcons.slice(0, numIcons);
+  };
+
+  const selectedIcons = randomIcons();
+
   return (
     <div className={styles["container"]}>
       <div className={styles["left"]}>
-          <img src={data.image} alt="" className={styles["profile"]} />
+        <img src={data.image} alt="" className={styles["profile"]} />
         <div className={styles["content"]}>
           <p className={styles["name"]}>{data.name}</p>
           <p className={styles["location"]}>
@@ -16,11 +35,11 @@ const MembersCard = ({ data }) => {
           </p>
         </div>
       </div>
-      
+
       <div className={styles["right"]}>
-        <Telegram className={styles["icon"]} />
-        <Inst className={styles["icon"]} />
-        <Wp className={styles["icon"]} />
+        {selectedIcons.map((icon, index) => (
+          <span key={index}>{icon}</span>
+        ))}
       </div>
     </div>
   );

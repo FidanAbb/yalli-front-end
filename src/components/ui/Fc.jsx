@@ -1,10 +1,10 @@
 import React from "react";
 
-const Fc = () => {
+const Fc = ({width}) => {
   return (
     <svg
-      width="26"
-      height="28"
+      width={`${width ? "24" : "26"}`}
+      height={`${width ? "24" : "28"}`}
       viewBox="0 0 26 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

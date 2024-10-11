@@ -7,42 +7,44 @@ import Emil from "../../../assets/img/Emil.svg";
 import Fidan from "../../../assets/img/Fidan.svg";
 import Vuqar from "../../../assets/img/Vuqar.svg";
 import { useNavigate } from "react-router-dom";
-
+import Germany from "../../ui/countries/Germany"
+import Polsa from "../../ui/countries/Polsa"
+import Usa from "../../ui/countries/Usa"
 const Mentor = () => {
   const mentorData = [
     {
       name: "Emil Cahangirli",
-      flag: "🇩🇪",
+      flag: <Germany/>,
       detail: "Yaşam",
       image: Emil,
     },
     {
       name: "Fidan Abbaslı",
-      flag: "🇵🇱",
+      flag: <Polsa/>,
       detail: "Təhsil",
       image: Fidan,
     },
     {
       name: "Rahman Gasımlı",
-      flag: "🇺🇸",
+      flag: <Polsa/>,
       detail: "Yaşam",
       image: Vuqar,
     },
     {
       name: "Fidan Abbaslı",
-      flag: "🇩🇪",
+      flag: <Germany/>,
       detail: "Yaşam",
       image: Fidan,
     },
     {
       name: "Emil Cahangirli",
-      flag: "🇩🇪",
+      flag:<Germany/>,
       detail: "Yaşam",
       image: Emil,
     },
     {
       name: "Rahman Gasımlı",
-      flag: "🇺🇸",
+      flag: <Polsa/>,
       detail: "Yaşam",
       image: Vuqar,
     },

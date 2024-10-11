@@ -19,7 +19,7 @@ const countryCategory = [
 ];
 
 const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
-  const [activeCategory, setActiveCategory] = useState(null);
+  const [activeCategories, setActiveCategories] = useState([]);
   const [searchItem, setSearchItem] = useState("");
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [showOptions, setShowOptions] = useState(false);
@@ -31,6 +31,14 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
       country.toLowerCase().includes(value)
     );
     setFilteredCountries(filtered);
+  };
+
+  const toggleCategory = (category) => {
+    if (activeCategories.includes(category)) {
+      setActiveCategories(activeCategories.filter((cat) => cat !== category));
+    } else {
+      setActiveCategories([...activeCategories, category]);
+    }
   };
   return (
     <div className={styles["sidebar"]}>
@@ -49,18 +57,6 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
       />
 
       <div className={styles["country_select"]}>
-        {/* <div className={styles["country_text"]}>Ölkə</div> */}
-        {/* <select name="" id="">
-          <option value="" disabled selected hidden>
-            Ölkə
-          </option>
-          {countryCategory.map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </select> */}
-
         <input
           type="text"
           name=""
@@ -103,15 +99,15 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
       )}
 
       <div className={styles["categories"]}>
-        {categoryData &&
+      {categoryData &&
           page !== "member" &&
           categoryData.map((m, i) => (
             <div
               key={i}
               className={`${styles["category"]} ${
-                activeCategory === i ? styles["active"] : ""
+                activeCategories.includes(m) ? styles["active"] : ""
               }`}
-              onClick={() => setActiveCategory(i)}
+              onClick={() => toggleCategory(m)}
             >
               <p>{m}</p>
             </div>

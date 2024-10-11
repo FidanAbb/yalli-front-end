@@ -1,13 +1,15 @@
 .container {
-  width: 100%;
+  width: 96%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: white;
+  // background-color: white;
+  border-bottom: 1px solid rgba(238, 238, 238, 1);
   margin-bottom: -8px;
   border-left: 0;
   border-right: 0;
-  border-radius: 0 10px 10px 0;
+  // border-radius: 0 10px 10px 0;
+  // border: 1px solid;
 padding: 20px ;
 height: 70px;
   .left {
@@ -28,7 +30,7 @@ height: 70px;
         font-weight: 500;
         line-height: 24.26px;
         text-align: left;
-        color: rgba(250, 69, 0, 1);
+        // color: rgba(250, 69, 0, 1);
         height: 12px;
       }
       .location {
@@ -49,4 +51,7 @@ height: 70px;
       height: 24px;
     }
   }
+}
+.container:last-child{
+  border: none;
 }
