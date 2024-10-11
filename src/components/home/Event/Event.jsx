@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState , useEffect} from "react";
 import styles from "./style.module.scss";
 import Meal from "../../../assets/img/meal.svg";
 import badminton from "../../../assets/img/badminton.svg";
@@ -37,23 +37,87 @@ const Event = () => {
       location: "Varşava, Polşa",
       image: Meal,
     },
+    {
+      time: "Monday, 9 September",
+      hour: "19:00",
+      title: "Azərbaycanlıların Şam Yeməyi",
+      location: "Koln,Almaniya",
+      image: Meal,
+    },
+    {
+      time: "Friday, 25 October",
+      hour: "14:00",
+      title: "Badminton Yarışı | Southland Stadion",
+      location: "Calgary, Kanada",
+      image: badminton,
+    },
+    {
+      time: "Friday, 8 November",
+      hour: "16:00",
+      title: "Milli Mətbəx Yığıncağı",
+      location: "Poznan, Polşa",
+      image: kitchen,
+    },
+    {
+      time: "Monday, 9 September",
+      hour: "19:00",
+      title: "Futbol Yarışı | Warszawianka Football Center",
+      location: "Varşava, Polşa",
+      image: Meal,
+    },
   ];
 
   const sliderRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
-  const scrollLeft = () => {
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - sliderRef.current.offsetLeft);
+    setScrollLeft(sliderRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Sürükleme hızı (isteğe bağlı artırılabilir/azaltılabilir)
+    sliderRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
+  };
+
+  const scrollLeftBtn = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: -420, behavior: "smooth" });
     }
   };
 
-  const scrollRight = () => {
+  const scrollRightBtn = () => {
     if (sliderRef.current) {
       sliderRef.current.scrollBy({ left: 420, behavior: "smooth" });
     }
   };
-  const navigate = useNavigate();
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "ArrowLeft") {
+        scrollLeftBtn();
+      } else if (e.key === "ArrowRight") {
+        scrollRightBtn();
+      }
+    };
 
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []); 
+
+  const navigate = useNavigate();
   return (
     <div className={styles["group"]}>
       <div className="container">
@@ -63,15 +127,23 @@ const Event = () => {
             <p onClick={() => navigate(`/event`)}>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
-            <div className={styles["left_arrow"]} onClick={scrollLeft}>
+            <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>
               <Arrow />
             </div>
-            <div className={styles["cards"]} ref={sliderRef}>
+            <div
+              className={styles["cards"]}
+              ref={sliderRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUpOrLeave}
+              onMouseLeave={handleMouseUpOrLeave}
+              style={{ cursor: isDragging ? "grabbing" : "grab" }}
+            >
               {eventData.map((event, index) => (
                 <Card key={index} sectionName={"event"} event={event} />
               ))}
             </div>
-            <div className={styles["right_arrow"]} onClick={scrollRight}>
+            <div className={styles["right_arrow"]} onClick={scrollRightBtn}>
               <Arrow />
             </div>
           </div>

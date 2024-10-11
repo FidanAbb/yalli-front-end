@@ -62,7 +62,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   }, []);
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
-    setSearchedItem(value);
+    setSearchItem(value);
 
     const filtered = countryCategory.filter((country) =>
       country.toLowerCase().includes(value)
@@ -96,6 +96,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const refs = { groupRef, eventRef, mentorRef };
 
   const [isLoged, setIsLoged] = useState(false);
+  const [searchItem, setSearchItem] = useState("");
 
   return (
     <div className={styles["navbar"]}>
@@ -109,41 +110,47 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 alt="Logo"
                 onClick={() => navigate("/")}
               />
-              <select name="" id="" className={styles["p"]}>
-                <option value="" disabled selected hidden>
-                  Ölkə
-                </option>
-                {countryCategory.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
+              <div className={styles["country_select"]}>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  className={styles["select"]}
+                  placeholder="Ölkə"
+                  value={searchItem}
+                  onChange={handleInputChange}
+                  onClick={() => setShowOptions(!showOptions)}
+                  onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+                />
 
-              <div className={styles["arrow_down"]} onClick={handleInputChange}>
-                <DownArrow />
-              </div>
+                {showOptions && (
+                  <div className={styles["options"]}>
+                    {filteredCountries.length > 0 ? (
+                      filteredCountries.map((country, i) => (
+                        <div
+                          key={i}
+                          className={styles["p"]}
+                          onClick={() => {
+                            setSearchItem(country);
+                            setShowOptions(false);
+                          }}
+                        >
+                          {country}
+                        </div>
+                      ))
+                    ) : (
+                      <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+                    )}
+                  </div>
+                )}
 
-              {showOptions && (
-                <div className={styles["options"]}>
-                  {filteredCountries.length > 0 ? (
-                    filteredCountries.map((country, i) => (
-                      <div
-                        key={i}
-                        className={styles["p"]}
-                        onClick={() => {
-                          setSearchedItem(country);
-                          setShowOptions(false);
-                        }}
-                      >
-                        {country}
-                      </div>
-                    ))
-                  ) : (
-                    <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
-                  )}
+                <div
+                  className={styles["down_arrow"]}
+                  onClick={() => setShowOptions(!showOptions)}
+                >
+                  <DownArrow />
                 </div>
-              )}
+              </div>
             </div>
 
             <ul>
