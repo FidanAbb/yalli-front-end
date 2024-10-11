@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon";
 import DownArrow from "../../components/ui/DownArrow";
@@ -77,8 +77,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
         imageId: imageId,
       };
 
-       dispatch(postGroupData(formattedData));
-       setGroupumData((prev) => {
+      dispatch(postGroupData(formattedData));
+      setGroupumData((prev) => {
         if (prev && Array.isArray(prev.content)) {
           return {
             ...prev,
@@ -111,6 +111,13 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     "Rusiya",
     "Qazaxıstan",
   ];
+  const selectRef = useRef(null);
+
+  const handleArrowClick = () => {
+    if (selectRef.current) {
+      selectRef.current.focus();
+    }
+  };
 
   return (
     <div className={styles["create_group"]}>
@@ -141,43 +148,47 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             onChange={handleChange}
           />
 
-          <select
-            name="country"
-            id="country"
-            placeholder="Ölkə"
-            onChange={handleChange}
-          >
-            <option disabled selected>
-              Ölkə
-            </option>
-            {options.map((option, index) => {
-              return <option key={index}>{option}</option>;
-            })}
-            <div className={styles["down_arrow"]}>
+          <div className={styles["selected"]}>
+            <select
+              name="country"
+              id="country"
+              placeholder="Ölkə"
+              onChange={handleChange}
+              ref={selectRef}
+            >
+              <option disabled selected>
+                Ölkə
+              </option>
+              {options.map((option, index) => {
+                return <option key={index}>{option}</option>;
+              })}
+              {/* <div className={styles["down_arrow"]}>
+                <DownArrow />
+              </div> */}
+            </select>
+            <div className={styles["down_arrow"]} onClick={handleArrowClick}>
               <DownArrow />
             </div>
-          </select>
+          </div>
 
-          <select
-            name="category"
-            id="category"
-            placeholder="Kateqoriya"
-            onChange={handleChange}
-          >
-            <option disabled selected>
-              Kateqoriya
-            </option>
-            {
-              groupCategory.map((ctgry)=>(
-
+          <div className={styles["selected"]}>
+            <select
+              name="category"
+              id="category"
+              placeholder="Kateqoriya"
+              onChange={handleChange}
+            >
+              <option disabled selected>
+                Kateqoriya
+              </option>
+              {groupCategory.map((ctgry) => (
                 <option value={ctgry}>{ctgry}</option>
-              ))
-            }
-            
+              ))}
+            </select>
             <div className={styles["down_arrow"]}>
               <DownArrow />
             </div>
-          </select>
+          </div>
           <input
             type="url"
             name="link"
