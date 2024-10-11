@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
 import { getGroupData } from "../../../redux/slice/group/group";
 
+
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups)
   const dispatch = useDispatch()
@@ -83,6 +84,9 @@ const Group = () => {
       sliderRef.current.scrollBy({ left: 420, behavior: "smooth" });
     }
   };
+  const handleCardClick = (id) => {
+    navigate(`/qrup/${id}`);
+  };
 
   return (
       <div className={styles["group"]}>
@@ -98,7 +102,9 @@ const Group = () => {
               </div>
               <div className={styles["cards"]} ref={sliderRef}>
                 {allData && allData.content?.map((group, index) => (
+                  <div key={index} onClick={() => handleCardClick(group.id)}>
                   <Card key={index} sectionName={"group"} group={group} />
+                  </div>
                 ))}
               </div>
               <div className={styles["right_arrow"]} onClick={scrollRight}>
