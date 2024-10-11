@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./style.module.scss";
-const About = () => {
+const About = ({group}) => {
   return (
     <div className={styles["about"]}>
       <div className="container">
         <div className={styles["about"]}>
           <div>
-            Varşavada yaşayan Azərbaycanlılar üçün bu icma, həmvətənlərimizi bir
+            {group.country}da yaşayan Azərbaycanlılar üçün bu icma, həmvətənlərimizi bir
             araya gətirərək mədəni, sosial və ictimai həyatı daha zəngin və
             maraqlı etmək məqsədi ilə fəaliyyət göstərir. Bizim icmamızın əsas
             məqsədi Azərbaycanlıların birliyini möhkəmləndirmək, onların
@@ -16,7 +16,7 @@ const About = () => {
             artırılmasına, həm də Azərbaycan mədəniyyətinin təbliğinə xidmət
             edir.
             <p>
-              Hər il ənənəvi olaraq keçirilən “Varşavada Novruz Bayramı Şənliyi”
+              Hər il ənənəvi olaraq keçirilən “{group.country}da Novruz Bayramı Şənliyi”
               icmamızın ən sevilən tədbirlərindən biridir. Bu bayramı qeyd
               etməklə, həm Novruz adətlərini yaşadırıq, həm də yeni nəsillərə
               milli bayramlarımızı sevdirməyə çalışırıq. Bundan əlavə, Qurban
@@ -26,7 +26,7 @@ const About = () => {
           </div>
 
           <div>
-            Bu tədbirlər yalnız Azərbaycanlıların deyil, Varşavada yaşayan digər
+            Bu tədbirlər yalnız Azərbaycanlıların deyil, {group.country}da yaşayan digər
             millətlərin də diqqətini cəlb edir, Azərbaycan ənənələri ilə
             yaxından tanış olmaq üçün bir fürsət yaradır. Mədəni tədbirlərimiz
             bununla bitmir. İcma üzvlərimizlə birgə “Azərbaycan Film Axşamları”
@@ -36,7 +36,7 @@ const About = () => {
             müzakirə olunur.
           </div>
           <div>
-            Şəhərin müxtəlif parklarında təşkil edilən “Bakıdan Varşavaya
+            Şəhərin müxtəlif parklarında təşkil edilən “Bakıdan {group.country}ya
             Gəzinti” və həftəsonu “Açıq Hava Piknikləri” də üzvlər arasında
             böyük marağa səbəb olur, açıq hava tədbirlərimiz hər dəfə daha çox
             iştirakçını cəlb edir. Bundan başqa, icmamız xaricdə təhsil və iş
@@ -53,7 +53,7 @@ const About = () => {
           Azərbaycanlılar arasında birlik və dostluğu möhkəmləndirməklə yanaşı,
           yerli ictimaiyyətlə mədəniyyətimizi paylaşaraq onları Azərbaycan
           ənənələri ilə tanış etməkdir. İcma üzvlərimiz həm milli mədəniyyətin
-          daşıyıcıları, həm də yerli Varşava icmasında fəal iştirak edən
+          daşıyıcıları, həm də yerli {group.country} icmasında fəal iştirak edən
           insanlardır. “Azərbaycan Mədəniyyət Günü” tədbiri isə Polşalıları
           Azərbaycan mətbəxi, musiqisi və rəqsləri ilə tanış etmək üçün
           icmamızın təşkil etdiyi ən böyük tədbirlərdən biridir. Bu tədbir

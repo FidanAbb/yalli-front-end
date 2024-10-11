@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import About from "../about/About";
 import Galery from "../galery/Galery";
 import styles from "./style.module.scss";
-const Main = () => {
+const Main = ({group}) => {
   const [isActive, setIsActive] = useState(0);
 
   return (
@@ -24,7 +24,7 @@ const Main = () => {
             </p>
           </div>
           <div className={styles["down"]}>
-            {isActive == 0 ? <About /> : <Galery />}
+            {isActive == 0 ? <About group={group}/> : <Galery group={group}/>}
           </div>
         </div>
       </div>

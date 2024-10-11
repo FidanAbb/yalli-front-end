@@ -250,7 +250,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar categoryData={categoryData} page={page} setSearchedItem={setSearchedItem}/>
+            <Sidebar categoryData={categoryData} page={page} setSearchedItem={setSearchedItem} searchedItem={searchedItem}/>
           </div>
           <div className={styles[`${page === "member" ? "member_cards" : "cards"}`]}>
             {page === "mentor"
@@ -260,7 +260,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
               : page === "group"
               ? groupData?.content?.filter((g) => g.title.toLowerCase().includes(searchedItem.toLowerCase()))
               .map((g, i) => (
-                  <div key={i} onClick={() => handleCardClick(i)}>
+                  <div key={i} onClick={() => handleCardClick(g.id)}>
                     <Card sectionName="group" group={g} />
                   </div>
                 ))

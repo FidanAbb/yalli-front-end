@@ -2,11 +2,13 @@
 .hero {
     padding: 50px 0;
     font-family: "Gilroy", sans-serif;
-  .hero {
-    display: flex;
+    .hero {
+      display: flex;
+      // width: 100%;
     justify-content: center;
     .card {
       max-width: 963px;
+      width: 100%;
       background-color: #fff;
       border-radius: 10px;
       .upper {
@@ -29,16 +31,21 @@
           border: none;
           color: #fff;
           gap: 3px;
+          cursor: pointer;
         }
       }
       .down {
         display: flex;
         gap: 10px;
         padding: 19px;
+        img{
+          width: 282px;
+          border-radius: 10px;
+        }
         .detail{
             display: flex;
             flex-direction: column;
-            justify-content: end;
+            justify-content: space-between;
             p{
                 color: #11111180;
                 line-height: 22px;

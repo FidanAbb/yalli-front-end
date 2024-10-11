@@ -11,6 +11,14 @@ export const getGroupData = createAsyncThunk(
   }
 );
 
+export const getGroupDataById = createAsyncThunk(
+  "groups/getGroupDataById",
+  async (id) => {
+    const response = await axios.get(`${baseURL}/${id}`);
+    return response.data;
+  }
+);
+
 export const postGroupData = createAsyncThunk(
   "groups/postGroupData",
   async (newp) => {
@@ -69,6 +77,17 @@ export const groupSlice = createSlice({
         state.loading = false;
       })
       .addCase(postGroupData.rejected, (state) => {
+        state.loading = false;
+      });
+    builder
+      .addCase(getGroupDataById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getGroupDataById.fulfilled, (state, action) => {
+        state.group = action.payload;
+        state.loading = false;
+      })
+      .addCase(getGroupDataById.rejected, (state) => {
         state.loading = false;
       });
   },

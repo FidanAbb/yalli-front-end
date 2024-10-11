@@ -30,7 +30,15 @@ const Hero = () => {
   const [searchedItem, setSearchedItem] = useState("");
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [showOptions, setShowOptions] = useState(false);
+  const handleInputChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchedItem(value);
 
+    const filtered = countryCategory.filter((country) =>
+      country.toLowerCase().includes(value)
+    );
+    setFilteredCountries(filtered);
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTextIndex((prevIndex) =>
@@ -41,15 +49,7 @@ const Hero = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const handleInputChange = (event) => {
-    const value = event.target.value.toLowerCase();
-    setSearchedItem(value);
 
-    const filtered = countryCategory.filter((country) =>
-      country.toLowerCase().includes(value)
-    );
-    setFilteredCountries(filtered);
-  };
   return (
     <div className={styles["hero"]}>
       <div className={styles["hero_left_circle"]}>

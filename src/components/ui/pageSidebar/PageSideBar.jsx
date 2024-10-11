@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./style.module.scss";
 import DownArrow from "../../ui/DownArrow";
 
@@ -19,6 +19,19 @@ const countryCategory = [
 ];
 
 const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [searchItem, setSearchItem] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState(countryCategory);
+  const [showOptions, setShowOptions] = useState(false);
+  const handleInputChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setSearchItem(value);
+
+    const filtered = countryCategory.filter((country) =>
+      country.toLowerCase().includes(value)
+    );
+    setFilteredCountries(filtered);
+  };
   return (
     <div className={styles["sidebar"]}>
       <input
@@ -37,7 +50,7 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
 
       <div className={styles["country_select"]}>
         {/* <div className={styles["country_text"]}>Ölkə</div> */}
-        <select name="" id="">
+        {/* <select name="" id="">
           <option value="" disabled selected hidden>
             Ölkə
           </option>
@@ -46,8 +59,42 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
               {c}
             </option>
           ))}
-        </select>
-        <div className={styles["down_arrow"]}>
+        </select> */}
+
+        <input
+          type="text"
+          name=""
+          id=""
+          className={styles["select"]}
+          placeholder="Ölkə"
+          value={searchItem}
+          onChange={handleInputChange}
+          onClick={() => setShowOptions(!showOptions)}
+          onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+        />
+
+        {showOptions && (
+          <div className={styles["options"]}>
+            {filteredCountries.length > 0 ? (
+              filteredCountries.map((country, i) => (
+                <div
+                  key={i}
+                  className={styles["p"]}
+                  onClick={() => {
+                    setSearchItem(country);
+                    setShowOptions(false);
+                  }}
+                >
+                  {country}
+                </div>
+              ))
+            ) : (
+              <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+            )}
+          </div>
+        )}
+
+        <div className={styles["down_arrow"]} onClick={() => setShowOptions(!showOptions)}>
           <DownArrow />
         </div>
       </div>
@@ -58,8 +105,14 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
       <div className={styles["categories"]}>
         {categoryData &&
           page !== "member" &&
-          categoryData.map((m) => (
-            <div className={styles["category"]}>
+          categoryData.map((m, i) => (
+            <div
+              key={i}
+              className={`${styles["category"]} ${
+                activeCategory === i ? styles["active"] : ""
+              }`}
+              onClick={() => setActiveCategory(i)}
+            >
               <p>{m}</p>
             </div>
           ))}
