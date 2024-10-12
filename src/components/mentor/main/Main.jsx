@@ -16,41 +16,42 @@ import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
-import Polsa from "../../ui/countries/Polsa"
+import Germany from "../../ui/countries/Germany";
+import Polsa from "../../ui/countries/Polsa";
 const mentorData = [
   {
     name: "Emil Cahangirli",
-    flag: "🇩🇪",
+    flag: <Germany />,
     detail: "Yaşam",
     image: Emil,
   },
   {
     name: "Fidan Abbaslı",
-    flag: "🇵🇱",
+    flag: <Polsa />,
     detail: "Təhsil",
     image: Fidan,
   },
   {
     name: "Rahman Gasımlı",
-    flag: "🇺🇸",
+    flag: <Polsa />,
     detail: "Yaşam",
     image: Vuqar,
   },
   {
     name: "Fidan Abbaslı",
-    flag: "🇩🇪",
+    flag: <Germany />,
     detail: "Yaşam",
     image: Fidan,
   },
   {
     name: "Emil Cahangirli",
-    flag: "🇩🇪",
+    flag: <Germany />,
     detail: "Yaşam",
     image: Emil,
   },
   {
     name: "Rahman Gasımlı",
-    flag: "🇺🇸",
+    flag: <Polsa />,
     detail: "Yaşam",
     image: Vuqar,
   },
@@ -245,7 +246,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
     navigate(`/qrup/${id}`);
   };
   const [searchedItem, setSearchedItem] = useState("")
-
+console.log(groupData)
   return (
     <div className={styles["main"]}>
       <div className="container">
