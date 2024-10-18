@@ -8,6 +8,28 @@
   border-radius: 10px;
   position: relative;
   cursor: pointer;
+  .save_btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: none;
+    position: absolute;
+    background-color: #fff;
+    right: 15px;
+    top: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .save_img {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .save_btn:hover {
+    background-color: #fff;
+  }
   .groupImage {
     width: 100%;
     object-fit: cover;
@@ -54,7 +76,7 @@
     right: 8px;
     bottom: 8px;
   }
-  button {
+  .daha_etrafli {
     position: absolute;
     font-size: 14px;
     font-weight: 400;

@@ -12,6 +12,57 @@ import Xicon from "../ui/Xicon";
 import TrueIcon from "../ui/TrueIcon";
 import DownArrow from "../ui/DownArrow";
 
+const countryCategory = [
+  "Azərbaycan",
+  "Türkiyə",
+  "Rusiya",
+  "Almaniya",
+  "ABŞ",
+  "Ukrayna",
+  "Böyük Britaniya",
+  "Kanada",
+  "Fransa",
+  "İsrail",
+  "Gürcüstan",
+  "İtaliya",
+  "Avstraliya",
+  "İspaniya",
+  "Niderland",
+  "Avstriya",
+  "İsveç",
+  "Belçika",
+  "Norveç",
+  "Finlandiya",
+  "Macarıstan",
+  "Polşa",
+  "Yunanıstan",
+  "Slovakiya",
+  "Litva",
+  "Latviya",
+  "Estoniya",
+  "Qazaxıstan",
+  "BƏƏ",
+  "Yaponiya",
+  "İran",
+  "Səudiyyə Ərəbistanı",
+  "Belarus",
+  "Moldova",
+  "Qırğızıstan",
+  "Tacikistan",
+  "Türkmənistan",
+  "Özbəkistan",
+  "Malayziya",
+  "Sinqapur",
+  "Braziliya",
+  "Argentina",
+  "Meksika",
+  "Vietnam",
+  "Bali (İndoneziya)",
+  "İsveçrə",
+  "Portuqaliya",
+  "Cənubi Koreya",
+];
+
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -93,10 +144,11 @@ const RegisterForm = () => {
           <option value="" disabled hidden>
             Ölkə seçin
           </option>
-          <option value="azerbaijan">Azərbaycan</option>
-          <option value="turkey">Türkiyə</option>
-          <option value="usa">ABŞ</option>
-          <option value="uk">Böyük Britaniya</option>
+          {countryCategory.map((c, i) => (
+            <option key={i} value="azerbaijan">
+              {c}
+            </option>
+          ))}
         </select>
         <div className={styles["downarrow"]}>
           <DownArrow />
@@ -110,28 +162,24 @@ const RegisterForm = () => {
       </div>
 
       <div className={styles["input_field"]}>
-  <input
-    {...register("password")}
-    type={showPassword ? "text" : "password"}
-    placeholder="Şifrə"
-  />
-  <div
-    onClick={() => setShowPassword(!showPassword)}
-    className={styles["eye"]}
-  >
-   {
-            showPassword ? <PasswordEyeOpen />: <PasswordEye />
-        }
-  </div>
-  {touchedFields.password && errors.password && (
-    <span>
-      <Warning />
-      {errors.password.message}
-    </span>
-  )}
-
-</div>
-
+        <input
+          {...register("password")}
+          type={showPassword ? "text" : "password"}
+          placeholder="Şifrə"
+        />
+        <div
+          onClick={() => setShowPassword(!showPassword)}
+          className={styles["eye"]}
+        >
+          {showPassword ? <PasswordEyeOpen /> : <PasswordEye />}
+        </div>
+        {touchedFields.password && errors.password && (
+          <span>
+            <Warning />
+            {errors.password.message}
+          </span>
+        )}
+      </div>
 
       <div className={styles["input_field"]}>
         <input
@@ -143,9 +191,7 @@ const RegisterForm = () => {
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
           className={styles["eye"]}
         >
-          {
-            showConfirmPassword ? <PasswordEyeOpen />: <PasswordEye />
-        }
+          {showConfirmPassword ? <PasswordEyeOpen /> : <PasswordEye />}
         </div>
         {errors.confirmPassword && (
           <span>

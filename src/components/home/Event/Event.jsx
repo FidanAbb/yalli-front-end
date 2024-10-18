@@ -141,7 +141,9 @@ const Event = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Tədbirlər</h2>
-            <p onClick={() => navigate(`/event`)}>Hamısına bax</p>
+            <p onClick={() => 
+              window.location.href ="/event"
+              }>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>

@@ -70,7 +70,7 @@ export const eventSlice = createSlice({
         state.loading = true;
       })
       .addCase(postEventData.fulfilled, (state, action) => {
-        state.groups.push(action.payload);
+        state.events.push(action.payload);
         state.loading = false;
       })
       .addCase(postEventData.rejected, (state) => {

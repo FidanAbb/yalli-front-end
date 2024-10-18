@@ -2,7 +2,9 @@ import React from "react";
 import GroupIcon from "../GroupIcon";
 import Location from "../Location";
 import EventArrow from "../EventArrow";
+import saveBtn from "../../../assets/img/saveBtn.png"
 import styles from "./style.module.scss";
+
 const Card = ({ sectionName, event, group }) => {
   return (
     <div
@@ -10,8 +12,19 @@ const Card = ({ sectionName, event, group }) => {
         sectionName == "group" ? styles["card_group"] : styles["card_event"]
       }
     >
+      {sectionName !== "group" && (
+        <button className={styles["save_btn"]}>
+          <div className={styles["save_img"]}>
+            <img src={saveBtn} alt="save" width={22} height={22}/>
+          </div>
+        </button>
+      )}
       <img
-       src={sectionName == "group" ? `https://minio-server-4oyt.onrender.com/yalli/${group?.imageId}` : event?.image}
+        src={
+          sectionName == "group"
+            ? `https://minio-server-4oyt.onrender.com/yalli/${group?.imageId}`
+            : event?.image
+        }
         alt={group ? group.title : event.title}
         className={styles["groupImage"]}
       />
@@ -42,9 +55,7 @@ const Card = ({ sectionName, event, group }) => {
       {sectionName == "group" ? (
         <p className={styles["card_footer"]}>{group?.country}</p>
       ) : (
-        <button>
-          Daha Ətraflı
-        </button>
+        <button className={styles["daha_etrafli"]}>Daha Ətraflı</button>
       )}
     </div>
   );

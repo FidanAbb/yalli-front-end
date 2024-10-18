@@ -107,7 +107,9 @@ const Mentor = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
-            <p onClick={() => navigate(`/mentor`)}>Hamısına bax</p>
+            <p onClick={() => (window.location.href = "/mentor")}>
+              Hamısına bax
+            </p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>

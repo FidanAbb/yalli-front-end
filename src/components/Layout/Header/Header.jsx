@@ -107,7 +107,6 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     setFilteredCountries(filtered);
   };
 
-  console.log(userData);
 
   const [isActive, setisActive] = useState(0);
   const navigate = useNavigate();
@@ -122,11 +121,13 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
       } else if (index === 5) {
         scrollToSection(eventRef);
       } else {
-        navigate(navLinks[index].link);
+        window.location.href = navLinks[index].link
+        // navigate(navLinks[index].link);
       }
     } else {
       setisActive(index);
-      navigate(navLinks[index].link);
+      window.location.href = navLinks[index].link
+      // navigate(navLinks[index].link);
     }
   };
 

@@ -149,7 +149,6 @@ const eventCategory = [
   "Yaxınlaşan",
   "Populyar",
   "Yadda saxlanılan",
-  "Keçmiş",
 ];
 const countryCategory = [
   "Azərbaycan",
@@ -208,7 +207,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const navigate = useNavigate();
 
   const groups = useSelector((state) => state.groups.groups);
-  const events = useSelector((state) => state.events.event);
+  const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
 
   const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry"))
@@ -219,7 +218,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
 
   useEffect(() => {
     dispatch(getGroupData());
-    dispatch(getEventDataById(1));
+    dispatch(getEventData());
   }, [dispatch]);
 
   useEffect(() => {
@@ -274,7 +273,7 @@ const filteredMentorData = mentorData.filter((m) =>
             {page === "mentor" ? (
               filteredMentorData.map((m, i) => <MentorsCard key={i} data={m} />)
             ) : page === "group" ? (
-              groups.content.map((g, i) => (
+              groups?.content?.map((g, i) => (
                 <div key={i} onClick={() => handleCardClick(g.id)}>
                   <Card sectionName="group" group={g} />
                 </div>

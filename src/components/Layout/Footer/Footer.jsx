@@ -49,7 +49,8 @@ const Footer = () => {
               <h4>Səhifələr</h4>
               {pages.map((p) => (
                 <li onClick={()=>(
-                  navigate(`${p.link}`)
+                  window.location.href = p.link
+                  // navigate(`${p.link}`)
                 )}>{p.page}</li>
               ))}
             </ul>

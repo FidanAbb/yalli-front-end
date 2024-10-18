@@ -125,7 +125,8 @@ const Group = () => {
 
   const navigate = useNavigate();
   const handleCardClick = (id) => {
-    navigate(`/qrup/${id}`);
+    window.location.href = `/qrup/${id}`
+    // navigate(`/qrup/${id}`);
   };
 
   return (
@@ -134,7 +135,9 @@ const Group = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Qruplar</h2>
-            <p onClick={() => navigate(`/qrup`)}>Hamısına bax</p>
+            <p onClick={() => 
+              window.location.href ="/qrup"
+              }>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>

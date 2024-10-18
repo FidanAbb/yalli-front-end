@@ -23,7 +23,18 @@
           color: #111111;
         }
         button {
-          background-color: rgba(250, 69, 0, 1);
+          background-color: #fff;
+          padding: 10px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          border: 1px solid #fa4500;
+          color: #fa4500;
+          gap: 3px;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #fa4500;
           padding: 10px;
           border-radius: 10px;
           display: flex;
