@@ -21,7 +21,7 @@ const GroupDetail = () => {
 
   return (
     <>
-      <Header/>
+     <Header/>
       <Hero group={group}/>
       <Main group={group}/>
       <Footer />

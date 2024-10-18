@@ -23,7 +23,7 @@ const Success = () => {
             ? "Şifrəniz uğurla sıfırlandı, girişinizə davam etmək üçün aşağıya klikləyin."
             : "Hesabınızı uğurla yaratdınız!"}
         </p>
-        <button onClick={() => navigate("/auth")}>Davam edin</button>
+        <button onClick={() => navigate("/login")}>Davam edin</button>
       </div>
     </div>
   );

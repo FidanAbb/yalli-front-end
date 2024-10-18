@@ -6,9 +6,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [authClick, setAuthClick] = useState(true);
   const [initialLoad, setInitialLoad] = useState(true);
-
+  
+  const [authClick, setAuthClick] = useState(true);
   const handleAuthClick = () => {
     setAuthClick(!authClick);
   };

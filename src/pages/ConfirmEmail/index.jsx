@@ -4,6 +4,7 @@ import confirmEmail from "../../assets/img/confirmEmail.svg";
 import styles from "./style.module.scss";
 import { api } from "../../../api.config";
 import { useNavigate } from "react-router-dom";
+
 const ConfirmEmail = () => {
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -13,12 +14,21 @@ const ConfirmEmail = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [errorOccurred, setErrorOccurred] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [countdown, setCountdown] = useState(60);
+  const [otpInputFilled, setOtpInputFilled] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     const storedEmail = localStorage.getItem("email-confirm");
     if (storedEmail) {
       setEmail(JSON.parse(storedEmail));
     }
+
+    const timer = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -38,24 +48,32 @@ const ConfirmEmail = () => {
     const newOtpCode = [...otpCode];
     newOtpCode[index] = value.slice(-1);
     setOtpCode(newOtpCode);
+    setOtpInputFilled(newOtpCode.every((digit) => digit !== ""));
 
     if (value && index < otpCode.length - 1) {
       document.getElementById(`otp-input-${index + 1}`).focus();
     }
   };
 
+  const handleKeyDown = (index, event) => {
+    if (event.key === "Backspace" && otpCode[index] === "") {
+      if (index > 0) {
+        document.getElementById(`otp-input-${index - 1}`).focus();
+      }
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setErrorOccurred(false);
+    setError(null);
     setSuccess(null);
-
     const otpString = otpCode.join("");
 
     try {
       const endpoint = !resetEmail
         ? "/users/confirm"
-        : "users/reset-password/verify";
+        : "/users/reset-password/verify";
 
       const response = resetEmail
         ? await api.post(endpoint, {
@@ -76,14 +94,18 @@ const ConfirmEmail = () => {
     } catch (error) {
       setError("Xəta baş verdi. Yenidən cəhd edin.");
       setErrorOccurred(true);
+      setCountdown(60); 
+      setOtpSent(false);
     } finally {
       setLoading(false);
     }
   };
+
   const resendOtp = async () => {
     setLoading(true);
     setError(null);
     setSuccess(null);
+    setCountdown(60); 
 
     try {
       const response = await api.get(`/users/send-otp?email=${email}`);
@@ -94,14 +116,17 @@ const ConfirmEmail = () => {
       }
     } catch (error) {
       setError("OTP göndərmə zamanı xəta baş verdi. Yenidən cəhd edin.");
+      setErrorOccurred(true);
+      setCountdown(60);
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className={styles["confirm_email"]}>
       <div className={styles["confirm_window"]}>
-        <div className={styles["arrow"]} onClick={() => navigate(`/auth`)}>
+        <div className={styles["arrow"]} onClick={() => navigate(`/register`)}>
           <Arrow />
         </div>
         <img src={confirmEmail} alt="" />
@@ -120,25 +145,32 @@ const ConfirmEmail = () => {
                 className={styles["otp"]}
                 value={digit}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
                 maxLength="1"
               />
             ))}
           </div>
           {error && <span className={styles["error"]}>{error}</span>}
-          <span>Kodu 60 saniyə sonra yenidən göndərin</span>
-          {errorOccurred ? (
-            <button type="button" onClick={resendOtp} disabled={loading}>
-              {loading ? "Göndərilir..." : "Yeni OTP göndərin"}
+          {countdown < 60 && (
+            <span>Kodu {countdown} saniyə sonra yenidən göndərin</span>
+          )}
+          {!otpSent ? (
+            <button type="submit" disabled={loading || !otpInputFilled}>
+              {loading ? "Göndərilir..." : "Təsdiq edin"}
             </button>
           ) : (
-            <button type="submit" disabled={loading}>
-              {loading ? "Göndərilir..." : "Təsdiq edin"}
+            <button
+              type="button"
+              onClick={resendOtp}
+              disabled={loading || countdown > 0}
+            >
+              {loading ? "Göndərilir..." : "Yeni OTP göndərin"}
             </button>
           )}
           <button
             className={styles["legv"]}
             type="button"
-            onClick={() => navigate("/auth")}
+            onClick={() => navigate("/register")}
           >
             Ləğv edin
           </button>

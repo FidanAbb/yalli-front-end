@@ -1,0 +1,124 @@
+form {
+  font-family: "Gilroy", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .input_field {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    .eye {
+      position: absolute;
+      right: 16px;
+      top: 25px;
+      cursor: pointer;
+    }
+    span {
+      color: red;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .downarrow{
+      position: absolute;
+      right: 16px;
+      top: 50%; 
+      transform: translateY(-50%); 
+      pointer-events: none; 
+      
+  }
+
+    .password-requirements {
+      margin-top: 10px;
+    }
+    
+    .password-requirements div {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+    
+    .password-requirements span {
+      margin-left: 8px;
+    }
+  }
+  h1 {
+    padding: 15px 0;
+  }
+  input {
+    background-color: #eeeeee;
+    color: #797979;
+    padding: 20px 15px;
+    width: 320px;
+    border: none;
+    border-radius: 15px;
+    margin: 5px 0;
+    font-weight: 400;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  select {
+    background-color: #eeeeee;
+    color: #a2a2a2;
+    padding: 20px 15px;
+    width: 350px;
+    border-radius: 15px;
+    border: none; 
+    outline: none; 
+    box-shadow: none; 
+    margin: 5px 0;
+    font-weight: 400;
+    font-size: 14px;
+    appearance: none;
+    cursor: pointer;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  .forgot {
+    margin-left: 150px;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .remember_me {
+    display: flex;
+    gap: 10px;
+    // margin-left: -200px;
+
+    max-width: 330px;
+    align-items:first baseline;
+    input {
+      width: 15px;
+    }
+    p {
+      margin-left: 0;
+      span{
+        color: #FA4500;
+      }
+    }
+  }
+  .error-message{
+    color: #fa4500;
+  }
+  button {
+    background-color: #fa4500;
+    padding: 20px 15px;
+    width: 310px;
+    border: none;
+    border-radius: 15px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 18px;
+    cursor: pointer;
+    &:disabled {
+      background-color: #a2a2a2;
+      cursor: not-allowed;
+    }
+  
+    &:hover:not(:disabled) {
+      background-color: #e63e00;
+  }
+  }
+}

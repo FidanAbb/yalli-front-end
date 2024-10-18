@@ -6,7 +6,7 @@ import Footer from "../../components/Layout/Footer/Footer";
 const Member = () => {
   return (
     <>
-      <Header />
+     <Header/>
       <div style={{marginTop:"100px"}}>
         <Main page="member" />
       </div>

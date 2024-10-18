@@ -35,22 +35,59 @@ const navLinks = [
 ];
 
 const countryCategory = [
-  "Polşa",
-  "Almaniya",
-  "Amerika",
-  "Kanada",
-  "Avstraliya",
-  "İngiltərə",
-  "Fransa",
-  "İspaniya",
-  "İtaliya",
-  "Çin",
-  "Hindistan",
+  "Azərbaycan",
+  "Türkiyə",
   "Rusiya",
+  "Almaniya",
+  "ABŞ",
+  "Ukrayna",
+  "Böyük Britaniya",
+  "Kanada",
+  "Fransa",
+  "İsrail",
+  "Gürcüstan",
+  "İtaliya",
+  "Avstraliya",
+  "İspaniya",
+  "Niderland",
+  "Avstriya",
+  "İsveç",
+  "Belçika",
+  "Norveç",
+  "Finlandiya",
+  "Macarıstan",
+  "Polşa",
+  "Yunanıstan",
+  "Slovakiya",
+  "Litva",
+  "Latviya",
+  "Estoniya",
   "Qazaxıstan",
+  "BƏƏ",
+  "Yaponiya",
+  "İran",
+  "Səudiyyə Ərəbistanı",
+  "Belarus",
+  "Moldova",
+  "Qırğızıstan",
+  "Tacikistan",
+  "Türkmənistan",
+  "Özbəkistan",
+  "Malayziya",
+  "Sinqapur",
+  "Braziliya",
+  "Argentina",
+  "Meksika",
+  "Vietnam",
+  "Bali (İndoneziya)",
+  "İsveçrə",
+  "Portuqaliya",
+  "Cənubi Koreya"
 ];
 
+
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
+  
   const [userData, setUserData] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
@@ -181,8 +218,8 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
           <div className={styles["right"]}>
             {!userData ? (
               <>
-                <p onClick={() => navigate("/auth")}>Giriş</p>
-                <button onClick={() => navigate("/auth")}>Qeydiyyat</button>
+                <p onClick={() => navigate("/login")}>Giriş</p>
+                <button onClick={() => navigate("/register")}>Qeydiyyat</button>
               </>
             ) : (
               <>

@@ -4,13 +4,16 @@ import About from "../pages/About/About";
 import Mentor from "../pages/Mentor/Mentor";
 import Qrup from "../pages/Qrup/Group";
 import Event from "../pages/Event/Event";
-import Auth from "../pages/Auth/index"
+// import Auth from "../pages/Auth/index"
 import Member from "../pages/Member/Member";
 import GroupDetail from "../pages/groupDetail/GroupDetail";
 import ForgotPass from "../pages/forgotpass";
 import ConfirmEmail from "../pages/ConfirmEmail";
 import Success from "../pages/success";
 import ResetPass from "../pages/ResetPass";
+import Login from "../pages/Login/Login";
+import Register from "../pages/Register/Register";
+
 const Router = createBrowserRouter([
   {
     path: "/",
@@ -42,9 +45,17 @@ const Router = createBrowserRouter([
     element: <Event />,
   },
   {
-    path: "/auth",
-    element: <Auth />,
+    path: "/login",
+    element: <Login />,
   },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+  // {
+  //   path: "/auth",
+  //   element: <Auth />,
+  // },
   {
     path: "/forgot-password",
     element: <ForgotPass/>,

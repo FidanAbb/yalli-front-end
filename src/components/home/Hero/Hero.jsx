@@ -12,20 +12,55 @@ const texts = [
 ];
 const countryCategory = [
   "Azərbaycan",
-  "Polşa",
-  "Almaniya",
-  "Amerika",
-  "Kanada",
-  "Avstraliya",
-  "İngiltərə",
-  "Fransa",
-  "İspaniya",
-  "İtaliya",
-  "Çin",
-  "Hindistan",
+  "Türkiyə",
   "Rusiya",
+  "Almaniya",
+  "ABŞ",
+  "Ukrayna",
+  "Böyük Britaniya",
+  "Kanada",
+  "Fransa",
+  "İsrail",
+  "Gürcüstan",
+  "İtaliya",
+  "Avstraliya",
+  "İspaniya",
+  "Niderland",
+  "Avstriya",
+  "İsveç",
+  "Belçika",
+  "Norveç",
+  "Finlandiya",
+  "Macarıstan",
+  "Polşa",
+  "Yunanıstan",
+  "Slovakiya",
+  "Litva",
+  "Latviya",
+  "Estoniya",
   "Qazaxıstan",
+  "BƏƏ",
+  "Yaponiya",
+  "İran",
+  "Səudiyyə Ərəbistanı",
+  "Belarus",
+  "Moldova",
+  "Qırğızıstan",
+  "Tacikistan",
+  "Türkmənistan",
+  "Özbəkistan",
+  "Malayziya",
+  "Sinqapur",
+  "Braziliya",
+  "Argentina",
+  "Meksika",
+  "Vietnam",
+  "Bali (İndoneziya)",
+  "İsveçrə",
+  "Portuqaliya",
+  "Cənubi Koreya"
 ];
+
 const Hero = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [searchedItem, setSearchedItem] = useState("");
@@ -34,6 +69,7 @@ const Hero = () => {
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchedItem(value);
+    localStorage.setItem("searchedCountry",JSON.stringify(value))
 
     const filtered = countryCategory.filter((country) =>
       country.toLowerCase().includes(value)

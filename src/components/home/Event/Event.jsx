@@ -6,6 +6,8 @@ import kitchen from "../../../assets/img/kitchen.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getEventData } from "../../../redux/slice/event/event";
 
 const Event = () => {
   const eventData = [
@@ -66,6 +68,21 @@ const Event = () => {
       image: Meal,
     },
   ];
+
+  const events = useSelector((state) => state.events.events);
+  const dispatch = useDispatch();
+
+  const [allData, setAllEventpData] = useState({
+    ...events,
+  });
+
+  useEffect(() => {
+    dispatch(getEventData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setAllEventpData(events);
+  }, [events]);
 
   const sliderRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);

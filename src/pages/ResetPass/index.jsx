@@ -118,7 +118,7 @@ const ResetPass = () => {
             {loading ? "Göndərilir..." : "Şifrəni sıfırla"}
           </button>
         </form>
-        <div className={styles["giris"]} onClick={() => navigate("/auth")}>
+        <div className={styles["giris"]} onClick={() => navigate("/login")}>
           <svg
             width="21"
             height="20"

@@ -74,7 +74,7 @@ const ForgotPass = () => {
             {loading ? "Göndərilir..." : "Təqdim edin"}
           </button>
         </form>
-        <div className={styles["giris"]} onClick={() => navigate("/auth")}>
+        <div className={styles["giris"]} onClick={() => navigate("/login")}>
           <svg
             width="21"
             height="20"

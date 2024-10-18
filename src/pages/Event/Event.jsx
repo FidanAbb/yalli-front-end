@@ -6,7 +6,7 @@ import Main from "../../components/mentor/main/Main";
 const Event = () => {
   return (
     <>
-    <Header />
+  <Header/>
     <Hero />
     <Main page="event" />
     <Footer />

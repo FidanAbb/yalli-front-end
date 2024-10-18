@@ -88,50 +88,6 @@ const eventData = [
   },
 ];
 
-// const groupData = [
-//   {
-//     title: "Almaniyada Ausbildung Edənlər",
-//     members: "9k+ üzv",
-//     country: "Almaniya",
-//     image: German,
-//   },
-//   {
-//     title: "Amerikada PHD",
-//     members: "13k üzv",
-//     country: "Amerika",
-//     image: Abd,
-//   },
-//   {
-//     title: "Berlində Networking",
-//     members: "1k üzv",
-//     country: "Almaniya",
-//     image: Network,
-//   },
-//   {
-//     title: "Polşada İş",
-//     members: "9k üzv",
-//     country: "Polşa",
-//     image: German,
-//   },
-//   {
-//     title: "Amerikada PHD",
-//     members: "13k üzv",
-//     country: "Amerika 🇺🇸",
-//     image: Abd,
-//   },
-//   {
-//     title: "Almaniyada Ausbildung Edənlər",
-//     members: "9k+ üzv",
-//     country: "Almaniya 🇩🇪",
-//     image: German,
-//   },
-//   {
-//     title: "Amerikada PHD",
-//     members: "13k üzv",
-//     country: "Amerika 🇺🇸",
-//     image: Abd,
-//   },
-// ];
 const memberData = [
   {
     name: "Humay Mustafazadə",
@@ -195,20 +151,56 @@ const eventCategory = [
   "Keçmiş",
 ];
 const countryCategory = [
-  "Polşa",
-  "Almaniya",
-  "Amerika",
-  "Kanada",
-  "Avstraliya",
-  "İngiltərə",
-  "Fransa",
-  "İspaniya",
-  "İtaliya",
-  "Çin",
-  "Hindistan",
+  "Azərbaycan",
+  "Türkiyə",
   "Rusiya",
+  "Almaniya",
+  "ABŞ",
+  "Ukrayna",
+  "Böyük Britaniya",
+  "Kanada",
+  "Fransa",
+  "İsrail",
+  "Gürcüstan",
+  "İtaliya",
+  "Avstraliya",
+  "İspaniya",
+  "Niderland",
+  "Avstriya",
+  "İsveç",
+  "Belçika",
+  "Norveç",
+  "Finlandiya",
+  "Macarıstan",
+  "Polşa",
+  "Yunanıstan",
+  "Slovakiya",
+  "Litva",
+  "Latviya",
+  "Estoniya",
   "Qazaxıstan",
+  "BƏƏ",
+  "Yaponiya",
+  "İran",
+  "Səudiyyə Ərəbistanı",
+  "Belarus",
+  "Moldova",
+  "Qırğızıstan",
+  "Tacikistan",
+  "Türkmənistan",
+  "Özbəkistan",
+  "Malayziya",
+  "Sinqapur",
+  "Braziliya",
+  "Argentina",
+  "Meksika",
+  "Vietnam",
+  "Bali (İndoneziya)",
+  "İsveçrə",
+  "Portuqaliya",
+  "Cənubi Koreya"
 ];
+
 
 const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const [categoryData, setCategoryData] = useState(null);
@@ -216,6 +208,8 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
 
   const groups = useSelector((state) => state.groups.groups);
   const dispatch = useDispatch();
+
+  const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry"))
 
   // const [allData, setAllData] = useState({
   //   ...groups,
@@ -246,7 +240,24 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
     navigate(`/qrup/${id}`);
   };
   const [searchedItem, setSearchedItem] = useState("")
-console.log(groupData)
+
+const filteredMentorData = mentorData.filter((m) =>
+    m.name.toLowerCase().includes(searchedItem.toLowerCase())
+  );
+
+  const filteredGroupData = groupData?.content?.filter((g) => 
+    g.title.toLowerCase().includes(searchedItem.toLowerCase()) &&
+    (searchedCountry ? g.country.toLowerCase() === searchedCountry.toLowerCase() : true) 
+  );
+
+  const filteredEventData = eventData.filter((e) =>
+    e.title.toLowerCase().includes(searchedItem.toLowerCase())
+  );
+
+  const filteredMemberData = memberData.filter((c) =>
+    c.name.toLowerCase().includes(searchedItem.toLowerCase()) &&
+    (searchedCountry ? c.location.toLowerCase().includes(searchedCountry.toLowerCase()) : true)
+  );
   return (
     <div className={styles["main"]}>
       <div className="container">
@@ -255,28 +266,19 @@ console.log(groupData)
             <Sidebar categoryData={categoryData} page={page} setSearchedItem={setSearchedItem} searchedItem={searchedItem}/>
           </div>
           <div className={styles[`${page === "member" ? "member_cards" : "cards"}`]}>
-            {page === "mentor"
-              ? mentorData
-              .filter((m) => m.name.toLowerCase().includes(searchedItem.toLowerCase()))
-              .map((m, i) => <MentorsCard key={i} data={m} />)
-              : page === "group"
-              ? groupData?.content?.filter((g) => g.title.toLowerCase().includes(searchedItem.toLowerCase()))
-              .map((g, i) => (
-                  <div key={i} onClick={() => handleCardClick(g.id)}>
-                    <Card sectionName="group" group={g} />
-                  </div>
-                ))
-              : page === "event"
-              ? eventData
-              .filter((e) => e.title.toLowerCase().includes(searchedItem.toLowerCase()))
-              .map((e, i) => (
-                  <Card key={i} sectionName="event" event={e} />
-                ))
-              : page === "member"
-              ? memberData
-              .filter((c) => c.name.toLowerCase().includes(searchedItem.toLowerCase()))
-              .map((c, i) => <MembersCard key={i} data={c} />)
-              : null}
+            {page === "mentor" ? (
+              filteredMentorData.map((m, i) => <MentorsCard key={i} data={m} />)
+            ) : page === "group" ? (
+              filteredGroupData.map((g, i) => (
+                <div key={i} onClick={() => handleCardClick(g.id)}>
+                  <Card sectionName="group" group={g} />
+                </div>
+              ))
+            ) : page === "event" ? (
+              filteredEventData.map((e, i) => <Card key={i} sectionName="event" event={e} />)
+            ) : page === "member" ? (
+              filteredMemberData.map((c, i) => <MembersCard key={i} data={c} />)
+            ) : null}
           </div>
         </div>
       </div>

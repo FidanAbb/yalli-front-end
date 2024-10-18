@@ -9,7 +9,7 @@ import Join from "../../components/about/join/Join";
 const About = () => {
   return (
     <>
-      <Header />
+   <Header/>
       <CenterText />
       <Hero />
       <Suggest />
