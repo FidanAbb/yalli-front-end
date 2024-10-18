@@ -13,6 +13,7 @@ import Success from "../pages/success";
 import ResetPass from "../pages/ResetPass";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Profile from "../pages/Profile/Profile";
 
 const Router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const Router = createBrowserRouter([
   {
     path: "/about",
     element: <About />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
   },
   {
     path: "/member",

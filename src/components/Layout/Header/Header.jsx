@@ -225,7 +225,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
             ) : (
               <>
                 <Bell />
-                <div className={styles["user_img"]}>
+                <div className={styles["user_img"]} onClick={()=> navigate("/profile")}>
                   <img
                     src={`https://minio-server-4oyt.onrender.com/yalli/${userData.image} `}
                     alt=""
