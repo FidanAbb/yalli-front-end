@@ -69,6 +69,7 @@ const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState("");
+  const [checked, setChecked] = useState(false);
   const {
     register,
     handleSubmit,
@@ -201,7 +202,32 @@ const RegisterForm = () => {
         )}
       </div>
 
+       <div
+        className={styles["remember_me"]}
+        // style={{ marginLeft: `${!isSignUp ? "-200px" : ""}` }}
+      >
+        <input
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+          type="checkbox"
+          id="rememberme"
+        />
+        <p>
+         
+            <>
+              {`Mən `}
+              <span>Yalli-nin Məxfilik Siyasəti</span>
+              {` və `}
+              <span>Xidmət Şərtləri</span>
+              {` ilə razıyam`}
+            </>
+         
+        </p>
+      </div>
+
       {apiError && <p className={styles["error-message"]}>{apiError}</p>}
+
+
 
       <button
         type="submit"
