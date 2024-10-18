@@ -20,9 +20,9 @@ const Main = ({ page }) => {
         <Qruplariredakteet />
       ) : page == "Parametrler" ? (
         <Parametrler />
-      ) : (
+      ) : page == "Komekvedestek" ?(
         <Komekvedestek />
-      )}
+      ) : <Profilemelumatlari />}
     </div>
   );
 };
