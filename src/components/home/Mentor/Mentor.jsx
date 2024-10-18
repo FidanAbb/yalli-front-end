@@ -107,7 +107,10 @@ const Mentor = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
-            <p onClick={() => (window.location.href = "/mentor")}>
+            <p onClick={() => 
+              // window.location.href = "/mentor"
+              navigate("/mentor")
+              }>
               Hamısına bax
             </p>
           </div>

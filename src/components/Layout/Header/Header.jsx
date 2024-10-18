@@ -121,13 +121,13 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
       } else if (index === 5) {
         scrollToSection(eventRef);
       } else {
-        window.location.href = navLinks[index].link
-        // navigate(navLinks[index].link);
+        // window.location.href = navLinks[index].link
+        navigate(navLinks[index].link);
       }
     } else {
       setisActive(index);
-      window.location.href = navLinks[index].link
-      // navigate(navLinks[index].link);
+      // window.location.href = navLinks[index].link
+      navigate(navLinks[index].link);
     }
   };
 
