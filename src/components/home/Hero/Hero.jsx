@@ -138,6 +138,7 @@ const Hero = () => {
                         onClick={() => {
                           setSearchedItem(country);
                           setShowOptions(false);
+                          window.location.href = "/member"
                         }}
                       >
                         {country}

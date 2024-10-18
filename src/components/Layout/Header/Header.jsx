@@ -92,7 +92,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   useEffect(() => {
-    const loggedUser = sessionStorage.getItem("userInfo");
+    const loggedUser = localStorage.getItem("userInfo");
     if (loggedUser) {
       setUserData(JSON.parse(loggedUser));
     }

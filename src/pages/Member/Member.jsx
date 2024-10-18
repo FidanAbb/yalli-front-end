@@ -7,7 +7,8 @@ import styles from "./style.module.scss";
 const Member = () => {
   const [userData, setUserData] = useState("");
   useEffect(() => {
-    const loggedUser = sessionStorage.getItem("userInfo");
+    const loggedUser = localStorage.getItem("userInfo");
+
     if (loggedUser) {
       setUserData(JSON.parse(loggedUser));
     }

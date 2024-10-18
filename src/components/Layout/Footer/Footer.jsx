@@ -47,8 +47,8 @@ const Footer = () => {
           <div className={styles["right"]}>
             <ul>
               <h4>Səhifələr</h4>
-              {pages.map((p) => (
-                <li onClick={()=>(
+              {pages.map((p, i) => (
+                <li key={i} onClick={()=>(
                   window.location.href = p.link
                   // navigate(`${p.link}`)
                 )}>{p.page}</li>

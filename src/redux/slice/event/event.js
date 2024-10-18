@@ -6,7 +6,12 @@ const baseURL = "https://yalli-back-end.onrender.com/v1/events";
 export const getEventData = createAsyncThunk(
   "events/getEventData",
   async () => {
-    const response = await axios.get(baseURL);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const response = await axios.get(baseURL, {
+      headers: {
+        Authorization: `Bearer ${userInfo.access-token}`,
+      },
+    });
     return response.data;
   }
 );

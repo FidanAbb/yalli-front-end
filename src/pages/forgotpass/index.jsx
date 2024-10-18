@@ -25,7 +25,6 @@ const ForgotPass = () => {
     }
 
     try {
-        
       setLoading(true);
       const response = await api.post(`/users/reset-password/request?email=${email}`);
 
