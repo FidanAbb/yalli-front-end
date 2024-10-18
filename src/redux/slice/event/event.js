@@ -81,7 +81,7 @@ export const eventSlice = createSlice({
         state.loading = true;
       })
       .addCase(getEventDataById.fulfilled, (state, action) => {
-        state.group = action.payload;
+        state.event = action.payload;
         state.loading = false;
       })
       .addCase(getEventDataById.rejected, (state) => {

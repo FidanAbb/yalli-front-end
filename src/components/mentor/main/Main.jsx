@@ -16,6 +16,7 @@ import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
+import { getEventData, getEventDataById } from "../../../redux/slice/event/event";
 import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
 const mentorData = [
@@ -207,6 +208,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const navigate = useNavigate();
 
   const groups = useSelector((state) => state.groups.groups);
+  const events = useSelector((state) => state.events.event);
   const dispatch = useDispatch();
 
   const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry"))
@@ -217,6 +219,7 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
 
   useEffect(() => {
     dispatch(getGroupData());
+    dispatch(getEventDataById(1));
   }, [dispatch]);
 
   useEffect(() => {
@@ -258,6 +261,8 @@ const filteredMentorData = mentorData.filter((m) =>
     c.name.toLowerCase().includes(searchedItem.toLowerCase()) &&
     (searchedCountry ? c.location.toLowerCase().includes(searchedCountry.toLowerCase()) : true)
   );
+
+  console.log(events)
   return (
     <div className={styles["main"]}>
       <div className="container">
@@ -269,7 +274,7 @@ const filteredMentorData = mentorData.filter((m) =>
             {page === "mentor" ? (
               filteredMentorData.map((m, i) => <MentorsCard key={i} data={m} />)
             ) : page === "group" ? (
-              filteredGroupData.map((g, i) => (
+              groups.content.map((g, i) => (
                 <div key={i} onClick={() => handleCardClick(g.id)}>
                   <Card sectionName="group" group={g} />
                 </div>
