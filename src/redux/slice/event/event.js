@@ -6,12 +6,20 @@ const baseURL = "https://yalli-back-end.onrender.com/v1/events";
 export const getEventData = createAsyncThunk(
   "events/getEventData",
   async () => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    const accessToken = JSON.parse(sessionStorage.getItem("accessToken"));
+    const searchRequest = {};
+    const pageable = {}; 
+
     const response = await axios.get(baseURL, {
+      params: {
+        searchRequest: JSON.stringify(searchRequest),
+        pageable: JSON.stringify(pageable),
+      },
       headers: {
-        Authorization: `Bearer ${userInfo.access-token}`,
+        Authorization: `Bearer ${accessToken}`, 
       },
     });
+
     return response.data;
   }
 );
@@ -63,7 +71,7 @@ export const eventSlice = createSlice({
         state.loading = true;
       })
       .addCase(getEventData.fulfilled, (state, action) => {
-        state.groups = action.payload;
+        state.events = action.payload;
         state.loading = false;
       })
       .addCase(getEventData.rejected, (state) => {

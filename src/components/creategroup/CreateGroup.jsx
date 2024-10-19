@@ -25,9 +25,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     category: "",
   });
   const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [imageId, setImageId] = useState("");
-
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGroupData({
@@ -35,6 +33,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       [name]: value,
     });
   };
+  const [imagePreview, setImagePreview] = useState(null);
+  const [imageId, setImageId] = useState("");
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];

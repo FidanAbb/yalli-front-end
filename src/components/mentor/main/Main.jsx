@@ -16,7 +16,10 @@ import Network from "../../../assets/img/Network.svg";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
-import { getEventData, getEventDataById } from "../../../redux/slice/event/event";
+import {
+  getEventData,
+  getEventDataById,
+} from "../../../redux/slice/event/event";
 import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
 const mentorData = [
@@ -92,43 +95,43 @@ const eventData = [
 const memberData = [
   {
     name: "Humay Mustafazadə",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Varşava, Polşa",
     image: Fidan,
   },
   {
     name: "Elmir Əliyev",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Belostok, Polşa",
     image: Vuqar,
   },
   {
     name: "Fidan Abbaslı",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Poznan, Polşa",
     image: Fidan,
   },
   {
     name: "Tural Jafarli",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Belostok, Polşa",
     image: Vuqar,
   },
   {
     name: "Rəvanə Kərimova",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Krakov, Polşa",
     image: Fidan,
   },
   {
     name: "Vüsal İslamzadə",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Lodz, Polşa",
     image: Vuqar,
   },
   {
     name: "Nigar Qasımova",
-    flag: <Polsa/>,
+    flag: <Polsa />,
     location: "Varşova, Polşa",
     image: Fidan,
   },
@@ -144,12 +147,7 @@ const groupCategory = [
   "Yerləşmə",
   "Qanunlar",
 ];
-const eventCategory = [
-  "Keçmiş",
-  "Yaxınlaşan",
-  "Populyar",
-  "Yadda saxlanılan",
-];
+const eventCategory = ["Keçmiş", "Yaxınlaşan", "Populyar", "Yadda saxlanılan"];
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -198,11 +196,16 @@ const countryCategory = [
   "Bali (İndoneziya)",
   "İsveçrə",
   "Portuqaliya",
-  "Cənubi Koreya"
+  "Cənubi Koreya",
 ];
 
-
-const Main = ({ page, setGroupData = () => {}, groupData }) => {
+const Main = ({
+  page,
+  setGroupData = () => {},
+  groupData,
+  setEventData = () => {},
+  eventsData,
+}) => {
   const [categoryData, setCategoryData] = useState(null);
   const navigate = useNavigate();
 
@@ -214,7 +217,8 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
 
   useEffect(() => {
     const updateCountrySearch = () => {
-      const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry")) || "";
+      const searchedCountry =
+        JSON.parse(localStorage.getItem("searchedCountry")) || "";
       setCountrySearch(searchedCountry);
     };
 
@@ -229,18 +233,26 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   //   ...groups,
   // });
 
-  console.log("yei", countrySearch)
+  // console.log("yei", countrySearch);
 
   useEffect(() => {
-    dispatch(getGroupData());
-    dispatch(getEventData());
+    const fetchData = async () => {
+      await dispatch(getGroupData());
+      await dispatch(getEventData());
+      setLoading(false); 
+    };
+    fetchData();
   }, [dispatch]);
 
   useEffect(() => {
-      if (setCategoryData) {
+    setEventData(events);
+  }, [events]);
+
+  useEffect(() => {
+    if (setCategoryData) {
       setGroupData(groups);
     }
-    }, [groups]);
+  }, [groups]);
 
   useEffect(() => {
     if (page === "mentor") {
@@ -256,14 +268,18 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const handleCardClick = (id) => {
     navigate(`/qrup/${id}`);
   };
-  const [searchedItem, setSearchedItem] = useState("")
+  const [searchedItem, setSearchedItem] = useState("");
 
   const filteredGroupData = groupData?.content?.filter((g) => {
-    const matchesSearchItem = g.title.toLowerCase().includes(searchedItem.toLowerCase());
-    const matchesCountry = countrySearch ? g.country.toLowerCase() === countrySearch.toLowerCase() : true;
+    const matchesSearchItem = g.title
+      .toLowerCase()
+      .includes(searchedItem.toLowerCase());
+    const matchesCountry = countrySearch
+      ? g.country.toLowerCase() === countrySearch.toLowerCase()
+      : true;
     return matchesSearchItem && matchesCountry;
   });
-  
+
   // const filteredMentorData = mentorData.filter((m) => {
   //   const matchesName = m.name.toLowerCase().includes(searchedItem.toLowerCase());
   //   const matchesCountry = countrySearch ? m.country.toLowerCase() === countrySearch.toLowerCase() : true;
@@ -275,43 +291,68 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   );
 
   const filteredEventData = eventData.filter((e) => {
-    const matchesTitle = e.title.toLowerCase().includes(searchedItem?.toLowerCase());
-    const matchesCountry = countrySearch ? e.location.toLowerCase().includes(countrySearch.toLowerCase()) : true;
+    const matchesTitle = e.title
+      .toLowerCase()
+      .includes(searchedItem?.toLowerCase());
+    const matchesCountry = countrySearch
+      ? e.location.toLowerCase().includes(countrySearch.toLowerCase())
+      : true;
     return matchesTitle && matchesCountry;
   });
 
   const filteredMemberData = memberData.filter((c) => {
-    const matchesSearchItem = c.name.toLowerCase().includes(searchedItem.toLowerCase());
-    const matchesCountry = countrySearch ? c.location.toLowerCase().includes(countrySearch.toLowerCase()) : true;
+    const matchesSearchItem = c.name
+      .toLowerCase()
+      .includes(searchedItem.toLowerCase());
+    const matchesCountry = countrySearch
+      ? c.location.toLowerCase().includes(countrySearch.toLowerCase())
+      : true;
     return matchesSearchItem && matchesCountry;
   });
 
-  console.log(events)
+  console.log(eventsData);
   return (
     <div className={styles["main"]}>
       <div className="container">
         <div className={styles["main"]}>
           <div className={styles["sidebar"]}>
-            <Sidebar categoryData={categoryData} page={page} setSearchedItem={setSearchedItem} searchedItem={searchedItem}/>
+            <Sidebar
+              categoryData={categoryData}
+              page={page}
+              setSearchedItem={setSearchedItem}
+              searchedItem={searchedItem}
+            />
           </div>
-          <div className={styles[`${page === "member" ? "member_cards" : "cards"}`]}>
-            {page === "mentor" ? (
-              filteredMentorData.map((m, i) => <MentorsCard key={i} data={m} />)
-            ) : page === "group" ? (
-              filteredGroupData? filteredGroupData.map((g, i) => (
-                <div key={i} onClick={() => handleCardClick(g.id)}>
-                  <Card sectionName="group" group={g} />
-                </div>
-              )) : groupData?.content?.map((g, i) => (
-                <div key={i} onClick={() => handleCardClick(g.id)}>
-                  <Card sectionName="group" group={g} />
-                </div>
-              ))
-            ) : page === "event" ? (
-              filteredEventData.map((e, i) => <Card key={i} sectionName="event" event={e} />)
-            ) : page === "member" ? (
-              filteredMemberData.map((c, i) => <MembersCard key={i} data={c} />)
-            ) : null}
+          <div
+            className={
+              styles[`${page === "member" ? "member_cards" : "cards"}`]
+            }
+          >
+            {page === "mentor"
+              ? filteredMentorData.map((m, i) => (
+                  <MentorsCard key={i} data={m} />
+                ))
+              : page === "group"
+              ? filteredGroupData
+                ? filteredGroupData.map((g, i) => (
+                    <div key={i} onClick={() => handleCardClick(g.id)}>
+                      <Card sectionName="group" group={g} />
+                    </div>
+                  ))
+                : groupData?.content?.map((g, i) => (
+                    <div key={i} onClick={() => handleCardClick(g.id)}>
+                      <Card sectionName="group" group={g} />
+                    </div>
+                  ))
+              : page === "event"
+              ? filteredEventData.map((e, i) => (
+                  <Card key={i} sectionName="event" event={e} />
+                ))
+              : page === "member"
+              ? filteredMemberData.map((c, i) => (
+                  <MembersCard key={i} data={c} />
+                ))
+              : null}
           </div>
         </div>
       </div>

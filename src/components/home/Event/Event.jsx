@@ -99,7 +99,7 @@ const Event = () => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Sürükleme hızı (isteğe bağlı artırılabilir/azaltılabilir)
+    const walk = (x - startX) * 2; 
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
