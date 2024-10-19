@@ -269,7 +269,7 @@ const Profilemelumatlari = ({ userData }) => {
                 placeholder={`${allUserData.fullName || userData.fullName}`}
               />
               <input type="date" name="" id="" />
-              <input type="email" name="" id="" placeholder={`${allUserData.email || "E-poçt ünvanı"}`} />
+              <input type="email" name="" id="" placeholder={`${allUserData.email || userData.email || "E-poçt ünvanı"}`} />
             </div>
           </div>
         </div>
