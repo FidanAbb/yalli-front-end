@@ -210,11 +210,26 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   const events = useSelector((state) => state.events.events);
   const dispatch = useDispatch();
 
-  const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry"))
+  const [countrySearch, setCountrySearch] = useState("");
+
+  useEffect(() => {
+    const updateCountrySearch = () => {
+      const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry")) || "";
+      setCountrySearch(searchedCountry);
+    };
+
+    updateCountrySearch();
+
+    const intervalId = setInterval(updateCountrySearch, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // const [allData, setAllData] = useState({
   //   ...groups,
   // });
+
+  console.log("yei", countrySearch)
 
   useEffect(() => {
     dispatch(getGroupData());
@@ -243,23 +258,33 @@ const Main = ({ page, setGroupData = () => {}, groupData }) => {
   };
   const [searchedItem, setSearchedItem] = useState("")
 
-const filteredMentorData = mentorData.filter((m) =>
-    m.name.toLowerCase().includes(searchedItem.toLowerCase())
+  const filteredGroupData = groupData?.content?.filter((g) => {
+    const matchesSearchItem = g.title.toLowerCase().includes(searchedItem.toLowerCase());
+    const matchesCountry = countrySearch ? g.country.toLowerCase() === countrySearch.toLowerCase() : true;
+    return matchesSearchItem && matchesCountry;
+  });
+  
+  // const filteredMentorData = mentorData.filter((m) => {
+  //   const matchesName = m.name.toLowerCase().includes(searchedItem.toLowerCase());
+  //   const matchesCountry = countrySearch ? m.country.toLowerCase() === countrySearch.toLowerCase() : true;
+  //   return matchesName && matchesCountry;
+  // });
+
+  const filteredMentorData = mentorData.filter((m) =>
+    m.name.toLowerCase().includes(searchedItem?.toLowerCase())
   );
 
-  const filteredGroupData = groupData?.content?.filter((g) => 
-    g.title.toLowerCase().includes(searchedItem.toLowerCase()) &&
-    (searchedCountry ? g.country.toLowerCase() === searchedCountry.toLowerCase() : true) 
-  );
+  const filteredEventData = eventData.filter((e) => {
+    const matchesTitle = e.title.toLowerCase().includes(searchedItem?.toLowerCase());
+    const matchesCountry = countrySearch ? e.location.toLowerCase().includes(countrySearch.toLowerCase()) : true;
+    return matchesTitle && matchesCountry;
+  });
 
-  const filteredEventData = eventData.filter((e) =>
-    e.title.toLowerCase().includes(searchedItem.toLowerCase())
-  );
-
-  const filteredMemberData = memberData.filter((c) =>
-    c.name.toLowerCase().includes(searchedItem.toLowerCase()) &&
-    (searchedCountry ? c.location.toLowerCase().includes(searchedCountry.toLowerCase()) : true)
-  );
+  const filteredMemberData = memberData.filter((c) => {
+    const matchesSearchItem = c.name.toLowerCase().includes(searchedItem.toLowerCase());
+    const matchesCountry = countrySearch ? c.location.toLowerCase().includes(countrySearch.toLowerCase()) : true;
+    return matchesSearchItem && matchesCountry;
+  });
 
   console.log(events)
   return (
@@ -273,7 +298,11 @@ const filteredMentorData = mentorData.filter((m) =>
             {page === "mentor" ? (
               filteredMentorData.map((m, i) => <MentorsCard key={i} data={m} />)
             ) : page === "group" ? (
-              groups?.content?.map((g, i) => (
+              filteredGroupData? filteredGroupData.map((g, i) => (
+                <div key={i} onClick={() => handleCardClick(g.id)}>
+                  <Card sectionName="group" group={g} />
+                </div>
+              )) : groupData?.content?.map((g, i) => (
                 <div key={i} onClick={() => handleCardClick(g.id)}>
                   <Card sectionName="group" group={g} />
                 </div>

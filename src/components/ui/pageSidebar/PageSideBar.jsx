@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./style.module.scss";
 import DownArrow from "../../ui/DownArrow";
 
@@ -56,18 +56,31 @@ const countryCategory = [
 
 const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
   const [searchItem, setSearchItem] = useState("");
-  const handleInputChange = (event) => {
-    const value = event.target.value.toLowerCase();
-    setSearchItem(value);
-
-    const filtered = countryCategory.filter((country) =>
-      country.toLowerCase().includes(value)
-    );
-    setFilteredCountries(filtered);
-  };
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
+  useEffect(() => {
+    const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry")) || "";
+    setSearchItem(searchedCountry);
+  }, []);
+  
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem("searchedCountry");
+    };
 
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleInputChange = (e) => {
+    setSearchItem(e.target.value);
+    setFilteredCountries(yourCountryList.filter(country => 
+      country.toLowerCase().includes(e.target.value.toLowerCase())
+    ));
+  };
 
   const [activeCategories, setActiveCategories] = useState([]);
 
@@ -104,9 +117,15 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
           className={styles["select"]}
           placeholder="Ölkə"
           value={searchItem}
-          onChange={handleInputChange}
+          onChange={
+            (e)=> {
+
+              handleInputChange(e)
+            }
+          }
           onClick={() => setShowOptions(!showOptions)}
           onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+          
         />
 
         {showOptions && (
@@ -119,6 +138,7 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
                   onClick={() => {
                     setSearchItem(country);
                     setShowOptions(false);
+                    localStorage.setItem("searchedCountry", JSON.stringify(country));
                   }}
                 >
                   {country}
