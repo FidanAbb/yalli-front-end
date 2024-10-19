@@ -122,7 +122,7 @@ const cityCategory = {
   "Cənubi Koreya": ["Seul", "Busan", "Incheon", "Daegu", "Daejeon"],
 };
 
-const Profilemelumatlari = () => {
+const Profilemelumatlari = ({userData}) => {
   const [searchCountry, setSearchCountry] = useState("");
   const [showCountryOptions, setShowCountryOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
@@ -160,11 +160,11 @@ const Profilemelumatlari = () => {
         <div className={styles["user_card"]}>
           <div className={styles["left"]}>
             <img src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg" alt="" />
-            <h2>Lalə Əzimli</h2>
-            <p>Toronto, Kanada</p>
+            <h2>{userData?.fullName}</h2>
+            <p>{userData?.country?.charAt(0).toUpperCase() + userData?.country?.slice(1).toLowerCase()}</p>
           </div>
           <div className={styles["right"]}>
-            <input type="text" name="" id="" placeholder="Lalə Əzimli" />
+            <input type="text" name="" id="" placeholder={`${userData.fullName}`} />
             <input type="date" name="" id="" />
             <input type="email" name="" id="" placeholder="E-poçt ünvanı" />
           </div>
@@ -194,7 +194,7 @@ const Profilemelumatlari = () => {
             type="text"
             className={styles["select"]}
             placeholder="Ölkə"
-            value={searchCountry}
+            value={!searchCountry ? userData.country?.charAt(0).toUpperCase() + userData?.country?.slice(1).toLowerCase() : searchCountry}
             onChange={handleCountryChange}
             onClick={() => setShowCountryOptions(!showCountryOptions)}
             onBlur={() => setTimeout(() => setShowCountryOptions(false), 200)}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styles from "./style.module.scss";
 import Profilemelumatlari from "../Profilemelumatlari/Profilemelumatlari";
 import Bildirisler from "../Bildirisler/Bildirisler";
@@ -8,10 +8,17 @@ import Parametrler from "../Parametrler/Parametrler";
 import Komekvedestek from "../Komekvedestek/Komekvedestek";
 
 const Main = ({ page }) => {
+  const [userData, setUserData] = useState("");
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("userInfo");
+    if (loggedUser) {
+      setUserData(JSON.parse(loggedUser));
+    }
+  }, []);
   return (
     <div className={styles["main_page"]}>
       {page == "Profilemelumatlari" ? (
-        <Profilemelumatlari />
+        <Profilemelumatlari userData={userData}/>
       ) : page == "Bildirisler" ? (
         <Bildirisler />
       ) : page == "Mentorluq" ? (
@@ -22,7 +29,7 @@ const Main = ({ page }) => {
         <Parametrler />
       ) : page == "Komekvedestek" ?(
         <Komekvedestek />
-      ) : <Profilemelumatlari />}
+      ) : <Profilemelumatlari userData={userData}/>}
     </div>
   );
 };

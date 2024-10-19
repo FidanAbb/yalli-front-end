@@ -88,9 +88,9 @@ const countryCategory = [
 
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   
-  const [userData, setUserData] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
+  const [userData, setUserData] = useState("");
   useEffect(() => {
     const loggedUser = localStorage.getItem("userInfo");
     if (loggedUser) {
