@@ -90,12 +90,19 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
-  const [userData, setUserData] = useState("");
+
+  const [userDataa, setUserData] = useState("");
   useEffect(() => {
-    const loggedUser = localStorage.getItem("userInfo");
-    if (loggedUser) {
-      setUserData(JSON.parse(loggedUser));
-    }
+    // const updateUserData = () => {
+      const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
+      setUserData(loggedUser);
+    // };
+
+    // updateUserData();
+
+    // const intervalId = setInterval(updateUserData, 1000);
+
+    // return () => clearInterval(intervalId);
   }, []);
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
@@ -135,7 +142,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
 
   const [isLoged, setIsLoged] = useState(false);
   const [searchItem, setSearchItem] = useState("");
-
+console.log(userDataa)
   return (
     <div className={styles["navbar"]}>
       <div className="container">
@@ -217,7 +224,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
           </div>
 
           <div className={styles["right"]}>
-            {!userData ? (
+            {!userDataa ? (
               <>
                 <p onClick={() => navigate("/login")}>Giriş</p>
                 <button onClick={() => navigate("/register")}>Qeydiyyat</button>
@@ -227,7 +234,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 <Bell />
                 <div className={styles["user_img"]} onClick={()=> navigate("/profile")}>
                   <img
-                    src={`https://minio-server-4oyt.onrender.com/yalli/${userData.image} `}
+                    src={`${userDataa.image} `}
                     alt=""
                   />
                 </div>

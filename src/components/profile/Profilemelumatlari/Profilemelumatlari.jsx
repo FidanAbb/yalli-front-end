@@ -138,6 +138,20 @@ const cityCategory = {
 };
 
 const Profilemelumatlari = ({ userData }) => {
+  const [userDataa, setUserData] = useState("");
+  useEffect(() => {
+    // const updateUserData = () => {
+      const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
+      setUserData(loggedUser);
+    // };
+
+    // updateUserData();
+
+    // const intervalId = setInterval(updateUserData, 1000);
+
+    // return () => clearInterval(intervalId);
+  }, []);
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.user);
 
@@ -153,7 +167,7 @@ const Profilemelumatlari = ({ userData }) => {
   });
 
   useEffect(() => {
-    dispatch(getUserDataById(parseInt(userData.id)));
+    dispatch(getUserDataById(Number(userDataa.id)));
   }, [dispatch]);
 
   useEffect(() => {
@@ -211,14 +225,14 @@ const Profilemelumatlari = ({ userData }) => {
         );
 
         if (response.status === 201) {
-          setImageId(response.data);
-          console.log(imageId)
+          setImageId(response.data); 
+          const updatedProfilePictureUrl = `https://minio-server-4oyt.onrender.com/yalli/${response.data}`;
+          
+          dispatch(patchUserData({ 
+            id: Number(allUserData.id), 
+            updatedData: {...allUserData, profilePictureUrl: updatedProfilePictureUrl, id: Number(allUserData.id) } 
+          }));
         }
-
-        dispatch(patchUserData({ 
-          id: parseInt(allUserData.id), 
-          updatedData: { profilePictureUrl: `https://minio-server-4oyt.onrender.com/yalli/${imageId}`} } 
-        ));
       } catch (error) {
         console.error("Image upload failed", error);
       }
@@ -234,7 +248,7 @@ const Profilemelumatlari = ({ userData }) => {
         <div className={styles["left_side"]}>
           <div className={styles["user_card"]}>
             <div className={styles["left"]}>
-              <img src={`https://minio-server-4oyt.onrender.com/yalli/${allUserData.profilePictureUrl}` || imagePreview} alt="" />
+              <img src={!imagePreview ? `${allUserData.profilePictureUrl}` : imagePreview} alt="" />
               <input
                 type="file"
                 accept="image/*"

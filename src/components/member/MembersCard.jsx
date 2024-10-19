@@ -38,7 +38,7 @@ const MembersCard = ({ data }) => {
 
       <div className={styles["right"]}>
         {selectedIcons.map((icon, index) => (
-          <span key={index}>{icon}</span>
+          <span key={index} onClick={()=> window.open("https://www.linkedin.com/in/fidan-abbasl%C4%B1-%C4%B1smay%C4%B1lzada/", "_blank")}>{icon}</span>
         ))}
       </div>
     </div>
