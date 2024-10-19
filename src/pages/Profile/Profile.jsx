@@ -6,7 +6,7 @@ import Main from "../../components/profile/main/Main";
 import styles from "./style.module.scss";
 import Profilemelumatlari from "../../components/profile/Profilemelumatlari/Profilemelumatlari"
 const Profile = () => {
-    const [page, setPage] = useState(Profilemelumatlari);
+    const [page, setPage] = useState("");
   return (
     <>
       <Header />
