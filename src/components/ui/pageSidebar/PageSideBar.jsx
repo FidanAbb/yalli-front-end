@@ -55,10 +55,7 @@ const countryCategory = [
 
 
 const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
-  const [activeCategories, setActiveCategories] = useState([]);
   const [searchItem, setSearchItem] = useState("");
-  const [filteredCountries, setFilteredCountries] = useState(countryCategory);
-  const [showOptions, setShowOptions] = useState(false);
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchItem(value);
@@ -68,6 +65,13 @@ const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
     );
     setFilteredCountries(filtered);
   };
+  const [showOptions, setShowOptions] = useState(false);
+  const [filteredCountries, setFilteredCountries] = useState(countryCategory);
+
+
+  const [activeCategories, setActiveCategories] = useState([]);
+
+
 
   const toggleCategory = (category) => {
     if (activeCategories.includes(category)) {

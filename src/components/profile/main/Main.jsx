@@ -9,7 +9,7 @@ import Komekvedestek from "../Komekvedestek/Komekvedestek";
 
 const Main = ({ page }) => {
   return (
-    <div className="main_page">
+    <div className={styles["main_page"]}>
       {page == "Profilemelumatlari" ? (
         <Profilemelumatlari />
       ) : page == "Bildirisler" ? (
