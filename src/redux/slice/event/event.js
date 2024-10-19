@@ -10,17 +10,21 @@ export const getEventData = createAsyncThunk(
     const searchRequest = {};
     const pageable = {}; 
 
-    const response = await axios.get(baseURL, {
-      params: {
-        searchRequest: JSON.stringify(searchRequest),
-        pageable: JSON.stringify(pageable),
-      },
-      headers: {
-        Authorization: `Bearer ${accessToken}`, 
-      },
-    });
-
-    return response.data;
+    try {
+      const response = await axios.get(baseURL, {
+        params: {
+          searchRequest: JSON.stringify(searchRequest),
+          pageable: JSON.stringify(pageable),
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`, 
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching event data:", error.response || error.message);
+      throw error;
+    }
   }
 );
 

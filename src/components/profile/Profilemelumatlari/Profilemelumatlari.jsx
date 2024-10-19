@@ -248,14 +248,14 @@ const Profilemelumatlari = ({ userData }) => {
         <div className={styles["left_side"]}>
           <div className={styles["user_card"]}>
             <div className={styles["left"]}>
-              <img src={!imagePreview ? `${allUserData.profilePictureUrl}` : imagePreview} alt="" />
+              <img src={!imagePreview ? `${allUserData.profilePictureUrl || userData.image}` : imagePreview} alt="" />
               <input
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 className={styles["image_inp"]}
               />
-              <h2>{allUserData?.fullName}</h2>
+              <h2>{allUserData?.fullName || userData.fullName}</h2>
               <p>
                 {allUserData?.country?.charAt(0).toUpperCase() +
                   allUserData?.country?.slice(1).toLowerCase()}
@@ -266,7 +266,7 @@ const Profilemelumatlari = ({ userData }) => {
                 type="text"
                 name=""
                 id=""
-                placeholder={`${allUserData.fullName}`}
+                placeholder={`${allUserData.fullName || userData.fullName}`}
               />
               <input type="date" name="" id="" />
               <input type="email" name="" id="" placeholder={`${allUserData.email || "E-poçt ünvanı"}`} />
