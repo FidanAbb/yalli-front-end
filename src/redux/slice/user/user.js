@@ -7,6 +7,7 @@ export const getUserData = createAsyncThunk("users/getUserData", async () => {
   const response = await axios.get(baseURL);
   return response.data;
 });
+console.log(getUserData);
 
 export const getUserDataById = createAsyncThunk(
   "users/getUsersDataById",

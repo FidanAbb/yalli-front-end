@@ -14,6 +14,7 @@ import ResetPass from "../pages/ResetPass";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Profile from "../pages/Profile/Profile";
+import ProfileInfo from "../pages/Profile/Components/ProfileInfo";
 
 const Router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const Router = createBrowserRouter([
   },
   {
     path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/:section",
     element: <Profile />,
   },
   {

@@ -1,0 +1,21 @@
+
+
+.profile-left .top ul li .link{
+    color:#11111180;
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: flex;   
+    align-items:center;
+    gap: .6rem;
+}
+.profile-left .top ul li .link .user-icon{
+    font-size: 1.6rem;
+}
+.profile-left .top ul li .link .notif-icon{
+    font-size: 1.6rem;
+}
+.profile-left .top ul li .link .mentor-icon{
+    width: 1.6rem;
+}
+
+

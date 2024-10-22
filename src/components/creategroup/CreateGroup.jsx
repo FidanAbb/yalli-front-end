@@ -217,8 +217,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               <option disabled selected>
                 Kateqoriya
               </option>
-              {groupCategory.map((ctgry) => (
-                <option value={ctgry}>{ctgry}</option>
+              {groupCategory.map((ctgry,index) => (
+                <option key={index} value={ctgry}>{ctgry}</option>
               ))}
             </select>
             <div className={styles["down_arrow"]}>

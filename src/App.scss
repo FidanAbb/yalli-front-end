@@ -8,8 +8,24 @@ body {
   /* max-width: 1600px; */
 }
 
+html, body{
+overflow-x: hidden;
+}
+
 .container {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0;
+  max-width: 1400px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+ul,p{
+  margin: 0 !important ;
+  padding: 0 !important;
+}
+li{
+  list-style: none;
+}
+
+.dp-flex{
+  display: flex;
+  align-items: center;
 }

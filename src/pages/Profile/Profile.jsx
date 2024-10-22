@@ -1,24 +1,17 @@
-import React, {useState} from "react";
 import Header from "../../components/Layout/Header/Header";
-// import Footer from "../../components/Layout/Footer/Footer";
-import ProfileSideBar from "../../components/profile/ProfileSideBar/ProfileSideBar";
-import Main from "../../components/profile/main/Main";
-import styles from "./style.module.scss";
-import Profilemelumatlari from "../../components/profile/Profilemelumatlari/Profilemelumatlari"
+import "./assets/css/profile.css"
+import ProfileLeft from "./Components/ProfileLeft";
+import ProfileRight from "./Components/ProfileRight";
 const Profile = () => {
-    const [page, setPage] = useState("");
-  return (
-    <>
-      <Header />
-      <div className={`container  ${styles["profile_page"]}`}>
-      <ProfileSideBar 
-          setPage={setPage}
-        />
-        <Main page={page}/>
-      </div>
-      {/* <Footer /> */}
-    </>
-  );
+  return <div className="profile">
+    <Header/>
+    <div className="container">
+    <div className="d-flex">
+      <ProfileLeft />
+      <ProfileRight />
+    </div>
+    </div>
+  </div>;
 };
 
 export default Profile;
