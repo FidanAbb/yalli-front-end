@@ -12,6 +12,7 @@ import { getEventData } from "../../../redux/slice/event/event";
 const Event = () => {
   const eventData = [
     {
+      id: 1,
       time: "Monday, 9 September",
       hour: "19:00",
       title: "Azərbaycanlıların Şam Yeməyi",
@@ -19,6 +20,7 @@ const Event = () => {
       image: Meal,
     },
     {
+      id: 2,
       time: "Friday, 25 October",
       hour: "14:00",
       title: "Badminton Yarışı | Southland Stadion",
@@ -26,6 +28,7 @@ const Event = () => {
       image: badminton,
     },
     {
+      id: 3,
       time: "Friday, 8 November",
       hour: "16:00",
       title: "Milli Mətbəx Yığıncağı",
@@ -33,6 +36,7 @@ const Event = () => {
       image: kitchen,
     },
     {
+      id: 4,
       time: "Monday, 9 September",
       hour: "19:00",
       title: "Futbol Yarışı | Warszawianka Football Center",
@@ -40,6 +44,7 @@ const Event = () => {
       image: Meal,
     },
     {
+      id:5,
       time: "Monday, 9 September",
       hour: "19:00",
       title: "Azərbaycanlıların Şam Yeməyi",
@@ -47,6 +52,7 @@ const Event = () => {
       image: Meal,
     },
     {
+      id:6,
       time: "Friday, 25 October",
       hour: "14:00",
       title: "Badminton Yarışı | Southland Stadion",
@@ -54,6 +60,7 @@ const Event = () => {
       image: badminton,
     },
     {
+      id:7,
       time: "Friday, 8 November",
       hour: "16:00",
       title: "Milli Mətbəx Yığıncağı",
@@ -61,6 +68,7 @@ const Event = () => {
       image: kitchen,
     },
     {
+      id:8,
       time: "Monday, 9 September",
       hour: "19:00",
       title: "Futbol Yarışı | Warszawianka Football Center",
@@ -99,7 +107,7 @@ const Event = () => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
+    const walk = (x - startX) * 2;
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -132,7 +140,7 @@ const Event = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []); 
+  }, []);
 
   const navigate = useNavigate();
   return (
@@ -141,7 +149,7 @@ const Event = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Tədbirlər</h2>
-            <p onClick={() => 
+            <p onClick={() =>
               // window.location.href ="/event"
               navigate("/event")
               }>Hamısına bax</p>

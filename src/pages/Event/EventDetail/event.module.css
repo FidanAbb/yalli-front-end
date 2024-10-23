@@ -1,0 +1,89 @@
+.event_box{
+    max-width: 1075px;
+    margin: 50px auto 110px;
+    background-color: #fff;
+    padding: 22px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 28px;
+}
+.event_left{
+    min-width: 343px;
+    max-width: 343px;
+    width: 100%;
+}
+.event_left img{
+    width: 100%;
+    height: 284px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+.event_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 280px;
+}
+.event_right h4{
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 26.95px;
+    color: rgba(250, 69, 0, 1);
+    margin: 0 0 8px!important;
+}
+.event_right .subtitle{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.event_right .location span,
+.event_right .subtitle p{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.98px;
+    color: rgba(162, 162, 162, 1);
+    margin: 0;
+}
+.event_right .subtitle .circle{
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(162, 162, 162, 1);
+}
+.event_right .location{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.event_right .main_text{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    color: rgba(17, 17, 17, 1);
+    margin-bottom: 16px;
+}
+.btn_box{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.btn_box button{
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid rgba(250, 69, 0, 1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(250, 69, 0, 1);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    background-color: transparent;
+    cursor: pointer;
+}

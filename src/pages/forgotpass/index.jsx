@@ -84,9 +84,9 @@ const ForgotPass = () => {
             <path
               d="M17.1666 10H3.83325M3.83325 10L8.83325 5M3.83325 10L8.83325 15"
               stroke="#FA4500"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
           <span>Girişə qayıt</span>

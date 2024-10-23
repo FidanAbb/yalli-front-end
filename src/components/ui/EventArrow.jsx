@@ -12,9 +12,9 @@ const EventArrow = () => {
       <path
         d="M2.83334 7.5H12.1667M12.1667 7.5L8.66668 4M12.1667 7.5L8.66668 11"
         stroke="#1C274C"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

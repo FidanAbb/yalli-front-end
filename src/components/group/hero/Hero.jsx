@@ -10,7 +10,7 @@ const Hero = ({setGroupData}) => {
         <div className={styles["hero"]}>
           <div className={styles["detail"]}>
             <div className={styles["p"]}>
-              Bizim platformamızda müxtəlif maraq və ehtiyaclara uyğun “<span className={styles["group_text"]}>Qruplar</span>”
+              Bizim platformamızda müxtəlif maraq və ehtiyaclara uyğun “<span className={styles["group_text"]}>İcmalar</span>”
               mövcuddur. Əyləncə, təhsil, iş imkanları və digər mövzularda
               yaradılmış qruplar vasitəsilə xaricdə yaşayan həmyerlilərimiz bir
               araya gələ, bilik və təcrübə paylaşa, yeni dostluqlar qura

@@ -147,10 +147,11 @@
     }
     .ellipsis {
       position: absolute;
-      bottom: 33px;
+      bottom: 47px;
       z-index: 0;
-      scale: 1.2;
+      scale: 1;
       filter: blur(0.4px);
+      max-width: 376px;
     }
   }
 }

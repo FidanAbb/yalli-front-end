@@ -134,7 +134,7 @@ const Group = () => {
       <div className="container">
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
-            <h2>Qruplar</h2>
+            <h2>İcmalar</h2>
             <p onClick={() => 
               // window.location.href ="/qrup"
               navigate("/qrup")

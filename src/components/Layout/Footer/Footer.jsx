@@ -24,7 +24,7 @@ const pages = [
     link: "/member",
   },
   {
-    page: "Qruplar",
+    page: "İcma",
     link: "/qrup",
   },
 ];
@@ -48,7 +48,7 @@ const Footer = () => {
             <ul>
               <h4>Səhifələr</h4>
               {pages.map((p, i) => (
-                <li key={i} onClick={()=>(
+                <li key={`footer-${i}`} onClick={()=>(
                   // window.location.href = p.link
                   navigate(`${p.link}`)
                 )}>{p.page}</li>
@@ -57,8 +57,8 @@ const Footer = () => {
 
             <ul>
               <h4>Dəstək</h4>
-              {support.map((s) => (
-                <li>{s}</li>
+              {support.map((s,i) => (
+                <li key={`footers-${i}`}>{s}</li>
               ))}
             </ul>
 

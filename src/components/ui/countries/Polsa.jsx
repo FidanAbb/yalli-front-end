@@ -26,14 +26,14 @@ const Polsa = () => {
         </mask>
         <g mask="url(#mask0_120_1358)">
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M-1.68579 21.2856H25.6856V0.734619H-1.68579V21.2856Z"
             fill="#F2F2F2"
           />
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M-1.68579 21.2855H25.6856V11.01H-1.68579V21.2855Z"
             fill="#C9233D"
           />

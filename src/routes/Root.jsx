@@ -14,6 +14,8 @@ import ResetPass from "../pages/ResetPass";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Profile from "../pages/Profile/Profile";
+import EventDetail from "../pages/Event/EventDetail";
+import MentorDetail from "../pages/Mentor/MentorDetail";
 
 const Router = createBrowserRouter([
   {
@@ -35,6 +37,10 @@ const Router = createBrowserRouter([
   {
     path: "/mentor",
     element: <Mentor />,
+  },
+  {
+    path: "/mentor/:id",
+    element: <MentorDetail />,
   },
 
   {
@@ -76,6 +82,10 @@ const Router = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPass/>,
+  },
+  {
+    path: "/event/:id",
+    element: <EventDetail />,
   },
 
 ]);

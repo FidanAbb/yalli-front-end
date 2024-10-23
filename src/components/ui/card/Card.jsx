@@ -4,8 +4,10 @@ import Location from "../Location";
 import EventArrow from "../EventArrow";
 import saveBtn from "../../../assets/img/saveBtn.png"
 import styles from "./style.module.scss";
+import {useNavigate} from "react-router-dom";
 
 const Card = ({ sectionName, event, group }) => {
+    let navigate = useNavigate()
   return (
     <div
       className={
@@ -55,7 +57,9 @@ const Card = ({ sectionName, event, group }) => {
       {sectionName == "group" ? (
         <p className={styles["card_footer"]}>{group?.country}</p>
       ) : (
-        <button className={styles["daha_etrafli"]}>Daha Ətraflı</button>
+        <button onClick={() => navigate(`/event/${event.id}`, { state: { event } })}  className={styles["daha_etrafli"]}>
+            Daha Ətraflı
+        </button>
       )}
     </div>
   );

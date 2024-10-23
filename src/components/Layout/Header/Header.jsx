@@ -25,7 +25,7 @@ const navLinks = [
     link: "/mentor",
   },
   {
-    page: "Qruplar",
+    page: "İcma",
     link: "/qrup",
   },
   {
@@ -142,7 +142,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
 
   const [isLoged, setIsLoged] = useState(false);
   const [searchItem, setSearchItem] = useState("");
-console.log(userDataa)
+
   return (
     <div className={styles["navbar"]}>
       <div className="container">
@@ -155,47 +155,54 @@ console.log(userDataa)
                 alt="Logo"
                 onClick={() => navigate("/")}
               />
+              {!!userDataa &&
               <div className={styles["country_select"]}>
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  className={styles["select"]}
-                  placeholder="Ölkə"
-                  value={searchItem}
-                  onChange={handleInputChange}
-                  onClick={() => setShowOptions(!showOptions)}
-                  onBlur={() => setTimeout(() => setShowOptions(false), 200)}
-                />
+                {/*<input*/}
+                {/*    type="text"*/}
+                {/*    name=""*/}
+                {/*    id=""*/}
+                {/*    className={styles["select"]}*/}
+                {/*    placeholder="Ölkə"*/}
+                {/*    value={searchItem}*/}
 
+                {/*/>*/}
+                <button
+                    className={styles["country_select"]}
+                    onChange={handleInputChange}
+                    onClick={() => setShowOptions(!showOptions)}
+                    onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+                >
+                  <span>{searchItem ? searchItem : 'Ölkə'}</span>  <DownArrow/>
+                </button>
                 {showOptions && (
-                  <div className={styles["options"]}>
-                    {filteredCountries.length > 0 ? (
-                      filteredCountries.map((country, i) => (
-                        <div
-                          key={i}
-                          className={styles["p"]}
-                          onClick={() => {
-                            setSearchItem(country);
-                            setShowOptions(false);
-                          }}
-                        >
-                          {country}
-                        </div>
-                      ))
-                    ) : (
-                      <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
-                    )}
-                  </div>
+                    <div className={styles["options"]}>
+                      {filteredCountries.length > 0 ? (
+                          filteredCountries.map((country, i) => (
+                              <div
+                                  key={i}
+                                  className={styles["p"]}
+                                  onClick={() => {
+                                    setSearchItem(country);
+                                    setShowOptions(false);
+                                  }}
+                              >
+                                {country}
+                              </div>
+                          ))
+                      ) : (
+                          <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+                      )}
+                    </div>
                 )}
 
-                <div
-                  className={styles["down_arrow"]}
-                  onClick={() => setShowOptions(!showOptions)}
-                >
-                  <DownArrow />
-                </div>
+                {/*<div*/}
+                {/*    className={styles["down_arrow"]}*/}
+                {/*    onClick={() => setShowOptions(!showOptions)}*/}
+                {/*>*/}
+                {/*  <DownArrow/>*/}
+                {/*</div>*/}
               </div>
+              }
             </div>
 
             <ul>
@@ -234,7 +241,7 @@ console.log(userDataa)
                 <Bell />
                 <div className={styles["user_img"]} onClick={()=> navigate("/profile")}>
                   <img
-                    src={`${userDataa.image} `}
+                    src={`${userDataa?.image ? userDataa?.image : '/src/assets/img/nouser.webp' } `}
                     alt=""
                   />
                 </div>

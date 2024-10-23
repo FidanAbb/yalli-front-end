@@ -40,8 +40,17 @@
         }
         .country_select {
           position: relative;
-          width: 40%;
-          margin-left: -10px;
+          //width: 40%;
+          //margin-left: -10px;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          min-width: 120px;
+          cursor: pointer;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 4px;
           .options {
             margin-top: 10px;
             // border: 1px solid #a2a2a2;
@@ -52,7 +61,7 @@
             position: absolute;
             top: 42px;
             z-index: 2;
-            width: 120%;
+            //width: 120%;
             text-align: start;
             border-radius: 10px;
             background-color: #fff;
@@ -168,6 +177,7 @@
       align-items: center;
       gap: 10px;
       .user_img {
+        cursor: pointer;
         img {
           width: 36px;
           height: 36px;
