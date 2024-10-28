@@ -1,15 +1,17 @@
 @import "./styles/main.module.scss";
+
 body {
   font-family: "Gilroy", sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: rgb(245,245,245);
+  background: rgb(245, 245, 245) !important;
   /* max-width: 1600px; */
 }
 
-html, body{
-overflow-x: hidden;
+html,
+body {
+  overflow-x: hidden;
 }
 
 .container {
@@ -17,15 +19,35 @@ overflow-x: hidden;
   margin: 0 auto !important;
   padding: 0 !important;
 }
-ul,p{
-  margin: 0 !important ;
+
+ul,
+p {
+  margin: 0 !important;
   padding: 0 !important;
 }
-li{
+
+li {
   list-style: none;
 }
 
-.dp-flex{
+.dp-align {
   display: flex;
   align-items: center;
+}
+
+.dp-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dp-cloumn {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.dp-bettween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

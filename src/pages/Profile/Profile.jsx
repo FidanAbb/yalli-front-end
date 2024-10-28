@@ -6,7 +6,7 @@ const Profile = () => {
   return <div className="profile">
     <Header/>
     <div className="container">
-    <div className="d-flex">
+    <div className="profile-con row">
       <ProfileLeft />
       <ProfileRight />
     </div>
