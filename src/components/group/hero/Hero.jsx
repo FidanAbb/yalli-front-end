@@ -1,9 +1,19 @@
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./style.module.scss";
 import CreateGroup from "../../creategroup/CreateGroup";
+import {useNavigate} from "react-router-dom";
 const Hero = ({setGroupData}) => {
   const [modal, setModal] = useState(false)
+  const [userData, setUserData] = useState("");
+  let navigate = useNavigate()
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("userInfo");
+
+    if (loggedUser) {
+      setUserData(JSON.parse(loggedUser));
+    }
+  }, []);
   return (
     <div className={styles["hero"]}>
       <div className="container">
@@ -19,7 +29,8 @@ const Hero = ({setGroupData}) => {
             <p>
               Həyatına dəyərli insanlar qat və birləşməyin gücünü hiss et!
             </p>
-            <button onClick={()=> setModal(true)}>Öz icmanı əlavə et</button>
+                <button  onClick={() => userData ? setModal(true) : navigate('/login')}> Öz icmanı əlavə et</button>
+
           </div>
         </div>
 

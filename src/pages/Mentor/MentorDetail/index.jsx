@@ -7,7 +7,7 @@ import {useLocation} from "react-router-dom";
 
 export default function MentorDetail() {
     const location = useLocation();
-    const { id, name, detail,desc,flag,image } = location.state || {};
+    const {id, name, detail, desc, flag, image} = location.state || {};
     return (
         <>
             <Header/>
@@ -20,8 +20,13 @@ export default function MentorDetail() {
                         <p>{detail}</p>
                     </div>
                     <div className={styles.mentor_right}>
-                        <p>{desc}</p>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias at deleniti doloremque
+                            dolorum eaque eum ex id illo molestiae nemo nobis porro quaerat, quasi quisquam reiciendis
+                            repudiandae rerum velit voluptas.
+                        </p>
                         <div className={styles.mentor_btn}>
+
                             <button>
                                 <span>Əlaqəyə keç</span>
                                 <UpperIcon/>

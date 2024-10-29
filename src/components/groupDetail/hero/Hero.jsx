@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styles from "./style.module.scss";
 import JoinGroupIcon from "../../ui/JoinGroupIcon";
 import ShareIcon from "../../ui/ShareIcon";
 import GroupIcon from "../../ui/GroupIcon";
 import HeroImg from "../../../assets/img/groupDetail.svg";
+import {useNavigate} from "react-router-dom";
 
 const Hero = ({ group }) => {
   const [isHover, setIsHover] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false); // State to track if copy was successful
+  const [userData, setUserData] = useState("");
+  let navigate = useNavigate()
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("userInfo");
 
+    if (loggedUser) {
+      setUserData(JSON.parse(loggedUser));
+    }
+  }, []);
   // Function to copy text to clipboard
   const handleCopyToClipboard = async () => {
     try {
@@ -20,7 +29,14 @@ const Hero = ({ group }) => {
       console.error('Failed to copy: ', err); // Log error if copy fails
     }
   };
-
+  const handleJoinGroup = () => {
+    if (userData) {
+      const url = '/profile/profile-info';
+      window.open(url);
+    } else {
+      navigate('/login');
+    }
+  };
   return (
       <div className={styles["hero"]}>
         <div className="container">
@@ -29,10 +45,7 @@ const Hero = ({ group }) => {
               <div className={styles["upper"]}>
                 <h1>{group.title}</h1>
                 <button
-                    onClick={() => {
-                      const url = group.link;
-                      window.open(url, "_blank");
-                    }}
+                    onClick={handleJoinGroup}
                     onMouseLeave={() => setIsHover(false)}
                     onMouseEnter={() => setIsHover(true)}
                 >
