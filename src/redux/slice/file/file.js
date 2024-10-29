@@ -19,6 +19,7 @@ export const uploadImageFIle=createAsyncThunk(
           "Content-Type":"multipart/form-data"
         }
       })
+      
       return response.data
     }catch(error){
       return rejectWithValue(error.response.data)
@@ -26,17 +27,17 @@ export const uploadImageFIle=createAsyncThunk(
   }
 ) 
 
-export const getImageFile=createAsyncThunk(
+export const getImageFile = createAsyncThunk(
   "files/getImage",
-  async(filename,{rejectWithValue})=>{
-    try{
-      const response=await axios.get(`${BASE_URL}/${filename}`);
-      return response.data
-    }catch(error){
-      return rejectWithValue(error.response.data)
+  async (filename, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/${filename}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
-)
+);
 
 
 const fileSlice=createSlice({
@@ -50,7 +51,7 @@ const fileSlice=createSlice({
     })
     .addCase(uploadImageFIle.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      state.file = action.payload;
+      state.file = action.payload;  // Faylın Redux store-da saxlandığı yer
     })
     .addCase(uploadImageFIle.rejected, (state, action) => {
       state.status = 'failed';

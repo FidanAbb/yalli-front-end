@@ -23,14 +23,19 @@ const ProfileInfo = () => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
   const [localUserData, setLocalUserData] = useState(initialData);
-  console.log(userFromStore);
-  const imageSrc = useSelector(state => state.file.fileUrl); 
+  console.log(localUserData);
+  
+  
+  const imageSrc = useSelector(state => state.file.file); 
+  console.log(imageSrc);
+  
   useEffect(() => {
     const localUserDataJson = localStorage.getItem("userInfo");
+    console.log("LocalStorage Data:", localUserDataJson);
     if (localUserDataJson) {
       const localUserDataParsed = JSON.parse(localUserDataJson);
       setLocalUserData(localUserDataParsed);
-      dispatch(getUserDataById(localUserDataParsed.id));
+      dispatch(getUserDataById(67));
     }
   }, [dispatch]);
  
@@ -40,6 +45,7 @@ const ProfileInfo = () => {
   };
   useEffect(() => {
     if (userFromStore) {
+      setLocalUserData(userFromStore); // Redux-dan alınan məlumatları state-də saxlayır
       localStorage.setItem("userInfo", JSON.stringify(userFromStore));
     }
   }, [userFromStore]);
@@ -48,6 +54,7 @@ const ProfileInfo = () => {
     const newFormData = { ...localUserData, [name]: value };
     setLocalUserData(newFormData);
     updateUserData(newFormData);
+     localStorage.setItem("userInfo", JSON.stringify(newFormData));
   };
   const handleDateChange = (date) => {
     const formattedDate = date ? date.toISOString().substring(0, 10) : "";
@@ -82,18 +89,34 @@ const ProfileInfo = () => {
     { name: "Turkey", cities: ["Istanbul", "Ankara", "Izmir"] },
   ];
   const handleImageUpload = (event) => {
-    const file=event.target.files[0]
-    if(file){
+    const file = event.target.files[0];
+    if (file) {
       dispatch(uploadImageFIle(file))
-      .unwrap()
-      .then(response=>{
-        console.log("File uploaded successfully:", response);
-        const fileName=response.filename
-        dispatch(getImageFile(fileName))
-      })
-      .catch(error=>{
-        console.log("Failed to upload file:", error);
-      })
+        .unwrap()
+        .then(response => {
+          dispatch(getImageFile(response));
+  
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64String = reader.result; // Base64 formatında şəkil
+            console.log(base64String);
+  
+            const updatedData = {
+              ...localUserData,
+              profilePictureUrl: base64String, // Base64 formatında şəkil URL-i
+            };
+  
+            // localUserData state-ni yeniləyin
+            setLocalUserData(updatedData);
+            // localStorage-da saxlayın
+            localStorage.setItem("userInfo", JSON.stringify(updatedData));
+          };
+  
+          reader.readAsDataURL(file); // Bu çağırış burada olmalıdır
+        })
+        .catch(error => {
+          console.log("Failed to upload file:", error);
+        });
     }
   };
   
@@ -111,7 +134,7 @@ const ProfileInfo = () => {
                 <div className="left">
                   <div className="img-block">
                     {imageSrc?
-                    <img src={imageSrc} alt="" />
+                  <img src={localUserData.profilePictureUrl} alt="Profile" />
                       :<img
                         src="../../../../src/pages/Profile/assets/img/default-profile-img.webp"
                         alt="Default Profile"
