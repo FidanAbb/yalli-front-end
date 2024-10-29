@@ -16,6 +16,7 @@ import Register from "../pages/Register/Register";
 import Profile from "../pages/Profile/Profile";
 import EventDetail from "../pages/Event/EventDetail";
 import MentorDetail from "../pages/Mentor/MentorDetail";
+import ProfileInfo from "../pages/Profile/Components/ProfileInfo";
 
 const Router = createBrowserRouter([
   {
@@ -31,12 +32,20 @@ const Router = createBrowserRouter([
     element: <Profile />,
   },
   {
+    path: "/profile/:section",
+    element: <Profile />,
+  },
+  {
     path: "/member",
     element: <Member />,
   },
   {
     path: "/mentor",
     element: <Mentor />,
+  },
+    {
+    path: "/profile/:section",
+    element: <Profile />,
   },
   {
     path: "/mentor/:id",

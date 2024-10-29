@@ -82,38 +82,27 @@ const countryCategory = [
   "Bali (İndoneziya)",
   "İsveçrə",
   "Portuqaliya",
-  "Cənubi Koreya"
+  "Cənubi Koreya",
 ];
 
-
 const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
-  
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
 
   const [userDataa, setUserData] = useState("");
   useEffect(() => {
-    // const updateUserData = () => {
-      const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
-      setUserData(loggedUser);
-    // };
-
-    // updateUserData();
-
-    // const intervalId = setInterval(updateUserData, 1000);
-
-    // return () => clearInterval(intervalId);
+    const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
+    setUserData(loggedUser);
   }, []);
+
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchItem(value);
-
     const filtered = countryCategory.filter((country) =>
       country.toLowerCase().includes(value)
     );
     setFilteredCountries(filtered);
   };
-
 
   const [isActive, setisActive] = useState(0);
   const navigate = useNavigate();
@@ -128,12 +117,10 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
       } else if (index === 5) {
         scrollToSection(eventRef);
       } else {
-        // window.location.href = navLinks[index].link
         navigate(navLinks[index].link);
       }
     } else {
       setisActive(index);
-      // window.location.href = navLinks[index].link
       navigate(navLinks[index].link);
     }
   };
@@ -239,7 +226,10 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
             ) : (
               <>
                 <Bell />
-                <div className={styles["user_img"]} onClick={()=> navigate("/profile")}>
+                <div
+                  className={styles["user_img"]}
+                  onClick={() => navigate("/profile")}
+                >
                   <img
                     src={`${userDataa?.image ? userDataa?.image : '/src/assets/img/nouser.webp' } `}
                     alt=""

@@ -128,6 +128,48 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     "ABŞ",
     "Ukrayna",
     // more countries...
+    "Böyük Britaniya",
+    "Kanada",
+    "Fransa",
+    "İsrail",
+    "Gürcüstan",
+    "İtaliya",
+    "Avstraliya",
+    "İspaniya",
+    "Niderland",
+    "Avstriya",
+    "İsveç",
+    "Belçika",
+    "Norveç",
+    "Finlandiya",
+    "Macarıstan",
+    "Polşa",
+    "Yunanıstan",
+    "Slovakiya",
+    "Litva",
+    "Latviya",
+    "Estoniya",
+    "Qazaxıstan",
+    "BƏƏ",
+    "Yaponiya",
+    "İran",
+    "Səudiyyə Ərəbistanı",
+    "Belarus",
+    "Moldova",
+    "Qırğızıstan",
+    "Tacikistan",
+    "Türkmənistan",
+    "Özbəkistan",
+    "Malayziya",
+    "Sinqapur",
+    "Braziliya",
+    "Argentina",
+    "Meksika",
+    "Vietnam",
+    "Bali (İndoneziya)",
+    "İsveçrə",
+    "Portuqaliya",
+    "Cənubi Koreya"
   ];
   const selectRef = useRef(null);
 
@@ -185,27 +227,43 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
                 <DownArrow />
               </div>
             </div>
+          </div>
+
+          <div className={styles["selected"]}>
+            <select
+              name="category"
+              id="category"
+              placeholder="Kateqoriya"
+              onChange={handleChange}
+            >
+              <option disabled selected>
+                Kateqoriya
+              </option>
+              {groupCategory.map((ctgry,index) => (
+                <option key={index} value={ctgry}>{ctgry}</option>
+              ))}
+            </select>
+            <div className={styles["down_arrow"]}>
+              <DownArrow />
 
             <div className={styles["selected"]}>
-              <select
-                  name="category"
-                  id="category"
-                  placeholder="Kateqoriya"
-                  onChange={handleChange}
-              >
-                <option disabled selected>
-                  Kateqoriya
-                </option>
-                {groupCategory.map((ctgry, index) => (
-                    <option value={ctgry} key={index}>
-                      {ctgry}
-                    </option>
-                ))}
-              </select>
-              <div className={styles["down_arrow"]}>
-                <DownArrow />
-              </div>
+            <select
+              name="category"
+              id="category"
+              placeholder="Kateqoriya"
+              onChange={handleChange}
+            >
+              <option disabled selected>
+                Kateqoriya
+              </option>
+              {groupCategory.map((ctgry,index) => (
+                <option key={index} value={ctgry}>{ctgry}</option>
+              ))}
+            </select>
+            <div className={styles["down_arrow"]}>
+              <DownArrow />
             </div>
+          </div>
             <input
                 type="url"
                 name="link"

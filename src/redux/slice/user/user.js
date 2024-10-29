@@ -7,12 +7,17 @@ export const getUserData = createAsyncThunk("users/getUserData", async () => {
   const response = await axios.get(baseURL);
   return response.data;
 });
+console.log(getUserData);
 
 export const getUserDataById = createAsyncThunk(
   "users/getUsersDataById",
-  async (id) => {
-    const response = await axios.get(`${baseURL}/${id}`);
-    return response.data;
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseURL}/${id}`);
+      return response.data; // Make sure the response data structure is as expected
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 

@@ -2,7 +2,7 @@ import React from "react";
 import earth from "../../../assets/img/aboutEarth.svg";
 import hand from "../../../assets/img/aboutHand.svg";
 import love from "../../../assets/img/aboutLove.svg";
-import styles from "./style.module.scss"
+import styles from "./style.module.scss";
 const suggestData = [
   {
     icon: earth,
@@ -30,8 +30,8 @@ const Suggest = () => {
         <div className={styles["suggest"]}>
           <h1>Bizim təklifimiz</h1>
           <div className={styles["cards"]}>
-            {suggestData.map((s) => (
-              <div className={styles["card"]}>
+            {suggestData.map((s, index) => (
+              <div key={index} className={styles["card"]}>
                 <img src={s.icon} alt="" />
                 <h2>{s.title}</h2>
                 <p>{s.detail}</p>
