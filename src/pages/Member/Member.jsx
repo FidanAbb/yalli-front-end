@@ -4,7 +4,9 @@ import Main from "../../components/mentor/main/Main";
 import Footer from "../../components/Layout/Footer/Footer";
 import memberImg from "../../assets/img/member.png";
 import styles from "./style.module.scss";
+import {useNavigate} from "react-router-dom";
 const Member = () => {
+  let navigate= useNavigate()
   const [userData, setUserData] = useState("");
   useEffect(() => {
     const loggedUser = localStorage.getItem("userInfo");
@@ -19,7 +21,15 @@ const Member = () => {
       {!userData ? (
         <div className={styles["before_login"]}>
           <div className="container">
-            <img src={memberImg} alt="member" className={styles["selectDisable"]}/>
+            <div onClick={()=>navigate('/login')} style={{cursor:'pointer'}}>
+              <img
+
+                  src={memberImg}
+                  alt="member"
+                  className={`${styles["selectDisable"]} ${styles.blurImage}`} // Apply blur class
+              />
+            </div>
+
           </div>
         </div>
       ) : (

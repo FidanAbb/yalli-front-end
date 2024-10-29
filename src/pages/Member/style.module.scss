@@ -14,3 +14,21 @@
     -ms-user-select: none;
 }
 }
+
+.blurred_container {
+  position: relative;
+}
+
+.visible {
+  filter: none; // Keep this member normal
+}
+
+.blurred {
+  filter: blur(5px); // Apply a blur effect
+  opacity: 0.5; // Optionally, reduce opacity for a faded look
+  pointer-events: none; // Prevent interaction with blurred members
+}
+.blurImage {
+  filter: blur(5px);
+  cursor: pointer;
+}

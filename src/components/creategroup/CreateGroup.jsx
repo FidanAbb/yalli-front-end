@@ -36,13 +36,12 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Limit description to maxDescriptionLength
     if (name === "description" && value.length <= maxDescriptionLength) {
       setGroupData({
         ...groupData,
         [name]: value,
       });
-      setDescriptionCount(value.length); // Update character count
+      setDescriptionCount(value.length);
     } else if (name !== "description") {
       setGroupData({
         ...groupData,
@@ -127,7 +126,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     "Almaniya",
     "ABŞ",
     "Ukrayna",
-    // more countries...
     "Böyük Britaniya",
     "Kanada",
     "Fransa",
@@ -200,6 +198,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
                   className={styles["file_input"]}
               />
             </div>
+
             <input
                 type="text"
                 name="title"
@@ -227,43 +226,26 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
                 <DownArrow />
               </div>
             </div>
-          </div>
-
-          <div className={styles["selected"]}>
-            <select
-              name="category"
-              id="category"
-              placeholder="Kateqoriya"
-              onChange={handleChange}
-            >
-              <option disabled selected>
-                Kateqoriya
-              </option>
-              {groupCategory.map((ctgry,index) => (
-                <option key={index} value={ctgry}>{ctgry}</option>
-              ))}
-            </select>
-            <div className={styles["down_arrow"]}>
-              <DownArrow />
 
             <div className={styles["selected"]}>
-            <select
-              name="category"
-              id="category"
-              placeholder="Kateqoriya"
-              onChange={handleChange}
-            >
-              <option disabled selected>
-                Kateqoriya
-              </option>
-              {groupCategory.map((ctgry,index) => (
-                <option key={index} value={ctgry}>{ctgry}</option>
-              ))}
-            </select>
-            <div className={styles["down_arrow"]}>
-              <DownArrow />
+              <select
+                  name="category"
+                  id="category"
+                  placeholder="Kateqoriya"
+                  onChange={handleChange}
+              >
+                <option disabled selected>
+                  Kateqoriya
+                </option>
+                {groupCategory.map((ctgry, index) => (
+                    <option key={index} value={ctgry}>{ctgry}</option>
+                ))}
+              </select>
+              <div className={styles["down_arrow"]}>
+                <DownArrow />
+              </div>
             </div>
-          </div>
+
             <input
                 type="url"
                 name="link"
@@ -285,11 +267,11 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
                 className={styles["inpp"]}
                 onChange={handleChange}
                 value={groupData.description}
-                maxLength={maxDescriptionLength} // Ensures no more than 160 characters
+                maxLength={maxDescriptionLength}
             ></textarea>
-              <div className={styles["char-counter"]}>
-                {descriptionCount}/{maxDescriptionLength}
-              </div>
+              {/*<div className={styles["char-counter"]}>*/}
+              {/*  {descriptionCount}/{maxDescriptionLength}*/}
+              {/*</div>*/}
               {descriptionCount < minDescriptionLength && (
                   <p className={styles["error"]}>
                     Minimum {minDescriptionLength} simvol daxil edin.
