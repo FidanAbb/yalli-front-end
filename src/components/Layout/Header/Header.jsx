@@ -282,8 +282,8 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                     <div>
                       <img
                         src={`${
-                          base64Image
-                            ? base64Image
+                          userInfoLogin.image
+                            ? userInfoLogin.image
                             : "/src/assets/img/nouser.webp"
                         } `}
                         className={styles["drop-down-img"]}
