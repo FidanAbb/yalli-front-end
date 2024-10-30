@@ -95,7 +95,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [profileDropDown, setProfileDropDown] = useState(false);
-  const {userInfoLogin}=useContext(YalliContext);
+  const {userInfoLogin,setUserInfoLogin}=useContext(YalliContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -262,7 +262,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 >
                   <img
                     src={`${
-                      userInfoLogin.image ? userInfoLogin.image : "/src/assets/img/nouser.webp"
+                      userInfoLogin?.image ? userInfoLogin?.image : "/src/assets/img/nouser.webp"
                     } `}
                     alt=""
                   />
@@ -282,8 +282,8 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                     <div>
                       <img
                         src={`${
-                          base64Image
-                            ? base64Image
+                          userInfoLogin?.image
+                            ? userInfoLogin?.image
                             : "/src/assets/img/nouser.webp"
                         } `}
                         className={styles["drop-down-img"]}
