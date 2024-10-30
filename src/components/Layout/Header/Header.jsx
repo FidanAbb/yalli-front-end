@@ -262,7 +262,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 >
                   <img
                     src={`${
-                      userInfoLogin.image ? userInfoLogin?.image : "/src/assets/img/nouser.webp"
+                      userInfoLogin?.image ? userInfoLogin?.image : "/src/assets/img/nouser.webp"
                     } `}
                     alt=""
                   />
