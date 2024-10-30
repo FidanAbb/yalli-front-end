@@ -6,12 +6,15 @@
     position: absolute;
     left: 0;
     top: 84px;
+    z-index: -100;
   }
   .hero_right_circle {
     position: absolute;
     right: 0;
     scale: 1.2;
     margin-right: 42px;
+    z-index: -100;
+
   }
   .heroside {
     // border: 1px solid;
@@ -26,10 +29,10 @@
       margin-top: 110px;
       height: 40px;
     }
-    p {
-      max-width: 760px;
+    h1 +p {
       margin: 0 auto;
       font-size: 22px;
+      padding: 1rem 23rem !important;
       font-weight: 400;
       line-height: 33px;
       color: #11111180;
@@ -57,7 +60,6 @@
       .find_inp {
         max-width: 604px;
         margin: 0 auto;
-
         background-color: #ffffff;
         display: flex;
         align-items: center;

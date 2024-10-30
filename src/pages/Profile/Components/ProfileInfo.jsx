@@ -9,7 +9,7 @@ import { getUserDataById, patchUserData } from "../../../redux/slice/user/user";
 import { CiEdit } from "react-icons/ci";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { getImageFile, uploadImageFIle } from "../../../redux/slice/file/file";
+import axios from "axios";
 const ProfileInfo = () => {
   const initialData = {
     fullName: "",
@@ -23,22 +23,19 @@ const ProfileInfo = () => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
   const [localUserData, setLocalUserData] = useState(initialData);
-  console.log(localUserData);
-  
-  
-  const imageSrc = useSelector(state => state.file.file); 
-  console.log(imageSrc);
-  
+  const [base64Image,setBase64Image]=useState()
   useEffect(() => {
     const localUserDataJson = localStorage.getItem("userInfo");
-    console.log("LocalStorage Data:", localUserDataJson);
+    const localBase64Image=localStorage.getItem("profileImage");
     if (localUserDataJson) {
       const localUserDataParsed = JSON.parse(localUserDataJson);
       setLocalUserData(localUserDataParsed);
       dispatch(getUserDataById(67));
     }
-  }, [dispatch]);
- 
+    if (localBase64Image) {
+      setBase64Image(localBase64Image); 
+    }
+  }, [dispatch,base64Image]);
   const updateUserData = (data) => {
     dispatch(patchUserData({ id: data.id, updatedData: data }));
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -54,7 +51,7 @@ const ProfileInfo = () => {
     const newFormData = { ...localUserData, [name]: value };
     setLocalUserData(newFormData);
     updateUserData(newFormData);
-     localStorage.setItem("userInfo", JSON.stringify(newFormData));
+    localStorage.setItem("userInfo", JSON.stringify(newFormData));
   };
   const handleDateChange = (date) => {
     const formattedDate = date ? date.toISOString().substring(0, 10) : "";
@@ -88,38 +85,41 @@ const ProfileInfo = () => {
     { name: "USA", cities: ["New York", "Los Angeles", "Chicago"] },
     { name: "Turkey", cities: ["Istanbul", "Ankara", "Izmir"] },
   ];
-  const handleImageUpload = (event) => {
+  
+  const handleImageUpload = async (event) => {
     const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
     if (file) {
-      dispatch(uploadImageFIle(file))
-        .unwrap()
-        .then(response => {
-          dispatch(getImageFile(response));
-  
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64String = reader.result; // Base64 formatında şəkil
-            console.log(base64String);
-  
-            const updatedData = {
-              ...localUserData,
-              profilePictureUrl: base64String, // Base64 formatında şəkil URL-i
-            };
-  
-            // localUserData state-ni yeniləyin
-            setLocalUserData(updatedData);
-            // localStorage-da saxlayın
-            localStorage.setItem("userInfo", JSON.stringify(updatedData));
-          };
-  
-          reader.readAsDataURL(file); // Bu çağırış burada olmalıdır
-        })
-        .catch(error => {
-          console.log("Failed to upload file:", error);
-        });
+      try {
+        const response = await axios.post('https://yalli-back-end.onrender.com/v1/files/upload', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+      });
+      getImageName(response.data)
+      } catch {
+        console.log("upload da problem");
+      }
     }
   };
-  
+const getImageName=async(imageFileName)=>{
+  try{
+    const response=await axios.get(`https://yalli-back-end.onrender.com/v1/files/${imageFileName}`, { responseType: 'blob' });
+    const reader=new FileReader();
+    reader.readAsDataURL(response.data);
+    reader.onloadend=function(){
+      const base64data=reader.result;
+      const newFormData = { ...localUserData, profilePictureUrl: base64data };
+      localStorage.setItem("userInfo", JSON.stringify(newFormData));
+      localStorage.setItem("profileImage",base64data);
+      setLocalUserData(newFormData)
+      setBase64Image(base64data)
+    } 
+  } catch (error) {
+    console.error('Error fetching image:', error);
+  }
+}
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -133,13 +133,17 @@ const ProfileInfo = () => {
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="left">
                   <div className="img-block">
-                    {imageSrc?
-                  <img src={localUserData.profilePictureUrl} alt="Profile" />
-                      :<img
+                    {base64Image ? (
+                      <img
+                        src={base64Image}
+                        alt="Profile"
+                      />
+                    ) : (
+                      <img
                         src="../../../../src/pages/Profile/assets/img/default-profile-img.webp"
                         alt="Default Profile"
                       />
-                    }
+                    )}
                     <div
                       className="edit-icon dp-center"
                       onClick={() =>

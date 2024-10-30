@@ -131,7 +131,7 @@ const ConfirmEmail = () => {
         </div>
         <img src={confirmEmail} alt="" />
         <h1>Zəhmət olmasa hesabı doğrulayın!</h1>
-        <p>
+        <p className="mx-auto">
           Biz indicə sizə doğrulama kodunu {formatEmail(email)} ünvanına
           göndərdik
         </p>

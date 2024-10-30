@@ -1,23 +1,28 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon";
 import DownArrow from "../../components/ui/DownArrow";
 import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const groupCategory = [
-  "Yaşam",
-  "Əyləncə",
-  "Karyera",
-  "Təhsil",
-  "Səyahət",
-  "Yerləşmə",
-  "Qanunlar",
+  "Yaşam", "Əyləncə", "Karyera", "Təhsil", "Səyahət", "Yerləşmə", "Qanunlar",
+];
+
+const options = [
+  "Azərbaycan", "Türkiyə", "Rusiya", "Almaniya", "ABŞ", "Ukrayna", "Böyük Britaniya", 
+  "Kanada", "Fransa", "İsrail", "Gürcüstan", "İtaliya", "Avstraliya", "İspaniya", 
+  "Niderland", "Avstriya", "İsveç", "Belçika", "Norveç", "Finlandiya", "Polşa", "Yunanıstan", 
+  "Sinqapur", "Braziliya", "Argentina", "Meksika"
 ];
 
 const CreateGroup = ({ setModal, setGroupumData }) => {
   const dispatch = useDispatch();
+  const selectRef = useRef(null);
+  const [groups,setGroups]=useState([]);
+  const [loadingGroups,setLoadingGroups]=useState(true);
   const [groupData, setGroupData] = useState({
     title: "",
     description: "",
@@ -26,38 +31,43 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     link: "",
     category: "",
   });
-  const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState("");
-  const [descriptionCount, setDescriptionCount] = useState(0);
   const maxDescriptionLength = 160;
-  const minDescriptionLength = 50;
+
+  useEffect(()=>{
+    const fetchGroups=async()=>{
+      try{
+        const response=await axios.get("https://yalli-back-end.onrender.com/v1/groups")
+        console.log(response.data);
+        setGroups(response.data);
+      }catch(error){
+        console.error("Qrupları çəkməkdə problem oldu", error)
+      }finally{
+        setLoadingGroups(false)
+      }
+    }
+    fetchGroups()
+  },[])
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === "description" && value.length <= maxDescriptionLength) {
-      setGroupData({
-        ...groupData,
-        [name]: value,
-      });
-      setDescriptionCount(value.length);
-    } else if (name !== "description") {
-      setGroupData({
-        ...groupData,
-        [name]: value,
-      });
-    }
+    setGroupData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
+      reader.onloadend = () => setImagePreview(reader.result);
       reader.readAsDataURL(file);
 
       const formData = new FormData();
@@ -65,13 +75,10 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
 
       try {
         const response = await axios.post(
-            "https://yalli-back-end.onrender.com/v1/files/upload",
-            formData,
-            {
-              headers: { "Content-Type": "multipart/form-data" },
-            }
+          "https://yalli-back-end.onrender.com/v1/files/upload",
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
-
         if (response.status === 201) {
           setImageId(response.data);
         }
@@ -81,209 +88,180 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    if (
-        groupData.description.length < minDescriptionLength ||
-        groupData.description.length > maxDescriptionLength
-    ) {
-      alert(`Description must be between ${minDescriptionLength} and ${maxDescriptionLength} characters.`);
+    
+    if (!imagePreview) {
+      toast.error("Xahiş olunur bir şəkil seçin.");
       return;
     }
-
-    try {
-      const formattedData = {
-        ...groupData,
-        memberCount: parseInt(groupData.memberCount, 10),
-        category: "LIFE",
-        imageId: imageId,
-      };
-
-      dispatch(postGroupData(formattedData));
-      setGroupumData((prev) => {
-        if (prev && Array.isArray(prev.content)) {
-          return {
-            ...prev,
-            content: [...prev.content, formattedData],
-          };
-        } else {
-          return {
-            ...prev,
-            content: [formattedData],
-          };
-        }
-      });
-      setModal(false);
-    } catch (error) {
-      console.log(error);
+    if (!groupData.title.trim()) {
+      toast.error("Xahiş olunur icmanın adını daxil edin.");
+      return;
     }
+    
+    if (!groupData.country) {
+      toast.error("Xahiş olunur ölkəni seçin.");
+      return;
+    }
+    
+    if (!groupData.category) {
+      toast.error("Xahiş olunur kateqoriyanı seçin.");
+      return;
+    }
+    
+    if (!groupData.link.trim()) {
+      toast.error("Xahiş olunur keçid (link) daxil edin.");
+      return;
+    }
+    
+    if (!groupData.memberCount || groupData.memberCount <= 0) {
+      toast.error("Xahiş olunur üzv sayını daxil edin.");
+      return;
+    }
+    
+    if (!groupData.description.trim()) {
+      toast.error("Xahiş olunur 'Haqqında' hissəsini doldurun.");
+      return;
+    }
+    
+    if (!imagePreview) {
+      toast.error("Xahiş olunur bir şəkil seçin.");
+      return;
+    }
+    
+    const formattedData = {
+      title: groupData.title, 
+      description: groupData.description, 
+      country: groupData.country,
+      memberCount: parseInt(groupData.memberCount, 10), 
+      link: groupData.link, 
+      category: groupData.category || "LIFE", 
+      imageId, 
+      userId: 67, 
+    };
+    console.log(formattedData);
+    
+    try{
+      const response =await axios.post("https://yalli-back-end.onrender.com/v1/groups",formattedData,{
+        headers:{
+          "Content-Type":"application/json",
+        },
+      })
+      setGroupumData((prev) => ({
+        ...prev,
+        content: prev?.content ? [...prev.content, response.data] : [response.data],
+      }));
+      toast.success("Yeni qrup uğurla yaradıldı.");
+      setModal(false);
+    } catch(error){
+      console.error("Qrup yaratmaqda problem oldu", error);
+      toast.error("Qrup yaratmaq uğursuz oldu.");
+    }
+    
   };
-
-  const options = [
-    "Azərbaycan",
-    "Türkiyə",
-    "Rusiya",
-    "Almaniya",
-    "ABŞ",
-    "Ukrayna",
-    "Böyük Britaniya",
-    "Kanada",
-    "Fransa",
-    "İsrail",
-    "Gürcüstan",
-    "İtaliya",
-    "Avstraliya",
-    "İspaniya",
-    "Niderland",
-    "Avstriya",
-    "İsveç",
-    "Belçika",
-    "Norveç",
-    "Finlandiya",
-    "Macarıstan",
-    "Polşa",
-    "Yunanıstan",
-    "Slovakiya",
-    "Litva",
-    "Latviya",
-    "Estoniya",
-    "Qazaxıstan",
-    "BƏƏ",
-    "Yaponiya",
-    "İran",
-    "Səudiyyə Ərəbistanı",
-    "Belarus",
-    "Moldova",
-    "Qırğızıstan",
-    "Tacikistan",
-    "Türkmənistan",
-    "Özbəkistan",
-    "Malayziya",
-    "Sinqapur",
-    "Braziliya",
-    "Argentina",
-    "Meksika",
-    "Vietnam",
-    "Bali (İndoneziya)",
-    "İsveçrə",
-    "Portuqaliya",
-    "Cənubi Koreya"
-  ];
-  const selectRef = useRef(null);
 
   const handleArrowClick = () => {
-    if (selectRef.current) {
-      selectRef.current.focus();
-    }
+    selectRef.current?.focus();
   };
-
   return (
-      <div className={styles["create_group"]}>
-        <h1>Öz icmanı yarat</h1>
-        <div className={styles["form"]}>
-          <form onSubmit={handleSubmit}>
-            <div
-                className={styles["img"]}
-                style={{
-                  backgroundImage: imagePreview ? `url(${imagePreview})` : "none",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
+    <div className={styles["create_group"]}>
+      <h1>Öz icmanı yarat</h1>
+      <div className={styles["form"]}>
+        <form onSubmit={handleSubmit}>
+          <div
+            className={styles["img"]}
+            style={{
+              backgroundImage: imagePreview ? `url(${imagePreview})` : "none",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            {!imagePreview && <PlusIcon />}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              className={styles["file_input"]}
+              style={{ padding: "1rem 0" }}
+            />
+          </div>
+          <input
+            type="text"
+            name="title"
+            style={{ width: "350px", padding: ".8rem" }}
+            placeholder="İcmanın adı"
+            onChange={handleChange}
+          />
+          <div className={styles["selected"]}>
+            <select
+              name="country"
+              id="country"
+              placeholder="Ölkə"
+              onChange={handleChange}
+              ref={selectRef}
+              style={{ width: "350px", padding: ".8rem" }}
+              defaultValue="Ölkə"
             >
-              {!imagePreview && <PlusIcon />}
-              <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className={styles["file_input"]}
-              />
+              {options.map((option, index) => (
+                <option key={index} value={option}>{option}</option>
+              ))}
+            </select>
+            <div className={styles["down_arrow"]} onClick={handleArrowClick}>
+              <DownArrow />
             </div>
-
-            <input
-                type="text"
-                name="title"
-                placeholder="İcmanın adı"
-                className={styles["inp"]}
-                onChange={handleChange}
-            />
-
-            <div className={styles["selected"]}>
-              <select
-                  name="country"
-                  id="country"
-                  placeholder="Ölkə"
-                  onChange={handleChange}
-                  ref={selectRef}
-              >
-                <option disabled selected>
-                  Ölkə
-                </option>
-                {options.map((option, index) => (
-                    <option key={index}>{option}</option>
-                ))}
-              </select>
-              <div className={styles["down_arrow"]} onClick={handleArrowClick}>
-                <DownArrow />
-              </div>
+          </div>
+          <div className={styles["selected"]}>
+            <select
+              name="category"
+              id="category"
+              placeholder="Kateqoriya"
+              onChange={handleChange}
+              style={{ width: "350px", padding: ".8rem" }}
+              defaultValue="Kateqoriya"
+            >
+              {groupCategory.map((ctgry, index) => (
+                <option key={index} value={ctgry}>{ctgry}</option>
+              ))}
+            </select>
+            <div className={styles["down_arrow"]}>
+              <DownArrow />
             </div>
-
-            <div className={styles["selected"]}>
-              <select
-                  name="category"
-                  id="category"
-                  placeholder="Kateqoriya"
-                  onChange={handleChange}
-              >
-                <option disabled selected>
-                  Kateqoriya
-                </option>
-                {groupCategory.map((ctgry, index) => (
-                    <option key={index} value={ctgry}>{ctgry}</option>
-                ))}
-              </select>
-              <div className={styles["down_arrow"]}>
-                <DownArrow />
-              </div>
-            </div>
-
-            <input
-                type="url"
-                name="link"
-                placeholder="Link"
-                className={styles["link"]}
-                onChange={handleChange}
-            />
-            <input
-                type="number"
-                name="memberCount"
-                placeholder="Üzv sayı"
-                className={styles["inp"]}
-                onChange={handleChange}
-            />
-            <div className={styles["textarea-container"]}>
+          </div>
+          <input
+            type="url"
+            name="link"
+            placeholder="Link"
+            className={styles["link"]}
+            onChange={handleChange}
+            style={{ width: "350px", padding: ".8rem" }}
+          />
+          <input
+            type="number"
+            name="memberCount"
+            placeholder="Üzv sayı"
+            className={styles["inp"]}
+            onChange={handleChange}
+            style={{ width: "350px", padding: ".8rem" }}
+            min={0}
+          />
+          <div className={styles["textarea-container"]}>
             <textarea
-                name="description"
-                placeholder={`Haqqında (${minDescriptionLength}-${maxDescriptionLength} simvol)`}
-                className={styles["inpp"]}
-                onChange={handleChange}
-                value={groupData.description}
-                maxLength={maxDescriptionLength}
+              name="description"
+              placeholder="Haqqında"
+              className={styles["inpp"]}
+              onChange={handleChange}
+              value={groupData.description}
+              maxLength={maxDescriptionLength}
+              style={{ width: "350px", padding: ".7rem" }}
             ></textarea>
-              {/*<div className={styles["char-counter"]}>*/}
-              {/*  {descriptionCount}/{maxDescriptionLength}*/}
-              {/*</div>*/}
-              {descriptionCount < minDescriptionLength && (
-                  <p className={styles["error"]}>
-                    Minimum {minDescriptionLength} simvol daxil edin.
-                  </p>
-              )}
-            </div>
-            <button type="submit" disabled={descriptionCount < minDescriptionLength}>
-              Yarat
-            </button>
-          </form>
-        </div>
+          </div>
+          <button type="submit">
+            Yarat
+          </button>
+        </form>
       </div>
+    </div>
   );
 };
 

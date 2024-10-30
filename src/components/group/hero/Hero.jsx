@@ -4,6 +4,8 @@ import styles from "./style.module.scss";
 import CreateGroup from "../../creategroup/CreateGroup";
 import {useNavigate} from "react-router-dom";
 const Hero = ({setGroupData}) => {
+  console.log(setGroupData);
+  
   const [modal, setModal] = useState(false)
   const [userData, setUserData] = useState("");
   let navigate = useNavigate()
@@ -16,7 +18,7 @@ const Hero = ({setGroupData}) => {
   }, []);
   return (
     <div className={styles["hero"]}>
-      <div className="container">
+      <div className="my-container">
         <div className={styles["hero"]}>
           <div className={styles["detail"]}>
             <div className={styles["p"]}>

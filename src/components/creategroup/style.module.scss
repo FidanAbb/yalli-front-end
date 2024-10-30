@@ -1,9 +1,11 @@
 .create_group {
   text-align: center;
+  height: 100vh;
   max-width: 750px;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px 0;
+
   h1 {
     font-weight: 600;
     font-size: 36px;
@@ -18,19 +20,10 @@
       .selected{
         position: relative;
         max-width: 350px;
-        // height: 16px;
-        // border: 1px solid;
-        select{
-          // z-index: 2;
-          // position: absolute;
-          // left: 0;
-        }
         .down_arrow{
           position: absolute;
           right: 3%;
           top: 30%;
-          // z-index: 1;
-          // border: 1px solid;
           cursor: pointer;
         }
       }
@@ -42,7 +35,7 @@
         background-color: #eee;
         border-radius: 10px;
         width: 350px;
-        height: 150px;
+        height: 120px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -61,25 +54,19 @@
           top: 0;
           left: 0;
           width: 319px;
-          height: 108px;
+          // height: 108px;
           margin-top: 0px;
           border-radius: 10px;
           opacity: 0;
           cursor: pointer;
         }
       }
-      .inp {
-        background-color: #eeeeee;
-        border-radius: 10px;
-        max-width: 350px;
-        height: 16px;
-        margin: 5px;
-      }
+      
       .link {
         background-color: #eeeeee;
         border-radius: 10px;
-        max-width: 350px;
-        height: 16px;
+        // max-width: 350px;
+        // height: 16px;
         margin: 0px;
       }
       .inpp {
@@ -88,7 +75,7 @@
         width: 340px;
         height: 88px;
         border: none;
-        padding: 10px 0 0 10px;
+        // padding: 10px 0 0 10px;
         resize: none;
         font-family: "Gilroy", sans-serif;
       }
@@ -107,3 +94,16 @@
     }
   }
 }
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox üçün */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+// 

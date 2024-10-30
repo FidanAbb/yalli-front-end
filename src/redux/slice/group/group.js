@@ -21,16 +21,22 @@ export const getGroupDataById = createAsyncThunk(
 
 export const postGroupData = createAsyncThunk(
   "groups/postGroupData",
-  async (newp) => {
+  async (newp, { dispatch }) => {
     const response = await axios.post(baseURL, newp, {
       headers: {
         "Content-Type": "application/json",
         // Authorization: `Bearer ${yourToken}`,
       },
     });
+    // Update local storage
+    const existingGroups = JSON.parse(localStorage.getItem('groups') || '[]');
+    const updatedGroups = [...existingGroups, response.data];
+    localStorage.setItem('groups', JSON.stringify(updatedGroups));
     return response.data;
   }
 );
+
+const persistedGroups = JSON.parse(localStorage.getItem('groups') || '[]');
 
 const initialState = {
   group: {
@@ -43,18 +49,14 @@ const initialState = {
     category: "",
     imageId: "",
   },
-  groups: [],
+  groups: persistedGroups,
   loading: false,
 };
 
 export const groupSlice = createSlice({
   name: "group",
   initialState,
-  reducers: {
-    // incrementByAmount: (state, action) => {
-    //   state.value += action.payload
-    // },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(getGroupData.pending, (state) => {
@@ -66,9 +68,7 @@ export const groupSlice = createSlice({
       })
       .addCase(getGroupData.rejected, (state) => {
         state.loading = false;
-      });
-
-    builder
+      })
       .addCase(postGroupData.pending, (state) => {
         state.loading = true;
       })
@@ -78,8 +78,7 @@ export const groupSlice = createSlice({
       })
       .addCase(postGroupData.rejected, (state) => {
         state.loading = false;
-      });
-    builder
+      })
       .addCase(getGroupDataById.pending, (state) => {
         state.loading = true;
       })
@@ -92,7 +91,5 @@ export const groupSlice = createSlice({
       });
   },
 });
-
-export const {} = groupSlice.actions;
 
 export default groupSlice.reducer;

@@ -176,6 +176,94 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      .profile-dropdown{
+        position: absolute;
+        bottom: -1rem;
+        left: -10rem;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        background-color:#fff;
+        transition: .5s;
+        .user-info{
+          display: none;
+        }
+      }
+      .profile-dropdown-active{
+        height: auto;
+        width: 17rem;
+        padding: .8rem;
+        position: absolute;
+        left: -14.5rem;
+        bottom: -18rem;
+        transition: .5s all;
+        background-color:#fff;
+        border-radius: .5rem;
+        z-index: 1000;
+        .user-info{
+          display: flex;
+          align-items:center;
+          gap:1rem;
+          width: 100%;
+          margin: 0 auto;
+          border: 1px solid black;
+          border-radius:.4rem;
+          padding: .5rem ;
+          h5{
+            color:black;
+          }
+          .drop-down-img{
+            width: 2.7rem;
+            height: 2.7rem;
+            border-radius: 50%;
+          }
+        }
+        ul{
+          display:flex;
+          flex-direction: column;
+          gap: .5rem;
+          border-bottom: 1px solid;
+          li{
+            *{
+              list-style: none !important;
+              text-decoration: none;
+              color:#11111180;
+            }
+            .mentor-link{
+              gap: .22rem !important;
+              display: flex;
+              align-items:center;
+            }
+            .link-help{
+              display: flex;
+              align-items:center;
+              gap: .22rem;
+              .help-icon{
+                font-size: 1.2rem;
+              }
+            }
+          }
+        }
+        .log-out{
+          padding: .5rem 1rem;
+          font-size: 1.4rem;
+          color:#ff5722;
+          font-weight: 500;
+          div{
+            gap: .4rem;
+            display: flex;
+            align-items:center;
+            cursor: pointer;
+            span{
+              font-size: 1.2rem;
+            }
+
+          }
+          
+          
+        }
+      
+      }
       .user_img {
         cursor: pointer;
         img {

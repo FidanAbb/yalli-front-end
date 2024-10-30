@@ -7,7 +7,7 @@ const Main = ({group}) => {
 
   return (
     <div className={styles["main"]}>
-      <div className="container">
+      <div className="my-container">
         <div className={styles["main"]}>
           <div className={styles["texts"]}>
             <p
