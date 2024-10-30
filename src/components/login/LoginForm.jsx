@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidationSchema } from "./validationSchema";
@@ -8,13 +8,14 @@ import Warning from "../ui/Warning";
 import PasswordEye from "../ui/PasswordEye";
 import PasswordEyeOpen from "../ui/PasswordEyeOpen";
 import { useNavigate } from "react-router-dom";
+import { YalliContext } from "../../Context/YalliContext";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState("");
-
+  const {userInfoLogin,setUserInfoLogin}=useContext(YalliContext);
   const {
     register,
     handleSubmit,
@@ -23,7 +24,6 @@ const LoginForm = () => {
     resolver: yupResolver(loginValidationSchema),
     mode: "onBlur",
   });
-
   const onSubmit = async (data) => {
     try {
       setLoading(true);
@@ -36,6 +36,8 @@ const LoginForm = () => {
         const { accessToken } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userInfo", JSON.stringify(response.data));
+        localStorage.setItem("userInfoLogin", JSON.stringify(response.data));
+        setUserInfoLogin(response.data)
         navigate("/");
       }
     } catch (error) {

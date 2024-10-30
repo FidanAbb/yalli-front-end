@@ -3,13 +3,14 @@ import { BiLogoTelegram } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiFacebookCircleLine } from "react-icons/ri";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDataById, patchUserData } from "../../../redux/slice/user/user";
 import { CiEdit } from "react-icons/ci";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import { YalliContext } from "../../../Context/YalliContext";
 const ProfileInfo = () => {
   const initialData = {
     fullName: "",
@@ -23,19 +24,22 @@ const ProfileInfo = () => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
   const [localUserData, setLocalUserData] = useState(initialData);
-  const [base64Image,setBase64Image]=useState()
+  const {userInfoLogin,base64Image,setBase64Image,setUserInfoLogin}=useContext(YalliContext);
+  
   useEffect(() => {
     const localUserDataJson = localStorage.getItem("userInfo");
-    const localBase64Image=localStorage.getItem("profileImage");
+   
     if (localUserDataJson) {
       const localUserDataParsed = JSON.parse(localUserDataJson);
       setLocalUserData(localUserDataParsed);
-      dispatch(getUserDataById(67));
+      dispatch(getUserDataById(userInfoLogin?.id));
     }
-    if (localBase64Image) {
-      setBase64Image(localBase64Image); 
-    }
+ 
   }, [dispatch,base64Image]);
+  
+  
+
+
   const updateUserData = (data) => {
     dispatch(patchUserData({ id: data.id, updatedData: data }));
     localStorage.setItem("userInfo", JSON.stringify(data));
@@ -92,6 +96,7 @@ const ProfileInfo = () => {
     formData.append("file", file);
     if (file) {
       try {
+        console.log(file);
         const response = await axios.post('https://yalli-back-end.onrender.com/v1/files/upload', formData, {
           headers: {
               'Content-Type': 'multipart/form-data'
@@ -111,9 +116,12 @@ const getImageName=async(imageFileName)=>{
     reader.onloadend=function(){
       const base64data=reader.result;
       const newFormData = { ...localUserData, profilePictureUrl: base64data };
+      setLocalUserData(newFormData)
       localStorage.setItem("userInfo", JSON.stringify(newFormData));
       localStorage.setItem("profileImage",base64data);
-      setLocalUserData(newFormData)
+      const updatedData = { ...userInfoLogin, image: base64Image }; 
+      localStorage.setItem("userInfoLogin", JSON.stringify(updatedData));
+      setUserInfoLogin(updatedData)
       setBase64Image(base64data)
     } 
   } catch (error) {
@@ -133,9 +141,9 @@ const getImageName=async(imageFileName)=>{
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="left">
                   <div className="img-block">
-                    {base64Image ? (
+                    {userInfoLogin?.image ? (
                       <img
-                        src={base64Image}
+                        src={userInfoLogin?.image}
                         alt="Profile"
                       />
                     ) : (

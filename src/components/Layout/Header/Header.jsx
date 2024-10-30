@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "../../../assets/Logo/logo.svg";
 import navLogo from "../../../assets/Logo/navLogo.svg";
 import languageAz from "../../../assets/img/AzFlag.svg";
@@ -12,6 +12,7 @@ import mentorIconDark from "../../../../src/pages/Profile/assets/img/mentor-icon
 import { IoSettingsOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
+import { YalliContext } from "../../../Context/YalliContext";
 const navLinks = [
   {
     page: "Əsas səhifə",
@@ -94,11 +95,13 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [profileDropDown, setProfileDropDown] = useState(false);
+  const {userInfoLogin}=useContext(YalliContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userInfoLogin");
     navigate("/login");
     setProfileDropDown(false)
   };
@@ -259,7 +262,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 >
                   <img
                     src={`${
-                      base64Image ? base64Image : "/src/assets/img/nouser.webp"
+                      userInfoLogin.image ? userInfoLogin?.image : "/src/assets/img/nouser.webp"
                     } `}
                     alt=""
                   />

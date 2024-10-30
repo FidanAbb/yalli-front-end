@@ -88,6 +88,7 @@ const RegisterForm = () => {
       const response = await api.post("/users/register", data);
 
       if (response.status === 201) {
+        
         localStorage.setItem("email-confirm", JSON.stringify(data.email));
         navigate("/confirm-email");
       }
