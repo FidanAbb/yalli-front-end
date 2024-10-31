@@ -73,8 +73,9 @@
     justify-content: flex-end;
     align-items: center;
 }
-.btn_box button{
+.btn_box a{
     border-radius: 10px;
+    text-decoration: none;
     padding: 10px;
     border: 1px solid rgba(250, 69, 0, 1);
     display: flex;
