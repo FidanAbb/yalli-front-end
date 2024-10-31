@@ -106,12 +106,6 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     setProfileDropDown(false)
   };
   const [userDataa, setUserData] = useState("");
-  const [base64Image, setBase64Image] = useState();
-
-  useEffect(() => {
-    const localBase64Image = localStorage.getItem("profileImage");
-    setBase64Image(localBase64Image);
-  }, []);
   useEffect(() => {
     const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
     setUserData(loggedUser);

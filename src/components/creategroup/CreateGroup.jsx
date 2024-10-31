@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
 import PlusIcon from "../ui/PlusIcon";
 import DownArrow from "../../components/ui/DownArrow";
@@ -6,23 +6,54 @@ import { useDispatch } from "react-redux";
 import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
 import { toast } from "react-toastify";
-
-const groupCategory = [
-  "Yaşam", "Əyləncə", "Karyera", "Təhsil", "Səyahət", "Yerləşmə", "Qanunlar",
-];
+import { YalliContext } from "../../Context/YalliContext";
+const groupCategoryOptions = {
+  Yaşam: "LIFE",
+  Əyləncə: "ENTERTAINMENT",
+  Karyera: "CAREER",
+  Təhsil: "EDUCATION",
+  Səyahət: "TRAVEL",
+  Yerləşmə: "LOCATION",
+  Qanunlar: "LAW",
+};
 
 const options = [
-  "Azərbaycan", "Türkiyə", "Rusiya", "Almaniya", "ABŞ", "Ukrayna", "Böyük Britaniya", 
-  "Kanada", "Fransa", "İsrail", "Gürcüstan", "İtaliya", "Avstraliya", "İspaniya", 
-  "Niderland", "Avstriya", "İsveç", "Belçika", "Norveç", "Finlandiya", "Polşa", "Yunanıstan", 
-  "Sinqapur", "Braziliya", "Argentina", "Meksika"
+  "Azərbaycan",
+  "Türkiyə",
+  "Rusiya",
+  "Almaniya",
+  "ABŞ",
+  "Ukrayna",
+  "Böyük Britaniya",
+  "Kanada",
+  "Fransa",
+  "İsrail",
+  "Gürcüstan",
+  "İtaliya",
+  "Avstraliya",
+  "İspaniya",
+  "Niderland",
+  "Avstriya",
+  "İsveç",
+  "Belçika",
+  "Norveç",
+  "Finlandiya",
+  "Polşa",
+  "Yunanıstan",
+  "Sinqapur",
+  "Braziliya",
+  "Argentina",
+  "Meksika",
 ];
 
 const CreateGroup = ({ setModal, setGroupumData }) => {
   const dispatch = useDispatch();
   const selectRef = useRef(null);
-  const [groups,setGroups]=useState([]);
-  const [loadingGroups,setLoadingGroups]=useState(true);
+  const [groups, setGroups] = useState([]);
+  const [loadingGroups, setLoadingGroups] = useState(true);
+  const { userID } = useContext(YalliContext);
+  console.log(userID);
+
   const [groupData, setGroupData] = useState({
     title: "",
     description: "",
@@ -33,22 +64,25 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   });
   const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState("");
+
   const maxDescriptionLength = 160;
 
-  useEffect(()=>{
-    const fetchGroups=async()=>{
-      try{
-        const response=await axios.get("https://yalli-back-end.onrender.com/v1/groups")
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const response = await axios.get(
+          "https://yalli-back-end.onrender.com/v1/groups"
+        );
         console.log(response.data);
         setGroups(response.data);
-      }catch(error){
-        console.error("Qrupları çəkməkdə problem oldu", error)
-      }finally{
-        setLoadingGroups(false)
+      } catch (error) {
+        console.error("Qrupları çəkməkdə problem oldu", error);
+      } finally {
+        setLoadingGroups(false);
       }
-    }
-    fetchGroups()
-  },[])
+    };
+    fetchGroups();
+  }, []);
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
@@ -60,7 +94,14 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setGroupData((prevData) => ({ ...prevData, [name]: value }));
+    if (name === "category") {
+      setGroupData((prevData) => ({
+        ...prevData,
+        [name]: groupCategoryOptions[value],
+      }));
+    } else {
+      setGroupData((prevData) => ({ ...prevData, [name]: value }));
+    }
   };
 
   const handleImageChange = async (e) => {
@@ -88,77 +129,54 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     }
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!imagePreview) {
-      toast.error("Xahiş olunur bir şəkil seçin.");
+    console.log(e.target.value);
+
+    if (
+      !imagePreview ||
+      !groupData.title.trim() ||
+      !groupData.link.trim() ||
+      !groupData.memberCount ||
+      groupData.memberCount <= 0 ||
+      !groupData.description.trim()
+    ) {
+      toast.error("Bütün sahələri doldurun.");
       return;
     }
-    if (!groupData.title.trim()) {
-      toast.error("Xahiş olunur icmanın adını daxil edin.");
-      return;
-    }
-    
-    if (!groupData.country) {
-      toast.error("Xahiş olunur ölkəni seçin.");
-      return;
-    }
-    
-    if (!groupData.category) {
-      toast.error("Xahiş olunur kateqoriyanı seçin.");
-      return;
-    }
-    
-    if (!groupData.link.trim()) {
-      toast.error("Xahiş olunur keçid (link) daxil edin.");
-      return;
-    }
-    
-    if (!groupData.memberCount || groupData.memberCount <= 0) {
-      toast.error("Xahiş olunur üzv sayını daxil edin.");
-      return;
-    }
-    
-    if (!groupData.description.trim()) {
-      toast.error("Xahiş olunur 'Haqqında' hissəsini doldurun.");
-      return;
-    }
-    
-    if (!imagePreview) {
-      toast.error("Xahiş olunur bir şəkil seçin.");
-      return;
-    }
-    
+
     const formattedData = {
-      title: groupData.title, 
-      description: groupData.description, 
+      title: groupData.title,
+      description: groupData.description,
       country: groupData.country,
-      memberCount: parseInt(groupData.memberCount, 10), 
-      link: groupData.link, 
-      category: groupData.category || "LIFE", 
-      imageId, 
-      userId: 67, 
+      memberCount: parseInt(groupData.memberCount, 10),
+      link: groupData.link,
+      category: groupData.category || "LIFE",
+      imageId: imageId,
+      userId: userID,
     };
-    console.log(formattedData);
     
-    try{
-      const response =await axios.post("https://yalli-back-end.onrender.com/v1/groups",formattedData,{
-        headers:{
-          "Content-Type":"application/json",
-        },
-      })
-      setGroupumData((prev) => ({
-        ...prev,
-        content: prev?.content ? [...prev.content, response.data] : [response.data],
-      }));
+    if(groups.length>0){
+      setGroups(prev => [...prev, response.data]);
+
+    }
+    try {
+      const response = await axios.post(
+        "https://yalli-back-end.onrender.com/v1/groups",
+        formattedData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
-    } catch(error){
+    } catch (error) {
       console.error("Qrup yaratmaqda problem oldu", error);
       toast.error("Qrup yaratmaq uğursuz oldu.");
     }
-    
   };
 
   const handleArrowClick = () => {
@@ -204,7 +222,9 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               defaultValue="Ölkə"
             >
               {options.map((option, index) => (
-                <option key={index} value={option}>{option}</option>
+                <option key={index} value={option}>
+                  {option}
+                </option>
               ))}
             </select>
             <div className={styles["down_arrow"]} onClick={handleArrowClick}>
@@ -215,13 +235,15 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             <select
               name="category"
               id="category"
-              placeholder="Kateqoriya"
               onChange={handleChange}
+              ref={selectRef}
               style={{ width: "350px", padding: ".8rem" }}
               defaultValue="Kateqoriya"
             >
-              {groupCategory.map((ctgry, index) => (
-                <option key={index} value={ctgry}>{ctgry}</option>
+              {Object.entries(groupCategoryOptions).map(([az, en], index) => (
+                <option key={index} value={az}>
+                  {az}
+                </option>
               ))}
             </select>
             <div className={styles["down_arrow"]}>
@@ -256,9 +278,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               style={{ width: "350px", padding: ".7rem" }}
             ></textarea>
           </div>
-          <button type="submit">
-            Yarat
-          </button>
+          <button type="submit">Yarat</button>
         </form>
       </div>
     </div>

@@ -9,6 +9,18 @@ export const YalliContext = createContext();
 // Define the context provider component
 const ContextYalli = ({ children }) => {
     const [userInfoLogin, setUserInfoLogin] = useState(null);
+    const [userID,setUserID]=useState(null)
+    useEffect(()=>{
+        if(userID){
+            localStorage.setItem("userID", JSON.stringify(userID));        
+        }
+    },[userID])
+    useEffect(()=>{
+        const userIdLocal=localStorage.getItem("userID"); 
+        if(userIdLocal){
+            setUserID(JSON.parse(userIdLocal))
+        }
+    },[])
     useEffect(()=>{
         const userInfoLoginLocal=localStorage.getItem("userInfoLogin")
         
@@ -17,7 +29,7 @@ const ContextYalli = ({ children }) => {
         }
     },[])
     return (
-        <YalliContext.Provider value={{ userInfoLogin, setUserInfoLogin}}>
+        <YalliContext.Provider value={{ userInfoLogin, setUserInfoLogin,setUserID,userID}}>
             {children}
         </YalliContext.Provider>
     );

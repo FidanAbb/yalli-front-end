@@ -15,7 +15,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState("");
-  const {userInfoLogin,setUserInfoLogin}=useContext(YalliContext);
+  const {userInfoLogin,setUserInfoLogin,setUserID}=useContext(YalliContext);
   const {
     register,
     handleSubmit,
@@ -38,6 +38,7 @@ const LoginForm = () => {
         localStorage.setItem("userInfo", JSON.stringify(response.data));
         localStorage.setItem("userInfoLogin", JSON.stringify(response.data));
         setUserInfoLogin(response.data)
+        setUserID(response.data.id);
         navigate("/");
       }
     } catch (error) {

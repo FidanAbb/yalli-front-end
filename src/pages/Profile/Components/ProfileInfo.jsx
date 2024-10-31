@@ -24,21 +24,41 @@ const ProfileInfo = () => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
   const [localUserData, setLocalUserData] = useState(initialData);
-  const {userInfoLogin,base64Image,setBase64Image,setUserInfoLogin}=useContext(YalliContext);
-  
+  console.log(localUserData);
+
+  const { userInfoLogin, userID } = useContext(YalliContext);
+  const [base64Image, setBase64Image] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [isLoadingImage, setIsLoadingImage] = useState(false);
+  console.log(imageUrl);
+
+  useEffect(() => {
+    if (base64Image) {
+      setImageUrl(base64Image);
+    }
+  }, [base64Image]);
   useEffect(() => {
     const localUserDataJson = localStorage.getItem("userInfo");
-   
     if (localUserDataJson) {
       const localUserDataParsed = JSON.parse(localUserDataJson);
       setLocalUserData(localUserDataParsed);
-      dispatch(getUserDataById(userInfoLogin?.id));
     }
- 
-  }, [dispatch,base64Image]);
-  
-  
+  }, []);
 
+  // useEffect(() => {
+  //   if (base64Image) {
+  //     const newFormData = { ...localUserData, profilePictureUrl: base64Image };
+  //     setLocalUserData(newFormData);
+  //     localStorage.setItem("userInfo", JSON.stringify(newFormData));
+  //     updateUserData(newFormData);
+  //   }
+  // }, [base64Image, localUserData]);
+
+  useEffect(() => {
+    if (userID) {
+      dispatch(getUserDataById(userID));
+    }
+  }, [userID]);
 
   const updateUserData = (data) => {
     dispatch(patchUserData({ id: data.id, updatedData: data }));
@@ -46,7 +66,7 @@ const ProfileInfo = () => {
   };
   useEffect(() => {
     if (userFromStore) {
-      setLocalUserData(userFromStore); // Redux-dan alınan məlumatları state-də saxlayır
+      setLocalUserData(userFromStore);
       localStorage.setItem("userInfo", JSON.stringify(userFromStore));
     }
   }, [userFromStore]);
@@ -89,7 +109,7 @@ const ProfileInfo = () => {
     { name: "USA", cities: ["New York", "Los Angeles", "Chicago"] },
     { name: "Turkey", cities: ["Istanbul", "Ankara", "Izmir"] },
   ];
-  
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
@@ -97,37 +117,67 @@ const ProfileInfo = () => {
     if (file) {
       try {
         console.log(file);
-        const response = await axios.post('https://yalli-back-end.onrender.com/v1/files/upload', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
+        const response = await axios.post(
+          "https://yalli-back-end.onrender.com/v1/files/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-      });
-      getImageName(response.data)
-      } catch {
-        console.log("upload da problem");
+        );
+        const imageUrl = response.data;
+        const updateUserDataOb = {
+          ...localUserData,
+          profilePictureUrl: imageUrl,
+        };
+        imagePatch(response.data);
+        updateUserData(updateUserDataOb);
+      } catch (errr) {
+        console.log("upload da problem", errr);
       }
     }
   };
-const getImageName=async(imageFileName)=>{
-  try{
-    const response=await axios.get(`https://yalli-back-end.onrender.com/v1/files/${imageFileName}`, { responseType: 'blob' });
-    const reader=new FileReader();
-    reader.readAsDataURL(response.data);
-    reader.onloadend=function(){
-      const base64data=reader.result;
-      const newFormData = { ...localUserData, profilePictureUrl: base64data };
-      setLocalUserData(newFormData)
-      localStorage.setItem("userInfo", JSON.stringify(newFormData));
-      localStorage.setItem("profileImage",base64data);
-      const updatedData = { ...userInfoLogin, image: base64Image }; 
-      localStorage.setItem("userInfoLogin", JSON.stringify(updatedData));
-      setUserInfoLogin(updatedData)
-      setBase64Image(base64data)
-    } 
-  } catch (error) {
-    console.error('Error fetching image:', error);
-  }
-}
+  const imagePatch = async (imageStirng) => {
+    try {
+      const response = await axios.patch(
+        `https://yalli-back-end.onrender.com/v1/users/${userID}`,
+        { profilePictureUrl: imageStirng }
+      );
+      console.log("Sekil yuklendi");
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  };
+
+  const getImageName = async () => {
+    setIsLoadingImage(true);
+    try {
+      const response = await axios.get(
+        `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
+        { responseType: "text" } // SVG-ni mətn kimi qəbul et
+      );
+      console.log(response.data);
+  
+      // SVG məlumatını doğrudan base64 formatına çevirmək
+      const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
+      if (svgBase64) {
+        setBase64Image(svgBase64);
+      }
+      setIsLoadingImage(false);
+    } catch (error) {
+      console.error("Error fetching image:", error);
+      setIsLoadingImage(false);
+    }
+  };
+  useEffect(() => {
+    if (localUserData.profilePictureUrl) {
+      getImageName();
+    }
+  }, [localUserData.profilePictureUrl]);
+
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -141,15 +191,15 @@ const getImageName=async(imageFileName)=>{
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="left">
                   <div className="img-block">
-                    {userInfoLogin?.image ? (
-                      <img
-                        src={userInfoLogin?.image}
-                        alt="Profile"
-                      />
+                    {isLoadingImage ? (
+                      <p>Loading...</p> // Yüklənmə zamanı mesaj
                     ) : (
                       <img
-                        src="../../../../src/pages/Profile/assets/img/default-profile-img.webp"
-                        alt="Default Profile"
+                        src={
+                          base64Image ||
+                          "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+                        }
+                        alt="Profile"
                       />
                     )}
                     <div

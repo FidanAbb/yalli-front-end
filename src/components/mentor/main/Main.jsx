@@ -284,11 +284,9 @@ const Main = ({
   const [searchedItem, setSearchedItem] = useState("");
 
   const filteredGroupData = groupData?.content?.filter((g) => {
-    const matchesSearchItem = g.title
-      .toLowerCase()
-      .includes(searchedItem.toLowerCase());
+    const matchesSearchItem = g.title && g.title.toLowerCase().includes(searchedItem.toLowerCase());
     const matchesCountry = countrySearch
-      ? g.country.toLowerCase() === countrySearch.toLowerCase()
+      ? g.country && g.country.toLowerCase() === countrySearch.toLowerCase()
       : true;
     return matchesSearchItem && matchesCountry;
   });
@@ -304,21 +302,16 @@ const Main = ({
   );
 
   const filteredEventData = eventData.filter((e) => {
-    const matchesTitle = e.title
-      .toLowerCase()
-      .includes(searchedItem?.toLowerCase());
+    const matchesTitle = e.title && e.title.toLowerCase().includes(searchedItem?.toLowerCase());
     const matchesCountry = countrySearch
-      ? e.location.toLowerCase().includes(countrySearch.toLowerCase())
+      ? e.location && e.location.toLowerCase().includes(countrySearch.toLowerCase())
       : true;
     return matchesTitle && matchesCountry;
   });
-
   const filteredMemberData = memberData.filter((c) => {
-    const matchesSearchItem = c.name
-      .toLowerCase()
-      .includes(searchedItem.toLowerCase());
+    const matchesSearchItem = c.name && c.name.toLowerCase().includes(searchedItem.toLowerCase());
     const matchesCountry = countrySearch
-      ? c.location.toLowerCase().includes(countrySearch.toLowerCase())
+      ? c.location && c.location.toLowerCase().includes(countrySearch.toLowerCase())
       : true;
     return matchesSearchItem && matchesCountry;
   });
