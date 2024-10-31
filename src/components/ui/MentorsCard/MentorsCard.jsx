@@ -13,11 +13,11 @@ const MentorsCard = ({ data }) => {
                     id: data.id,
                     name: data.name,
                     detail: data.detail,
-                    image: data.image // include other properties as needed
+                    image: data.image
                 }
             })}
         >
-            <img src={data.image} alt="" />
+            <img src={data?.image} alt="" />
             <h3>{data.name}</h3>
             <span>{data.flag}</span>
             <p>{data.detail}</p>

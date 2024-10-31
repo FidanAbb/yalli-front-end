@@ -54,127 +54,92 @@ const countryCategory = [
 ];
 
 
-const PageSideBar = ({ categoryData, page, setSearchedItem }) => {
+const PageSideBar = ({ categoryData, page, setSearchedItem, setSelectedCountry, setActiveCategories, activeCategories }) => {
   const [searchItem, setSearchItem] = useState("");
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
-  useEffect(() => {
-    const searchedCountry = JSON.parse(localStorage.getItem("searchedCountry")) || "";
-    setSearchItem(searchedCountry);
-  }, []);
-  
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem("searchedCountry");
-    };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
-  const handleInputChange = (e) => {
-    setSearchItem(e.target.value);
-    setFilteredCountries(yourCountryList.filter(country => 
-      country.toLowerCase().includes(e.target.value.toLowerCase())
-    ));
+  const handleCountryChange = (country) => {
+    setSearchItem(country);
+    setSelectedCountry(country);
+    localStorage.setItem("searchedCountry", JSON.stringify(country));
+    setShowOptions(false);
   };
 
-  const [activeCategories, setActiveCategories] = useState([]);
-
-
-
-  const toggleCategory = (category) => {
-    if (activeCategories.includes(category)) {
-      setActiveCategories(activeCategories.filter((cat) => cat !== category));
+  const toggleCategory = (categoryKey) => {
+    if (activeCategories.includes(categoryKey)) {
+      setActiveCategories(activeCategories.filter((cat) => cat !== categoryKey));
     } else {
-      setActiveCategories([...activeCategories, category]);
+      setActiveCategories([...activeCategories, categoryKey]);
     }
   };
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchItem(value);
+    setSearchedItem(value);
+    setFilteredCountries(countryCategory.filter(country =>
+        country.toLowerCase().includes(value.toLowerCase())
+    ));
+  };
   return (
-    <div className={styles["sidebar"]}>
-      <input
-        type="text"
-        name=""
-        id=""
-        placeholder={`${
-          page === "member" || page === "mentor"
-            ? "Ad və Soyad"
-            : page == "event"
-            ? "Tədbir axtar"
-            : "Qrup axtar"
-        }`}
-        onChange={(e) => setSearchedItem(e.target.value)}
-      />
-
-      <div className={styles["country_select"]}>
+      <div className={styles["sidebar"]}>
         <input
-          type="text"
-          name=""
-          id=""
-          className={styles["select"]}
-          placeholder="Ölkə"
-          value={searchItem}
-          onChange={
-            (e)=> {
-
-              handleInputChange(e)
-            }
-          }
-          onClick={() => setShowOptions(!showOptions)}
-          onBlur={() => setTimeout(() => setShowOptions(false), 200)}
-          
+            type="text"
+            placeholder={page === "qrup" ? "Qrup axtar" : "Axtar"}
+            onChange={(e) => setSearchedItem(e.target.value)}
         />
 
-        {showOptions && (
-          <div className={styles["options"]}>
-            {filteredCountries.length > 0 ? (
-              filteredCountries.map((country, i) => (
-                <div
-                  key={i}
-                  className={styles["p"]}
-                  onClick={() => {
-                    setSearchItem(country);
-                    setShowOptions(false);
-                    localStorage.setItem("searchedCountry", JSON.stringify(country));
-                  }}
-                >
-                  {country}
-                </div>
-              ))
-            ) : (
-              <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
-            )}
-          </div>
-        )}
+        <div className={styles["country_select"]}>
+          <input
+              type="text"
+              className={styles["select"]}
+              placeholder="Ölkə"
+              value={searchItem}
+              onChange={handleInputChange}
+              onClick={() => setShowOptions(!showOptions)}
+              onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+          />
 
-        <div className={styles["down_arrow"]} onClick={() => setShowOptions(!showOptions)}>
-          <DownArrow />
+          {showOptions && (
+              <div className={styles["options"]}>
+                {filteredCountries.length > 0 ? (
+                    filteredCountries.map((country, i) => (
+                        <div
+                            key={i}
+                            className={styles["p"]}
+                            onClick={() => handleCountryChange(country)}
+                        >
+                          {country}
+                        </div>
+                    ))
+                ) : (
+                    <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+                )}
+              </div>
+          )}
+        </div>
+
+        {page !== "member" && <p className={styles["category_text"]}>Kateqoriyalar</p>}
+        <div className={styles["categories"]}>
+          {categoryData &&
+          page !== "member" &&
+          categoryData.map((categoryObj, i) => {
+            const categoryKey = Object.keys(categoryObj)[0];
+            const categoryLabel = categoryObj[categoryKey];
+            return (
+                <div
+                    key={i}
+                    className={`${styles["category"]} ${activeCategories.includes(categoryKey) ? styles["active"] : ""}`}
+                    onClick={() => toggleCategory(categoryKey)}
+                >
+                  <p>{categoryLabel}</p>
+                </div>
+            );
+          })}
         </div>
       </div>
-      {page !== "member" && (
-        <p className={styles["category_text"]}>Kateqoriyalar</p>
-      )}
-
-      <div className={styles["categories"]}>
-      {categoryData &&
-          page !== "member" &&
-          categoryData.map((m, i) => (
-            <div
-              key={i}
-              className={`${styles["category"]} ${
-                activeCategories.includes(m) ? styles["active"] : ""
-              }`}
-              onClick={() => toggleCategory(m)}
-            >
-              <p>{m}</p>
-            </div>
-          ))}
-      </div>
-    </div>
   );
 };
 
 export default PageSideBar;
+

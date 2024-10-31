@@ -5,10 +5,11 @@ import Hero from "../../../components/group/hero/Hero";
 import React, {useEffect, useState} from "react";
 import Footer from "../../../components/Layout/Footer/Footer";
 import Header from "../../../components/Layout/Header/Header";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function EventDetail() {
     const location = useLocation();
+    let navigate= useNavigate()
     const {event} = location.state || {};
     const [userData, setUserData] = useState("");
     useEffect(() => {
@@ -51,12 +52,12 @@ export default function EventDetail() {
                             making it look like readable English.
                         </p>
                     </div>
-                    {!userData &&
+                    {userData &&
                     <div className={styles.btn_box}>
-                        <button>
+                        <a target='_blank' href='https://www.facebook.com/profile.php?id=61567225002273'>
                             <span>Qeydiyyatdan keç</span>
                             <UpperIcon/>
-                        </button>
+                        </a>
                     </div>
                     }
                 </div>

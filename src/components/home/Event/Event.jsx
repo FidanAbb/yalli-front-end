@@ -151,7 +151,7 @@ const Event = () => {
             <h2>Tədbirlər</h2>
             <p onClick={() =>
               // window.location.href ="/event"
-              navigate("/event")
+              navigate("/events")
               }>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
