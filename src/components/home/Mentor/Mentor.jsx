@@ -109,7 +109,7 @@ const Mentor = () => {
             <h2>Mentorlar</h2>
             <p onClick={() => 
               // window.location.href = "/mentor"
-              navigate("/mentor")
+              navigate("/mentors")
               }>
               Hamısına bax
             </p>
