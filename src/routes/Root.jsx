@@ -17,6 +17,10 @@ import Profile from "../pages/Profile/Profile";
 import EventDetail from "../pages/Event/EventDetail";
 import MentorDetail from "../pages/Mentor/MentorDetail";
 import ProfileInfo from "../pages/Profile/Components/ProfileInfo";
+import Groups from "../components/mentor/main/Groups";
+import Members from "../components/mentor/main/Members";
+import Events from "../components/mentor/main/Events";
+import Mentors from "../components/mentor/main/Mentors";
 
 const Router = createBrowserRouter([
   {
@@ -43,6 +47,14 @@ const Router = createBrowserRouter([
     path: "/mentor",
     element: <Mentor />,
   },
+  {
+    path: "/members",
+    element: <Members />,
+  },
+  {
+    path: "/mentors",
+    element: <Mentors />,
+  },
     {
     path: "/profile/:section",
     element: <Profile />,
@@ -57,12 +69,20 @@ const Router = createBrowserRouter([
     element: <Qrup />,
   },
   {
+    path: "/groups",
+    element: <Groups />,
+  },
+  {
     path: "/qrup/:id",
     element: <GroupDetail />,
   },
   {
     path: "/event",
     element: <Event />,
+  },
+  {
+    path: "/events",
+    element: <Events />,
   },
   {
     path: "/login",

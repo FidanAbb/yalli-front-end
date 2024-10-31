@@ -26,7 +26,7 @@ const Member = () => {
 
                   src={memberImg}
                   alt="member"
-                  className={`${styles["selectDisable"]} ${styles.blurImage}`} // Apply blur class
+                  className={`${styles["selectDisable"]} ${styles.blurImage}`}
               />
             </div>
 

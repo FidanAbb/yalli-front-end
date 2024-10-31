@@ -24,19 +24,19 @@ const navLinks = [
   },
   {
     page: "Üzvlər",
-    link: "/member",
+    link: "/members",
   },
   {
     page: "Mentorlar",
-    link: "/mentor",
+    link: "/mentors",
   },
   {
     page: "İcma",
-    link: "/qrup",
+    link: "/groups",
   },
   {
     page: "Tədbirlər",
-    link: "/event",
+    link: "/events",
   },
 ];
 

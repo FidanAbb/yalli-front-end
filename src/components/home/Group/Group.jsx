@@ -139,7 +139,7 @@ const Group = () => {
             <h2>İcmalar</h2>
             <p onClick={() => 
               // window.location.href ="/qrup"
-              navigate("/qrup")
+              navigate("/groups")
               }>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
