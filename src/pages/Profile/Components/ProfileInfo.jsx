@@ -11,27 +11,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { YalliContext } from "../../../Context/YalliContext";
+import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
 const ProfileInfo = () => {
-  const initialData = {
-    fullName: "",
-    email: "",
-    birthDate: "",
-    city: "",
-    country: "",
-    profilePictureUrl: "",
-    socialMediaAccounts: null,
-  };
+
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
-  const [localUserData, setLocalUserData] = useState(initialData);
-  console.log(localUserData);
-
-  const { userInfoLogin, userID } = useContext(YalliContext);
+  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
   const [base64Image, setBase64Image] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [isLoadingImage, setIsLoadingImage] = useState(false);
-  console.log(imageUrl);
-
   useEffect(() => {
     if (base64Image) {
       setImageUrl(base64Image);
@@ -44,16 +30,6 @@ const ProfileInfo = () => {
       setLocalUserData(localUserDataParsed);
     }
   }, []);
-
-  // useEffect(() => {
-  //   if (base64Image) {
-  //     const newFormData = { ...localUserData, profilePictureUrl: base64Image };
-  //     setLocalUserData(newFormData);
-  //     localStorage.setItem("userInfo", JSON.stringify(newFormData));
-  //     updateUserData(newFormData);
-  //   }
-  // }, [base64Image, localUserData]);
-
   useEffect(() => {
     if (userID) {
       dispatch(getUserDataById(userID));
@@ -153,7 +129,6 @@ const ProfileInfo = () => {
   };
 
   const getImageName = async () => {
-    setIsLoadingImage(true);
     try {
       const response = await axios.get(
         `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
@@ -165,11 +140,10 @@ const ProfileInfo = () => {
       const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
       if (svgBase64) {
         setBase64Image(svgBase64);
+        setImageUrl(svgBase64)
       }
-      setIsLoadingImage(false);
     } catch (error) {
       console.error("Error fetching image:", error);
-      setIsLoadingImage(false);
     }
   };
   useEffect(() => {
@@ -191,15 +165,12 @@ const ProfileInfo = () => {
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="left">
                   <div className="img-block">
-                    {isLoadingImage ? (
-                      <p>Loading...</p> // Yüklənmə zamanı mesaj
+                  {imageUrl ? (
+                      <img src={imageUrl} alt="Profile" />
                     ) : (
                       <img
-                        src={
-                          base64Image ||
-                          "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
-                        }
-                        alt="Profile"
+                        src={profileDefaultImg}
+                        alt="Default Profile"
                       />
                     )}
                     <div

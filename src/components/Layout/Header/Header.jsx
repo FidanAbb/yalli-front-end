@@ -13,6 +13,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { YalliContext } from "../../../Context/YalliContext";
+import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
 const navLinks = [
   {
     page: "Əsas səhifə",
@@ -95,13 +96,12 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [profileDropDown, setProfileDropDown] = useState(false);
-  const {userInfoLogin,setUserInfoLogin}=useContext(YalliContext);
   const navigate = useNavigate();
 
+  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
-    localStorage.removeItem("userInfoLogin");
     navigate("/login");
     setProfileDropDown(false)
   };
@@ -256,7 +256,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 >
                   <img
                     src={`${
-                      userInfoLogin?.image ? userInfoLogin?.image : "/src/assets/img/nouser.webp"
+                      imageUrl ? imageUrl : profileImageDefault
                     } `}
                     alt=""
                   />
@@ -276,17 +276,17 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                     <div>
                       <img
                         src={`${
-                          userInfoLogin?.image
-                            ? userInfoLogin?.image
-                            : "/src/assets/img/nouser.webp"
+                          imageUrl
+                            ? imageUrl
+                            : profileImageDefault
                         } `}
                         className={styles["drop-down-img"]}
                         alt=""
                       />
                     </div>
-                    <div>
-                      <h5>Lale</h5>
-                      <p>email@gmal</p>
+                    <div style={{overflow:"hidden"}}>
+                      <h5>{localUserData.fullName}</h5>
+                      <p>{localUserData.email}</p>
                     </div>
                   </div>
                 </NavLink>
