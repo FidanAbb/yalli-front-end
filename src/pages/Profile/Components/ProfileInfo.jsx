@@ -11,12 +11,16 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { YalliContext } from "../../../Context/YalliContext";
-import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 const ProfileInfo = () => {
-
-  const dispatch = useDispatch();
-  const userFromStore = useSelector((state) => state.users.user);
-  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl,updateUserData,base64Image,setBase64Image,handleImageUpload,getImageName} = useContext(YalliContext);
+  const {
+    localUserData,
+    setLocalUserData,
+    imageUrl,
+    updateUserData,
+    handleImageUpload,
+    loadingImage,
+  } = useContext(YalliContext);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -89,9 +93,9 @@ const ProfileInfo = () => {
   //   try {
   //     const response = await axios.get(
   //       `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-  //       { responseType: "text" } 
+  //       { responseType: "text" }
   //     );
-  
+
   //     const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
   //     if (svgBase64) {
   //       setBase64Image(svgBase64);
@@ -102,7 +106,6 @@ const ProfileInfo = () => {
   //     console.error("Error fetching image:", error);
   //   }
   // };
-
 
   if (!localUserData) {
     return <div>Loading...</div>;
@@ -117,12 +120,15 @@ const ProfileInfo = () => {
               <div className="col-md-6 col-sm-12 col-12">
                 <div className="left">
                   <div className="img-block">
-                  {imageUrl ? (
-                      <img src={imageUrl} alt="Profile" />
+                    {loadingImage ? (
+                      <p>Loading...</p> // Yüklənmə zamanı mesaj
                     ) : (
                       <img
-                        src={profileDefaultImg}
-                        alt="Default Profile"
+                        src={
+                          imageUrl ||
+                          "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+                        }
+                        alt="Profile"
                       />
                     )}
                     <div

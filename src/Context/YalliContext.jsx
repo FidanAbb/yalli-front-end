@@ -22,6 +22,7 @@ const ContextYalli = ({ children }) => {
   const [localUserData, setLocalUserData] = useState(initialData);
   const [imageUrl, setImageUrl] = useState("");
   const [base64Image, setBase64Image] = useState("");
+  const [loadingIamge,setLoadingImage]=useState(false)
   useEffect(() => {
     if (userID) {
       const imageKey = `profileImg-${userID}`; 
@@ -99,20 +100,28 @@ const ContextYalli = ({ children }) => {
     }
   };
   const getImageName = async () => {
+    setLoadingImage(true)
     try {
       const response = await axios.get(
         `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-        { responseType: "text" } 
+        { responseType: "arraybuffer" }
+      );
+      const contentType = response.headers['content-type'];
+      const base64 = btoa(
+        new Uint8Array(response.data) 
+          .reduce((data, byte) => data + String.fromCharCode(byte), '')
       );
   
-      const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
-      if (svgBase64) {
-        setBase64Image(svgBase64);
-        localStorage.setItem("profileImg",JSON.stringify(svgBase64))
-        setImageUrl(svgBase64)
+      const imageSrc = `data:${contentType};base64,${base64}`;
+      if (imageSrc) {
+        setBase64Image(imageSrc);
+        localStorage.setItem("profileImg", JSON.stringify(imageSrc));
+        setImageUrl(imageSrc);
       }
     } catch (error) {
       console.error("Error fetching image:", error);
+    }finally{
+      setLoadingImage(false)
     }
   };
   useEffect(() => {
@@ -134,7 +143,9 @@ const ContextYalli = ({ children }) => {
         setBase64Image,
         base64Image,
         handleImageUpload,
-        getImageName
+        getImageName,
+        setLoadingImage,
+        loadingIamge
       }}
     >
       {children}
