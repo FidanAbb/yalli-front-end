@@ -99,6 +99,17 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const navigate = useNavigate();
 
   const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
+  useEffect(() => {
+    const localProfileImage = localStorage.getItem("profileImg");
+    if (localProfileImage) {
+      setImageUrl(JSON.parse(localProfileImage));
+    }
+    const localUserInfo=localStorage.getItem("userInfo")
+    if(localUserInfo){
+      setLocalUserData(JSON.parse(localUserInfo))
+    }
+  }, []);
+  console.info();
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");

@@ -19,7 +19,14 @@ const ProfileInfo = () => {
   const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
   const [base64Image, setBase64Image] = useState("");
   useEffect(() => {
+    const localProfileImage = localStorage.getItem("profileImg");
+    if (localProfileImage) {
+      setImageUrl(JSON.parse(localProfileImage));
+    }
+  }, []);
+  useEffect(() => {
     if (base64Image) {
+      localStorage.setItem("profileImg", JSON.stringify(base64Image));
       setImageUrl(base64Image);
     }
   }, [base64Image]);
@@ -132,14 +139,13 @@ const ProfileInfo = () => {
     try {
       const response = await axios.get(
         `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-        { responseType: "text" } // SVG-ni mətn kimi qəbul et
+        { responseType: "text" } 
       );
-      console.log(response.data);
   
-      // SVG məlumatını doğrudan base64 formatına çevirmək
       const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
       if (svgBase64) {
         setBase64Image(svgBase64);
+        localStorage.setItem("profileImg",JSON.stringify(svgBase64))
         setImageUrl(svgBase64)
       }
     } catch (error) {
@@ -151,6 +157,7 @@ const ProfileInfo = () => {
       getImageName();
     }
   }, [localUserData.profilePictureUrl]);
+
 
   if (!localUserData) {
     return <div>Loading...</div>;
