@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
 import styles from "./style.module.scss";
 import Sidebar from "../../ui/pageSidebar/PageSideBar";
@@ -10,71 +10,78 @@ import { useNavigate } from "react-router-dom";
 import Hero from "../../group/hero/Hero";
 
 const Groups = () => {
-    let navigate = useNavigate();
-    const [groupData, setGroupData] = useState([]);
-    const groups = useSelector((state) => state.groups.groups);
-    const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await dispatch(getGroupData());
-        };
-        fetchData();
-    }, [dispatch]);
+  // State Management
+  const groups = useSelector((state) => state.groups.groups);
+  const loading = useSelector((state) => state.groups.loading);
+  const [searchedItem, setSearchedItem] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [activeCategories, setActiveCategories] = useState([]);
 
-    const [searchedItem, setSearchedItem] = useState("");
-    const [selectedCountry, setSelectedCountry] = useState("");
-    const [activeCategories, setActiveCategories] = useState([]);
+  // Fetch Data on Mount
+  useEffect(() => {
+    dispatch(getGroupData());
+  }, [dispatch]);
 
-    const groupCategory = [
-        { "LIFE": "Yaşam" },
-        { "LOCATION": "Yerləşmə" },
-        { "LAW": "Qanunlar" },
-        { "TRAVEL": "Səyahət" },
-    ];
-    const filteredGroups = groups.content?.filter(group => {
-        console.log(group,'group')
-        const matchesCountry = selectedCountry ? group.country === selectedCountry : true;
-        const matchesCategory = activeCategories.length > 0
-            ? activeCategories.includes(group.groupCategory)
-            : true;
-        const matchesSearch = searchedItem
-            ? group.name?.toLowerCase().includes(searchedItem.toLowerCase())
-            : true;
-        return matchesCountry && matchesCategory && matchesSearch;
-    }) || [];
+  // Category Definitions
+  const groupCategory = [
+    { LIFE: "Yaşam" },
+    { LOCATION: "Yerləşmə" },
+    { LAW: "Qanunlar" },
+    { TRAVEL: "Səyahət" },
+  ];
 
+  // Filtering Logic
+  const filterGroups = () => {
     return (
-        <>
-            <Header />
-            <Hero setGroupData={setGroupData} />
-            <div className={styles["main"]}>
-                <div className="container">
-                    <div className={styles["main"]}>
-                        <div className={styles["sidebar"]}>
-                            <Sidebar
-                                categoryData={groupCategory}
-                                page={'qrup'}
-                                setSearchedItem={setSearchedItem}
-                                searchedItem={searchedItem}
-                                setSelectedCountry={setSelectedCountry}
-                                setActiveCategories={setActiveCategories}
-                                activeCategories={activeCategories}
-                            />
-                        </div>
-                        <div className={styles["cards"]}>
-                            {filteredGroups.map((group, i) => (
-                                <div key={i} onClick={() => navigate(`/qrup/${group.id}`)}>
-                                    <Card sectionName="group" group={group} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <Footer />
-        </>
+      groups.content?.filter((group) => {
+        const matchesCountry = selectedCountry ? group.country === selectedCountry : true;
+        const matchesCategory = activeCategories.length > 0 ? activeCategories.includes(group.groupCategory) : true;
+        const matchesSearch = searchedItem ? group.name?.toLowerCase().includes(searchedItem.toLowerCase()) : true;
+        return matchesCountry && matchesCategory && matchesSearch;
+      }) || []
     );
+  };
+
+  const filteredGroups = filterGroups();
+
+  return (
+    <>
+      <Header />
+      <Hero />
+      <div className={styles["main"]}>
+        <div className="container">
+          <div className={styles["main"]}>
+            <div className={styles["sidebar"]}>
+              <Sidebar
+                categoryData={groupCategory}
+                page={"qrup"}
+                setSearchedItem={setSearchedItem}
+                searchedItem={searchedItem}
+                setSelectedCountry={setSelectedCountry}
+                setActiveCategories={setActiveCategories}
+                activeCategories={activeCategories}
+              />
+            </div>
+            <div className={styles["cards"]}>
+              {loading ? (
+                <p>Loading...</p>
+              ) : (
+                filteredGroups.map((group, i) => (
+                  <div key={i} onClick={() => navigate(`/qrup/${group.id}`)}>
+                    <Card sectionName="group" group={group} />
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 };
 
 export default Groups;

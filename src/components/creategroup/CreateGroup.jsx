@@ -52,7 +52,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const [groups, setGroups] = useState([]);
   const [loadingGroups, setLoadingGroups] = useState(true);
   const { userID } = useContext(YalliContext);
-  console.log(userID);
 
   const [groupData, setGroupData] = useState({
     title: "",
@@ -73,7 +72,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
         const response = await axios.get(
           "https://yalli-back-end.onrender.com/v1/groups"
         );
-        console.log(response.data);
         setGroups(response.data);
       } catch (error) {
         console.error("Qrupları çəkməkdə problem oldu", error);
@@ -122,17 +120,17 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
         );
         if (response.status === 201) {
           setImageId(response.data);
+          toast.success("Şəkil uğurla yükləndi.");
         }
       } catch (error) {
         console.error("Image upload failed", error);
+        toast.error("Şəkil yükləmək mümkün olmadı: " + error.message);
       }
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target.value);
-
     if (
       !imagePreview ||
       !groupData.title.trim() ||
@@ -155,10 +153,11 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       imageId: imageId,
       userId: userID,
     };
-    
-    if(groups.length>0){
-      setGroups(prev => [...prev, response.data]);
 
+    console.log(formattedData);
+
+    if (groups.length > 0) {
+      setGroups((prev) => [...prev,formattedData]);
     }
     try {
       const response = await axios.post(
@@ -215,21 +214,20 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             <select
               name="country"
               id="country"
-              placeholder="Ölkə"
               onChange={handleChange}
               ref={selectRef}
               style={{ width: "350px", padding: ".8rem" }}
-              defaultValue="Ölkə"
+              value={groupData.country || ""} // Bu, idarə olunan komponenti təmin edir
             >
+              <option value="" disabled hidden>
+                Ölkələr
+              </option>
               {options.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
               ))}
             </select>
-            <div className={styles["down_arrow"]} onClick={handleArrowClick}>
-              <DownArrow />
-            </div>
           </div>
           <div className={styles["selected"]}>
             <select

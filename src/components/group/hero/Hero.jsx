@@ -3,8 +3,6 @@ import styles from "./style.module.scss";
 import CreateGroup from "../../creategroup/CreateGroup";
 import { useNavigate } from "react-router-dom";
 const Hero = ({ setGroupData }) => {
-  console.log(setGroupData);
-
   const [modal, setModal] = useState(false);
   const [userData, setUserData] = useState("");
   let navigate = useNavigate();
