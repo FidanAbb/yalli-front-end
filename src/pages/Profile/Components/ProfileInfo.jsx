@@ -16,43 +16,8 @@ const ProfileInfo = () => {
 
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
-  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
-  const [base64Image, setBase64Image] = useState("");
-  useEffect(() => {
-    const localProfileImage = localStorage.getItem("profileImg");
-    if (localProfileImage) {
-      setImageUrl(JSON.parse(localProfileImage));
-    }
-  }, []);
-  useEffect(() => {
-    if (base64Image) {
-      localStorage.setItem("profileImg", JSON.stringify(base64Image));
-      setImageUrl(base64Image);
-    }
-  }, [base64Image]);
-  useEffect(() => {
-    const localUserDataJson = localStorage.getItem("userInfo");
-    if (localUserDataJson) {
-      const localUserDataParsed = JSON.parse(localUserDataJson);
-      setLocalUserData(localUserDataParsed);
-    }
-  }, []);
-  useEffect(() => {
-    if (userID) {
-      dispatch(getUserDataById(userID));
-    }
-  }, [userID]);
+  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl,updateUserData,base64Image,setBase64Image,handleImageUpload,getImageName} = useContext(YalliContext);
 
-  const updateUserData = (data) => {
-    dispatch(patchUserData({ id: data.id, updatedData: data }));
-    localStorage.setItem("userInfo", JSON.stringify(data));
-  };
-  useEffect(() => {
-    if (userFromStore) {
-      setLocalUserData(userFromStore);
-      localStorage.setItem("userInfo", JSON.stringify(userFromStore));
-    }
-  }, [userFromStore]);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const newFormData = { ...localUserData, [name]: value };
@@ -93,70 +58,50 @@ const ProfileInfo = () => {
     { name: "Turkey", cities: ["Istanbul", "Ankara", "Izmir"] },
   ];
 
-  const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append("file", file);
-    if (file) {
-      try {
-        console.log(file);
-        const response = await axios.post(
-          "https://yalli-back-end.onrender.com/v1/files/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        const imageUrl = response.data;
-        const updateUserDataOb = {
-          ...localUserData,
-          profilePictureUrl: imageUrl,
-        };
-        imagePatch(response.data);
-        updateUserData(updateUserDataOb);
-      } catch (errr) {
-        console.log("upload da problem", errr);
-      }
-    }
-  };
-  const imagePatch = async (imageStirng) => {
-    try {
-      const response = await axios.patch(
-        `https://yalli-back-end.onrender.com/v1/users/${userID}`,
-        { profilePictureUrl: imageStirng }
-      );
-      console.log("Sekil yuklendi");
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
-
-  const getImageName = async () => {
-    try {
-      const response = await axios.get(
-        `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-        { responseType: "text" } 
-      );
+  //   const file = event.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   if (file) {
+  //     try {
+  //       console.log(file);
+  //       const response = await axios.post(
+  //         "https://yalli-back-end.onrender.com/v1/files/upload",
+  //         formData,
+  //         {
+  //           headers: {
+  //             "Content-Type": "multipart/form-data",
+  //           },
+  //         }
+  //       );
+  //       const imageUrl = response.data;
+  //       const updateUserDataOb = {
+  //         ...localUserData,
+  //         profilePictureUrl: imageUrl,
+  //       };
+  //       imagePatch(response.data);
+  //       updateUserData(updateUserDataOb);
+  //     } catch (errr) {
+  //       console.log("upload da problem", errr);
+  //     }
+  //   }
+  // };
+  // const getImageName = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
+  //       { responseType: "text" } 
+  //     );
   
-      const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
-      if (svgBase64) {
-        setBase64Image(svgBase64);
-        localStorage.setItem("profileImg",JSON.stringify(svgBase64))
-        setImageUrl(svgBase64)
-      }
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    }
-  };
-  useEffect(() => {
-    if (localUserData.profilePictureUrl) {
-      getImageName();
-    }
-  }, [localUserData.profilePictureUrl]);
+  //     const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
+  //     if (svgBase64) {
+  //       setBase64Image(svgBase64);
+  //       localStorage.setItem("profileImg",JSON.stringify(svgBase64))
+  //       setImageUrl(svgBase64)
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching image:", error);
+  //   }
+  // };
 
 
   if (!localUserData) {
