@@ -63,7 +63,7 @@ const GroupEditAllInfo = () => {
   console.log(formData);
   useEffect(() => {
     if (groupDetailsByUserID) {
-      setFormData({
+      const newFormData = {
         title: groupDetailsByUserID.title || "",
         description: groupDetailsByUserID.description || "",
         imageId: groupDetailsByUserID.imageId || "",
@@ -72,19 +72,12 @@ const GroupEditAllInfo = () => {
         gallery: groupDetailsByUserID.gallery || [],
         country: groupDetailsByUserID.country || "",
         category: groupDetailsByUserID.category || "LIFE",
-      });
-      setInitialFormData({
-        title: groupDetailsByUserID.title || "",
-        description: groupDetailsByUserID.description || "",
-        imageId: groupDetailsByUserID.imageId || "",
-        link: groupDetailsByUserID.link || "",
-        about: groupDetailsByUserID.about || "",
-        gallery: groupDetailsByUserID.gallery || [],
-        country: groupDetailsByUserID.country || "",
-        category: groupDetailsByUserID.category || "LIFE",
-      });
+      };
+      setFormData(newFormData);
+      setInitialFormData(newFormData); // Başlanğıc dəyərləri qurun
     }
   }, [groupDetailsByUserID]);
+
   useEffect(() => {
     if (groupID && userID) {
       findGroupByUserId(groupID, userID).then(data => {
@@ -131,34 +124,30 @@ const GroupEditAllInfo = () => {
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // Məcburi sahələri yoxlayın (şəkil olmadan)
-    if (!formData.title || !formData.description) {
-      console.error("Title və description sahələri doldurulmalıdır!");
+    const changes = Object.keys(formData).reduce((acc, key) => {
+      if (formData[key] !== initialFormData[key]) {
+        acc[key] = formData[key];
+      }
+      return acc;
+    }, {});
+  
+    if (Object.keys(changes).length === 0) {
+      toast.info("Heç bir dəyişiklik aşkarlanmadı.");
       return;
     }
+  console.log(changes);
+  
     try {
-      // Yalnız dəyişdirilmiş sahələri göndərin
-      const changes = Object.keys(formData).reduce((acc, key) => {
-        if (formData[key] !== initialFormData[key]) {
-          acc[key] = formData[key];
-        }
-        return acc;
-      }, {});
-
-      if (Object.keys(changes).length === 0) {
-        toast.info("Heç bir dəyişiklik aşkarlanmadı.");
-        return;
-      }
-
-      const groupIdFromParams = groupID; 
-      await updateGroup(groupIdFromParams, changes);
-      console.log("Form submitted with changes:", changes);
+      
+      await updateGroup(groupID, changes);
+      setInitialFormData(formData); // Yenilənmiş məlumatları başlanğıc kimi saxlayın
       toast.success("Qrup məlumatları uğurla yeniləndi!");
     } catch (error) {
       console.error("Formu təqdim etmək mümkün olmadı", error);
       toast.error("Qrup məlumatlarını yeniləmək mümkün olmadı: " + error.message);
     }
   };
+  
 
   return (
     <div className="all-info">
