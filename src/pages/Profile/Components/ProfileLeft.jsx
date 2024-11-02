@@ -61,7 +61,7 @@ const ProfileLeft = () => {
                 <p>İcmaları redaktə et</p>
               </NavLink>
             </li>
-            <li>
+            <li className="disabled-link">
               <NavLink
                 className="link"
                 to="/profile/profile-settings"

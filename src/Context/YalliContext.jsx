@@ -1,11 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { getUserDataById, patchUserData } from "../redux/slice/user/user";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 // Create the context
 export const YalliContext = createContext();
-// Define the context provider component
 const ContextYalli = ({ children }) => {
   const dispatch=useDispatch()
   const userFromStore = useSelector((state) => state.users.user);
@@ -18,11 +19,17 @@ const ContextYalli = ({ children }) => {
     profilePictureUrl: "",
     socialMediaAccounts: null,
   };
+  const {groupID}=useParams()
   const [userID, setUserID] = useState(null);
   const [localUserData, setLocalUserData] = useState(initialData);
   const [imageUrl, setImageUrl] = useState("");
   const [base64Image, setBase64Image] = useState("");
   const [loadingIamge,setLoadingImage]=useState(false)
+  const [groupsByUserID,setGroupsByUserID]=useState()
+  const [group, setGroup] = useState(null);
+  const [groupDetailsByUserID,setGroupDetailsByUserID]=useState("");
+
+  
   useEffect(() => {
     if (userID) {
       const imageKey = `profileImg-${userID}`; 
@@ -130,6 +137,62 @@ const ContextYalli = ({ children }) => {
     }
   }, [localUserData.profilePictureUrl]);
 
+  const getGroupByUserID = async (userID) => {
+    try {
+      const response = await axios.get(`https://yalli-back-end.onrender.com/v1/groups/users/${userID}`, {
+        headers: {
+          'Accept': 'application/json' 
+        }
+      });
+      if(response.data.content){
+        setGroupsByUserID(response.data.content);
+        
+
+      }
+    } catch (error) {
+      console.error('Xəta baş verdi:', error.response); 
+    }
+  };
+  useEffect(() => {
+    if (userID) {
+      getGroupByUserID(userID);
+    }
+  }, [userID]);
+
+
+  const updateGroup = async (groupId, groupData) => {
+      try {
+          const response = await axios.put(`https://yalli-back-end.onrender.com/v1/groups/${groupId}`, groupData, {
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+          setGroup(response.data); 
+          console.log('Qrup məlumatı yeniləndi:', response.data);
+          toast.success("Qrup məlumatı yeniləndi")
+      } catch (error) {
+          console.error('Qrup məlumatını yeniləmək mümkün olmadı:', error);
+          toast.error("Qrup məlumatını yeniləmək mümkün olmadı")
+      }
+  };
+
+  const findGroupByUserId = useCallback(async (groupId, userId) => {
+    try {
+      const url = `https://yalli-back-end.onrender.com/v1/groups/${groupId}/users/${userId}`;
+      const response = await axios.get(url, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.data) {
+        setGroupDetailsByUserID(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching group data:', error);
+      throw error; // Xəta baş verərsə, xəta mesajını qaytarır
+    }
+  }, []);
+  
   return (
     <YalliContext.Provider
       value={{
@@ -145,7 +208,14 @@ const ContextYalli = ({ children }) => {
         handleImageUpload,
         getImageName,
         setLoadingImage,
-        loadingIamge
+        loadingIamge,
+        groupsByUserID,
+        setGroupsByUserID,
+        updateGroup,
+        group,
+        findGroupByUserId,
+        groupDetailsByUserID,
+        setGroupDetailsByUserID
       }}
     >
       {children}

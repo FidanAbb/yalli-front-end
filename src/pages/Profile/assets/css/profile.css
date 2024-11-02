@@ -5,6 +5,11 @@
     overflow: hidden;
 }
 
+.disabled-link {
+    pointer-events: none;
+    opacity: 0.5;
+    cursor: default;
+  }
 .profile-left {
     padding-right: 3rem ;
     position: relative;

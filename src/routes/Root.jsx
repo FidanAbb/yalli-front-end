@@ -21,6 +21,7 @@ import Groups from "../components/mentor/main/Groups";
 import Members from "../components/mentor/main/Members";
 import Events from "../components/mentor/main/Events";
 import Mentors from "../components/mentor/main/Mentors";
+import GroupEdit from "../pages/GroupEdit/GroupEdit";
 
 const Router = createBrowserRouter([
   {
@@ -54,11 +55,7 @@ const Router = createBrowserRouter([
   {
     path: "/mentors",
     element: <Mentors />,
-  },
-    {
-    path: "/profile/:section",
-    element: <Profile />,
-  },
+  },,
   {
     path: "/mentor/:id",
     element: <MentorDetail />,
@@ -75,6 +72,10 @@ const Router = createBrowserRouter([
   {
     path: "/qrup/:id",
     element: <GroupDetail />,
+  },
+  {
+    path: "/group-edit/:groupID/:sectionGroup",
+    element: <GroupEdit />,
   },
   {
     path: "/event",
@@ -98,24 +99,23 @@ const Router = createBrowserRouter([
   // },
   {
     path: "/forgot-password",
-    element: <ForgotPass/>,
+    element: <ForgotPass />,
   },
   {
     path: "/confirm-email",
-    element: <ConfirmEmail/>,
+    element: <ConfirmEmail />,
   },
   {
     path: "/success",
-    element: <Success/>,
+    element: <Success />,
   },
   {
     path: "/reset-password",
-    element: <ResetPass/>,
+    element: <ResetPass />,
   },
   {
     path: "/event/:id",
     element: <EventDetail />,
   },
-
 ]);
 export default Router;
