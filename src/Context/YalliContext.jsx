@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import { getUserDataById, patchUserData } from "../redux/slice/user/user";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 // Create the context
 export const YalliContext = createContext();
 const ContextYalli = ({ children }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
   const initialData = {
     fullName: "",
@@ -19,28 +19,28 @@ const ContextYalli = ({ children }) => {
     profilePictureUrl: "",
     socialMediaAccounts: null,
   };
-  const {groupID}=useParams()
+  const { groupID } = useParams();
   const [userID, setUserID] = useState(null);
   const [localUserData, setLocalUserData] = useState(initialData);
   const [imageUrl, setImageUrl] = useState("");
   const [base64Image, setBase64Image] = useState("");
-  const [loadingIamge,setLoadingImage]=useState(false)
-  const [groupsByUserID,setGroupsByUserID]=useState()
+  const [loadingIamge, setLoadingImage] = useState(false);
+  const [groupsByUserID, setGroupsByUserID] = useState();
   const [group, setGroup] = useState(null);
-  const [groupDetailsByUserID,setGroupDetailsByUserID]=useState("");
-  const [accessToken,setAccessToken]=useState("")
-  const [myEvents,setMyEvents]=useState([])
+  const [groupDetailsByUserID, setGroupDetailsByUserID] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+  const [myEvents, setMyEvents] = useState([]);
   console.log(myEvents);
-  
-  useEffect(()=>{
-    const accessTokenSession=sessionStorage.getItem("accessToken")
-    if(accessTokenSession){
-      setAccessToken(accessTokenSession)
+
+  useEffect(() => {
+    const accessTokenSession = sessionStorage.getItem("accessToken");
+    if (accessTokenSession) {
+      setAccessToken(accessTokenSession);
     }
-  },[])
+  }, []);
   useEffect(() => {
     if (userID) {
-      const imageKey = `profileImg-${userID}`; 
+      const imageKey = `profileImg-${userID}`;
       const storedImage = localStorage.getItem(imageKey);
       if (storedImage) {
         setImageUrl(JSON.parse(storedImage));
@@ -49,7 +49,7 @@ const ContextYalli = ({ children }) => {
   }, [userID]);
   useEffect(() => {
     if (base64Image && userID) {
-      const imageKey = `profileImg-${userID}`; 
+      const imageKey = `profileImg-${userID}`;
       localStorage.setItem(imageKey, JSON.stringify(base64Image));
       setImageUrl(base64Image);
     }
@@ -115,18 +115,20 @@ const ContextYalli = ({ children }) => {
     }
   };
   const getImageName = async () => {
-    setLoadingImage(true)
+    setLoadingImage(true);
     try {
       const response = await axios.get(
         `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
         { responseType: "arraybuffer" }
       );
-      const contentType = response.headers['content-type'];
+      const contentType = response.headers["content-type"];
       const base64 = btoa(
-        new Uint8Array(response.data) 
-          .reduce((data, byte) => data + String.fromCharCode(byte), '')
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
       );
-  
+
       const imageSrc = `data:${contentType};base64,${base64}`;
       if (imageSrc) {
         setBase64Image(imageSrc);
@@ -135,8 +137,8 @@ const ContextYalli = ({ children }) => {
       }
     } catch (error) {
       console.error("Error fetching image:", error);
-    }finally{
-      setLoadingImage(false)
+    } finally {
+      setLoadingImage(false);
     }
   };
   useEffect(() => {
@@ -147,18 +149,19 @@ const ContextYalli = ({ children }) => {
 
   const getGroupByUserID = async (userID) => {
     try {
-      const response = await axios.get(`https://yalli-back-end.onrender.com/v1/groups/users/${userID}`, {
-        headers: {
-          'Accept': 'application/json' 
+      const response = await axios.get(
+        `https://yalli-back-end.onrender.com/v1/groups/users/${userID}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
         }
-      });
-      if(response.data.content){
+      );
+      if (response.data.content) {
         setGroupsByUserID(response.data.content);
-        
-
       }
     } catch (error) {
-      console.error('Xəta baş verdi:', error.response); 
+      console.error("Xəta baş verdi:", error.response);
     }
   };
   useEffect(() => {
@@ -166,66 +169,77 @@ const ContextYalli = ({ children }) => {
       getGroupByUserID(userID);
     }
   }, [userID]);
+  const aboutRef = useRef(null); 
 
+  const scrollToAbout = () => {
+    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const updateGroup = async (groupId, groupData) => {
     try {
       const response = await axios.put(
-        `https://yalli-back-end.onrender.com/v1/groups/${groupId}`, 
-        groupData, 
+        `https://yalli-back-end.onrender.com/v1/groups/${groupId}`,
+        groupData,
         {
-          headers: { 'Content-Type': 'application/json' }
+          headers: { "Content-Type": "application/json" },
         }
       );
       setGroup(response.data);
-      console.log('Group information updated:', response.data);
+      console.log("Group information updated:", response.data);
       toast.success("Group information has been updated");
     } catch (error) {
-      console.error('Failed to update group:', error);
-      if(error.response && error.response.data.message === "GROUP_RENAME_LIMIT_EXCEEDED") {
-        toast.error("Group rename limit has been exceeded. Please try again later.");
+      console.error("Failed to update group:", error);
+      if (
+        error.response &&
+        error.response.data.message === "GROUP_RENAME_LIMIT_EXCEEDED"
+      ) {
+        toast.error(
+          "Group rename limit has been exceeded. Please try again later."
+        );
       } else {
         toast.error("Failed to update group: " + error.message);
       }
     }
   };
-  
-  
+
   const findGroupByUserId = useCallback(async (groupId, userId) => {
     try {
       const url = `https://yalli-back-end.onrender.com/v1/groups/${groupId}/users/${userId}`;
       const response = await axios.get(url, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
       if (response.data) {
         setGroupDetailsByUserID(response.data);
       }
     } catch (error) {
-      console.error('Error fetching group data:', error);
+      console.error("Error fetching group data:", error);
       throw error; // Xəta baş verərsə, xəta mesajını qaytarır
     }
-  }, []);  
+  }, []);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await axios.get('https://yalli-back-end.onrender.com/v1/events', {
-          params: {
-            title: '',
-            country: '',
-            category: '',
-            page: 0,
-            size: 10,
-          },
-          headers: {
-            'accept': '*/*',
-            'token': '6c6e3625-c139-45'
+        const response = await axios.get(
+          "https://yalli-back-end.onrender.com/v1/events",
+          {
+            params: {
+              title: "",
+              country: "",
+              category: "",
+              page: 0,
+              size: 10,
+            },
+            headers: {
+              accept: "*/*",
+              token: "6c6e3625-c139-45",
+            },
           }
-        });
+        );
         setMyEvents(response.data);
       } catch (error) {
-        console.error('Failed to fetch events:', error);
+        console.error("Failed to fetch events:", error);
       }
     };
 
@@ -253,7 +267,9 @@ const ContextYalli = ({ children }) => {
         group,
         findGroupByUserId,
         groupDetailsByUserID,
-        setGroupDetailsByUserID
+        setGroupDetailsByUserID,
+        aboutRef,
+        scrollToAbout,
       }}
     >
       {children}

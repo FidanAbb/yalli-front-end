@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import styles from './style.module.scss';
 import JoinGroupIcon from '../../ui/JoinGroupIcon';
 import ShareIcon from '../../ui/ShareIcon';
@@ -7,13 +7,15 @@ import HeroImg from '../../../assets/img/groupDetail.svg';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
+import { YalliContext } from '../../../Context/YalliContext';
 
 const Hero = ({ group }) => {
   const [isHover, setIsHover] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
   const [userData, setUserData] = useState("");
+  const { scrollToAbout } = useContext(YalliContext);
   let navigate = useNavigate();
-  const moreTextRef = useRef(null); // Ref for the more text area
+  const moreTextRef = useRef(null); 
 
   useEffect(() => {
     const loggedUser = localStorage.getItem("userInfo");
@@ -77,7 +79,7 @@ const Hero = ({ group }) => {
                 <p>
                   {descriptionPreview}
                   {group.description.length > 60 && (
-                    <span onClick={handleMoreClick} style={{ cursor: 'pointer', color: 'blue' }}>...</span> // Clickable more text
+                    <span onClick={scrollToAbout} style={{ cursor: 'pointer', color: 'black' }}>...</span> // Clickable more text
                   )}
                 </p>
                 <div className={styles["foot"]}>
