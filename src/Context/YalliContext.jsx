@@ -28,8 +28,16 @@ const ContextYalli = ({ children }) => {
   const [groupsByUserID,setGroupsByUserID]=useState()
   const [group, setGroup] = useState(null);
   const [groupDetailsByUserID,setGroupDetailsByUserID]=useState("");
-
+  const [accessToken,setAccessToken]=useState("")
+  const [myEvents,setMyEvents]=useState([])
+  console.log(myEvents);
   
+  useEffect(()=>{
+    const accessTokenSession=sessionStorage.getItem("accessToken")
+    if(accessTokenSession){
+      setAccessToken(accessTokenSession)
+    }
+  },[])
   useEffect(() => {
     if (userID) {
       const imageKey = `profileImg-${userID}`; 
@@ -161,21 +169,28 @@ const ContextYalli = ({ children }) => {
 
 
   const updateGroup = async (groupId, groupData) => {
-      try {
-          const response = await axios.put(`https://yalli-back-end.onrender.com/v1/groups/${groupId}`, groupData, {
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          });
-          setGroup(response.data); 
-          console.log('Qrup məlumatı yeniləndi:', response.data);
-          toast.success("Qrup məlumatı yeniləndi")
-      } catch (error) {
-          console.error('Qrup məlumatını yeniləmək mümkün olmadı:', error);
-          toast.error("Qrup məlumatını yeniləmək mümkün olmadı")
+    try {
+      const response = await axios.put(
+        `https://yalli-back-end.onrender.com/v1/groups/${groupId}`, 
+        groupData, 
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+      setGroup(response.data);
+      console.log('Group information updated:', response.data);
+      toast.success("Group information has been updated");
+    } catch (error) {
+      console.error('Failed to update group:', error);
+      if(error.response && error.response.data.message === "GROUP_RENAME_LIMIT_EXCEEDED") {
+        toast.error("Group rename limit has been exceeded. Please try again later.");
+      } else {
+        toast.error("Failed to update group: " + error.message);
       }
+    }
   };
-
+  
+  
   const findGroupByUserId = useCallback(async (groupId, userId) => {
     try {
       const url = `https://yalli-back-end.onrender.com/v1/groups/${groupId}/users/${userId}`;
@@ -191,8 +206,31 @@ const ContextYalli = ({ children }) => {
       console.error('Error fetching group data:', error);
       throw error; // Xəta baş verərsə, xəta mesajını qaytarır
     }
+  }, []);  
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get('https://yalli-back-end.onrender.com/v1/events', {
+          params: {
+            title: '',
+            country: '',
+            category: '',
+            page: 0,
+            size: 10,
+          },
+          headers: {
+            'accept': '*/*',
+            'token': '6c6e3625-c139-45'
+          }
+        });
+        setMyEvents(response.data);
+      } catch (error) {
+        console.error('Failed to fetch events:', error);
+      }
+    };
+
+    fetchEvents();
   }, []);
-  
   return (
     <YalliContext.Provider
       value={{

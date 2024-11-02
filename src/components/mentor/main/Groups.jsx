@@ -37,9 +37,9 @@ const Groups = () => {
   const filterGroups = () => {
     return (
       groups.content?.filter((group) => {
+        const matchesSearch = searchedItem ? group.name?.toLowerCase().includes(searchedItem.toLowerCase()) : true;
         const matchesCountry = selectedCountry ? group.country === selectedCountry : true;
         const matchesCategory = activeCategories.length > 0 ? activeCategories.includes(group.groupCategory) : true;
-        const matchesSearch = searchedItem ? group.name?.toLowerCase().includes(searchedItem.toLowerCase()) : true;
         return matchesCountry && matchesCategory && matchesSearch;
       }) || []
     );

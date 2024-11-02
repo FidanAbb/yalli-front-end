@@ -42,8 +42,9 @@ const options = [
   "Meksika",
 ];
 const GroupEditAllInfo = () => {
-  const { updateGroup ,findGroupByUserId,userID,groupDetailsByUserID} = useContext(YalliContext);
-  const { groupID, } = useParams();
+  const { updateGroup, findGroupByUserId, userID, groupDetailsByUserID } =
+    useContext(YalliContext);
+  const { groupID } = useParams();
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageId, setImageId] = useState("");
@@ -74,18 +75,20 @@ const GroupEditAllInfo = () => {
         category: groupDetailsByUserID.category || "LIFE",
       };
       setFormData(newFormData);
-      setInitialFormData(newFormData); // Başlanğıc dəyərləri qurun
+      setInitialFormData(newFormData);
     }
   }, [groupDetailsByUserID]);
 
   useEffect(() => {
     if (groupID && userID) {
-      findGroupByUserId(groupID, userID).then(data => {
-        setFormData({ ...data });
-      }).catch(error => {
-        console.error('Error fetching group details:', error);
-        toast.error('Qrup məlumatları yüklənə bilmədi: ' + error.message);
-      });
+      findGroupByUserId(groupID, userID)
+        .then((data) => {
+          setFormData({ ...data });
+        })
+        .catch((error) => {
+          console.error("Error fetching group details:", error);
+          toast.error("Qrup məlumatları yüklənə bilmədi: " + error.message);
+        });
     }
   }, [groupID, userID]);
 
@@ -130,24 +133,13 @@ const GroupEditAllInfo = () => {
       }
       return acc;
     }, {});
-  
+
     if (Object.keys(changes).length === 0) {
       toast.info("Heç bir dəyişiklik aşkarlanmadı.");
       return;
     }
-  console.log(changes);
-  
-    try {
-      
-      await updateGroup(groupID, changes);
-      setInitialFormData(formData); // Yenilənmiş məlumatları başlanğıc kimi saxlayın
-      toast.success("Qrup məlumatları uğurla yeniləndi!");
-    } catch (error) {
-      console.error("Formu təqdim etmək mümkün olmadı", error);
-      toast.error("Qrup məlumatlarını yeniləmək mümkün olmadı: " + error.message);
-    }
+    await updateGroup(groupID, changes);
   };
-  
 
   return (
     <div className="all-info">
@@ -201,12 +193,11 @@ const GroupEditAllInfo = () => {
                 name="category"
                 id="category"
                 style={{ width: "350px", padding: ".8rem" }}
-                defaultValue="Kateqoriya"
                 value={formData?.category}
                 onChange={handleInputChange}
               >
                 {Object.entries(groupCategoryOptions).map(([az, en], index) => (
-                  <option key={index} value={az}>
+                  <option key={index} value={en}>
                     {az}
                   </option>
                 ))}

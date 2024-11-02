@@ -132,17 +132,17 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (
-      !imagePreview ||
       !groupData.title.trim() ||
       !groupData.link.trim() ||
       !groupData.memberCount ||
       groupData.memberCount <= 0 ||
-      !groupData.description.trim()
+      !groupData.description.trim() 
     ) {
       toast.error("Bütün sahələri doldurun.");
       return;
     }
-
+  
+    // Prepare data for API call
     const formattedData = {
       title: groupData.title,
       description: groupData.description,
@@ -153,12 +153,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       imageId: imageId,
       userId: userID,
     };
-
-    console.log(formattedData);
-
-    if (groups.length > 0) {
-      setGroups((prev) => [...prev,formattedData]);
-    }
+  
     try {
       const response = await axios.post(
         "https://yalli-back-end.onrender.com/v1/groups",
@@ -169,7 +164,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           },
         }
       );
-
+  
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
     } catch (error) {
@@ -177,6 +172,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       toast.error("Qrup yaratmaq uğursuz oldu.");
     }
   };
+  
 
   const handleArrowClick = () => {
     selectRef.current?.focus();

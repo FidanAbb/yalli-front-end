@@ -28,16 +28,16 @@ const navLinks = [
     link: "/members",
   },
   {
-    page: "Mentorlar",
-    link: "/mentors",
-  },
-  {
-    page: "İcma",
+    page: "İcmalar",
     link: "/groups",
   },
   {
     page: "Tədbirlər",
     link: "/events",
+  },
+  {
+    page: "Mentorlar",
+    link: "/mentors",
   },
 ];
 
@@ -137,11 +137,11 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     if (location.pathname === "/") {
       setisActive(index);
       if (index === 3) {
-        scrollToSection(mentorRef);
-      } else if (index === 4) {
         scrollToSection(groupRef);
-      } else if (index === 5) {
+      } else if (index === 4) {
         scrollToSection(eventRef);
+      } else if (index === 5) {
+        scrollToSection(mentorRef);
       } else {
         navigate(navLinks[index].link);
       }
@@ -173,24 +173,6 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               />
               {!!userDataa && (
                 <div className={styles["country_select"]}>
-                  {/*<input*/}
-                  {/*    type="text"*/}
-                  {/*    name=""*/}
-                  {/*    id=""*/}
-                  {/*    className={styles["select"]}*/}
-                  {/*    placeholder="Ölkə"*/}
-                  {/*    value={searchItem}*/}
-
-                  {/*/>*/}
-                  <button
-                    className={styles["country_select"]}
-                    onChange={handleInputChange}
-                    onClick={() => setShowOptions(!showOptions)}
-                    onBlur={() => setTimeout(() => setShowOptions(false), 200)}
-                  >
-                    <span>{searchItem ? searchItem : "Ölkə"}</span>{" "}
-                    <DownArrow />
-                  </button>
                   {showOptions && (
                     <div className={styles["options"]}>
                       {filteredCountries.length > 0 ? (
@@ -213,13 +195,6 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                       )}
                     </div>
                   )}
-
-                  {/*<div*/}
-                  {/*    className={styles["down_arrow"]}*/}
-                  {/*    onClick={() => setShowOptions(!showOptions)}*/}
-                  {/*>*/}
-                  {/*  <DownArrow/>*/}
-                  {/*</div>*/}
                 </div>
               )}
             </div>
@@ -243,9 +218,9 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 </li>
               ))}
 
-              <li className={styles["language"]}>
+              {/* <li className={styles["language"]}>
                 AZ <img src={languageAz} alt="az" />
-              </li>
+              </li> */}
             </ul>
           </div>
 

@@ -52,7 +52,6 @@ const eventData = [
 const Events = () => {
     let navigate = useNavigate();
     const [groupData, setGroupData] = useState([]);
-
     const [searchedItem, setSearchedItem] = useState("");
     const [selectedCountry, setSelectedCountry] = useState("");
     const [activeCategories, setActiveCategories] = useState([]);
@@ -100,7 +99,6 @@ const Events = () => {
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );
