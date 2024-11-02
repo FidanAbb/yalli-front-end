@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../../components/Layout/Header/Header";
 import Main from "../../components/mentor/main/Main";
 import Footer from "../../components/Layout/Footer/Footer";
 import memberImg from "../../assets/img/member.png";
 import styles from "./style.module.scss";
 import {useNavigate} from "react-router-dom";
+import { YalliContext } from "../../Context/YalliContext";
 const Member = () => {
   let navigate= useNavigate()
   const [userData, setUserData] = useState("");
+  
   useEffect(() => {
     const loggedUser = localStorage.getItem("userInfo");
 

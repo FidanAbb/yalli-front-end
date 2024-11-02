@@ -7,13 +7,29 @@ import mentorIconDark from "../../../../src/pages/Profile/assets/img/mentor-icon
 import { GoPeople } from "react-icons/go";
 import { CiCircleQuestion } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { useContext } from "react";
+import { YalliContext } from "../../../Context/YalliContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const ProfileLeft = () => {
   const navigate = useNavigate();
+  const {userID}=useContext(YalliContext)
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
     navigate("/login");
+  };
+  
+  const handleDeleteAccount = async () => {
+    try {
+      await axios.delete(`https://yalli-back-end.onrender.com/v1/users/delete/${userID}`);
+      handleLogout();
+      toast.success("Hesab uğurla silindi");
+    } catch (error) {
+      console.error("Hesab silinərkən xəta baş verdi:", error);
+      toast.error("Hesab silinə bilmədi");
+    }
   };
   return (
     <div className="col-md-3 col-sm-12 col-12">
@@ -90,7 +106,7 @@ const ProfileLeft = () => {
           </ul>
         </div>
         <div className="bottom">
-          <div className="dp-align ">
+          <div onClick={handleDeleteAccount} className="dp-align ">
           <RiDeleteBin6Line />
             <p>Hesabı sil</p>
           </div>

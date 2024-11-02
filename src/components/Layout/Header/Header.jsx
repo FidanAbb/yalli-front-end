@@ -13,7 +13,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { YalliContext } from "../../../Context/YalliContext";
-import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 const navLinks = [
   {
     page: "Əsas səhifə",
@@ -98,28 +98,44 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [profileDropDown, setProfileDropDown] = useState(false);
   const navigate = useNavigate();
 
-  const {userID,localUserData,setLocalUserData,setImageUrl ,imageUrl} = useContext(YalliContext);
+  const { userID, localUserData, setLocalUserData, setImageUrl, imageUrl } =
+    useContext(YalliContext);
   useEffect(() => {
     const localProfileImage = localStorage.getItem("profileImg");
     if (localProfileImage) {
       setImageUrl(JSON.parse(localProfileImage));
     }
-    const localUserInfo=localStorage.getItem("userInfo")
-    if(localUserInfo){
-      setLocalUserData(JSON.parse(localUserInfo))
+    const localUserInfo = localStorage.getItem("userInfo");
+    if (localUserInfo) {
+      setLocalUserData(JSON.parse(localUserInfo));
     }
   }, []);
   console.info();
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userID");
     navigate("/login");
-    setProfileDropDown(false)
+    setProfileDropDown(false);
   };
   const [userDataa, setUserData] = useState("");
   useEffect(() => {
-    const loggedUser = JSON.parse(localStorage.getItem("userInfo")) || "";
-    setUserData(loggedUser);
+    const checkUserLoggedIn = () => {
+      const token = sessionStorage.getItem("accessToken");
+      if (token) {
+        setUserData(true); // İstifadəçi giriş etmiş
+      } else {
+        setUserData(false); // İstifadəçi giriş etməmiş
+      }
+    };
+
+    checkUserLoggedIn();
+
+    window.addEventListener("storage", checkUserLoggedIn);
+
+    return () => {
+      window.removeEventListener("storage", checkUserLoggedIn);
+    };
   }, []);
 
   const handleInputChange = (event) => {
@@ -234,20 +250,12 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 <button onClick={() => navigate("/register")}>Qeydiyyat</button>
               </>
             ) : (
-              <>
-                <Bell />
-                <div
-                  className={styles["user_img"]}
-                  onClick={profileDropDownFunc}
-                >
-                  <img
-                    src={`${
-                      imageUrl ? imageUrl : profileImageDefault
-                    } `}
-                    alt=""
-                  />
-                </div>
-              </>
+              <div className={styles["user_img"]} onClick={profileDropDownFunc}>
+                <img
+                  src={imageUrl ? imageUrl : profileImageDefault}
+                  alt="Profil Şəkli"
+                />
+              </div>
             )}
             <div
               className={
@@ -257,20 +265,21 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               }
             >
               <div className={styles[""]} style={{ zIndex: "10000" }}>
-                <NavLink onClick={()=>setProfileDropDown(false)} to={"/profile"} style={{textDecoration:"none"} } className={styles["link-profile"]}>
-                  <div  className={styles["user-info"]}>
+                <NavLink
+                  onClick={() => setProfileDropDown(false)}
+                  to={"/profile"}
+                  style={{ textDecoration: "none" }}
+                  className={styles["link-profile"]}
+                >
+                  <div className={styles["user-info"]}>
                     <div>
                       <img
-                        src={`${
-                          imageUrl
-                            ? imageUrl
-                            : profileImageDefault
-                        } `}
+                        src={`${imageUrl ? imageUrl : profileImageDefault} `}
                         className={styles["drop-down-img"]}
                         alt=""
                       />
                     </div>
-                    <div style={{overflow:"hidden"}}>
+                    <div style={{ overflow: "hidden" }}>
                       <h5>{localUserData.fullName}</h5>
                       <p>{localUserData.email}</p>
                     </div>
@@ -279,7 +288,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 <ul className="p-3">
                   <li>
                     <NavLink
-                     onClick={()=>setProfileDropDown(false)}
+                      onClick={() => setProfileDropDown(false)}
                       className="link dp-align gap-2"
                       to="/profile/profile-community-edit"
                       activeClassName="active-link"
@@ -290,7 +299,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   </li>
                   <li>
                     <NavLink
-                     onClick={()=>setProfileDropDown(false)}
+                      onClick={() => setProfileDropDown(false)}
                       className={styles["mentor-link"]}
                       to="/profile/profile-mentoring"
                       activeClassName="active-link"
@@ -301,7 +310,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   </li>
                   <li>
                     <NavLink
-                     onClick={()=>setProfileDropDown(false)}
+                      onClick={() => setProfileDropDown(false)}
                       className="link dp-align gap-2"
                       to="/profile/profile-settings"
                       activeClassName="active-link"
@@ -312,7 +321,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   </li>
                   <li>
                     <NavLink
-                     onClick={()=>setProfileDropDown(false)}
+                      onClick={() => setProfileDropDown(false)}
                       className={styles["link-help"]}
                       to="/profile/profile-help"
                       activeClassName="active-link"

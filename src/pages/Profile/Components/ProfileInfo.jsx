@@ -20,7 +20,9 @@ const ProfileInfo = () => {
     updateUserData,
     handleImageUpload,
     loadingImage,
+    allUsers
   } = useContext(YalliContext);
+console.log(allUsers);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

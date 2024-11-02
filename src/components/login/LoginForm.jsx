@@ -9,6 +9,7 @@ import PasswordEye from "../ui/PasswordEye";
 import PasswordEyeOpen from "../ui/PasswordEyeOpen";
 import { useNavigate } from "react-router-dom";
 import { YalliContext } from "../../Context/YalliContext";
+import { getUserDataById } from "../../redux/slice/user/user";
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const LoginForm = () => {
     mode: "onBlur",
   });
   const onSubmit = async (data) => {
+    
     try {
       setLoading(true);
       const response = await api.post("/users/login", {
@@ -36,8 +38,11 @@ const LoginForm = () => {
       if (response.status === 200) {
         const { accessToken } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userInfo", JSON.stringify(response.data));
-        setUserID(response.data.id);
+        if(response.data.id){
+          setUserID(response.data.id);
+          localStorage.setItem("userID", JSON.stringify(response.data.id));
+          getUserDataById(response.data.id)
+        }
         navigate("/");
       }
     } catch (error) {

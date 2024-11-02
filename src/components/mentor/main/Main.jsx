@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "../../ui/pageSidebar/PageSideBar";
 import MentorsCard from "../../ui/MentorsCard/MentorsCard";
 import MembersCard from "../../member/MembersCard";
@@ -22,6 +22,7 @@ import {
 } from "../../../redux/slice/event/event";
 import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
+import { YalliContext } from "../../../Context/YalliContext";
 
 const mentorData = [
   {
@@ -220,7 +221,9 @@ const Main = ({
   eventsData,
 }) => {
   const [categoryData, setCategoryData] = useState(null);
+  const {allUsers,setAllUsers}=useContext(YalliContext);
   const navigate = useNavigate();
+console.log(allUsers);
 
   const groups = useSelector((state) => state.groups.groups);
   const events = useSelector((state) => state.events.events);
@@ -308,15 +311,13 @@ const Main = ({
       : true;
     return matchesTitle && matchesCountry;
   });
-  const filteredMemberData = memberData.filter((c) => {
-    const matchesSearchItem = c.name && c.name.toLowerCase().includes(searchedItem.toLowerCase());
+  const filteredMemberData = allUsers.filter((c) => {
+    const matchesSearchItem = c.fullName && c.fullName.toLowerCase().includes(searchedItem.toLowerCase());
     const matchesCountry = countrySearch
       ? c.location && c.location.toLowerCase().includes(countrySearch.toLowerCase())
       : true;
     return matchesSearchItem && matchesCountry;
   });
-
-  console.log(eventsData);
   return (
     <div className={styles["main"]}>
       <div className="container">

@@ -30,7 +30,9 @@ const ContextYalli = ({ children }) => {
   const [groupDetailsByUserID, setGroupDetailsByUserID] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [myEvents, setMyEvents] = useState([]);
-  console.log(myEvents);
+  const [allUsers,setAllUsers]=useState([])
+  const [isLogin,setIsLogin]=useState("");
+console.log(localUserData);
 
   useEffect(() => {
     const accessTokenSession = sessionStorage.getItem("accessToken");
@@ -242,9 +244,49 @@ const ContextYalli = ({ children }) => {
         console.error("Failed to fetch events:", error);
       }
     };
-
     fetchEvents();
   }, []);
+  const fetchAllUsers = async () => {
+    try {
+      let page = 0; // Başlanğıc səhifə
+      let allUsers = []; // Bütün istifadəçiləri saxlamaq üçün dəyişən
+      let hasMore = true; // Daha məlumat olub olmadığını yoxlamaq üçün
+  
+      while (hasMore) {
+        const response = await axios.get(`https://yalli-back-end.onrender.com/v1/users/search?page=${page}&size=20`, {
+          headers: {
+            accept: '*/*',
+          },
+        });
+  
+        allUsers = [...allUsers, ...response.data.content]; // Yeni istifadəçiləri əlavə et
+        page++; 
+        hasMore = !response.data.last; // 'last' true olduqda dövr dayanır
+      }
+  
+      return allUsers; // Bütün istifadəçiləri qaytar
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchAllUsers().then(users => {
+      setAllUsers(users); // Bütün istifadəçiləri vəziyyətə yaz
+    });
+  }, []);
+
+  const deleteUserAccount = async (userID) => {
+    try {
+      const response = await axios.delete(`https://yalli-back-end.onrender.com/v1/users/delete/${userID}`);
+      toast.success('İstifadəçi hesabı uğurla silindi.');
+    } catch (error) {
+      // Xəta baş verərsə, xəta mesajı göstərin
+      console.error('Hesabı silmək mümkün olmadı:', error.response);
+      toast.error(`Hesabı silmək mümkün olmadı: ${error.response?.data?.message || error.message}`);
+    }
+  }
+  
   return (
     <YalliContext.Provider
       value={{
@@ -270,6 +312,11 @@ const ContextYalli = ({ children }) => {
         setGroupDetailsByUserID,
         aboutRef,
         scrollToAbout,
+        allUsers,
+        setAllUsers,
+        deleteUserAccount,
+        setIsLogin,
+        isLogin
       }}
     >
       {children}
