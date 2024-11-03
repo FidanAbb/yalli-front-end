@@ -113,7 +113,9 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   console.info();
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userProfile");
     localStorage.removeItem("userID");
     navigate("/login");
     setProfileDropDown(false);
@@ -121,11 +123,11 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [userDataa, setUserData] = useState("");
   useEffect(() => {
     const checkUserLoggedIn = () => {
-      const token = sessionStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
       if (token) {
-        setUserData(true); // İstifadəçi giriş etmiş
+        setUserData(true); 
       } else {
-        setUserData(false); // İstifadəçi giriş etməmiş
+        setUserData(false); 
       }
     };
 

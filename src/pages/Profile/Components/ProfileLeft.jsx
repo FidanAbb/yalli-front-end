@@ -7,23 +7,28 @@ import mentorIconDark from "../../../../src/pages/Profile/assets/img/mentor-icon
 import { GoPeople } from "react-icons/go";
 import { CiCircleQuestion } from "react-icons/ci";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { YalliContext } from "../../../Context/YalliContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const ProfileLeft = () => {
   const navigate = useNavigate();
-  const {userID}=useContext(YalliContext)
+  const { userID } = useContext(YalliContext);
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userProfile");
+    localStorage.removeItem("userID");
+    localStorage.removeItem("accessToken");
     navigate("/login");
   };
-  
+  const [deltePopap, setDeletePopap] = useState(false);
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`https://yalli-back-end.onrender.com/v1/users/delete/${userID}`);
+      await axios.delete(
+        `https://yalli-back-end.onrender.com/v1/users/delete/${userID}`
+      );
       handleLogout();
       toast.success("Hesab uğurla silindi");
     } catch (error) {
@@ -46,17 +51,17 @@ const ProfileLeft = () => {
                 Profil Məlumatları
               </NavLink>
             </li>
-            <li>
+            <li className="disabled-link">
               <NavLink
                 className="link"
                 to="/profile/profile-notification"
                 activeClassName="active-link"
               >
                 <IoNotificationsOutline className="notif-icon" />
-                Notification
+                Bildirişlər
               </NavLink>
             </li>
-            <li>
+            <li className="disabled-link">
               <NavLink
                 className="link"
                 to="/profile/profile-mentoring"
@@ -106,10 +111,30 @@ const ProfileLeft = () => {
           </ul>
         </div>
         <div className="bottom">
-          <div onClick={handleDeleteAccount} className="dp-align ">
-          <RiDeleteBin6Line />
+          <div onClick={() => setDeletePopap(true)}  className="dp-align ">
+            <RiDeleteBin6Line />
             <p>Hesabı sil</p>
           </div>
+            {deltePopap && (
+              <div>
+                <div className="delte-popap">
+                  <h4>
+                    Siz həqiqətən hesabınızı silmək istədiyinizdən əminsinizmi?
+                  </h4>
+                  <p>
+                    Hesabınızı silmək bütün məlumatlarınızın, daxil olmaq
+                    qabiliyyətinizin və xidmətlərdən istifadənin daimi olaraq
+                    itirilməsinə səbəb olacaq. Bu addımı geri ala
+                    bilməyəcəksiniz.
+                  </p>
+                  <div className="btn-con dp-center gap-2 ">
+                    <button onClick={() => setDeletePopap(false)}>Xeyr</button>
+                    <button  onClick={handleDeleteAccount}>Bəli</button>
+                  </div>
+                </div>
+                <div onClick={() => setDeletePopap(false)} className="back-black"></div>
+              </div>
+            )}
         </div>
       </div>
     </div>

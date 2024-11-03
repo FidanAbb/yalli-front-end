@@ -21,85 +21,92 @@ const mentorData = [
         id: 1,
         name: "Emil Cahangirli",
         flag: <Germany />,
+        country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Yaşam",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Emil,
-        category: "CARRIER"
+        category: "KARYERA"
     },
     {
         id: 2,
         name: "Fidan Abbaslı",
         flag: <Polsa />,
+        country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Təhsil",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Fidan,
-        category: "CARRIER"
+        category: "KARYERA"
     },
     {
         id: 3,
         name: "Rahman Gasımlı",
         flag: <Polsa />,
+        country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Yaşam",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Vuqar,
-        category: "EDUCATION"
+        category: "TƏHSİL"
     },
     {
         id: 4,
         name: "Fidan Abbaslı",
         flag: <Germany />,
+        country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Yaşam",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Fidan,
-        category: "EDUCATION"
+        category: "TƏHSİL"
     },
     {
         id: 5,
         name: "Emil Cahangirli",
         flag: <Germany />,
+        country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Yaşam",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Emil,
-        category: "LIFE"
+        category: "YAŞAM"
     },
     {
         id: 6,
         name: "Rahman Gasımlı",
         flag: <Polsa />,
+        country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
         detail: "Yaşam",
-        desc: "industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It waspublishing software like Aldus PageMaker including versions of Lorem Ipsum.anged. It ",
+        desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
         image: Vuqar,
-        category: "LIFE"
+        category: "YAŞAM"
     },
 ];
-const mentorCategory = [
-    { "LIFE": "Yaşam" },
-    { "EDUCATION": "Təhsil" },
-    { "CARRIER": "Karyera" }
-    ]
-const Mentors = () => {
-    let navigate = useNavigate();
-    const [groupData, setGroupData] = useState([]);
 
+const mentorCategory = [
+    { value: "LIFE", label: "Yaşam" },
+    { value: "EDUCATION", label: "Təhsil" },
+    { value: "CAREER", label: "Karyera" }
+];
+
+const Mentors = () => {
+    const navigate = useNavigate();
     const [searchedItem, setSearchedItem] = useState("");
     const [selectedCountry, setSelectedCountry] = useState("");
     const [activeCategories, setActiveCategories] = useState([]);
 
-    const filteredEvents = mentorData?.filter(group => {
+ 
+    const filterEvents = () => {
+        return mentorData.filter(mentor => {
+            const matchesSearch = mentor.name.toLowerCase().includes(searchedItem.toLowerCase());
+            const matchesCountry = selectedCountry ? mentor.toLowerCase().includes(selectedCountry.toLowerCase()) : true;
+            const matchesCategory = activeCategories.length > 0 ? activeCategories.includes(mentor.category) : true;
+            return matchesSearch && matchesCountry && matchesCategory;
+        });
+    };
 
-        const matchesCountry = selectedCountry ? group.country === selectedCountry : true;
-        const matchesCategory = activeCategories.length > 0
-            ? activeCategories.includes(group.category)
-            : true;
-        const matchesSearch = searchedItem
-            ? group.name?.toLowerCase().includes(searchedItem.toLowerCase())
-            : true;
-        return matchesCountry && matchesCategory && matchesSearch;
-    }) || [];
+    const filteredEvents = filterEvents();
+
     return (
         <>
             <Header />
-            <Hero setGroupData={setGroupData} />
+            <Hero />
             <div className={styles["main"]}>
                 <div className="container">
                     <div className={styles["main"]}>
@@ -115,16 +122,15 @@ const Mentors = () => {
                             />
                         </div>
                         <div className={styles["cards"]}>
-                            {filteredEvents.map((mentor, i) => (
-                                <div onClick={()=>navigate(`/mentor/${mentor.id}`)}>
-                                    <MentorsCard key={i} data={mentor}  />
+                        {filteredEvents.map((mentor, i) => (
+                                <div key={i} onClick={() => navigate(`/mentor/${mentor.id}`)}>
+                                    <MentorsCard data={mentor} />
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
-
             <Footer />
         </>
     );

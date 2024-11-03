@@ -8,8 +8,6 @@ import { signUpValidationSchema } from "./validationSchema";
 import Warning from "../ui/Warning";
 import PasswordEye from "../ui/PasswordEye";
 import PasswordEyeOpen from "../ui/PasswordEyeOpen";
-import Xicon from "../ui/Xicon";
-import TrueIcon from "../ui/TrueIcon";
 import DownArrow from "../ui/DownArrow";
 
 const countryCategory = [

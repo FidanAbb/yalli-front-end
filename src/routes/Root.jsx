@@ -22,6 +22,7 @@ import Members from "../components/mentor/main/Members";
 import Events from "../components/mentor/main/Events";
 import Mentors from "../components/mentor/main/Mentors";
 import GroupEdit from "../pages/GroupEdit/GroupEdit";
+import Main from "../components/groupDetail/main/Main";
 
 const Router = createBrowserRouter([
   {
@@ -55,12 +56,15 @@ const Router = createBrowserRouter([
   {
     path: "/mentors",
     element: <Mentors />,
-  },,
+  },
   {
     path: "/mentor/:id",
     element: <MentorDetail />,
   },
-
+  {
+    path:"/main",
+    element:<Main />
+  },
   {
     path: "/qrup",
     element: <Qrup />,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import Header from "../../Layout/Header/Header";
 import Hero from "../../event/hero/Hero";
@@ -10,58 +10,59 @@ import Fidan from "../../../assets/img/Fidan.svg";
 import Vuqar from "../../../assets/img/Vuqar.svg";
 import MembersCard from "../../member/MembersCard";
 import memberImg from "../../../assets/img/member.png";
+import { YalliContext } from '../../../Context/YalliContext';
 
-const memberData = [
-    {
-        name: "Humay Mustafazadə",
-        flag: <Polsa/>,
-        location: "Varşava, Polşa",
-        image: Fidan,
-        country: "Polşa" // Add country property
-    },
-    {
-        name: "Elmir Əliyev",
-        flag: <Polsa/>,
-        location: "Belostok, Polşa",
-        image: Vuqar,
-        country: "Polşa"
-    },
-    {
-        name: "Fidan Abbaslı",
-        flag: <Polsa/>,
-        location: "Poznan, Polşa",
-        image: Fidan,
-        country: "Türkiyə"
-    },
-    {
-        name: "Tural Jafarli",
-        flag: <Polsa/>,
-        location: "Belostok, Polşa",
-        image: Vuqar,
-        country: "Türkiyə"
-    },
-    {
-        name: "Rəvanə Kərimova",
-        flag: <Polsa/>,
-        location: "Krakov, Polşa",
-        image: Fidan,
-        country: "Azərbaycan"
-    },
-    {
-        name: "Vüsal İslamzadə",
-        flag: <Polsa/>,
-        location: "Lodz, Polşa",
-        image: Vuqar,
-        country: "Azərbaycan"
-    },
-    {
-        name: "Nigar Qasımova",
-        flag: <Polsa/>,
-        location: "Varşova, Polşa",
-        image: Fidan,
-        country: "Polşa"
-    },
-];
+// const allUsers = [
+//     {
+//         name: "Humay Mustafazadə",
+//         flag: <Polsa/>,
+//         location: "Varşava, Polşa",
+//         image: Fidan,
+//         country: "Polşa" // Add country property
+//     },
+//     {
+//         name: "Elmir Əliyev",
+//         flag: <Polsa/>,
+//         location: "Belostok, Polşa",
+//         image: Vuqar,
+//         country: "Polşa"
+//     },
+//     {
+//         name: "Fidan Abbaslı",
+//         flag: <Polsa/>,
+//         location: "Poznan, Polşa",
+//         image: Fidan,
+//         country: "Türkiyə"
+//     },
+//     {
+//         name: "Tural Jafarli",
+//         flag: <Polsa/>,
+//         location: "Belostok, Polşa",
+//         image: Vuqar,
+//         country: "Türkiyə"
+//     },
+//     {
+//         name: "Rəvanə Kərimova",
+//         flag: <Polsa/>,
+//         location: "Krakov, Polşa",
+//         image: Fidan,
+//         country: "Azərbaycan"
+//     },
+//     {
+//         name: "Vüsal İslamzadə",
+//         flag: <Polsa/>,
+//         location: "Lodz, Polşa",
+//         image: Vuqar,
+//         country: "Azərbaycan"
+//     },
+//     {
+//         name: "Nigar Qasımova",
+//         flag: <Polsa/>,
+//         location: "Varşova, Polşa",
+//         image: Fidan,
+//         country: "Polşa"
+//     },
+// ];
 
 const countryCategory = [
     "Azərbaycan",
@@ -119,11 +120,12 @@ const Members = () => {
     const [groupData, setGroupData] = useState([]);
     const [searchedItem, setSearchedItem] = useState("");
     const [selectedCountry, setSelectedCountry] = useState("");
-
-    const filteredMembers = memberData.filter(member => {
+    const {allUsers}=useContext(YalliContext)
+    
+    const filteredMembers = allUsers.filter(member => {
         const matchesCountry = selectedCountry ? member.country === selectedCountry : true;
         const matchesSearch = searchedItem
-            ? member.name.toLowerCase().includes(searchedItem.toLowerCase())
+            ? member.fullName.toLowerCase().includes(searchedItem.toLowerCase())
             : true;
         return matchesCountry && matchesSearch;
     });
@@ -162,7 +164,7 @@ const Members = () => {
                                         page={'member'}
                                         setSearchedItem={setSearchedItem}
                                         searchedItem={searchedItem}
-                                        setSelectedCountry={setSelectedCountry} // Pass function to set selected country
+                                        setSelectedCountry={setSelectedCountry}
                                     />
                                 </div>
                                 <div className={styles["member_cards"]}>

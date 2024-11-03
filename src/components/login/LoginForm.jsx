@@ -38,10 +38,13 @@ const LoginForm = () => {
       if (response.status === 200) {
         const { accessToken } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("accessToken", accessToken);
         if(response.data.id){
           setUserID(response.data.id);
           localStorage.setItem("userID", JSON.stringify(response.data.id));
-          getUserDataById(response.data.id)
+          getUserDataById(response.data.id)          
+            const imageKey = `profileImg-${response.data.id}`;
+            localStorage.removeItem(imageKey);
         }
         navigate("/");
       }

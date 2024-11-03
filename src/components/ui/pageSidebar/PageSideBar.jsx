@@ -110,7 +110,7 @@ const PageSideBar = ({
             onChange={handleInputChange}
             onClick={() => setShowOptions(!showOptions)}
             style={{ border: "none" }}
-            onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+            onBlur={() => setTimeout(() => setShowOptions(false), 300)}
           />
           {showOptions ? (
             <IoIosArrowUp

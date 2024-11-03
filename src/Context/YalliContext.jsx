@@ -127,14 +127,14 @@ console.log(localUserData);
       const base64 = btoa(
         new Uint8Array(response.data).reduce(
           (data, byte) => data + String.fromCharCode(byte),
-          ""
         )
       );
 
       const imageSrc = `data:${contentType};base64,${base64}`;
+      console.log(imageSrc);
+      
       if (imageSrc) {
         setBase64Image(imageSrc);
-        localStorage.setItem("profileImg", JSON.stringify(imageSrc));
         setImageUrl(imageSrc);
       }
     } catch (error) {
@@ -144,10 +144,11 @@ console.log(localUserData);
     }
   };
   useEffect(() => {
-    if (localUserData.profilePictureUrl) {
       getImageName();
-    }
-  }, [localUserData.profilePictureUrl]);
+  }, [imageUrl]);
+  useEffect(() => {
+      getImageName();
+  }, []);
 
   const getGroupByUserID = async (userID) => {
     try {
@@ -272,7 +273,7 @@ console.log(localUserData);
   
   useEffect(() => {
     fetchAllUsers().then(users => {
-      setAllUsers(users); // Bütün istifadəçiləri vəziyyətə yaz
+      setAllUsers(users);
     });
   }, []);
 

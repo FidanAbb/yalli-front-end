@@ -12,37 +12,36 @@ import Hero from "../../group/hero/Hero";
 const Groups = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // State Management
   const groups = useSelector((state) => state.groups.groups);
   const loading = useSelector((state) => state.groups.loading);
   const [searchedItem, setSearchedItem] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [activeCategories, setActiveCategories] = useState([]);
 
-  // Fetch Data on Mount
   useEffect(() => {
     dispatch(getGroupData());
   }, [dispatch]);
 
-  // Category Definitions
   const groupCategory = [
     { LIFE: "Yaşam" },
+    { CAREER: "Karyera" },
+    { EDUCATION: "Təhsil" },
+    { ENTERTAINMENT: "Əyləncə" },
+    { TRAVEL: "Səyahət" },
     { LOCATION: "Yerləşmə" },
     { LAW: "Qanunlar" },
-    { TRAVEL: "Səyahət" },
+    { INNOVATION: "İnnovasiya" },
+    { TECHNOLOGY: "Texnologiya" },
+    { OTHER: "Digər" }
   ];
 
-  // Filtering Logic
   const filterGroups = () => {
-    return (
-      groups.content?.filter((group) => {
-        const matchesSearch = searchedItem ? group.name?.toLowerCase().includes(searchedItem.toLowerCase()) : true;
-        const matchesCountry = selectedCountry ? group.country === selectedCountry : true;
-        const matchesCategory = activeCategories.length > 0 ? activeCategories.includes(group.groupCategory) : true;
-        return matchesCountry && matchesCategory && matchesSearch;
-      }) || []
-    );
+    return groups.content?.filter((group) => {
+      const matchesSearch = group.title?.toLowerCase().startsWith(searchedItem.toLowerCase());
+      const matchesCountry = selectedCountry ? group.country?.toLowerCase() === selectedCountry.toLowerCase() : true;
+      const matchesCategory = activeCategories.length > 0 ? activeCategories.some(cat => group.groupCategory.includes(cat)) : true;
+      return matchesSearch && matchesCountry && matchesCategory;
+    }) || [];
   };
 
   const filteredGroups = filterGroups();

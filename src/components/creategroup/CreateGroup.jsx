@@ -7,14 +7,18 @@ import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { YalliContext } from "../../Context/YalliContext";
+
 const groupCategoryOptions = {
-  Yaşam: "LIFE",
-  Əyləncə: "ENTERTAINMENT",
-  Karyera: "CAREER",
-  Təhsil: "EDUCATION",
-  Səyahət: "TRAVEL",
-  Yerləşmə: "LOCATION",
-  Qanunlar: "LAW",
+  LIFE: "Yaşam",
+  CAREER: "Karyera",
+  EDUCATION: "Təhsil",
+  ENTERTAINMENT: "Əyləncə",
+  TRAVEL: "Səyahət",
+  LOCATION: "Yerləşmə",
+  LAW: "Qanunlar",
+  INNOVATION: "İnnovasiya",
+  TECHNOLOGY: "Texnologiya",
+  OTHER: "Digər",
 };
 
 const options = [
@@ -81,6 +85,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     };
     fetchGroups();
   }, []);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
@@ -136,12 +141,12 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       !groupData.link.trim() ||
       !groupData.memberCount ||
       groupData.memberCount <= 0 ||
-      !groupData.description.trim() 
+      !groupData.description.trim()
     ) {
       toast.error("Bütün sahələri doldurun.");
       return;
     }
-  
+
     // Prepare data for API call
     const formattedData = {
       title: groupData.title,
@@ -153,7 +158,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       imageId: imageId,
       userId: userID,
     };
-  
+
     try {
       const response = await axios.post(
         "https://yalli-back-end.onrender.com/v1/groups",
@@ -164,7 +169,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           },
         }
       );
-  
+
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
     } catch (error) {
@@ -172,7 +177,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       toast.error("Qrup yaratmaq uğursuz oldu.");
     }
   };
-  
 
   const handleArrowClick = () => {
     selectRef.current?.focus();
@@ -234,8 +238,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               style={{ width: "350px", padding: ".8rem" }}
               defaultValue="Kateqoriya"
             >
-              {Object.entries(groupCategoryOptions).map(([az, en], index) => (
-                <option key={index} value={az}>
+              {Object.entries(groupCategoryOptions).map(([key, az], index) => (
+                <option key={index} value={key}>
                   {az}
                 </option>
               ))}

@@ -33,7 +33,7 @@ const Card = ({ sectionName, event, group }) => {
                 {sectionName === "group" ? (
                     <p>{group?.memberCount} üzv</p>
                 ) : (
-                    <p>{event?.location}</p>
+                    <p>{event?.country}</p>
                 )}
             </div>
             {sectionName === "group" ? (

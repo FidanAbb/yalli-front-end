@@ -78,7 +78,60 @@
     gap: 1rem;
     cursor: pointer;
 }
+.profile-left .bottom  .back-black{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100vh;
+    width: 100%;
+    background-color:#111111;
+    opacity: .4;
+    
+}
+.profile-left .bottom >div .delte-popap{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 1000;
+    background-color:#fff;
+    transform: translate(-50%,-50%);
+    width: 25rem;
+    border-radius:2rem;
+    text-align: center;
+    padding: 1.6rem;
+}
+.profile-left .bottom >div .delte-popap p{
+    color:black;
+}
 
+.profile-left .bottom >div .delte-popap .btn-con{
+    margin-top: 1rem;
+}
+.profile-left .bottom >div .delte-popap .btn-con button{
+    padding: .2rem 3rem;
+    border-radius:1rem;
+    border:none;
+}
+.profile-left .bottom >div .delte-popap .btn-con button:first-child{
+    background-color:transparent;
+    transition: .4s;
+    border: 1px solid #FA4500;
+}
+.profile-left .bottom >div .delte-popap .btn-con button:first-child:hover{
+    background-color:#FA4500;
+    color: #fff;
+}
+.profile-left .bottom >div .delte-popap .btn-con button:last-child{
+    background-color:#FA4500;
+    color:#fff;
+    transition: .4s;
+}
+.profile-left .bottom >div .delte-popap .btn-con button:last-child:hover{
+    color:#FA4500;
+    background-color:#fff;
+    border: 1px solid #FA4500;
+}
 .link.active ,
 .link.active *{
     color: #111111 !important; 
@@ -181,11 +234,13 @@ width: 100%;
     align-items: center;
     gap: 1.4rem;
 }
-.profile-right .profile-info .info-left .bottom ul li p{
+.profile-right .profile-info .info-left .bottom ul li input{
     background-color:#EEEEEE;
     width: 15rem;
     padding: .2rem .4rem !important;
     border-radius:.5rem;
+    outline: none;
+    border: none;
 }
 .profile-right .profile-info .info-left .bottom ul li .icon{
     font-size: 1.9rem;

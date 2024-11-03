@@ -22,7 +22,7 @@ const ProfileInfo = () => {
     loadingImage,
     allUsers
   } = useContext(YalliContext);
-console.log(allUsers);
+console.log(localUserData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -57,58 +57,45 @@ console.log(allUsers);
     setLocalUserData(newFormData);
     updateUserData(newFormData);
   };
-
-  const countries = [
-    { name: "Canada", cities: ["Toronto", "Vancouver", "Montreal"] },
-    { name: "USA", cities: ["New York", "Los Angeles", "Chicago"] },
-    { name: "Turkey", cities: ["Istanbul", "Ankara", "Izmir"] },
-  ];
-
-  //   const file = event.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-  //   if (file) {
-  //     try {
-  //       console.log(file);
-  //       const response = await axios.post(
-  //         "https://yalli-back-end.onrender.com/v1/files/upload",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-  //       const imageUrl = response.data;
-  //       const updateUserDataOb = {
-  //         ...localUserData,
-  //         profilePictureUrl: imageUrl,
-  //       };
-  //       imagePatch(response.data);
-  //       updateUserData(updateUserDataOb);
-  //     } catch (errr) {
-  //       console.log("upload da problem", errr);
-  //     }
-  //   }
-  // };
-  // const getImageName = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-  //       { responseType: "text" }
-  //     );
-
-  //     const svgBase64 = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(response.data)))}`;
-  //     if (svgBase64) {
-  //       setBase64Image(svgBase64);
-  //       localStorage.setItem("profileImg",JSON.stringify(svgBase64))
-  //       setImageUrl(svgBase64)
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching image:", error);
-  //   }
-  // };
-
+  const socialMedioChange=(e)=>{
+    const {name,value}=e.target
+    const updatedSocialMediaAccounts={
+      ...localUserData.socialMediaAccounts,
+      [name]:value
+    }
+    const newUserData={...localUserData,socialMediaAccounts:updatedSocialMediaAccounts};
+    setLocalUserData(newUserData);
+    updateUserData(newUserData);
+    localUserData.setItem("userInfo",JSON.stringify(newUserData));
+  }
+const countries = [
+  { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
+  { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
+  { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
+  { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
+  { name: "Rusiya", cities: ["Moskva", "Sankt-Peterburq", "Novosibirsk"] },
+  { name: "Almaniya", cities: ["Berlin", "Hamburg", "Münhen"] },
+  { name: "Ukrayna", cities: ["Kiyev", "Xarkov", "Odesa"] },
+  { name: "Böyük Britaniya", cities: ["London", "Mançester", "Birmingem"] },
+  { name: "Fransa", cities: ["Paris", "Marsel", "Lion"] },
+  { name: "İsrail", cities: ["Tel-Aviv", "Ierusəlim", "Xayfa"] },
+  { name: "Gürcüstan", cities: ["Tbilisi", "Kutaisi", "Batumi"] },
+  { name: "İtaliya", cities: ["Roma", "Milan", "Neapol"] },
+  { name: "Avstraliya", cities: ["Sidney", "Melburn", "Brisben"] },
+  { name: "İspaniya", cities: ["Madrid", "Barselona", "Valensiya"] },
+  { name: "Niderland", cities: ["Amsterdam", "Rotterdam", "Xaaqa"] },
+  { name: "Avstriya", cities: ["Vyan", "Qraz", "Lints"] },
+  { name: "İsveç", cities: ["Stokholm", "Geteborq", "Malmö"] },
+  { name: "Belçika", cities: ["Brüssel", "Antverpen", "Gent"] },
+  { name: "Norveç", cities: ["Oslo", "Berqen", "Tronxeym"] },
+  { name: "Finlandiya", cities: ["Helsinki", "Espoo", "Tampere"] },
+  { name: "Polşa", cities: ["Varşava", "Krakov", "Vrotslav"] },
+  { name: "Yunanıstan", cities: ["Afin", "Selanik", "Patra"] },
+  { name: "Sinqapur", cities: ["Sinqapur"] },
+  { name: "Braziliya", cities: ["Sao Paulo", "Rio de Janeiro", "Brasiliya"] },
+  { name: "Argentina", cities: ["Buenos Aires", "Kordoba", "Rosario"] },
+  { name: "Meksika", cities: ["Mexiko", "Ecatepec", "Guadalaxara"] }
+];
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -127,7 +114,7 @@ console.log(allUsers);
                     ) : (
                       <img
                         src={
-                          imageUrl ||
+                           imageUrl ||
                           "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
                         }
                         alt="Profile"
@@ -206,21 +193,21 @@ console.log(allUsers);
               <ul className="dp-cloumn gap-3">
                 <li>
                   <RiFacebookCircleLine className="icon" />
-                  <p>Facebook</p>
+                  <input onChange={socialMedioChange} name="facebook" type="text" />
                 </li>
                 <li>
                   <div className="telegram-icon dp-center">
                     <BiLogoTelegram className="icon" />
                   </div>
-                  <p>Telegram</p>
+                  <input onChange={socialMedioChange} name="teleqram" type="text" />
                 </li>
                 <li>
                   <FaWhatsapp className="icon what-icon" />
-                  <p>Whatsapp</p>
+                  <input onChange={socialMedioChange} name="whatsapp" type="text" />
                 </li>
                 <li>
                   <IoLogoInstagram className="icon" />
-                  <p>Instagram</p>
+                  <input onChange={socialMedioChange} name="instagram" type="text" />
                 </li>
               </ul>
             </div>
