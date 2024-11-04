@@ -188,44 +188,26 @@ const ProfileInfo = () => {
               </div>
             </div>
             <div className="bottom">
-              <ul className="dp-column gap-3">
+            <ul className="dp-cloumn gap-3">
                 <li>
                   <RiFacebookCircleLine className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="facebook"
-                    type="text"
-                    aria-label="Facebook"
-                  />
+                  <input onChange={socialMedioChange} name="facebook" type="text" />
                 </li>
                 <li>
-                  <BiLogoTelegram className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="telegram"
-                    type="text"
-                    aria-label="Telegram"
-                  />
+                  <div className="telegram-icon dp-center">
+                    <BiLogoTelegram className="icon" />
+                  </div>
+                  <input onChange={socialMedioChange} name="teleqram" type="text" />
                 </li>
                 <li>
-                  <FaWhatsapp className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="whatsapp"
-                    type="text"
-                    aria-label="WhatsApp"
-                  />
+                  <FaWhatsapp className="icon what-icon" />
+                  <input onChange={socialMedioChange} name="whatsapp" type="text" />
                 </li>
                 <li>
                   <IoLogoInstagram className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="instagram"
-                    type="text"
-                    aria-label="Instagram"
-                  />
+                  <input onChange={socialMedioChange} name="instagram" type="text" />
                 </li>
-              </ul>
+              </ul> 
             </div>
           </div>
         </div>

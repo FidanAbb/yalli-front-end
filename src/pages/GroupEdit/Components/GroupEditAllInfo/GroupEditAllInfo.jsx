@@ -12,7 +12,6 @@ const groupCategoryOptions = {
   Yerləşmə: "LOCATION",
   Qanunlar: "LAW",
 };
-
 const options = [
   "Azərbaycan",
   "Türkiyə",
