@@ -10,6 +10,8 @@ export const YalliContext = createContext();
 const ContextYalli = ({ children }) => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
+  console.log(userFromStore);
+  
   const initialData = {
     fullName: "",
     email: "",
@@ -30,10 +32,8 @@ const ContextYalli = ({ children }) => {
   const [groupDetailsByUserID, setGroupDetailsByUserID] = useState("");
   const [accessToken, setAccessToken] = useState("");
   const [myEvents, setMyEvents] = useState([]);
-  const [allUsers,setAllUsers]=useState([])
-  const [isLogin,setIsLogin]=useState("");
-console.log(localUserData);
-
+  const [allUsers, setAllUsers] = useState([]);
+  const [isLogin, setIsLogin] = useState("");
   useEffect(() => {
     const accessTokenSession = sessionStorage.getItem("accessToken");
     if (accessTokenSession) {
@@ -110,46 +110,13 @@ console.log(localUserData);
           ...localUserData,
           profilePictureUrl: imageUrl,
         };
+        localStorage.setItem("imgUrl", response.data);
         updateUserData(updateUserDataOb);
       } catch (errr) {
         console.log("upload da problem", errr);
       }
     }
   };
-  const getImageName = async () => {
-    setLoadingImage(true);
-    try {
-      const response = await axios.get(
-        `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`,
-        { responseType: "arraybuffer" }
-      );
-      const contentType = response.headers["content-type"];
-      const base64 = btoa(
-        new Uint8Array(response.data).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-        )
-      );
-
-      const imageSrc = `data:${contentType};base64,${base64}`;
-      console.log(imageSrc);
-      
-      if (imageSrc) {
-        setBase64Image(imageSrc);
-        setImageUrl(imageSrc);
-      }
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    } finally {
-      setLoadingImage(false);
-    }
-  };
-  useEffect(() => {
-      getImageName();
-  }, [imageUrl]);
-  useEffect(() => {
-      getImageName();
-  }, []);
-
   const getGroupByUserID = async (userID) => {
     try {
       const response = await axios.get(
@@ -172,12 +139,10 @@ console.log(localUserData);
       getGroupByUserID(userID);
     }
   }, [userID]);
-  const aboutRef = useRef(null); 
-
+  const aboutRef = useRef(null);
   const scrollToAbout = () => {
-    aboutRef.current?.scrollIntoView({ behavior: 'smooth' });
+    aboutRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   const updateGroup = async (groupId, groupData) => {
     try {
       const response = await axios.put(
@@ -204,7 +169,6 @@ console.log(localUserData);
       }
     }
   };
-
   const findGroupByUserId = useCallback(async (groupId, userId) => {
     try {
       const url = `https://yalli-back-end.onrender.com/v1/groups/${groupId}/users/${userId}`;
@@ -218,7 +182,7 @@ console.log(localUserData);
       }
     } catch (error) {
       console.error("Error fetching group data:", error);
-      throw error; // Xəta baş verərsə, xəta mesajını qaytarır
+      throw error;
     }
   }, []);
   useEffect(() => {
@@ -249,45 +213,50 @@ console.log(localUserData);
   }, []);
   const fetchAllUsers = async () => {
     try {
-      let page = 0; // Başlanğıc səhifə
-      let allUsers = []; // Bütün istifadəçiləri saxlamaq üçün dəyişən
-      let hasMore = true; // Daha məlumat olub olmadığını yoxlamaq üçün
-  
+      let page = 0;
+      let allUsers = [];
+      let hasMore = true; 
       while (hasMore) {
-        const response = await axios.get(`https://yalli-back-end.onrender.com/v1/users/search?page=${page}&size=20`, {
-          headers: {
-            accept: '*/*',
-          },
-        });
-  
+        const response = await axios.get(
+          `https://yalli-back-end.onrender.com/v1/users/search?page=${page}&size=20`,
+          {
+            headers: {
+              accept: "*/*",
+            },
+          }
+        );
+
         allUsers = [...allUsers, ...response.data.content]; // Yeni istifadəçiləri əlavə et
-        page++; 
+        page++;
         hasMore = !response.data.last; // 'last' true olduqda dövr dayanır
       }
-  
+
       return allUsers; // Bütün istifadəçiləri qaytar
     } catch (error) {
       console.error("Failed to fetch users:", error);
     }
   };
-  
   useEffect(() => {
-    fetchAllUsers().then(users => {
+    fetchAllUsers().then((users) => {
       setAllUsers(users);
     });
   }, []);
-
   const deleteUserAccount = async (userID) => {
     try {
-      const response = await axios.delete(`https://yalli-back-end.onrender.com/v1/users/delete/${userID}`);
-      toast.success('İstifadəçi hesabı uğurla silindi.');
+      const response = await axios.delete(
+        `https://yalli-back-end.onrender.com/v1/users/delete/${userID}`
+      );
+      toast.success("İstifadəçi hesabı uğurla silindi.");
     } catch (error) {
       // Xəta baş verərsə, xəta mesajı göstərin
-      console.error('Hesabı silmək mümkün olmadı:', error.response);
-      toast.error(`Hesabı silmək mümkün olmadı: ${error.response?.data?.message || error.message}`);
+      console.error("Hesabı silmək mümkün olmadı:", error.response);
+      toast.error(
+        `Hesabı silmək mümkün olmadı: ${
+          error.response?.data?.message || error.message
+        }`
+      );
     }
-  }
-  
+  };
   return (
     <YalliContext.Provider
       value={{
@@ -301,7 +270,6 @@ console.log(localUserData);
         setBase64Image,
         base64Image,
         handleImageUpload,
-        getImageName,
         setLoadingImage,
         loadingIamge,
         groupsByUserID,
@@ -317,7 +285,7 @@ console.log(localUserData);
         setAllUsers,
         deleteUserAccount,
         setIsLogin,
-        isLogin
+        isLogin,
       }}
     >
       {children}

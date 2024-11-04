@@ -65,10 +65,14 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     link: "",
     category: "",
   });
+  console.log(groupData);
+
   const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState("");
+  console.log(imageId);
 
   const maxDescriptionLength = 160;
+  console.log();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -94,42 +98,34 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       document.documentElement.style.overflow = "auto";
     };
   }, []);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "category") {
-      setGroupData((prevData) => ({
-        ...prevData,
-        [name]: groupCategoryOptions[value],
-      }));
-    } else {
-      setGroupData((prevData) => ({ ...prevData, [name]: value }));
-    }
+    setGroupData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImagePreview(reader.result);
-      reader.readAsDataURL(file);
-
-      const formData = new FormData();
-      formData.append("file", file);
-
       try {
+        console.log(file);
         const response = await axios.post(
           "https://yalli-back-end.onrender.com/v1/files/upload",
           formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
-        if (response.status === 201) {
-          setImageId(response.data);
-          toast.success("Şəkil uğurla yükləndi.");
-        }
-      } catch (error) {
-        console.error("Image upload failed", error);
-        toast.error("Şəkil yükləmək mümkün olmadı: " + error.message);
+        const imageUrl = response.data;
+        setImageId(imageUrl);
+      } catch (errr) {
+        console.log("upload da problem", errr);
       }
     }
   };
@@ -146,8 +142,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       toast.error("Bütün sahələri doldurun.");
       return;
     }
-
-    // Prepare data for API call
     const formattedData = {
       title: groupData.title,
       description: groupData.description,
@@ -158,7 +152,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       imageId: imageId,
       userId: userID,
     };
-
     try {
       const response = await axios.post(
         "https://yalli-back-end.onrender.com/v1/groups",
@@ -169,7 +162,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           },
         }
       );
-
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
     } catch (error) {
@@ -189,16 +181,18 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           <div
             className={styles["img"]}
             style={{
-              backgroundImage: imagePreview ? `url(${imagePreview})` : "none",
+              backgroundImage: imageId
+                ? `url(https://yalli-back-end.onrender.com/v1/files/${imageId})`
+                : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            {!imagePreview && <PlusIcon />}
+            {!imageId && <PlusIcon />}
             <input
               type="file"
               accept="image/*"
-              onChange={handleImageChange}
+              onChange={handleImageUpload}
               className={styles["file_input"]}
               style={{ padding: "1rem 0" }}
             />
@@ -236,11 +230,14 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               onChange={handleChange}
               ref={selectRef}
               style={{ width: "350px", padding: ".8rem" }}
-              defaultValue="Kateqoriya"
+              value={groupData.category} // Bu, idarə olunan komponenti təmin edir
             >
-              {Object.entries(groupCategoryOptions).map(([key, az], index) => (
-                <option key={index} value={key}>
-                  {az}
+              <option value="" disabled hidden>
+                Kateqoriya
+              </option>
+              {Object.entries(groupCategoryOptions).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
                 </option>
               ))}
             </select>

@@ -125,9 +125,9 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     const checkUserLoggedIn = () => {
       const token = localStorage.getItem("accessToken");
       if (token) {
-        setUserData(true); 
+        setUserData(true);
       } else {
-        setUserData(false); 
+        setUserData(false);
       }
     };
 
@@ -254,7 +254,11 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
             ) : (
               <div className={styles["user_img"]} onClick={profileDropDownFunc}>
                 <img
-                  src={imageUrl ? imageUrl : profileImageDefault}
+                  src={
+                    localUserData.profilePictureUrl
+                      ? `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`
+                      : profileImageDefault
+                  }
                   alt="Profil Şəkli"
                 />
               </div>
@@ -276,9 +280,13 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   <div className={styles["user-info"]}>
                     <div>
                       <img
-                        src={`${imageUrl ? imageUrl : profileImageDefault} `}
+                        src={
+                          localUserData.profilePictureUrl
+                            ? `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`
+                            : profileImageDefault
+                        }
+                        alt="Profil Şəkli"
                         className={styles["drop-down-img"]}
-                        alt=""
                       />
                     </div>
                     <div style={{ overflow: "hidden" }}>

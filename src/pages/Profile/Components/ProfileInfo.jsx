@@ -20,10 +20,8 @@ const ProfileInfo = () => {
     updateUserData,
     handleImageUpload,
     loadingImage,
-    allUsers
+    allUsers,
   } = useContext(YalliContext);
-console.log(localUserData);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const newFormData = { ...localUserData, [name]: value };
@@ -37,11 +35,8 @@ console.log(localUserData);
     setLocalUserData(newFormDate);
     updateUserData(newFormDate);
   };
-
   const handleCountryChange = (e) => {
     const selectedCountry = e.target.value;
-    console.log(selectedCountry);
-
     const newFormData = {
       ...localUserData,
       country: selectedCountry,
@@ -57,45 +52,48 @@ console.log(localUserData);
     setLocalUserData(newFormData);
     updateUserData(newFormData);
   };
-  const socialMedioChange=(e)=>{
-    const {name,value}=e.target
-    const updatedSocialMediaAccounts={
+  const socialMedioChange = (e) => {
+    const { name, value } = e.target;
+    const updatedSocialMediaAccounts = {
       ...localUserData.socialMediaAccounts,
-      [name]:value
-    }
-    const newUserData={...localUserData,socialMediaAccounts:updatedSocialMediaAccounts};
+      [name]: value,
+    };
+    const newUserData = {
+      ...localUserData,
+      socialMediaAccounts: updatedSocialMediaAccounts,
+    };
     setLocalUserData(newUserData);
     updateUserData(newUserData);
-    localUserData.setItem("userInfo",JSON.stringify(newUserData));
-  }
-const countries = [
-  { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
-  { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
-  { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
-  { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
-  { name: "Rusiya", cities: ["Moskva", "Sankt-Peterburq", "Novosibirsk"] },
-  { name: "Almaniya", cities: ["Berlin", "Hamburg", "Münhen"] },
-  { name: "Ukrayna", cities: ["Kiyev", "Xarkov", "Odesa"] },
-  { name: "Böyük Britaniya", cities: ["London", "Mançester", "Birmingem"] },
-  { name: "Fransa", cities: ["Paris", "Marsel", "Lion"] },
-  { name: "İsrail", cities: ["Tel-Aviv", "Ierusəlim", "Xayfa"] },
-  { name: "Gürcüstan", cities: ["Tbilisi", "Kutaisi", "Batumi"] },
-  { name: "İtaliya", cities: ["Roma", "Milan", "Neapol"] },
-  { name: "Avstraliya", cities: ["Sidney", "Melburn", "Brisben"] },
-  { name: "İspaniya", cities: ["Madrid", "Barselona", "Valensiya"] },
-  { name: "Niderland", cities: ["Amsterdam", "Rotterdam", "Xaaqa"] },
-  { name: "Avstriya", cities: ["Vyan", "Qraz", "Lints"] },
-  { name: "İsveç", cities: ["Stokholm", "Geteborq", "Malmö"] },
-  { name: "Belçika", cities: ["Brüssel", "Antverpen", "Gent"] },
-  { name: "Norveç", cities: ["Oslo", "Berqen", "Tronxeym"] },
-  { name: "Finlandiya", cities: ["Helsinki", "Espoo", "Tampere"] },
-  { name: "Polşa", cities: ["Varşava", "Krakov", "Vrotslav"] },
-  { name: "Yunanıstan", cities: ["Afin", "Selanik", "Patra"] },
-  { name: "Sinqapur", cities: ["Sinqapur"] },
-  { name: "Braziliya", cities: ["Sao Paulo", "Rio de Janeiro", "Brasiliya"] },
-  { name: "Argentina", cities: ["Buenos Aires", "Kordoba", "Rosario"] },
-  { name: "Meksika", cities: ["Mexiko", "Ecatepec", "Guadalaxara"] }
-];
+    localUserData.setItem("userInfo", JSON.stringify(newUserData));
+  };
+  const countries = [
+    { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
+    { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
+    { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
+    { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
+    { name: "Rusiya", cities: ["Moskva", "Sankt-Peterburq", "Novosibirsk"] },
+    { name: "Almaniya", cities: ["Berlin", "Hamburg", "Münhen"] },
+    { name: "Ukrayna", cities: ["Kiyev", "Xarkov", "Odesa"] },
+    { name: "Böyük Britaniya", cities: ["London", "Mançester", "Birmingem"] },
+    { name: "Fransa", cities: ["Paris", "Marsel", "Lion"] },
+    { name: "İsrail", cities: ["Tel-Aviv", "Ierusəlim", "Xayfa"] },
+    { name: "Gürcüstan", cities: ["Tbilisi", "Kutaisi", "Batumi"] },
+    { name: "İtaliya", cities: ["Roma", "Milan", "Neapol"] },
+    { name: "Avstraliya", cities: ["Sidney", "Melburn", "Brisben"] },
+    { name: "İspaniya", cities: ["Madrid", "Barselona", "Valensiya"] },
+    { name: "Niderland", cities: ["Amsterdam", "Rotterdam", "Xaaqa"] },
+    { name: "Avstriya", cities: ["Vyan", "Qraz", "Lints"] },
+    { name: "İsveç", cities: ["Stokholm", "Geteborq", "Malmö"] },
+    { name: "Belçika", cities: ["Brüssel", "Antverpen", "Gent"] },
+    { name: "Norveç", cities: ["Oslo", "Berqen", "Tronxeym"] },
+    { name: "Finlandiya", cities: ["Helsinki", "Espoo", "Tampere"] },
+    { name: "Polşa", cities: ["Varşava", "Krakov", "Vrotslav"] },
+    { name: "Yunanıstan", cities: ["Afin", "Selanik", "Patra"] },
+    { name: "Sinqapur", cities: ["Sinqapur"] },
+    { name: "Braziliya", cities: ["Sao Paulo", "Rio de Janeiro", "Brasiliya"] },
+    { name: "Argentina", cities: ["Buenos Aires", "Kordoba", "Rosario"] },
+    { name: "Meksika", cities: ["Mexiko", "Ecatepec", "Guadalaxara"] },
+  ];
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -114,8 +112,8 @@ const countries = [
                     ) : (
                       <img
                         src={
-                           imageUrl ||
-                          "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+                          `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}` ||
+                          `${profileDefaultImg}`
                         }
                         alt="Profile"
                       />
@@ -190,24 +188,42 @@ const countries = [
               </div>
             </div>
             <div className="bottom">
-              <ul className="dp-cloumn gap-3">
+              <ul className="dp-column gap-3">
                 <li>
                   <RiFacebookCircleLine className="icon" />
-                  <input onChange={socialMedioChange} name="facebook" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="facebook"
+                    type="text"
+                    aria-label="Facebook"
+                  />
                 </li>
                 <li>
-                  <div className="telegram-icon dp-center">
-                    <BiLogoTelegram className="icon" />
-                  </div>
-                  <input onChange={socialMedioChange} name="teleqram" type="text" />
+                  <BiLogoTelegram className="icon" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="telegram"
+                    type="text"
+                    aria-label="Telegram"
+                  />
                 </li>
                 <li>
-                  <FaWhatsapp className="icon what-icon" />
-                  <input onChange={socialMedioChange} name="whatsapp" type="text" />
+                  <FaWhatsapp className="icon" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="whatsapp"
+                    type="text"
+                    aria-label="WhatsApp"
+                  />
                 </li>
                 <li>
                   <IoLogoInstagram className="icon" />
-                  <input onChange={socialMedioChange} name="instagram" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="instagram"
+                    type="text"
+                    aria-label="Instagram"
+                  />
                 </li>
               </ul>
             </div>
