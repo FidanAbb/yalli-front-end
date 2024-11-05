@@ -140,10 +140,16 @@
   
 .profile-right{
     background-color: #fff;
-    height: 100%;
     border-radius: 1rem;
+
 } 
 
+.profile-right .group-edit{
+overflow-y: auto !important;
+overflow-x: hidden !important;
+height: 80vh;
+
+}
 
 /* Profile Info */
 .profile-right .profile-info {

@@ -10,7 +10,7 @@ const ProfileCommunityEdit = () => {
 
 
   return (
-    <div className="row">
+    <div className="row group-edit">
       {Array.isArray(groupsByUserID) && groupsByUserID.map((group, i) => (
         <div key={i} className="col-md-4 col-sm-12 col-12" onClick={() => navigate(`/group-edit/${group.id}/all-info`)}>
           <Card sectionName="group" group={group} />

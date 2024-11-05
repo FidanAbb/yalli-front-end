@@ -34,6 +34,8 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
+  console.log(allUsers);
+  
   useEffect(() => {
     const accessTokenSession = sessionStorage.getItem("accessToken");
     if (accessTokenSession) {
@@ -153,19 +155,19 @@ const ContextYalli = ({ children }) => {
         }
       );
       setGroup(response.data);
-      console.log("Group information updated:", response.data);
-      toast.success("Group information has been updated");
+      console.log("Qrup məlumatı yeniləndi:", response.data);
+      toast.success("Qrup məlumatları uğurla yeniləndi.");
     } catch (error) {
-      console.error("Failed to update group:", error);
+      console.error("Qrupu yeniləmək alınmadı:", error);
       if (
         error.response &&
         error.response.data.message === "GROUP_RENAME_LIMIT_EXCEEDED"
       ) {
         toast.error(
-          "Group rename limit has been exceeded. Please try again later."
+          "Qrupun adının dəyişdirilməsi limiti keçildi. Lütfən, sonra yenidən cəhd edin."
         );
       } else {
-        toast.error("Failed to update group: " + error.message);
+        toast.error("Qrupu yeniləmək alınmadı: " + error.message);
       }
     }
   };
@@ -225,13 +227,13 @@ const ContextYalli = ({ children }) => {
             },
           }
         );
-
-        allUsers = [...allUsers, ...response.data.content]; // Yeni istifadəçiləri əlavə et
+        
+        allUsers = [...allUsers, ...response.data.content]; 
         page++;
-        hasMore = !response.data.last; // 'last' true olduqda dövr dayanır
+        hasMore = !response.data.last; 
       }
 
-      return allUsers; // Bütün istifadəçiləri qaytar
+      return allUsers; 
     } catch (error) {
       console.error("Failed to fetch users:", error);
     }

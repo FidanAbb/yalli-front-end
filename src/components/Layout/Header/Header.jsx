@@ -256,7 +256,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 <img
                   src={
                     localUserData.profilePictureUrl
-                      ? `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`
+                      ? `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}`
                       : profileImageDefault
                   }
                   alt="Profil Şəkli"
@@ -282,7 +282,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                       <img
                         src={
                           localUserData.profilePictureUrl
-                            ? `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}`
+                            ? `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}`
                             : profileImageDefault
                         }
                         alt="Profil Şəkli"

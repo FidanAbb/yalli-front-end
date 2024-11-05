@@ -18,33 +18,7 @@ const icons = [
 const MembersCard = ({ data }) => {
   const { allUsers, setAllUsers } = useContext(YalliContext);
   const {profileImageState,setProfileImageState}=useState()
-  const getImageName = async () => {
-    if(data.profilePictureUrl){
-      try {
-        const response = await axios.get(
-          `https://yalli-back-end.onrender.com/v1/files/${data.profilePictureUrl}`,
-          { responseType: "arraybuffer" }
-        );
-        const contentType = response.headers["content-type"];
-        const base64 = btoa(
-          new Uint8Array(response.data).reduce(
-            (data, byte) => data + String.fromCharCode(byte),
-          )
-        );
-        const imageSrc = `data:${contentType};base64,${base64}`;
-        console.log(imageSrc);
-        
-        if (imageSrc) {
-          setProfileImageState(imageSrc)
-        }
-      } catch (error) {
-        console.error("Error fetching image:", error);
-      } 
-    }
-  };
-  useEffect(()=>{
-    getImageName()
-  },[])
+
   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
   };
@@ -60,7 +34,7 @@ const MembersCard = ({ data }) => {
   return (
     <div  className={styles["container"]}>
     <div className={styles["left"]}>
-      <img src={data.profilePicture?profileImageState:"../../../src/pages/Profile/assets/img/default-profile-img.webp"} alt="" className={styles["profile"]} />
+      <img src={data.profilePicture?`https://yalli-back-end.onrender.com/v1/files/${data.profilePictureUrl}`:"../../../src/pages/Profile/assets/img/default-profile-img.webp"} alt="" className={styles["profile"]} />
       <div className={styles["content"]}>
         <p className={styles["name"]}>{data.fullName}</p>
         <p className={styles["location"]}>

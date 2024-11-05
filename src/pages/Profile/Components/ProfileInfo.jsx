@@ -12,6 +12,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { YalliContext } from "../../../Context/YalliContext";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
+import { toast } from "react-toastify";
 const ProfileInfo = () => {
   const {
     localUserData,
@@ -52,20 +53,38 @@ const ProfileInfo = () => {
     setLocalUserData(newFormData);
     updateUserData(newFormData);
   };
-  const socialMedioChange = (e) => {
+  function isValidSocialUrl(url, platform) {
+    const regexPatterns = {
+      FACEBOOK: /(?:http(s)?:\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/,
+      INSTAGRAM: /(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
+      WHATSAPP: /(?:http(s)?:\/\/)?api\.whatsapp\.com\/send\?phone=[0-9]+/,
+      TELEGRAM: /(?:http(s)?:\/\/)?(?:www\.)?t\.me\/[a-zA-Z0-9(\.\?)?]/
+    };
+  
+    const pattern = regexPatterns[platform];
+    return pattern && pattern.test(url);
+  }
+  // const urlRegex = /^(https?:\/\/)[\w-]+(\.[\w-]+)+[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]$/;
+  const socialMediaChange = (e) => {
     const { name, value } = e.target;
+    if (!isValidSocialUrl(value, name)) {
+      toast.error(`Daxil edilmiş ${name} URL düzgün deyil.`);
+      return;
+    }
+  
     const updatedSocialMediaAccounts = {
       ...localUserData.socialMediaAccounts,
       [name]: value,
     };
+  
     const newUserData = {
       ...localUserData,
       socialMediaAccounts: updatedSocialMediaAccounts,
     };
     setLocalUserData(newUserData);
     updateUserData(newUserData);
-    localUserData.setItem("userInfo", JSON.stringify(newUserData));
   };
+  
   const countries = [
     { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
     { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
@@ -112,7 +131,7 @@ const ProfileInfo = () => {
                     ) : (
                       <img
                         src={
-                          `https://yalli-back-end.onrender.com/v1/files/${localUserData.profilePictureUrl}` ||
+                          `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}` ||
                           `${profileDefaultImg}`
                         }
                         alt="Profile"
@@ -188,26 +207,46 @@ const ProfileInfo = () => {
               </div>
             </div>
             <div className="bottom">
-            <ul className="dp-cloumn gap-3">
+              <ul className="dp-cloumn gap-3">
                 <li>
                   <RiFacebookCircleLine className="icon" />
-                  <input onChange={socialMedioChange} name="facebook" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="FACEBOOK"
+                    type="text"
+                    value={localUserData.socialMediaAccounts?.FACEBOOK || ""}
+                  />
                 </li>
                 <li>
                   <div className="telegram-icon dp-center">
                     <BiLogoTelegram className="icon" />
                   </div>
-                  <input onChange={socialMedioChange} name="teleqram" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="TELEGRAM"
+                    type="text"
+                    value={localUserData.socialMediaAccounts?.TELEGRAM || ""}
+                  />
                 </li>
                 <li>
                   <FaWhatsapp className="icon what-icon" />
-                  <input onChange={socialMedioChange} name="whatsapp" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="WHATSAPP"
+                    type="text"
+                    value={localUserData.socialMediaAccounts?.WHATSAPP || ""}
+                  />
                 </li>
                 <li>
                   <IoLogoInstagram className="icon" />
-                  <input onChange={socialMedioChange} name="instagram" type="text" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="INSTAGRAM"
+                    type="text"
+                    value={localUserData.socialMediaAccounts?.INSTAGRAM || ""}
+                  />
                 </li>
-              </ul> 
+              </ul>
             </div>
           </div>
         </div>

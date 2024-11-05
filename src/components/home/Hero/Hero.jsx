@@ -140,7 +140,7 @@ return (
                       onClick={() => {
                         setSearchedItem(country);
                         setShowOptions(false);
-                        navigate("/member")
+                        navigate("/members")
                       }}
                     >
                       {country}
