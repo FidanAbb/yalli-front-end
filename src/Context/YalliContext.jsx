@@ -114,6 +114,7 @@ const ContextYalli = ({ children }) => {
         };
         localStorage.setItem("imgUrl", response.data);
         updateUserData(updateUserDataOb);
+        setLocalUserData(updateUserDataOb)
       } catch (errr) {
         console.log("upload da problem", errr);
       }

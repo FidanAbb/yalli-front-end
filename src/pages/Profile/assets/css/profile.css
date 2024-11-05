@@ -141,7 +141,7 @@
 .profile-right{
     background-color: #fff;
     border-radius: 1rem;
-
+    height: 100%;
 } 
 
 .profile-right .group-edit{

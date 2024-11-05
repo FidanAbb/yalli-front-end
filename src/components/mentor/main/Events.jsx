@@ -76,9 +76,9 @@ const Events = () => {
 
     const filterEvents = () => {
         return eventData?.filter(event => {
-            const matchesSearch = event.title?.toLowerCase().startsWith(searchedItem.toLowerCase());
-            const matchesCountry = selectedCountry ? event.country?.toLowerCase() === selectedCountry.toLowerCase() : true;;
-            const matchesCategory = activeCategories.length > 0 ? activeCategories.some(cat => event.groupCategory.includes(cat)) : true;
+            const matchesSearch = event.title?.toLowerCase().startsWith(searchedItem?.toLowerCase());
+            const matchesCountry = selectedCountry ? event.country?.toLowerCase() === selectedCountry?.toLowerCase() : true;;
+            const matchesCategory = activeCategories.length > 0 ? activeCategories?.some(cat => event.groupCategory?.includes(cat)) : true;
             return matchesSearch && matchesCountry && matchesCategory;
         }) || [];
     };

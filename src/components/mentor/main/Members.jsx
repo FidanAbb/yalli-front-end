@@ -12,6 +12,58 @@ import MembersCard from "../../member/MembersCard";
 import memberImg from "../../../assets/img/member.png";
 import { YalliContext } from '../../../Context/YalliContext';
 
+// const allUsers = [
+//     {
+//         name: "Humay Mustafazadə",
+//         flag: <Polsa/>,
+//         location: "Varşava, Polşa",
+//         image: Fidan,
+//         country: "Polşa" // Add country property
+//     },
+//     {
+//         name: "Elmir Əliyev",
+//         flag: <Polsa/>,
+//         location: "Belostok, Polşa",
+//         image: Vuqar,
+//         country: "Polşa"
+//     },
+//     {
+//         name: "Fidan Abbaslı",
+//         flag: <Polsa/>,
+//         location: "Poznan, Polşa",
+//         image: Fidan,
+//         country: "Türkiyə"
+//     },
+//     {
+//         name: "Tural Jafarli",
+//         flag: <Polsa/>,
+//         location: "Belostok, Polşa",
+//         image: Vuqar,
+//         country: "Türkiyə"
+//     },
+//     {
+//         name: "Rəvanə Kərimova",
+//         flag: <Polsa/>,
+//         location: "Krakov, Polşa",
+//         image: Fidan,
+//         country: "Azərbaycan"
+//     },
+//     {
+//         name: "Vüsal İslamzadə",
+//         flag: <Polsa/>,
+//         location: "Lodz, Polşa",
+//         image: Vuqar,
+//         country: "Azərbaycan"
+//     },
+//     {
+//         name: "Nigar Qasımova",
+//         flag: <Polsa/>,
+//         location: "Varşova, Polşa",
+//         image: Fidan,
+//         country: "Polşa"
+//     },
+// ];
+
 const countryCategory = [
     "Azərbaycan",
     "Türkiyə",
@@ -77,7 +129,7 @@ const Members = () => {
             : true;
         return matchesCountry && matchesSearch;
     });
-    
+
     const [userData, setUserData] = useState("");
     useEffect(() => {
         const loggedUser = localStorage.getItem("userInfo");

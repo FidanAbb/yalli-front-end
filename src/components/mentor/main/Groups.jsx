@@ -37,13 +37,14 @@ const Groups = () => {
 
   const filterGroups = () => {
     return groups.content?.filter((group) => {
-      const matchesSearch = group.title?.toLowerCase().startsWith(searchedItem.toLowerCase());
-      const matchesCountry = selectedCountry ? group.country?.toLowerCase() === selectedCountry.toLowerCase() : true;
-      const matchesCategory = activeCategories.length > 0 ? activeCategories.some(cat => group.groupCategory.includes(cat)) : true;
+      const matchesSearch = group.title?.toLowerCase()?.startsWith(searchedItem?.toLowerCase());
+      const matchesCountry = selectedCountry ? group.country?.toLowerCase() === selectedCountry?.toLowerCase() : true;
+      const matchesCategory = activeCategories.length > 0 ? activeCategories?.some(cat => group.groupCategory?.includes(cat)) : true;
       return matchesSearch && matchesCountry && matchesCategory;
     }) || [];
   };
 
+  
   const filteredGroups = filterGroups();
 
   return (

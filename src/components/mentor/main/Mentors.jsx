@@ -95,12 +95,15 @@ const Mentors = () => {
     const filterEvents = () => {
         return mentorData.filter(mentor => {
             const matchesSearch = mentor.name.toLowerCase().includes(searchedItem.toLowerCase());
-            const matchesCountry = selectedCountry ? mentor.toLowerCase().includes(selectedCountry.toLowerCase()) : true;
-            const matchesCategory = activeCategories.length > 0 ? activeCategories.includes(mentor.category) : true;
+            const matchesCountry = selectedCountry ? 
+                mentor.country.toLowerCase().includes(selectedCountry.toLowerCase()) : 
+                true;
+            const matchesCategory = activeCategories.length > 0 ? 
+                activeCategories.includes(mentor.category) : 
+                true;
             return matchesSearch && matchesCountry && matchesCategory;
         });
     };
-
     const filteredEvents = filterEvents();
 
     return (

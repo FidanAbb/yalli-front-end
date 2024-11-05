@@ -307,7 +307,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                       <p>İcmaları redaktə et</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="disabled-link">
                     <NavLink
                       onClick={() => setProfileDropDown(false)}
                       className={styles["mentor-link"]}
@@ -318,7 +318,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                       <p>Mentorluq</p>
                     </NavLink>
                   </li>
-                  <li>
+                  <li className="disabled-link">
                     <NavLink
                       onClick={() => setProfileDropDown(false)}
                       className="link dp-align gap-2"

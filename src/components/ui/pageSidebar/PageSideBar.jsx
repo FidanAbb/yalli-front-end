@@ -74,9 +74,9 @@ const PageSideBar = ({
   };
 
   const toggleCategory = (categoryKey) => {
-    if (activeCategories.includes(categoryKey)) {
+    if (activeCategories?.includes(categoryKey)) {
       setActiveCategories(
-        activeCategories.filter((cat) => cat !== categoryKey)
+        activeCategories?.filter((cat) => cat !== categoryKey)
       );
     } else {
       setActiveCategories([...activeCategories, categoryKey]);
@@ -88,7 +88,7 @@ const PageSideBar = ({
     setSearchedItem(value);
     setFilteredCountries(
       countryCategory.filter((country) =>
-        country.toLowerCase().includes(value.toLowerCase())
+        country?.toLowerCase()?.includes(value.toLowerCase())
       )
     );
   };

@@ -15,7 +15,7 @@ const icons = [
 ];
 
 
-const MembersCard = ({ data }) => {
+const MembersCard = ({ data ,country}) => {
   const { allUsers, setAllUsers } = useContext(YalliContext);
   const {profileImageState,setProfileImageState}=useState()
 
