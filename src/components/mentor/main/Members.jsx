@@ -7,7 +7,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiFacebookCircleLine } from "react-icons/ri";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
-
+import defaultProfileImage from "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -201,7 +201,7 @@ const Members = () => {
                             src={
                               user.profilePicture
                                 ? `https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture}`
-                                : "../../../../src/pages/Profile/assets/img/default-profile-img.webp"
+                                : {defaultProfileImage}
                             }
                             alt="Profile"
                           />
