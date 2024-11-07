@@ -64,7 +64,6 @@ const ProfileInfo = () => {
     const pattern = regexPatterns[platform];
     return pattern && pattern.test(url);
   }
-  // const urlRegex = /^(https?:\/\/)[\w-]+(\.[\w-]+)+[\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]$/;
   const socialMediaChange = (e) => {
     const { name, value } = e.target;
     if (!isValidSocialUrl(value, name)) {
@@ -127,7 +126,7 @@ const ProfileInfo = () => {
                 <div className="left">
                   <div className="img-block">
                     {loadingImage ? (
-                      <p>Loading...</p> // Yüklənmə zamanı mesaj
+                      <p>Loading...</p> 
                     ) : (
                       <img
                         src={
@@ -160,8 +159,8 @@ const ProfileInfo = () => {
                   </p>
                   <span>
                     {localUserData.country}
-                    {localUserData.city ? "," : ""}{" "}
-                    {localUserData.city ? localUserData.city : ""}
+                    {/* {localUserData.city ? "," : ""}{" "} */}
+                    {/* {localUserData.city ? localUserData.city : ""} */}
                   </span>
                 </div>
               </div>
@@ -267,7 +266,7 @@ const ProfileInfo = () => {
                   ))}
                 </select>
               </div>
-              <div className="city-drop-con">
+              {/* <div className="city-drop-con">
                 <select
                   onChange={(e) => handleCityChange(e)}
                   className="profile-select"
@@ -284,7 +283,7 @@ const ProfileInfo = () => {
                         </option>
                       ))}
                 </select>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -88,7 +88,7 @@ const PageSideBar = ({
     setSearchedItem(value);
     setFilteredCountries(
       countryCategory.filter((country) =>
-        country?.toLowerCase()?.includes(value.toLowerCase())
+        (country ?? '').toLowerCase().startsWith(value.toLowerCase())
       )
     );
   };

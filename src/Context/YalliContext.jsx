@@ -10,7 +10,6 @@ export const YalliContext = createContext();
 const ContextYalli = ({ children }) => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
-  console.log(userFromStore);
   
   const initialData = {
     fullName: "",
@@ -34,7 +33,7 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
-  console.log(allUsers);
+  
   
   useEffect(() => {
     const accessTokenSession = sessionStorage.getItem("accessToken");
@@ -105,6 +104,7 @@ const ContextYalli = ({ children }) => {
             headers: {
               "Content-Type": "multipart/form-data",
             },
+            
           }
         );
         const imageUrl = response.data;
