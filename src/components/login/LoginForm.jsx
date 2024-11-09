@@ -17,7 +17,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState("");
   
-  const {setUserID}=useContext(YalliContext);
+  const {setUserID,setAccessToken}=useContext(YalliContext);
   const {
     register,
     handleSubmit,
@@ -43,8 +43,8 @@ const LoginForm = () => {
           setUserID(response.data.id);
           localStorage.setItem("userID", JSON.stringify(response.data.id));
           getUserDataById(response.data.id)          
-            const imageKey = `profileImg-${response.data.id}`;
-            localStorage.removeItem(imageKey);
+          const imageKey = `profileImg-${response.data.id}`;
+          localStorage.removeItem(imageKey);
         }
         navigate("/");
       }

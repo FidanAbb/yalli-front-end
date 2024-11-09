@@ -98,7 +98,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [profileDropDown, setProfileDropDown] = useState(false);
   const navigate = useNavigate();
 
-  const { userID, localUserData, setLocalUserData, setImageUrl, imageUrl } =
+  const { userID, localUserData, setLocalUserData, setImageUrl, imageUrl,setAccessToken } =
     useContext(YalliContext);
   useEffect(() => {
     const localProfileImage = localStorage.getItem("profileImg");

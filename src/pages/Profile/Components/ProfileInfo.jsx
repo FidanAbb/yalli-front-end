@@ -85,14 +85,14 @@ const ProfileInfo = () => {
   };
   
   const countries = [
-    { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
-    { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
-    { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
     { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
+    { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
     { name: "Rusiya", cities: ["Moskva", "Sankt-Peterburq", "Novosibirsk"] },
     { name: "Almaniya", cities: ["Berlin", "Hamburg", "Münhen"] },
+    { name: "ABŞ", cities: ["Nyu York", "Los Anceles", "Çikaqo"] },
     { name: "Ukrayna", cities: ["Kiyev", "Xarkov", "Odesa"] },
     { name: "Böyük Britaniya", cities: ["London", "Mançester", "Birmingem"] },
+    { name: "Kanada", cities: ["Toronto", "Vankuver", "Monreal"] },
     { name: "Fransa", cities: ["Paris", "Marsel", "Lion"] },
     { name: "İsrail", cities: ["Tel-Aviv", "Ierusəlim", "Xayfa"] },
     { name: "Gürcüstan", cities: ["Tbilisi", "Kutaisi", "Batumi"] },
@@ -111,7 +111,30 @@ const ProfileInfo = () => {
     { name: "Braziliya", cities: ["Sao Paulo", "Rio de Janeiro", "Brasiliya"] },
     { name: "Argentina", cities: ["Buenos Aires", "Kordoba", "Rosario"] },
     { name: "Meksika", cities: ["Mexiko", "Ecatepec", "Guadalaxara"] },
-  ];
+    { name: "Macarıstan", cities: [] },
+    { name: "Slovakiya", cities: [] },
+    { name: "Litva", cities: [] },
+    { name: "Latviya", cities: [] },
+    { name: "Estoniya", cities: [] },
+    { name: "Qazaxıstan", cities: [] },
+    { name: "BƏƏ", cities: [] },
+    { name: "Yaponiya", cities: [] },
+    { name: "İran", cities: [] },
+    { name: "Səudiyyə Ərəbistanı", cities: [] },
+    { name: "Belarus", cities: [] },
+    { name: "Moldova", cities: [] },
+    { name: "Qırğızıstan", cities: [] },
+    { name: "Tacikistan", cities: [] },
+    { name: "Türkmənistan", cities: [] },
+    { name: "Özbəkistan", cities: [] },
+    { name: "Malayziya", cities: [] },
+    { name: "Vietnam", cities: [] },
+    { name: "Bali (İndoneziya)", cities: [] },
+    { name: "İsveçrə", cities: [] },
+    { name: "Portuqaliya", cities: [] },
+    { name: "Cənubi Koreya", cities: [] },
+];
+
   if (!localUserData) {
     return <div>Loading...</div>;
   }

@@ -33,12 +33,11 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
-  
-  
+    
   useEffect(() => {
-    const accessTokenSession = sessionStorage.getItem("accessToken");
-    if (accessTokenSession) {
-      setAccessToken(accessTokenSession);
+    const accessTokenStorage = localStorage.getItem("accessToken");
+    if (accessTokenStorage) {
+      setAccessToken(accessTokenStorage);
     }
   }, []);
   useEffect(() => {
@@ -289,6 +288,7 @@ const ContextYalli = ({ children }) => {
         deleteUserAccount,
         setIsLogin,
         isLogin,
+        accessToken
       }}
     >
       {children}

@@ -13,7 +13,7 @@
     height: 22rem;
 }
 
-.members-page .members-left .name-input {
+ .name-input {
     display: flex;
     align-items: center;
     background-color: #EEEEEE;
@@ -21,27 +21,27 @@
     border-radius: .6rem;
 }
 
-.members-page .members-left .name-input .icon {
+ .name-input .icon {
     font-size: 1.4rem;
 }
 
-.members-page .members-left .name-input input {
+ .name-input input {
     outline: none;
     background-color: transparent;
 }
 
-.members-page .members-left input {
+ input {
     outline: none;
     border: none;
     width: 100%;
 }
 
-.members-page .members-left .country-con {
+ .country-con {
     position: relative;
     margin-top: .5rem;
 }
 
-.members-page .members-left .country-con .country-input {
+ .country-con .country-input {
     display: flex;
     align-items: center;
     background-color: #fff;
@@ -50,7 +50,7 @@
     border: 1px solid;
 }
 
-.members-page .members-left .country-con .dropdown-list {
+ .country-con .dropdown-list {
     position: absolute;
     top: 110%;
     left: 0;
@@ -62,7 +62,7 @@
     overflow-y: auto;
     border-radius:.4rem;
 }
-.members-page .members-left .country-con .dropdown-list >div:hover{
+.country-con .dropdown-list >div:hover{
     background-color: #EEEEEE;
 }
 
@@ -113,4 +113,18 @@
     font-size: 1.6rem;
     color:black;
     margin: 0 .3rem ;
+}
+
+
+
+.members .not-login{
+    position: relative;
+    cursor:pointer;
+}
+.members .not-login .not-login-con .blur-side{
+    backdrop-filter: blur(2px);
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
 }

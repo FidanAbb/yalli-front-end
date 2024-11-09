@@ -77,7 +77,6 @@ const Events = () => {
   const searchTitleFunc=(e)=>{
     const inputValue=e.taget.value
     console.log(inputValue);
-    
   }
 
   const eventCategory = [

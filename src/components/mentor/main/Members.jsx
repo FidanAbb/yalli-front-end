@@ -8,6 +8,7 @@ import { RiFacebookCircleLine } from "react-icons/ri";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
+import { Navigate, useNavigate } from "react-router-dom";
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -67,17 +68,25 @@ const socialMedia = {
 };
 
 const Members = () => {
-  const { allUsers } = useContext(YalliContext);
+  const { allUsers,localUserData} = useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
   const [inputUserCounty, setInputUserCounty] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(allUsers);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-
+  const [isLogin,setIslogin]=useState(false);
+  const navigate=useNavigate();
   const userNameChange = (e) => {
     setInputUserName(e.target.value);
   };
-
+  console.log(localUserData.country);
+  
+  useEffect(()=>{
+    const accessTokenStorage = localStorage.getItem("accessToken");
+    if(accessTokenStorage){
+      setIslogin(true)
+    }
+  },[])
   const userCountryChange = (e) => {
     const value = e.target.value;
     setInputUserCounty(value);
@@ -133,105 +142,121 @@ const Members = () => {
   };
 
   return (
-    <div>
+    <div className="members">
       <Header />
-      <div className="members-page">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="members-left">
-                <div className="name-input">
-                  <IoSearchOutline className="icon" />
-                  <input
-                    onChange={userNameChange}
-                    name="name"
-                    type="text"
-                    placeholder="Ad və Soyad"
-                  />
-                </div>
-                <div className="country-con">
-                  <div className="country-input">
+      {isLogin ? (
+        <div className="members-page">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-3">
+                <div className="members-left">
+                  <div className="name-input">
+                    <IoSearchOutline className="icon" />
                     <input
-                      placeholder="Ölkə Axtarışı"
-                      onChange={userCountryChange}
-                      name="country"
+                      onChange={userNameChange}
+                      name="name"
                       type="text"
-                      value={inputUserCounty}
-                      onFocus={() => setShowDropdown(true)}
-                      onBlur={() =>
-                        setTimeout(() => setShowDropdown(false), 200)
-                      }
+                      placeholder="Ad və Soyad"
                     />
-                    {showDropdown && selectedCountry.length > 0 ? (
-                      <IoIosArrowUp onClick={() => setShowDropdown(false)} />
-                    ) : (
-                      <IoIosArrowDown onClick={() => setShowDropdown(true)} />
+                  </div>
+                  <div className="country-con">
+                    <div className="country-input">
+                      <input
+                        placeholder="Ölkə"
+                        onChange={userCountryChange}
+                        name="country"
+                        type="text"
+                        value={inputUserCounty}
+                        onFocus={() => setShowDropdown(true)}
+                        onBlur={() =>
+                          setTimeout(() => setShowDropdown(false), 200)
+                        }
+                      />
+                      {showDropdown && selectedCountry.length > 0 ? (
+                        <IoIosArrowUp onClick={() => setShowDropdown(false)} />
+                      ) : (
+                        <IoIosArrowDown onClick={() => setShowDropdown(true)} />
+                      )}
+                    </div>
+                    {showDropdown && selectedCountry.length > 0 && (
+                      <div className="dropdown-list">
+                        {selectedCountry.map((country, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleCountrySelect(country)}
+                            style={{ padding: "8px", cursor: "pointer" }}
+                            onMouseDown={(e) => e.preventDefault()}
+                          >
+                            {country}
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
-                  {showDropdown && selectedCountry.length > 0 && (
-                    <div className="dropdown-list">
-                      {selectedCountry.map((country, index) => (
-                        <div
-                          key={index}
-                          onClick={() => handleCountrySelect(country)}
-                          style={{ padding: "8px", cursor: "pointer" }}
-                          onMouseDown={(e) => e.preventDefault()}
-                        >
-                          {country}
-                        </div>
-                      ))}
+                </div>
+              </div>
+              <div className="col-md-9">
+                <div className="members-right">
+                  {filteredUsers.length <= 0 ? (
+                    <div>
+                      <h3>No Users</h3>
                     </div>
+                  ) : (
+                    filteredUsers.map((user, index) => (
+                      <div key={index} className="member-card">
+                        <div className="left">
+                          <div className="img-block">
+                            <img
+                              src={
+                                user.profilePicture
+                                  ? `https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture}`
+                                  : `${profileDefaultImg}`
+                              }
+                              alt="Profile"
+                            />
+                          </div>
+                          <div>
+                            <p className="user-name">{user.fullName}</p>
+                            <span>{user.country}</span>
+                          </div>
+                        </div>
+                        <div className="right">
+                          {getCurrentMediaLinks(user).map((link, idx) => (
+                            <a
+                              key={idx}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="social-icon"
+                            >
+                              {link.icon}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ))
                   )}
                 </div>
               </div>
             </div>
-
-            <div className="col-md-8">
-              <div className="members-right">
-                {filteredUsers.length <= 0 ? (
-                  <div>
-                    <h3>No Users</h3>
+          </div>
+        </div>
+      ) : (
+        <div onClick={()=>{navigate("/login")}} className="not-login h-100">
+          <div className="container h-100">
+            <div className="not-login-con h-100">
+              <div className="card h-100">
+                <div className="img-block h-100">
+                  <div className="h-100">
+                    <img src="../../../../src/assets/img/member.png" alt="" />
                   </div>
-                ) : (
-                  filteredUsers.map((user, index) => (
-                    <div key={index} className="member-card">
-                      <div className="left">
-                        <div className="img-block">
-                          <img
-                            src={
-                              user.profilePicture
-                                ? `https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture}`
-                                : `${profileDefaultImg}`
-                            }
-                            alt="Profile"
-                          />
-                        </div>
-                        <div>
-                          <p className="user-name">{user.fullName}</p>
-                          <span>{user.country}</span>
-                        </div>
-                      </div>
-                      <div className="right">
-                        {getCurrentMediaLinks(user).map((link, idx) => (
-                          <a
-                            key={idx}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="social-icon"
-                          >
-                            {link.icon}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  ))
-                )}
+                  <div className="blur-side"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

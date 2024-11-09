@@ -7,10 +7,9 @@ const Hero = ({ setGroupData }) => {
   const [userData, setUserData] = useState("");
   let navigate = useNavigate();
   useEffect(() => {
-    const loggedUser = localStorage.getItem("userInfo");
-
+    const loggedUser = localStorage.getItem("accessToken");
     if (loggedUser) {
-      setUserData(JSON.parse(loggedUser));
+      setUserData(loggedUser);
     }
   }, []);
   return (
