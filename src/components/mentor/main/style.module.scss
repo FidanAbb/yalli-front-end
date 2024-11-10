@@ -29,18 +29,17 @@
 
 
 .country-dropdown {
-    appearance: none; /* Removes default system styling */
+    appearance: none; 
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
-    width: 100%; /* Set width as per your layout */
-    background-image: url('path/to/your/dropdown-arrow.png'); /* Add your arrow icon */
+    width: 100%; 
+    background-image: url('path/to/your/dropdown-arrow.png'); 
     background-repeat: no-repeat;
-    background-position: right 10px center; /* Adjust as necessary */
-    background-size: 12px; /* Adjust size as per your design */
+    background-position: right 10px center; 
+    background-size: 12px; 
   }
   
-  /* You might want to add :focus and :hover styles for better user experience */
   .country-dropdown:focus {
     border-color: #007bff;
     outline: none;

@@ -44,7 +44,7 @@ form {
     }
   }
   h1 {
-    padding: 15px 0;
+    padding-top: 40px;
   }
   input {
     background-color: #eeeeee;
@@ -101,6 +101,9 @@ form {
   }
   .error-message{
     color: #fa4500;
+  }
+  .submit-button:disabled{
+    background-color:#797979 !important; 
   }
   button {
     background-color: #fa4500;

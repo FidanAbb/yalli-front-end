@@ -106,14 +106,15 @@ const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h1>Hesabınızı yaradın</h1>
+    <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <h1 style={{fontWeight:"700",fontSize:"28px",textAlign:"center"}}>Hesabınızı yaradın</h1>
 
       <div className={styles["input_field"]}>
         <input
           {...register("fullName")}
           type="text"
           placeholder="Ad və Soyad"
+          style={{width:"100%"}}
         />
         {errors.fullName && <span>{errors.fullName.message}</span>}
       </div>
@@ -123,6 +124,7 @@ const RegisterForm = () => {
           {...register("email")}
           type="email"
           placeholder="E-posta ünvanı"
+          style={{width:"100%"}}
         />
         {errors.email && (
           <span>
@@ -139,7 +141,9 @@ const RegisterForm = () => {
           style={{
             color: `${errors.country ? "red" : ""}`,
             border: `1px solid ${errors.country ? "red" : ""}`,
+            width:"100%", padding:"1rem .8rem"
           }}
+          
         >
           <option value="" disabled hidden>
             Ölkə seçin
@@ -166,11 +170,12 @@ const RegisterForm = () => {
           {...register("password")}
           type={showPassword ? "text" : "password"}
           placeholder="Şifrə"
-        />
+          style={{width:"100%"}}
+          />
         <div
           onClick={() => setShowPassword(!showPassword)}
           className={styles["eye"]}
-        >
+          >
           {showPassword ? <PasswordEyeOpen /> : <PasswordEye />}
         </div>
         {touchedFields.password && errors.password && (
@@ -186,6 +191,7 @@ const RegisterForm = () => {
           {...register("confirmPassword")}
           type={showConfirmPassword ? "text" : "password"}
           placeholder="Şifrəni təkrarlayın"
+          style={{width:"100%"}}
         />
         <div
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -229,12 +235,15 @@ const RegisterForm = () => {
 
 
       <button
-        type="submit"
-        className={styles["submit-button"]}
-        disabled={!isValid || loading}
-      >
-        {loading ? "Göndərilir..." : "Qeydiyyatdan keç"}
-      </button>
+  type="submit"
+  className={styles["submit-button"]}
+  disabled={!isValid || loading}
+  style={{
+    marginTop: "2rem",
+    }}
+>
+  {loading ? "Göndərilir..." : "Qeydiyyatdan keç"}
+</button>
     </form>
   );
 };

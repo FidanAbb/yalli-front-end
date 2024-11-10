@@ -8,6 +8,7 @@ import { RiFacebookCircleLine } from "react-icons/ri";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
+import notLoginImage from "../../../../src/assets/img/member.png";
 import { Navigate, useNavigate } from "react-router-dom";
 const countryCategory = [
   "Azərbaycan",
@@ -76,10 +77,6 @@ const Members = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin,setIslogin]=useState(false);
   const navigate=useNavigate();
-  const userNameChange = (e) => {
-    setInputUserName(e.target.value);
-  };
-  console.log(localUserData.country);
   
   useEffect(()=>{
     const accessTokenStorage = localStorage.getItem("accessToken");
@@ -87,6 +84,9 @@ const Members = () => {
       setIslogin(true)
     }
   },[])
+  const userNameChange = (e) => {
+    setInputUserName(e.target.value);
+  };
   const userCountryChange = (e) => {
     const value = e.target.value;
     setInputUserCounty(value);
@@ -172,13 +172,13 @@ const Members = () => {
                           setTimeout(() => setShowDropdown(false), 200)
                         }
                       />
-                      {showDropdown && selectedCountry.length > 0 ? (
+                      {showDropdown? (
                         <IoIosArrowUp onClick={() => setShowDropdown(false)} />
                       ) : (
                         <IoIosArrowDown onClick={() => setShowDropdown(true)} />
                       )}
                     </div>
-                    {showDropdown && selectedCountry.length > 0 && (
+                    {showDropdown && (
                       <div className="dropdown-list">
                         {selectedCountry.map((country, index) => (
                           <div
@@ -248,7 +248,7 @@ const Members = () => {
               <div className="card h-100">
                 <div className="img-block h-100">
                   <div className="h-100">
-                    <img src="../../../../src/assets/img/member.png" alt="" />
+                    <img src={notLoginImage} alt="" />
                   </div>
                   <div className="blur-side"></div>
                 </div>

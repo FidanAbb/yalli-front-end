@@ -63,14 +63,16 @@ const LoginForm = () => {
 
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h1>Xoş Gəlmisiniz 👋🏻</h1>
-
+    <form onSubmit={handleSubmit(onSubmit)} style={{padding:"2rem"}} className={styles.form}>
+      <div className={styles["welcome-image"]}>
+        <img src="../../../src/assets/img/Xoş Gəlmisiniz 👋🏻.png" alt="" />
+      </div>
       <div className={styles["input_field"]}>
         <input
           {...register("email")}
           type="email"
           placeholder="E-posta ünvanı"
+          style={{width:"100%"}}
         />
         {errors.email && (
           <span>
@@ -85,6 +87,7 @@ const LoginForm = () => {
           {...register("password")}
           type={showPassword ? "text" : "password"}
           placeholder="Şifrə"
+          style={{width:"100%"}}
         />
         <div
           className={styles["eye"]}

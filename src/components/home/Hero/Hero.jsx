@@ -6,7 +6,6 @@ import DownArrow from "../../ui/DownArrow";
 import HeroLeftCircle from "../../ui/HeroLeftCircle";
 import HeroRightCircle from "../../ui/HeroRightCircle";
 import EarthIcon from "../../ui/EarthIcon";
-import HeroElp from "../../ui/HeroElp";
 import { useNavigate } from "react-router-dom";
 const texts = [
   "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!",
@@ -157,9 +156,7 @@ return (
             </div>
           </div>
         </div>
-        <div className={styles["ellipsis"]}>
-          <HeroElp />
-        </div>
+   
       </div>
     </div>
   </div>

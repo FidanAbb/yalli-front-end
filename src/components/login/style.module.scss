@@ -43,19 +43,20 @@ form {
       margin-left: 8px;
     }
   }
-  h1 {
-    padding: 15px 0;
+  .welcome-image {
+    text-align: center;
+    padding: 1.2rem 0;
   }
   input {
     background-color: #eeeeee;
     color: #797979;
-    padding: 20px 15px;
-    width: 320px;
+    padding: 15px 15px !important;
+    // width: 320px;
     border: none;
     border-radius: 15px;
     margin: 5px 0;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     cursor: pointer;
   }
   select {
@@ -81,6 +82,8 @@ form {
     margin-left: 150px;
     margin-top: 2px;
     cursor: pointer;
+    text-align: right;
+    padding-bottom: 30px  !important;
   }
   .remember_me {
     display: flex;
@@ -101,8 +104,8 @@ form {
   }
   button {
     background-color: #fa4500;
-    padding: 20px 15px;
-    width: 310px;
+    padding: 13px 15px !important;
+    width: 100% !important;
     border: none;
     border-radius: 15px;
     color: #fff;
@@ -110,7 +113,7 @@ form {
     font-size: 18px;
     cursor: pointer;
     &:disabled {
-      background-color: #e1693d;
+      background-color: #e1693d !important;
       cursor: not-allowed;
     }
   

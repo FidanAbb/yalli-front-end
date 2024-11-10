@@ -129,12 +129,13 @@
   .categories {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 9px;
     line-height: 0;
+    padding: .1rem;
     .category {
       border: 1px solid #a2a2a2;
       color: #a2a2a2;
-      padding: 15px 30px;
+      padding: 15px 23px;
       border-radius: 10px;
       cursor: pointer;
     }
