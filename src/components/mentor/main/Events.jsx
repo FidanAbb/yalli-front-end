@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../../Layout/Header/Header";
 import Hero from "../../event/hero/Hero";
 import Footer from "../../Layout/Footer/Footer";
@@ -17,7 +17,7 @@ import { YalliContext } from "../../../Context/YalliContext";
 const eventCategories = [
   { id: "POPULAR", label: "Populyar" },
   { id: "EXPIRED", label: "Keçmiş" },
-  { id: "SOON", label: "Yaxınlaşan" },
+  { id: "UPCOMING", label: "Yaxınlaşan" },
   { id: "SAVED", label: "Yadda saxlanılan" },
 ];
 const countryCategory = [
@@ -109,11 +109,16 @@ const Events = () => {
   const [inputEventsTitle, setInputEventsTitle] = useState("");
   const [inputEventsCountry, setInputEventsCountry] = useState("");
   const [accessTokenLocal, setAccessTokenLocal] = useState("");
+  console.log();
+
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState(events);
   const [isEventSaved, setIsEventSaved] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const {userID}=useContext(YalliContext)
+  const { userID } = useContext(YalliContext);
+
+  console.log(events);
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -121,63 +126,32 @@ const Events = () => {
     }
     fetchEvents();
   }, []);
+  useEffect(() => {
+    if (inputEventsTitle || inputEventsCountry) {
+      filterEvent();
+    } else {
+      setFilteredEvents(events);
+    }
+  }, [inputEventsTitle, inputEventsCountry, events, filteredEvents]);
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory((prevSelected) => {
-      // Toggle the category in the selection
       const newSelected = prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId) // Remove if already selected
-        : [...prevSelected, categoryId]; // Add if not selected
-
-      // Fetch events with the updated categories
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId];
       fetchEvents(newSelected);
-
       return newSelected;
     });
   };
   const buildUrlWithCategories = (baseURL, categories = []) => {
     const url = new URL(baseURL);
 
-    // Add each category as a separate query parameter
     categories.forEach((category) => {
       url.searchParams.append("category", category);
     });
 
     return url.toString();
   };
-  const fetchEvents = async (categories = []) => {
-    try {
-      const url = buildUrlWithCategories(
-        "https://yalli-back-end.onrender.com/v1/events",
-        categories
-      );
-
-      const response = await axios.get(url, {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${accessTokenLocal}`,
-        },
-        params: {
-          title: "",
-          country: "",
-        },
-      });
-      if (response) {
-        console.log(response );
-        setEvents(response?.data?.content);
-      }
-    } catch (error) {
-      console.log("Error fetching events:", error);
-      if (error.response) {
-        console.error("Response error:", error.response.data);
-      } else if (error.request) {
-        console.error("Request error:", error.request);
-      } else {
-        console.error("General error:", error.message);
-      }
-    }
-  };
-
   const eventTitleChange = (e) => {
     setInputEventsTitle(e.target.value);
   };
@@ -216,15 +190,24 @@ const Events = () => {
     filterEvent(country, inputEventsTitle);
   };
 
-  useEffect(() => {
-    if (inputEventsTitle || inputEventsCountry) {
-      filterEvent();
-    } else {
-      setFilteredEvents(events);
-    }
-  }, [inputEventsTitle, inputEventsCountry, events]);
+  const savedEventChange = (eventId, userId) => {
+    const eventToToggle = filteredEvents.find((event) => event.id === eventId);
+    console.log(eventToToggle);
 
+    if (eventToToggle) {
+      if (eventToToggle.saved) {
+        unsaveEvent(eventId, userId);
+      } else {
+        saveEvent(eventId, userId);
+      }
+    }
+  };
   const saveEvent = async (eventId, userId) => {
+    if (!eventId || !userId) {
+      console.error("Event ID and User ID are required to save an event.");
+      return;
+    }
+
     try {
       const response = await axios.patch(
         "https://yalli-back-end.onrender.com/v1/events/saveEvent",
@@ -235,25 +218,34 @@ const Events = () => {
         {
           headers: {
             Accept: "application/json",
-            Authorization: `Bearer ${accessTokenLocal}`,
+            "Content-Type": "application/json",
+            token: localStorage.getItem("accessToken"), // Include the token for authorization
           },
         }
       );
-      if (response.status === 200) {
-        setFilteredEvents((prevEvents) =>
-          prevEvents.map((event) =>
-            event.id === eventId ? { ...event, isSaved: true } : event
-          )
-        );
 
+      if (response.status === 200) {
+        console.log("Event saved successfully:", response.data);
         setEvents((prevEvents) =>
           prevEvents.map((event) =>
-            event.id === eventId ? { ...event, isSaved: true } : event
+            event.id === eventId ? { ...event, saved: true } : event
           )
         );
+        setFilteredEvents((prevFilteredEvents) =>
+          prevFilteredEvents.map((event) =>
+            event.id === eventId ? { ...event, saved: true } : event
+          )
+        );
+      } else {
+        console.warn("Unexpected status code:", response.status);
       }
     } catch (error) {
       console.error("Error saving event:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      }
     }
   };
 
@@ -268,39 +260,67 @@ const Events = () => {
         {
           headers: {
             Accept: "application/json",
-            Authorization: `Bearer ${accessTokenLocal}`,
           },
         }
       );
-  
+
       if (response.status === 200) {
-        setFilteredEvents((prevEvents) =>
-          prevEvents.map((event) =>
-            event.id === eventId ? { ...event, isSaved: false } : event
-          )
-        );
-  
+        console.log("Unsave event response:", response.data);
+
         setEvents((prevEvents) =>
           prevEvents.map((event) =>
-            event.id === eventId ? { ...event, isSaved: false } : event
+            event.id === eventId ? { ...event, saved: false } : event
           )
         );
+        setFilteredEvents((prevFilteredEvents) =>
+          prevFilteredEvents.map((event) =>
+            event.id === eventId ? { ...event, saved: false } : event
+          )
+        );
+      } else {
+        console.warn("Unexpected status code:", response.status);
       }
     } catch (error) {
       console.error("Error unsaving event:", error);
-    }
-  };
-  const savedEventChange = (eventId, userId) => {
-    const eventToToggle = filteredEvents.find((event) => event.id === eventId);
-  
-    if (eventToToggle) {
-      if (eventToToggle.isSaved) {
-        unsaveEvent(eventId, userId); 
-      } else {
-        saveEvent(eventId, userId);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
       }
     }
   };
+
+  const fetchEvents = async (categories = []) => {
+    try {
+      const url = buildUrlWithCategories(
+        "https://yalli-back-end.onrender.com/v1/events",
+        categories
+      );
+
+      const response = await axios.get(url, {
+        headers: {
+          Accept: "application/json",
+          token: localStorage.getItem("accessToken"),
+        },
+        params: {
+          title: "",
+          country: "",
+        },
+      });
+      if (response) {
+        console.log(response);
+        setEvents(response?.data?.content);
+      }
+    } catch (error) {
+      console.log("Error fetching events:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("General error:", error.message);
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -398,10 +418,10 @@ const Events = () => {
                             className="saved-icon"
                             onClick={() => savedEventChange(event.id, userID)}
                           >
-                            {event.isSaved ? (
-                              <IoBookmarkSharp />
+                            {event.saved ? (
+                              <IoBookmarkSharp className="icon"/>
                             ) : (
-                              <IoBookmarkOutline />
+                              <IoBookmarkOutline className="icon"/>
                             )}
                           </div>
                         </div>
@@ -413,9 +433,9 @@ const Events = () => {
                             {event.country}
                           </p>
                         </div>
-                        <div className="more-info">
+                        <Link to={`/event/${event.id}`} className="more-info">
                           <p>Daha Ətraflı</p>
-                        </div>
+                        </Link>
                       </div>
                     </div>
                   ))}

@@ -1,68 +1,129 @@
-import styles from './event.module.css'
+import styles from "./event.module.css";
 import LocationIcon from "../../../components/icon/Location";
 import UpperIcon from "../../../components/icon/UpperIcon";
 import Hero from "../../../components/group/hero/Hero";
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../../../components/Layout/Footer/Footer";
 import Header from "../../../components/Layout/Header/Header";
-import {useLocation, useNavigate} from "react-router-dom";
-
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import defaultEventImg from "../../../../src/assets/img/kitchen.svg";
+import axios from "axios";
 export default function EventDetail() {
-    const location = useLocation();
-    let navigate= useNavigate()
-    const {event} = location.state || {};
-    const [userData, setUserData] = useState("");
-    useEffect(() => {
-        const loggedUser = localStorage.getItem("userInfo");
-        if (loggedUser) {
-            setUserData(JSON.parse(loggedUser));
+  const [userData, setUserData] = useState("");
+  const [eventById, setEventById] = useState("");
+  console.log(eventById);
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const weekdays = [
+      "Bazar",
+      "Bazar ertəsi",
+      "Çərşənbə axşamı",
+      "Çərşənbə",
+      "Cümə axşamı",
+      "Cümə",
+      "Şənbə",
+    ];
+    const months = [
+      "yanvar",
+      "fevral",
+      "mart",
+      "aprel",
+      "may",
+      "iyun",
+      "iyul",
+      "avqust",
+      "sentyabr",
+      "oktyabr",
+      "noyabr",
+      "dekabr",
+    ];
+    const weekday = weekdays[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    return `${weekday}, ${day} ${month}`;
+  };
+  const eventId = useParams();
+  console.log(eventId.id);
+  const fetchEventById = async () => {
+    try {
+      const response = await axios.get(
+    `https://yalli-back-end.onrender.com/v1/events/${eventId.id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            token: localStorage.getItem("accessToken"), // Add token for authorization if needed
+          },
         }
-    }, []);
-    return (
-        <>
-            <Header/>
-            <div className={styles.event_box}>
-                <div className={styles.event_left}>
-                    <img src={event?.image} alt=""/>
-                </div>
-                <div className={styles.event_right}>
-                    <div>
-                        <h4>{event.title}</h4>
-                        <div className={styles.subtitle}>
-                            <p>{event.time} | {event.hour}</p>
-                            <span className={styles.circle}></span>
-                            <div className={styles.location}>
-                                <LocationIcon/>
-                                <span>{event.location}</span>
-                            </div>
-                        </div>
-                        <p className={styles.main_text}>
-                            It is a long established fact that a reader will be distracted by the readable content of a
-                            page
-                            when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less
-                            normal
-                            distribution of letters, as opposed to using 'Content here, content here', making it look
-                            like
-                            readable English. It is a long established fact that a reader will be distracted by the
-                            readable
-                            content of a page when looking at its layout. The point of using Lorem Ipsum is that it has
-                            a
-                            more-or-less normal distribution of letters, as opposed to using 'Content here, content
-                            here',
-                            making it look like readable English.
-                        </p>
-                    </div>
-                    {userData &&
-                    <div className={styles.btn_box}>
-                        <a target='_blank' href='https://www.facebook.com/profile.php?id=61567225002273'>
-                            <span>Qeydiyyatdan keç</span>
-                            <UpperIcon/>
-                        </a>
-                    </div>
-                    }
-                </div>
+      );
+
+      setEventById(response.data);
+    } catch (error) {
+      console.error("Error fetching event:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("userInfo");
+    if (loggedUser) {
+      setUserData(JSON.parse(loggedUser));
+    }
+    fetchEventById();
+  }, []);
+  return (
+    <>
+      <Header />
+      <div className={styles.event_box}>
+        <div className={styles.event_left}>
+          <img
+            src={
+              `https://minio-server-4oyt.onrender.com/yalli/${eventById?.imageId}` ||
+              defaultEventImg
+            }
+            alt=""
+          />
+        </div>
+        <div className={styles.event_right}>
+          <div>
+            <h4>{eventById?.title}</h4>
+            <div className={styles?.subtitle}>
+              <p>{formatDate(eventById.date)}</p>
+              <span className={styles.circle}></span>
+              <div className={styles.location}>
+                <LocationIcon />
+                <span>{eventById?.country}</span>
+              </div>
             </div>
-            <Footer/>
-        </>
-    )
+            <p className={styles.main_text}>{eventById?.description}</p>
+          </div>
+          {userData ? (
+            <div className={styles.btn_box}>
+              <a
+                target="_blank"
+                href={eventById.link}
+              >
+                <span>Qeydiyyatdan keç</span>
+                <UpperIcon />
+              </a>
+            </div>
+          ) : (
+            <div className={styles.btn_box}>
+              <Link
+                target="_blank"
+                to="/login"
+              >
+                <span>Qeydiyyatdan keç</span>
+                <UpperIcon />
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 }
