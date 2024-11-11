@@ -33,6 +33,7 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
+    console.log(myEvents);
     
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
@@ -191,12 +192,9 @@ const ContextYalli = ({ children }) => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          "https://yalli-back-end.onrender.com/v1/events",
+          "https://yalli-back-end.onrender.com/v1/events?title=&country=&category=POPULAR&category=EXPIRED",
           {
             params: {
-              title: "",
-              country: "",
-              category: "",
               page: 0,
               size: 10,
             },
@@ -206,7 +204,7 @@ const ContextYalli = ({ children }) => {
             },
           }
         );
-        setMyEvents(response.data);
+        setMyEvents(response.data.content);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       }

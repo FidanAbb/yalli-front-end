@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import Header from "../../Layout/Header/Header";
 import Hero from "../../event/hero/Hero";
 import Footer from "../../Layout/Footer/Footer";
-import { getEventData } from "../../../redux/slice/event/event";
-import Meal from "../../../assets/img/meal.svg";
-import badminton from "../../../assets/img/badminton.svg";
-import kitchen from "../../../assets/img/kitchen.svg";
-import styles from "./style.module.scss";
-import Sidebar from "../../ui/pageSidebar/PageSideBar";
 import axios from "axios";
 import defaultEventImg from "../../../../src/assets/img/kitchen.svg";
 import {
@@ -20,6 +13,13 @@ import {
 } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
+import { YalliContext } from "../../../Context/YalliContext";
+const eventCategories = [
+  { id: "POPULAR", label: "Populyar" },
+  { id: "EXPIRED", label: "Keçmiş" },
+  { id: "SOON", label: "Yaxınlaşan" },
+  { id: "SAVED", label: "Yadda saxlanılan" },
+];
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -73,29 +73,47 @@ const countryCategory = [
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  const weekdays = ["Bazar", "Bazar ertəsi", "Çərşənbə axşamı", "Çərşənbə", "Cümə axşamı", "Cümə", "Şənbə"];
+  const weekdays = [
+    "Bazar",
+    "Bazar ertəsi",
+    "Çərşənbə axşamı",
+    "Çərşənbə",
+    "Cümə axşamı",
+    "Cümə",
+    "Şənbə",
+  ];
   const months = [
-    "yanvar", "fevral", "mart", "aprel", "may", "iyun",
-    "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"
+    "yanvar",
+    "fevral",
+    "mart",
+    "aprel",
+    "may",
+    "iyun",
+    "iyul",
+    "avqust",
+    "sentyabr",
+    "oktyabr",
+    "noyabr",
+    "dekabr",
   ];
   const weekday = weekdays[date.getDay()];
   const day = date.getDate();
   const month = months[date.getMonth()];
   return `${weekday}, ${day} ${month}`;
 };
+
 const Events = () => {
   const navigate = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState([]);
-  const [activeCategories, setActiveCategories] = useState([]);
   const [events, setEvents] = useState([]);
   const [inputEventsTitle, setInputEventsTitle] = useState("");
   const [inputEventsCountry, setInputEventsCountry] = useState("");
   const [accessTokenLocal, setAccessTokenLocal] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState(events);
-  const [eventSaved, setEventSaved] = useState(false);
-  console.log(events);
-  
+  const [isEventSaved, setIsEventSaved] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const {userID}=useContext(YalliContext)
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
@@ -103,15 +121,67 @@ const Events = () => {
     }
     fetchEvents();
   }, []);
-  const eventCategory = [
-    { EXPIRED: "Keçmiş" },
-    { SOON: "Yaxınlaşan" },
-    { POPULAR: "Populyar" },
-    { SAVED: "Yadda saxlanılan" },
-  ];
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategory((prevSelected) => {
+      // Toggle the category in the selection
+      const newSelected = prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId) // Remove if already selected
+        : [...prevSelected, categoryId]; // Add if not selected
+
+      // Fetch events with the updated categories
+      fetchEvents(newSelected);
+
+      return newSelected;
+    });
+  };
+  const buildUrlWithCategories = (baseURL, categories = []) => {
+    const url = new URL(baseURL);
+
+    // Add each category as a separate query parameter
+    categories.forEach((category) => {
+      url.searchParams.append("category", category);
+    });
+
+    return url.toString();
+  };
+  const fetchEvents = async (categories = []) => {
+    try {
+      const url = buildUrlWithCategories(
+        "https://yalli-back-end.onrender.com/v1/events",
+        categories
+      );
+
+      const response = await axios.get(url, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${accessTokenLocal}`,
+        },
+        params: {
+          title: "",
+          country: "",
+        },
+      });
+      if (response) {
+        console.log(response );
+        setEvents(response?.data?.content);
+      }
+    } catch (error) {
+      console.log("Error fetching events:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("General error:", error.message);
+      }
+    }
+  };
+
   const eventTitleChange = (e) => {
     setInputEventsTitle(e.target.value);
   };
+
   const eventCountryChange = (e) => {
     const value = e.target.value;
     setInputEventsCountry(value);
@@ -121,6 +191,7 @@ const Events = () => {
     setSelectedCountry(matchedCountries);
     setShowDropDown(true);
   };
+
   const filterEvent = (
     country = inputEventsCountry,
     name = inputEventsTitle
@@ -138,36 +209,13 @@ const Events = () => {
     });
     setFilteredEvents(result);
   };
+
   const handleCountrySelect = (country) => {
     setInputEventsCountry(country);
     setShowDropDown(false);
     filterEvent(country, inputEventsTitle);
   };
-  const fetchEvents = async () => {
-    try {
-      const response = await axios.get(
-        "https://yalli-back-end.onrender.com/v1/events",
-        {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${accessTokenLocal}`,
-          },
-          params: {
-            title: "",
-            country: "",
-            category: "",
-          },
-        }
-      );
-      if (response) {
-        console.log(response);
-        
-        setEvents(response.data.content);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   useEffect(() => {
     if (inputEventsTitle || inputEventsCountry) {
       filterEvent();
@@ -175,6 +223,84 @@ const Events = () => {
       setFilteredEvents(events);
     }
   }, [inputEventsTitle, inputEventsCountry, events]);
+
+  const saveEvent = async (eventId, userId) => {
+    try {
+      const response = await axios.patch(
+        "https://yalli-back-end.onrender.com/v1/events/saveEvent",
+        {
+          id: eventId,
+          userId: userId,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessTokenLocal}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setFilteredEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, isSaved: true } : event
+          )
+        );
+
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, isSaved: true } : event
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error saving event:", error);
+    }
+  };
+
+  const unsaveEvent = async (eventId, userId) => {
+    try {
+      const response = await axios.patch(
+        "https://yalli-back-end.onrender.com/v1/events/unsaveEvent",
+        {
+          id: eventId,
+          userId: userId,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${accessTokenLocal}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        setFilteredEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, isSaved: false } : event
+          )
+        );
+  
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, isSaved: false } : event
+          )
+        );
+      }
+    } catch (error) {
+      console.error("Error unsaving event:", error);
+    }
+  };
+  const savedEventChange = (eventId, userId) => {
+    const eventToToggle = filteredEvents.find((event) => event.id === eventId);
+  
+    if (eventToToggle) {
+      if (eventToToggle.isSaved) {
+        unsaveEvent(eventId, userId); 
+      } else {
+        saveEvent(eventId, userId);
+      }
+    }
+  };
   return (
     <>
       <Header />
@@ -227,6 +353,31 @@ const Events = () => {
                     </div>
                   )}
                 </div>
+                <p className="category-text">Kateqoriyalar</p>
+                <div className="category-list">
+                  {eventCategories.map((category) => (
+                    <a
+                      className="event-category-link"
+                      key={category.id}
+                      href="#"
+                      onClick={(event) => {
+                        event.preventDefault();
+                        handleCategorySelect(category.id);
+                      }}
+                      style={{
+                        cursor: "pointer",
+                        backgroundColor: selectedCategory.includes(category.id)
+                          ? "#FA4500"
+                          : "transparent",
+                        color: selectedCategory.includes(category.id)
+                          ? "#fff"
+                          : "#A2A2A2",
+                      }}
+                    >
+                      {category.label}
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
             <div className="col-md-9 col-sm-12 col-12">
@@ -239,15 +390,15 @@ const Events = () => {
                           <img
                             src={
                               `https://minio-server-4oyt.onrender.com/yalli/${event.imageId}` ||
-                              `${defaultEventImg}`
+                              defaultEventImg
                             }
                             alt=""
                           />
                           <div
                             className="saved-icon"
-                            onClick={() => setEventSaved(!eventSaved)}
+                            onClick={() => savedEventChange(event.id, userID)}
                           >
-                            {eventSaved ? (
+                            {event.isSaved ? (
                               <IoBookmarkSharp />
                             ) : (
                               <IoBookmarkOutline />
@@ -255,9 +406,12 @@ const Events = () => {
                           </div>
                         </div>
                         <div>
-                        <p>{formatDate(event.date)}</p>
+                          <p>{formatDate(event.date)}</p>
                           <p className="event-title">{event.title}</p>
-                          <p><CiLocationOn />{event.country}</p>
+                          <p>
+                            <CiLocationOn />
+                            {event.country}
+                          </p>
                         </div>
                         <div className="more-info">
                           <p>Daha Ətraflı</p>

@@ -136,7 +136,7 @@ input {
 
 .events-page .event-left{
     background-color:#fff;
-    padding: .5rem;
+    padding: 1rem .5rem;
     border-radius:.8rem;
     height: 20rem;
 }
@@ -195,4 +195,20 @@ input {
     margin-top: .5rem;
     background-color: #EEEEEE;
 }
-
+.category-text{
+    color:#A2A2A2;
+    margin: .3rem 0 !important;
+}
+.category-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    padding: .4rem 0;
+}
+.category-list .event-category-link{
+    color:#A2A2A2;
+    text-decoration: none;
+    padding: .3rem 1rem;
+    border: 1px solid;
+    border-radius:.5rem;
+}

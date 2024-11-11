@@ -16,6 +16,7 @@ const Hero = ({ group }) => {
   const { scrollToAbout } = useContext(YalliContext);
   let navigate = useNavigate();
   const moreTextRef = useRef(null); 
+console.log();
 
   useEffect(() => {
     const loggedUser = localStorage.getItem("userInfo");
@@ -39,7 +40,7 @@ const Hero = ({ group }) => {
 
   const handleJoinGroup = () => {
     if (userData) {
-      const url = '/profile/profile-info';
+      const url = group.link;
       window.open(url);
     } else {
       navigate('/login');

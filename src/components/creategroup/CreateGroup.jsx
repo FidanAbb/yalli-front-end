@@ -51,12 +51,10 @@ const options = [
 ];
 
 const CreateGroup = ({ setModal, setGroupumData }) => {
-  const dispatch = useDispatch();
   const selectRef = useRef(null);
   const [groups, setGroups] = useState([]);
   const [loadingGroups, setLoadingGroups] = useState(true);
   const { userID } = useContext(YalliContext);
-
   const [groupData, setGroupData] = useState({
     title: "",
     description: "",
@@ -65,15 +63,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     link: "",
     category: "",
   });
-  console.log(groupData);
-
-  const [imagePreview, setImagePreview] = useState(null);
   const [imageId, setImageId] = useState("");
-  console.log(imageId);
-
-  const maxDescriptionLength = 160;
-  console.log();
-
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -211,10 +201,10 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               onChange={handleChange}
               ref={selectRef}
               style={{ width: "350px", padding: ".8rem" }}
-              value={groupData.country || ""} // Bu, idarə olunan komponenti təmin edir
+              value={groupData.country || ""} 
             >
               <option value="" disabled hidden>
-                Ölkələr
+                Ölkə
               </option>
               {options.map((option, index) => (
                 <option key={index} value={option}>
@@ -269,7 +259,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               className={styles["inpp"]}
               onChange={handleChange}
               value={groupData.description}
-              maxLength={maxDescriptionLength}
               style={{ width: "350px", padding: ".7rem" }}
             ></textarea>
           </div>

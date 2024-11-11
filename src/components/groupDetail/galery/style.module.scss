@@ -1,14 +1,16 @@
 .galery{
     .galery{
-        padding: 50px 0;
+        margin: 2rem 0;
         .cards{
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-between;
-
+            gap: 2rem;
             .card{
-                width: 300px;
-                height: 316px;
+
+                img{
+                    width: 18rem;
+                    height: 18rem;
+                }
             }
         }
     }
