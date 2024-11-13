@@ -69,9 +69,9 @@ const socialMedia = {
 };
 
 const Members = () => {
-  const { allUsers,localUserData} = useContext(YalliContext);
+  const { allUsers,localUserData,clickCountryToMembers} = useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
-  const [inputUserCounty, setInputUserCounty] = useState("");
+  const [inputUserCounty, setInputUserCounty] = useState(clickCountryToMembers?clickCountryToMembers:"");
   const [filteredUsers, setFilteredUsers] = useState(allUsers);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);

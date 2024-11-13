@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
 import heroBackk from "../../../assets/img/heroBackk.svg";
 import Arrow from "../../ui/Arrow";
@@ -7,6 +7,7 @@ import HeroLeftCircle from "../../ui/HeroLeftCircle";
 import HeroRightCircle from "../../ui/HeroRightCircle";
 import EarthIcon from "../../ui/EarthIcon";
 import { useNavigate } from "react-router-dom";
+import { YalliContext } from "../../../Context/YalliContext";
 const texts = [
   "Ölkəni seç, orada yaşayan azərbaycanlılarla asanlıqla tanış ol!",
 ];
@@ -66,6 +67,8 @@ const Hero = () => {
   const [searchedItem, setSearchedItem] = useState("");
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [showOptions, setShowOptions] = useState(false);
+  const navigate = useNavigate()
+  const {setClickCountryToMembers}=useContext(YalliContext);
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchedItem(value);
@@ -85,7 +88,6 @@ const Hero = () => {
 
     return () => clearInterval(intervalId);
   }, []);
-const navigate = useNavigate()
 
 return (
   <div className={styles["hero"]}>
@@ -138,6 +140,7 @@ return (
                       className={styles["p"]}
                       onClick={() => {
                         setSearchedItem(country);
+                        setClickCountryToMembers(country)
                         setShowOptions(false);
                         navigate("/members")
                       }}

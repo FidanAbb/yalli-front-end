@@ -130,9 +130,14 @@
           background: none;
           border: none;
           z-index: 1;
-          // option{
-          //   border: 1px solid;
-          // }
+         
+        }
+        .p{
+          width: 100%;
+          display: block;
+        }
+        .p:hover{
+          background-color:#eee;
         }
         .select:focus {
           outline: none;

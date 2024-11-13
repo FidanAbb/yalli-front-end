@@ -54,7 +54,12 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const selectRef = useRef(null);
   const [groups, setGroups] = useState([]);
   const [loadingGroups, setLoadingGroups] = useState(true);
+  const countryDropdownRef = useRef(null);
+  const categoryDropdownRef = useRef(null);
   const { userID } = useContext(YalliContext);
+
+  const [showCountryDrop, setShowCountryDrop] = useState(false);
+  const [showCategoryDrop, setShowCategoryDrop] = useState(false);
   const [groupData, setGroupData] = useState({
     title: "",
     description: "",
@@ -64,6 +69,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     category: "",
   });
   const [imageId, setImageId] = useState("");
+  const [getCreatedGruopState,setGetCreatedGruopState]=useState(false)
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -71,6 +77,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           "https://yalli-back-end.onrender.com/v1/groups"
         );
         setGroups(response.data);
+        console.log(response.data);
+        
       } catch (error) {
         console.error("Qrupları çəkməkdə problem oldu", error);
       } finally {
@@ -78,7 +86,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       }
     };
     fetchGroups();
-  }, []);
+  }, [getCreatedGruopState,groupData]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -86,6 +94,28 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     return () => {
       document.body.style.overflow = "auto";
       document.documentElement.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        countryDropdownRef.current &&
+        !countryDropdownRef.current.contains(event.target)
+      ) {
+        setShowCountryDrop(false);
+      }
+      if (
+        categoryDropdownRef.current &&
+        !categoryDropdownRef.current.contains(event.target)
+      ) {
+        setShowCategoryDrop(false);
+      }
+    }
+  
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
   const handleChange = (e) => {
@@ -152,6 +182,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           },
         }
       );
+      setGetCreatedGruopState(true)
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
     } catch (error) {
@@ -159,7 +190,13 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       toast.error("Qrup yaratmaq uğursuz oldu.");
     }
   };
-
+  const handleCountrySelect = (country) => {
+    setGroupData((prevData) => ({
+      ...prevData,
+      country: country,
+    }));
+    setShowCountryDrop(false);
+  };
   const handleArrowClick = () => {
     selectRef.current?.focus();
   };
@@ -194,46 +231,57 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             placeholder="İcmanın adı"
             onChange={handleChange}
           />
-          <div className={styles["selected"]}>
-            <select
-              name="country"
-              id="country"
-              onChange={handleChange}
-              ref={selectRef}
+          <div
+            className={styles["country-dropdown"]}
+            ref={countryDropdownRef}
+            onClick={() => setShowCountryDrop(!showCountryDrop)}
+          >
+            <div
               style={{ width: "350px", padding: ".8rem" }}
-              value={groupData.country || ""} 
+              className={styles["head"]}
             >
-              <option value="" disabled hidden>
-                Ölkə
-              </option>
-              {options.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className={styles["selected"]}>
-            <select
-              name="category"
-              id="category"
-              onChange={handleChange}
-              ref={selectRef}
-              style={{ width: "350px", padding: ".8rem" }}
-              value={groupData.category} // Bu, idarə olunan komponenti təmin edir
-            >
-              <option value="" disabled hidden>
-                Kateqoriya
-              </option>
-              {Object.entries(groupCategoryOptions).map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-            <div className={styles["down_arrow"]}>
+              <div>{groupData.country || "Ölkə"}</div>
               <DownArrow />
             </div>
+            {showCountryDrop && (
+              <div className={styles["body"]}>
+                {options.map((option, index) => (
+                  <div key={index} onClick={() => handleCountrySelect(option)}>
+                    {option}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <div
+            className={styles["category-dropdown"]}
+            ref={categoryDropdownRef}
+            onClick={() => setShowCategoryDrop(!showCategoryDrop)}
+          >
+            <div
+              style={{ width: "350px", padding: ".8rem" }}
+              className={styles["category-head"]}
+            >
+              <div>{groupData.category || "Kateqoriya"}</div>
+              <DownArrow />
+            </div>
+            {showCategoryDrop && (
+              <div className={styles["category-body"]}>
+                {Object.entries(groupCategoryOptions).map(([key, label]) => (
+                  <div
+                    key={key}
+                    onClick={() =>
+                      setGroupData((prevData) => ({
+                        ...prevData,
+                        category: key,
+                      }))
+                    }
+                  >
+                    {label}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <input
             type="url"

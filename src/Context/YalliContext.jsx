@@ -33,7 +33,9 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
-    
+  const [clickCountryToMembers,setClickCountryToMembers]=useState("")
+  console.log(clickCountryToMembers);
+  
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
     if (accessTokenStorage) {
@@ -285,7 +287,9 @@ const ContextYalli = ({ children }) => {
         deleteUserAccount,
         setIsLogin,
         isLogin,
-        accessToken
+        accessToken,
+        setClickCountryToMembers,
+        clickCountryToMembers
       }}
     >
       {children}
