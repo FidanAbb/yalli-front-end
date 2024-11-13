@@ -346,10 +346,15 @@ const Events = () => {
                       type="text"
                       placeholder="Ölkə"
                       value={inputEventsCountry}
-                      onChange={(e) => eventCountryChange(e)}
-                      onFocus={() => setShowDropDown(true)}
-                      onBlur={() =>
-                        setTimeout(() => setShowDropDown(false), 200)
+                      onChange={eventCountryChange}
+                      onFocus={() => {
+                        setShowDropDown(true); 
+                        if (inputEventsCountry.trim() === "") {
+                          setSelectedCountry(countryCategory); 
+                        }
+                      }}
+                      onBlur={
+                        () => setTimeout(() => setShowDropDown(false), 200)
                       }
                     />
                     {showDropDown ? (
@@ -364,8 +369,8 @@ const Events = () => {
                         <div
                           key={index}
                           onClick={() => handleCountrySelect(country)}
-                          style={{ padding: "8px", cursor: "pointer" }}
                           onMouseDown={(e) => e.preventDefault()}
+                          style={{ padding: "8px", cursor: "pointer" }}
                         >
                           {country}
                         </div>
@@ -419,9 +424,9 @@ const Events = () => {
                             onClick={() => savedEventChange(event.id, userID)}
                           >
                             {event.saved ? (
-                              <IoBookmarkSharp className="icon"/>
+                              <IoBookmarkSharp className="icon" />
                             ) : (
-                              <IoBookmarkOutline className="icon"/>
+                              <IoBookmarkOutline className="icon" />
                             )}
                           </div>
                         </div>

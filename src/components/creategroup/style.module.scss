@@ -14,10 +14,18 @@
 
   .form {
     form {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
+      .close-btn{
+        position: absolute;
+        top: -4rem;
+        right: 1rem;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
       input{
         color:#000 !important;
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import styles from "./style.module.scss";
 import heroBackk from "../../../assets/img/heroBackk.svg";
 import Arrow from "../../ui/Arrow";
@@ -59,7 +59,7 @@ const countryCategory = [
   "Bali (İndoneziya)",
   "İsveçrə",
   "Portuqaliya",
-  "Cənubi Koreya"
+  "Cənubi Koreya",
 ];
 
 const Hero = () => {
@@ -67,104 +67,105 @@ const Hero = () => {
   const [searchedItem, setSearchedItem] = useState("");
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [showOptions, setShowOptions] = useState(false);
-  const navigate = useNavigate()
-  const {setClickCountryToMembers}=useContext(YalliContext);
+  const navigate = useNavigate();
+  const { setClickCountryToMembers } = useContext(YalliContext);
   const handleInputChange = (event) => {
     const value = event.target.value.toLowerCase();
     setSearchedItem(value);
-    localStorage.setItem("searchedCountry",JSON.stringify(value))
+    localStorage.setItem("searchedCountry", JSON.stringify(value));
 
     const filtered = countryCategory.filter((country) =>
       country.toLowerCase().includes(value)
     );
     setFilteredCountries(filtered);
   };
+  const currentTextIndexRef = useRef(0);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentTextIndex((prevIndex) =>
-        prevIndex === texts.length - 1 ? 0 : prevIndex + 1
-      );
+      currentTextIndexRef.current =
+        currentTextIndexRef.current === texts.length - 1
+          ? 0
+          : currentTextIndexRef.current + 1;
+      setCurrentTextIndex(currentTextIndexRef.current); // Only updates when needed
     }, 6000);
 
     return () => clearInterval(intervalId);
   }, []);
 
-return (
-  <div className={styles["hero"]}>
-    <div className={styles["hero_left_circle"]}>
-      <HeroLeftCircle />
-    </div>
-    <div className={styles["hero_right_circle"]}>
-      <HeroRightCircle />
-    </div>
+  return (
+    <div className={styles["hero"]}>
+      <div className={styles["hero_left_circle"]}>
+        <HeroLeftCircle />
+      </div>
+      <div className={styles["hero_right_circle"]}>
+        <HeroRightCircle />
+      </div>
 
-    {/* 'container' sinfinin adı 'my-container' olaraq dəyişdirilib */}
-    <div className="my-container">
-      <div className={styles["heroside"]} >
-        <h1>World Azerbaijanis Hub</h1>
-        <p>
-          Birləşmək başlanğıcdır, birliyi davam etdirmək inkişaf, birlikdə
-          işləmək isə müvəffəqiyyətdir!
-        </p>
+      <div className="my-container">
+        <div className={styles["heroside"]}>
+          <h1>World Azerbaijanis Hub</h1>
+          <p>
+            Birləşmək başlanğıcdır, birliyi davam etdirmək inkişaf, birlikdə
+            işləmək isə müvəffəqiyyətdir!
+          </p>
 
-        <div className={styles["find_box"]}>
-          <h2>Yaşadığın ölkədə yerlilərini tap</h2>
-          <div className={styles["find_inp"]}>
-            {searchedItem === "" && !showOptions && (
-              <div className={styles["texts"]}>
-                <p>{texts[currentTextIndex]}</p>
+          <div className={styles["find_box"]}>
+            <h2>Yaşadığın ölkədə yerlilərini tap</h2>
+            <div className={styles["find_inp"]}>
+              {searchedItem === "" && !showOptions && (
+                <div className={styles["texts"]}>
+                  <p>{texts[currentTextIndex]}</p>
+                </div>
+              )}
+              <div className={styles["earthicon"]}>
+                <EarthIcon />
               </div>
-            )}
-            <div className={styles["earthicon"]}>
-              <EarthIcon />
-            </div>
 
-            <input
-              type="text"
-              name=""
-              id=""
-              className={styles["select"]}
-              placeholder=""
-              value={searchedItem}
-              onChange={handleInputChange}
-              onFocus={() => setShowOptions(true)}
-              onBlur={() => setTimeout(() => setShowOptions(false), 200)}
-            />
+              <input
+                type="text"
+                name=""
+                id=""
+                className={styles["select"]}
+                placeholder=""
+                value={searchedItem}
+                onChange={handleInputChange}
+                onFocus={() => setShowOptions(true)}
+                onBlur={() => setTimeout(() => setShowOptions(false), 200)}
+              />
 
-            {showOptions && (
-              <div className={styles["options"]}>
-                {filteredCountries.length > 0 ? (
-                  filteredCountries.map((country, i) => (
-                    <div
-                      key={i}
-                      className={styles["p"]}
-                      onClick={() => {
-                        setSearchedItem(country);
-                        setClickCountryToMembers(country)
-                        setShowOptions(false);
-                        navigate("/members")
-                      }}
-                    >
-                      {country}
-                    </div>
-                  ))
-                ) : (
-                  <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
-                )}
+              {showOptions && (
+                <div className={styles["options"]}>
+                  {filteredCountries.length > 0 ? (
+                    filteredCountries.map((country, i) => (
+                      <div
+                        key={i}
+                        className={styles["p"]}
+                        onMouseDown={() => {
+                          navigate("/members");
+                          setSearchedItem(country);
+                          setClickCountryToMembers(country);
+                          setShowOptions(false);
+                        }}
+                      >
+                        {country}
+                      </div>
+                    ))
+                  ) : (
+                    <div className={styles["p"]}>Heç bir ölkə tapılmadı</div>
+                  )}
+                </div>
+              )}
+
+              <div className={styles["down_arrow"]}>
+                <DownArrow />
               </div>
-            )}
-
-            <div className={styles["down_arrow"]}>
-              <DownArrow />
             </div>
           </div>
         </div>
-   
       </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default Hero;

@@ -7,6 +7,7 @@ import { postGroupData } from "../../redux/slice/group/group";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { YalliContext } from "../../Context/YalliContext";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const groupCategoryOptions = {
   LIFE: "Yaşam",
@@ -69,7 +70,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     category: "",
   });
   const [imageId, setImageId] = useState("");
-  const [getCreatedGruopState,setGetCreatedGruopState]=useState(false)
+  const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -78,7 +79,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
         );
         setGroups(response.data);
         console.log(response.data);
-        
       } catch (error) {
         console.error("Qrupları çəkməkdə problem oldu", error);
       } finally {
@@ -86,7 +86,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       }
     };
     fetchGroups();
-  }, [getCreatedGruopState,groupData]);
+  }, [getCreatedGruopState, groupData]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -112,7 +112,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
         setShowCategoryDrop(false);
       }
     }
-  
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -182,7 +182,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           },
         }
       );
-      setGetCreatedGruopState(true)
+      setGetCreatedGruopState(true);
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
     } catch (error) {
@@ -203,8 +203,10 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   return (
     <div className={styles["create_group"]}>
       <h1>Öz icmanı yarat</h1>
+
       <div className={styles["form"]}>
         <form onSubmit={handleSubmit}>
+          <div onClick={()=>setModal(false)}    className={styles["close-btn"]}><IoIosCloseCircleOutline /></div>
           <div
             className={styles["img"]}
             style={{
@@ -262,7 +264,9 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               style={{ width: "350px", padding: ".8rem" }}
               className={styles["category-head"]}
             >
-              <div>{groupData.category || "Kateqoriya"}</div>
+              <div>
+                {groupCategoryOptions[groupData.category] || "Kateqoriya"}
+              </div>
               <DownArrow />
             </div>
             {showCategoryDrop && (

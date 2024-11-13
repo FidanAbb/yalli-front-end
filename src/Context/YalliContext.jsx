@@ -34,8 +34,6 @@ const ContextYalli = ({ children }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
   const [clickCountryToMembers,setClickCountryToMembers]=useState("")
-  console.log(clickCountryToMembers);
-  
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
     if (accessTokenStorage) {

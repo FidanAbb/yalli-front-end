@@ -69,21 +69,24 @@ const socialMedia = {
 };
 
 const Members = () => {
-  const { allUsers,localUserData,clickCountryToMembers} = useContext(YalliContext);
+  const { allUsers, localUserData, clickCountryToMembers } =
+    useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
-  const [inputUserCounty, setInputUserCounty] = useState(clickCountryToMembers?clickCountryToMembers:"");
+  const [inputUserCounty, setInputUserCounty] = useState(
+    clickCountryToMembers ? clickCountryToMembers : ""
+  );
   const [filteredUsers, setFilteredUsers] = useState(allUsers);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLogin,setIslogin]=useState(false);
-  const navigate=useNavigate();
-  
-  useEffect(()=>{
+  const [isLogin, setIslogin] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
-    if(accessTokenStorage){
-      setIslogin(true)
+    if (accessTokenStorage) {
+      setIslogin(true);
     }
-  },[])
+  }, []);
   const userNameChange = (e) => {
     setInputUserName(e.target.value);
   };
@@ -167,12 +170,17 @@ const Members = () => {
                         name="country"
                         type="text"
                         value={inputUserCounty}
-                        onFocus={() => setShowDropdown(true)}
+                        onFocus={() => {
+                          setShowDropdown(true); 
+                          if (inputUserCounty.trim() === "") {
+                            setSelectedCountry(countryCategory); 
+                          }
+                        }}
                         onBlur={() =>
                           setTimeout(() => setShowDropdown(false), 200)
-                        }
+                        } 
                       />
-                      {showDropdown? (
+                      {showDropdown ? (
                         <IoIosArrowUp onClick={() => setShowDropdown(false)} />
                       ) : (
                         <IoIosArrowDown onClick={() => setShowDropdown(true)} />
@@ -199,7 +207,7 @@ const Members = () => {
                 <div className="members-right">
                   {filteredUsers.length <= 0 ? (
                     <div>
-                      <h3>No Users</h3>
+                      <h3>Üzv tapılmadı</h3>
                     </div>
                   ) : (
                     filteredUsers.map((user, index) => (
@@ -242,7 +250,12 @@ const Members = () => {
           </div>
         </div>
       ) : (
-        <div onClick={()=>{navigate("/login")}} className="not-login h-100">
+        <div
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="not-login h-100"
+        >
           <div className="container h-100">
             <div className="not-login-con h-100">
               <div className="card h-100">
