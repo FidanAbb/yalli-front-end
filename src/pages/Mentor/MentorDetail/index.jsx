@@ -1,101 +1,166 @@
 import Header from "../../../components/Layout/Header/Header";
 import Footer from "../../../components/Layout/Footer/Footer";
-import styles from './mentor.module.css'
 import UpperIcon from "../../../components/icon/UpperIcon";
+import "./mentor.css";
 import StarIcon from "../../../components/icon/StarIcon";
-import {useLocation} from "react-router-dom";
-
+import { useLocation, useParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import axios from "axios";
+import { MdArrowOutward } from "react-icons/md";
+import { RiStarHalfSFill, RiStarLine, RiStarSFill } from "react-icons/ri";
+const mentorCategory = [
+  { id: "LIFE", label: "Yaşam" },
+  { id: "EDUCATION", label: "Təhsil" },
+  { id: "CAREER", label: "Karyera" },
+];
 export default function MentorDetail() {
-    const location = useLocation();
-    const {id, name, detail, desc, flag, image} = location.state || {};
-    return (
-        <>
-            <Header/>
-            <div className={styles.mentors_container}>
-                <div className={styles.mentor_box}>
-                    <div className={styles.mentor_left}>
-                        <img src={image} alt="" className={styles.mentor_main}/>
-                        <h4>{name}</h4>
-                        {flag}
-                        <p>{detail}</p>
-                    </div>
-                    <div className={styles.mentor_right}>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias at deleniti doloremque
-                            dolorum eaque eum ex id illo molestiae nemo nobis porro quaerat, quasi quisquam reiciendis
-                            repudiandae rerum velit voluptas.
-                        </p>
-                        <div className={styles.mentor_btn}>
+  const location = useLocation();
+  const mentorID = useParams();
+  const [mentorInfoById, setMentorInfoById] = useState("");
+  const [mentorCategoryState, setMentorCategoryState] = useState("");
+  console.log(mentorInfoById);
+  console.log();
 
-                            <button>
-                                <span>Əlaqəyə keç</span>
-                                <UpperIcon/>
-                            </button>
-                        </div>
+  const getMentorInfoByIdFunc = async () => {
+    try {
+      const response = await axios.get(
+        `https://yalli-back-end.onrender.com/v1/mentors/${mentorID.id}`,
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+      setMentorInfoById(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getMentorInfoByIdFunc();
+  }, []);
+  useEffect(() => {
+    if (mentorInfoById.mentorCategory) {
+      const matchedCategory = mentorCategory.find(
+        (item) => item.id === mentorInfoById.mentorCategory
+      );
+      if (matchedCategory) {
+        setMentorCategoryState(matchedCategory.label);
+      }
+    }
+  }, [mentorInfoById]);
+
+  const rating = mentorInfoById.averageRating || 0;
+
+  const starRating = useMemo(
+    () =>
+      Array(5)
+        .fill(0)
+        .map((_, index) => (
+          <span key={index}>
+            {index + 1 <= rating ? (
+              <img
+                className="big-star-img"
+                src="../../../../src/pages/Mentor/MentorDetail/image/Star-fill.png"
+              />
+            ) : index + 0.5 === rating ? (
+              <img
+                className="big-star-img falf"
+                src="../../../../src/pages/Mentor/MentorDetail/image/Star-half.png"
+              />
+            ) : (
+              <img
+                className="big-star-img"
+                src="../../../../src/pages/Mentor/MentorDetail/image/Star-line.png"
+              />
+            )}
+          </span>
+        )),
+    [rating]
+  );
+  return (
+    <>
+      <Header />
+      <div className="mentor-detail">
+        <div className="container">
+          <div className="detail-con">
+            <div className="detail-head">
+              <div className="row">
+                <div className="col-md-4 col-sm-12 col-12">
+                  <div className="left">
+                    <div className="img-block">
+                      <img
+                        src={`https://minio-server-4oyt.onrender.com/yalli/${mentorInfoById.profilePicture}`}
+                        alt=""
+                      />
                     </div>
+                    <div className="text-center">
+                      <h4>{mentorInfoById.fullName}</h4>
+                      <p>{mentorInfoById.country}</p>
+                      <p>{mentorCategoryState}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className={styles.comment_box}>
-                    <div className={styles.comment_count}>
-                        <div className={styles.count_left}>
-                            <ul>
-                                <li className={styles.active}><StarIcon/></li>
-                                <li className={styles.active}><StarIcon/></li>
-                                <li className={styles.active}><StarIcon/></li>
-                                <li className={styles.active}><StarIcon/></li>
-                                <li><StarIcon/></li>
-                            </ul>
-                            <p>4.0 </p>
-                            <span></span>
-                            <p>2 dəyərləndirmə</p>
-                            <span></span>
-                            <p>2 rəy</p>
-                        </div>
-                        <div className={styles.count_right}>
-                            <a href="#">Rəy bildir</a>
-                        </div>
+                <div className="col-md-8 col-sm-12 col-12">
+                  <div className="right">
+                    <p>{mentorInfoById.description}</p>
+                    <div className="contact-btn ">
+                      <a href={mentorInfoById.link} target="_blank">
+                        Əlaqəyə keç <MdArrowOutward className="icon" />
+                      </a>
                     </div>
-                    <div className={styles.comment_list}>
-                        <h4>Bütün dəyərləndirmələr</h4>
-                        <ul>
-                            <li>
-                                <div className={styles.comment_top}>
-                                    <div className={styles.star_list}>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                    </div>
-                                    <span></span>
-                                    <p>1 Sentyabr 2024</p>
-                                </div>
-                                <div className={styles.comment_text}>
-                                    <span>Z****** M*****</span>
-                                    <p>Mentor yaxşıdır. Əlaqə yeri whatsapp olsa daha yaxşı olardı</p>
-                                </div>
-                            </li>
-                            <li>
-                                <div className={styles.comment_top}>
-                                    <div className={styles.star_list}>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p className={styles.active}><StarIcon/></p>
-                                        <p><StarIcon/></p>
-                                        <p><StarIcon/></p>
-                                    </div>
-                                    <span></span>
-                                    <p>1 Sentyabr 2024</p>
-                                </div>
-                                <div className={styles.comment_text}>
-                                    <span>Z****** M*****</span>
-                                    <p>Mentor yaxşıdır. Əlaqə yeri whatsapp olsa daha yaxşı olardı</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-            <Footer/>
-        </>
-    )
+            <div className="detail-body">
+              <div>
+                <div className="top">
+                  <div className="top-con">
+                    <div className="left">
+                      <div>{starRating}</div>
+                      <div>
+                        <p>{`${
+                          Number.isInteger(rating) ? `${rating}.0` : rating
+                        }`}</p>
+                      </div>
+                      <div className="cricle"></div>
+                      <div>
+                        {mentorInfoById?.comments?.length}{" "}
+                        <span>dəyərləndirmə</span>
+                      </div>
+                      <div className="cricle"></div>
+                      <div>
+                        {mentorInfoById?.comments?.length} <span>rəy</span>
+                      </div>
+                    </div>
+                    <div className="right">
+                      <p>Rəy bildir</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="bottom">
+                  {mentorInfoById?.comments?.length <= 0 ? (
+                    <div>Rəy yoxdur</div>
+                  ) : (
+                    <div className="comments">
+                        <h4>Bütün dəyərləndirmələr</h4>
+                        <div>
+                            <div>
+                                <div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 }

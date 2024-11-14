@@ -97,7 +97,7 @@ const Mentors = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredMentors, setFilteredMentors] = useState(mentors);
   const [selectedCategory, setSelectedCategory] = useState([]);
-
+  const navigate=useNavigate()
   console.log(filteredMentors);
 
   useEffect(() => {
@@ -305,7 +305,7 @@ const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) 
                   <div className="row">
                     {filteredMentors.map((item, index) => (
                       <div key={index} className="col-md-4 col-sm-6 col-12">
-                        <div className="mentor-card text-center">
+                        <div onClick={()=>{navigate(`/mentor/${item.id}`)}} className="mentor-card text-center">
                           <div className="img-block">
                             <img
                               src={`https://minio-server-4oyt.onrender.com/yalli/${item.profilePicture}`}
