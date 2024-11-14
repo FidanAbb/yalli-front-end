@@ -18,68 +18,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
 
-const mentorData = [
-  {
-    id: 1,
-    name: "Emil Cahangirli",
-    flag: <Germany />,
-    country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Yaşam",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Emil,
-    category: "KARYERA",
-  },
-  {
-    id: 2,
-    name: "Fidan Abbaslı",
-    flag: <Polsa />,
-    country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Təhsil",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Fidan,
-    category: "KARYERA",
-  },
-  {
-    id: 3,
-    name: "Rahman Gasımlı",
-    flag: <Polsa />,
-    country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Yaşam",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Vuqar,
-    category: "TƏHSİL",
-  },
-  {
-    id: 4,
-    name: "Fidan Abbaslı",
-    flag: <Germany />,
-    country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Yaşam",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Fidan,
-    category: "TƏHSİL",
-  },
-  {
-    id: 5,
-    name: "Emil Cahangirli",
-    flag: <Germany />,
-    country: "Almaniya", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Yaşam",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Emil,
-    category: "YAŞAM",
-  },
-  {
-    id: 6,
-    name: "Rahman Gasımlı",
-    flag: <Polsa />,
-    country: "Polşa", // Bayraqa əsasən ölkə adını əlavə etmək
-    detail: "Yaşam",
-    desc: "Sanayi. Lorem Ipsum, 1500-cü illərdən bəri sənaye standartı kimi istifadə olunur...",
-    image: Vuqar,
-    category: "YAŞAM",
-  },
-];
+
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -378,7 +317,7 @@ const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) 
                             <p>{item.country}</p>
                             <p>
                               {categoryTranslationsTwo[item.mentorCategory]
-                                ? categoryTranslations[item.mentorCategory]
+                                ? categoryTranslationsTwo[item.mentorCategory]
                                 : "N/A"}
                             </p>
                             {/* Translated category */}
