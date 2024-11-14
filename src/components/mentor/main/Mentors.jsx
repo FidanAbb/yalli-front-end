@@ -131,6 +131,11 @@ const countryCategory = [
   "Cənubi Koreya",
 ];
 const categoryTranslations = {
+  YAŞAM: "LIFE",
+  TƏHSİL: "EDUCATION",
+  KARYERA: "CAREER",
+};
+const categoryTranslationsTwo = {
   YAŞAM: "Yaşam",
   TƏHSİL: "Təhsil",
   KARYERA: "Karyera",
@@ -138,12 +143,12 @@ const categoryTranslations = {
   EDUCATION: "Təhsil",
   CAREER: "Karyera",
 };
-const mentorCategory = [
-  { id: "LIFE", label: "Yaşam" },
-  { id: "EDUCATION", label: "Təhsil" },
-  { id: "CAREER", label: "Karyera" },
-];
 
+const mentorCategory = [
+  { id: "YAŞAM", label: "Yaşam" },
+  { id: "TƏHSİL", label: "Təhsil" },
+  { id: "KARYERA", label: "Karyera" },
+];
 const Mentors = () => {
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [mentors, setMentors] = useState([]);
@@ -157,8 +162,15 @@ const Mentors = () => {
   console.log(filteredMentors);
 
   useEffect(() => {
-    fetchMentors();
+    fetchMentors([]);
   }, []);
+  useEffect(() => {
+    filterMentors(inputMentorsCountry, inputMentorsTitle);
+}, [inputMentorsTitle, inputMentorsCountry, selectedCategory, mentors]);
+
+  useEffect(() => {
+    setFilteredMentors(mentors);
+}, [mentors]);
   useEffect(() => {
     if (inputMentorsTitle || inputMentorsCountry) {
       filterMentors();
@@ -166,32 +178,54 @@ const Mentors = () => {
       setFilteredMentors(mentors);
     }
   }, [inputMentorsTitle, inputMentorsCountry, mentors]);
-  const filterMentors = (
-    country = inputMentorsCountry,
-    name = inputMentorsTitle
-  ) => {
-    const result = mentors.filter((mentor) => {
-      const matchesName = name
-        ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
-          mentor.fullName?.toLowerCase().includes(name.toLowerCase())
-        : true;
-      const matchesCountry = country
-        ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
-          mentor.country?.toLowerCase().includes(country.toLowerCase())
-        : true;
-      return matchesName && matchesCountry;
-    });
-    setFilteredMentors(result);
-  };
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory((prevSelected) => {
-      const newSelected = prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId)
-        : [...prevSelected, categoryId];
-      filterMentors(inputMentorsCountry, inputMentorsTitle); // Call filterMentors after updating categories
-      return newSelected;
+        const newSelected = prevSelected.includes(categoryId)
+            ? prevSelected.filter((id) => id !== categoryId)
+            : [...prevSelected, categoryId];
+        filterMentors(inputMentorsCountry, inputMentorsTitle);
+        return newSelected;
     });
-  };
+};
+  
+const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) => {
+  console.log("Selected Category (Azerbaijani):", selectedCategory);
+
+  // Translate selected categories from Azerbaijani to English
+  const translatedCategories = selectedCategory.map((category) => {
+    return categoryTranslations[category] || category;
+  });
+  console.log("Translated Categories (English):", translatedCategories);
+
+  const result = mentors.filter((mentor) => {
+    console.log("Mentor Category:", mentor.mentorCategory);
+
+    const matchesName = name
+      ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
+        mentor.fullName?.toLowerCase().includes(name.toLowerCase())
+      : true;
+
+    const matchesCountry = country
+      ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
+        mentor.country?.toLowerCase().includes(country.toLowerCase())
+      : true;
+
+    // Check if mentor's category matches the translated categories
+    const matchesCategory = translatedCategories.length > 0
+      ? translatedCategories.includes(mentor.mentorCategory)
+      : true;
+
+    console.log(`Matches - Name: ${matchesName}, Country: ${matchesCountry}, Category: ${matchesCategory}`);
+    return matchesName && matchesCountry && matchesCategory;
+  });
+
+  console.log("Filtered Mentors Result:", result);
+  setFilteredMentors(result);
+};
+
+
+
+
 
   const eventCountryChange = (e) => {
     const value = e.target.value;
@@ -212,42 +246,34 @@ const Mentors = () => {
     setInputMentorsTitle(e.target.value);
   };
 
-// Utility function to build URL with categories as query parameters
-const buildUrlWithCategories = (baseURL, categories = []) => {
-    const url = new URL(baseURL);
-  
-    // Append each category as a separate query parameter
-    categories.forEach((category) => {
-      url.searchParams.append("category", category);
-    });
-  
-    return url.toString();
-  };
-  
-  // Modified fetchMentors function
-  const fetchMentors = async (categories = []) => {
+
+  const fetchMentors = async () => {
     try {
-      // Build the URL with selected categories
-      const url = buildUrlWithCategories(
-        "https://yalli-back-end.onrender.com/v1/mentors/search?page=0&size=10&sort=id",
-        categories
-      );
-  
-      const response = await axios.get(url, {
-        headers: {
-          Accept: "application/json",
-        },
-      });
-  
-      if (response) {
-        setMentors(response.data.content); // Update mentors state with the API response
-      }
+        const response = await axios.get("https://yalli-back-end.onrender.com/v1/mentors/search", {
+            headers: {
+                Accept: "application/json",
+            },
+            params: {
+                page: 0,
+                size: 100, 
+                sort: "id",
+            },
+        });
+
+        if (response) {
+            console.log("Fetched Data:", response.data.content);
+            setMentors(response.data.content);
+        }
     } catch (error) {
-      console.error("Error fetching mentors:", error);
+        console.error("Error fetching mentors:", error);
+        if (error.response) {
+            console.error("Response error data:", error.response.data);
+        }
     }
-  };
-  
-  
+};
+
+
+
 
   return (
     <>
@@ -264,7 +290,7 @@ const buildUrlWithCategories = (baseURL, categories = []) => {
                     <input
                       name="name"
                       type="text"
-                      placeholder="Tədbir axtar"
+                      placeholder="Ad və Soyad"
                       onChange={(e) => eventTitleChange(e)}
                     />
                   </div>
@@ -339,11 +365,10 @@ const buildUrlWithCategories = (baseURL, categories = []) => {
                 <div className="mentor-right">
                   <div className="row">
                     {filteredMentors.map((item, index) => (
-                      <div key={index} className="col-md-3 col-sm-6 col-12">
+                      <div key={index} className="col-md-4 col-sm-6 col-12">
                         <div className="mentor-card text-center">
                           <div className="img-block">
                             <img
-                              style={{ width: "10rem" }}
                               src={`https://minio-server-4oyt.onrender.com/yalli/${item.profilePicture}`}
                               alt=""
                             />
@@ -352,7 +377,7 @@ const buildUrlWithCategories = (baseURL, categories = []) => {
                             <h5>{item.fullName}</h5>
                             <p>{item.country}</p>
                             <p>
-                              {categoryTranslations[item.mentorCategory]
+                              {categoryTranslationsTwo[item.mentorCategory]
                                 ? categoryTranslations[item.mentorCategory]
                                 : "N/A"}
                             </p>
