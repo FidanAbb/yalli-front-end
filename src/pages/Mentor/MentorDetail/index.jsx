@@ -197,7 +197,7 @@ export default function MentorDetail() {
     return `${day} ${month} ${year}`;
   };
   function maskUserName(userName) {
-    const parts = userName.toUpperCase().split(" ");
+    const parts = userName?.toUpperCase().split(" ");
     const maskedParts = parts.map(
       (part) => part.charAt(0) + "*".repeat(part.length - 1)
     );
