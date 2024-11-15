@@ -20,7 +20,7 @@ const CommentWrite = ({
   const [contentState, setContentState] = useState("");
   const [rating, setRating] = useState(0);
   const mentorID = useParams();
-  console.log(mentorID.id);
+  console.log(mentorID.id)
 
   const handleRating = (rate) => {
     const normalizedRating = rate / 20;
