@@ -18,7 +18,6 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
 
-
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -97,7 +96,7 @@ const Mentors = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredMentors, setFilteredMentors] = useState(mentors);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   console.log(filteredMentors);
 
   useEffect(() => {
@@ -105,11 +104,11 @@ const Mentors = () => {
   }, []);
   useEffect(() => {
     filterMentors(inputMentorsCountry, inputMentorsTitle);
-}, [inputMentorsTitle, inputMentorsCountry, selectedCategory, mentors]);
+  }, [inputMentorsTitle, inputMentorsCountry, selectedCategory, mentors]);
 
   useEffect(() => {
     setFilteredMentors(mentors);
-}, [mentors]);
+  }, [mentors]);
   useEffect(() => {
     if (inputMentorsTitle || inputMentorsCountry) {
       filterMentors();
@@ -119,52 +118,54 @@ const Mentors = () => {
   }, [inputMentorsTitle, inputMentorsCountry, mentors]);
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory((prevSelected) => {
-        const newSelected = prevSelected.includes(categoryId)
-            ? prevSelected.filter((id) => id !== categoryId)
-            : [...prevSelected, categoryId];
-        filterMentors(inputMentorsCountry, inputMentorsTitle);
-        return newSelected;
+      const newSelected = prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId];
+      filterMentors(inputMentorsCountry, inputMentorsTitle);
+      return newSelected;
     });
-};
-  
-const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) => {
-  console.log("Selected Category (Azerbaijani):", selectedCategory);
+  };
 
-  // Translate selected categories from Azerbaijani to English
-  const translatedCategories = selectedCategory.map((category) => {
-    return categoryTranslations[category] || category;
-  });
-  console.log("Translated Categories (English):", translatedCategories);
+  const filterMentors = (
+    country = inputMentorsCountry,
+    name = inputMentorsTitle
+  ) => {
+    console.log("Selected Category (Azerbaijani):", selectedCategory);
 
-  const result = mentors.filter((mentor) => {
-    console.log("Mentor Category:", mentor.mentorCategory);
+    // Translate selected categories from Azerbaijani to English
+    const translatedCategories = selectedCategory.map((category) => {
+      return categoryTranslations[category] || category;
+    });
+    console.log("Translated Categories (English):", translatedCategories);
 
-    const matchesName = name
-      ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
-        mentor.fullName?.toLowerCase().includes(name.toLowerCase())
-      : true;
+    const result = mentors.filter((mentor) => {
+      console.log("Mentor Category:", mentor.mentorCategory);
 
-    const matchesCountry = country
-      ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
-        mentor.country?.toLowerCase().includes(country.toLowerCase())
-      : true;
+      const matchesName = name
+        ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
+          mentor.fullName?.toLowerCase().includes(name.toLowerCase())
+        : true;
 
-    // Check if mentor's category matches the translated categories
-    const matchesCategory = translatedCategories.length > 0
-      ? translatedCategories.includes(mentor.mentorCategory)
-      : true;
+      const matchesCountry = country
+        ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
+          mentor.country?.toLowerCase().includes(country.toLowerCase())
+        : true;
 
-    console.log(`Matches - Name: ${matchesName}, Country: ${matchesCountry}, Category: ${matchesCategory}`);
-    return matchesName && matchesCountry && matchesCategory;
-  });
+      // Check if mentor's category matches the translated categories
+      const matchesCategory =
+        translatedCategories.length > 0
+          ? translatedCategories.includes(mentor.mentorCategory)
+          : true;
 
-  console.log("Filtered Mentors Result:", result);
-  setFilteredMentors(result);
-};
+      console.log(
+        `Matches - Name: ${matchesName}, Country: ${matchesCountry}, Category: ${matchesCategory}`
+      );
+      return matchesName && matchesCountry && matchesCategory;
+    });
 
-
-
-
+    console.log("Filtered Mentors Result:", result);
+    setFilteredMentors(result);
+  };
 
   const eventCountryChange = (e) => {
     const value = e.target.value;
@@ -185,34 +186,33 @@ const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) 
     setInputMentorsTitle(e.target.value);
   };
 
-
   const fetchMentors = async () => {
     try {
-        const response = await axios.get("https://yalli-back-end.onrender.com/v1/mentors/search", {
-            headers: {
-                Accept: "application/json",
-            },
-            params: {
-                page: 0,
-                size: 100, 
-                sort: "id",
-            },
-        });
-
-        if (response) {
-            console.log("Fetched Data:", response.data.content);
-            setMentors(response.data.content);
+      const response = await axios.get(
+        "https://yalli-back-end.onrender.com/v1/mentors/search",
+        {
+          headers: {
+            Accept: "application/json",
+          },
+          params: {
+            page: 0,
+            size: 100,
+            sort: "id",
+          },
         }
+      );
+
+      if (response) {
+        console.log("Fetched Data:", response.data.content);
+        setMentors(response.data.content);
+      }
     } catch (error) {
-        console.error("Error fetching mentors:", error);
-        if (error.response) {
-            console.error("Response error data:", error.response.data);
-        }
+      console.error("Error fetching mentors:", error);
+      if (error.response) {
+        console.error("Response error data:", error.response.data);
+      }
     }
-};
-
-
-
+  };
 
   return (
     <>
@@ -254,7 +254,14 @@ const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) 
                       {showDropDown ? (
                         <IoIosArrowUp onClick={() => setShowDropDown(false)} />
                       ) : (
-                        <IoIosArrowDown onClick={() => setShowDropDown(true)} />
+                        <IoIosArrowDown
+                          onClick={() => {
+                            setShowDropDown(true);
+                            if (inputMentorsCountry.trim() === "") {
+                              setSelectedCountry(countryCategory);
+                            }
+                          }}
+                        />
                       )}
                     </div>
                     {showDropDown && (
@@ -305,7 +312,12 @@ const filterMentors = (country = inputMentorsCountry, name = inputMentorsTitle) 
                   <div className="row">
                     {filteredMentors.map((item, index) => (
                       <div key={index} className="col-md-4 col-sm-6 col-12">
-                        <div onClick={()=>{navigate(`/mentor/${item.id}`)}} className="mentor-card text-center">
+                        <div
+                          onClick={() => {
+                            navigate(`/mentor/${item.id}`);
+                          }}
+                          className="mentor-card text-center"
+                        >
                           <div className="img-block">
                             <img
                               src={`https://minio-server-4oyt.onrender.com/yalli/${item.profilePicture}`}

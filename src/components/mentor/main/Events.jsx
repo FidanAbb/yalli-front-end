@@ -348,19 +348,26 @@ const Events = () => {
                       value={inputEventsCountry}
                       onChange={eventCountryChange}
                       onFocus={() => {
-                        setShowDropDown(true); 
+                        setShowDropDown(true);
                         if (inputEventsCountry.trim() === "") {
-                          setSelectedCountry(countryCategory); 
+                          setSelectedCountry(countryCategory);
                         }
                       }}
-                      onBlur={
-                        () => setTimeout(() => setShowDropDown(false), 200)
+                      onBlur={() =>
+                        setTimeout(() => setShowDropDown(false), 200)
                       }
                     />
                     {showDropDown ? (
                       <IoIosArrowUp onClick={() => setShowDropDown(false)} />
                     ) : (
-                      <IoIosArrowDown onClick={() => setShowDropDown(true)} />
+                      <IoIosArrowDown
+                        onClick={() => {
+                          setShowDropDown(true);
+                          if (inputEventsCountry.trim() === "") {
+                            setSelectedCountry(countryCategory);
+                          }
+                        }}
+                      />
                     )}
                   </div>
                   {showDropDown && (

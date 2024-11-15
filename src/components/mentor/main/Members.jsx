@@ -171,19 +171,26 @@ const Members = () => {
                         type="text"
                         value={inputUserCounty}
                         onFocus={() => {
-                          setShowDropdown(true); 
+                          setShowDropdown(true);
                           if (inputUserCounty.trim() === "") {
-                            setSelectedCountry(countryCategory); 
+                            setSelectedCountry(countryCategory);
                           }
                         }}
                         onBlur={() =>
                           setTimeout(() => setShowDropdown(false), 200)
-                        } 
+                        }
                       />
                       {showDropdown ? (
                         <IoIosArrowUp onClick={() => setShowDropdown(false)} />
                       ) : (
-                        <IoIosArrowDown onClick={() => setShowDropdown(true)} />
+                        <IoIosArrowDown
+                          onClick={() => {
+                            setShowDropdown(true);
+                            if (inputUserCounty.trim() === "") {
+                              setSelectedCountry(countryCategory);
+                            }
+                          }}
+                        />
                       )}
                     </div>
                     {showDropdown && (
