@@ -10,23 +10,16 @@
     height: 230px;
     border-radius: 10px;
     padding: 0 10px;
+    object-fit: cover;
   }
-  h3{
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 24px;
-    height: 0;
-  }
-  span{
-    font-size: 30px;
-    height: 0;
-  }
-  p{
-    font-weight: 500;
+  .name{
     font-size: 16px;
-    color:#7f7f7f;
-    margin-top: 0;
+    font-weight: 700;
   }
+  .country{
+    font-size: 1.2rem;
+  }
+
 }
 .mentor:hover{
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

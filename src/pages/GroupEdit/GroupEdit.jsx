@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import "./assets/Css/GroupEdit.css";
 import GroupEditAllInfo from "./Components/GroupEditAllInfo/GroupEditAllInfo";
 import GroupEditAbout from "./Components/GroupEditAbout/GroupEditAbout";
@@ -13,6 +13,10 @@ const GroupEdit = () => {
   const navigate = useNavigate();
   const {updateGroup}=useContext(YalliContext)
   
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]); 
   const [formData, setFormData] = useState({
     title: '',
     description: '',

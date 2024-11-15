@@ -14,7 +14,6 @@ import Usa from "../../ui/countries/Usa";
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
-  console.log(groups);
   
   
   const dispatch = useDispatch();
@@ -22,7 +21,6 @@ const Group = () => {
   const [allData, setAllGroupData] = useState({
     ...groups,
   });
-console.log(allData);
 
   useEffect(() => {
     dispatch(getGroupData());

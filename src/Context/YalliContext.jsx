@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import FetchCountries from "../components/Countrys/FetchCountryCodes";
 
 // Create the context
 export const YalliContext = createContext();
@@ -34,6 +35,11 @@ const ContextYalli = ({ children }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
   const [clickCountryToMembers,setClickCountryToMembers]=useState("")
+
+  const [events, setEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useState([]);
+
+const [countries, setCountries] = useState([]);
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
     if (accessTokenStorage) {
@@ -256,6 +262,9 @@ const ContextYalli = ({ children }) => {
       );
     }
   };
+
+  
+  
   return (
     <YalliContext.Provider
       value={{
@@ -287,7 +296,13 @@ const ContextYalli = ({ children }) => {
         isLogin,
         accessToken,
         setClickCountryToMembers,
-        clickCountryToMembers
+        clickCountryToMembers,
+        events,
+        setEvents,
+        filteredEvents,
+        setFilteredEvents,
+        setCountries,
+        countries
       }}
     >
       {children}
@@ -295,4 +310,4 @@ const ContextYalli = ({ children }) => {
   );
 };
 
-export default ContextYalli;
+export default ContextYalli;  

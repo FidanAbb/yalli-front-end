@@ -17,12 +17,69 @@ const mentorCategory = [
   { id: "EDUCATION", label: "Təhsil" },
   { id: "CAREER", label: "Karyera" },
 ];
+const countryTranslations = {
+  "Almanya": "Almaniya",
+  "Azerbaijan": "Azərbaycan",
+  "Turkey": "Türkiyə",
+  "Russia": "Rusiya",
+  "Germany": "Almaniya",
+  "United States": "ABŞ",
+  "Ukraine": "Ukrayna",
+  "United Kingdom": "Böyük Britaniya",
+  "Canada": "Kanada",
+  "France": "Fransa",
+  "Israel": "İsrail",
+  "Georgia": "Gürcüstan",
+  "Italy": "İtaliya",
+  "Australia": "Avstraliya",
+  "Spain": "İspaniya",
+  "Netherlands": "Niderland",
+  "Austria": "Avstriya",
+  "Sweden": "İsveç",
+  "Belgium": "Belçika",
+  "Norway": "Norveç",
+  "Finland": "Finlandiya",
+  "Hungary": "Macarıstan",
+  "Poland": "Polşa",
+  "Greece": "Yunanıstan",
+  "Slovakia": "Slovakiya",
+  "Lithuania": "Litva",
+  "Latvia": "Latviya",
+  "Estonia": "Estoniya",
+  "Kazakhstan": "Qazaxıstan",
+  "United Arab Emirates": "Birləşmiş Ərəb Əmirlikləri",
+  "Japan": "Yaponiya",
+  "Iran": "İran",
+  "Saudi Arabia": "Səudiyyə Ərəbistanı",
+  "Belarus": "Belarus",
+  "Moldova": "Moldova",
+  "Kyrgyzstan": "Qırğızıstan",
+  "Tajikistan": "Tacikistan",
+  "Turkmenistan": "Türkmənistan",
+  "Uzbekistan": "Özbəkistan",
+  "Malaysia": "Malayziya",
+  "Singapore": "Sinqapur",
+  "Brazil": "Braziliya",
+  "Argentina": "Argentina",
+  "Mexico": "Meksika",
+  "Vietnam": "Vietnam",
+  "Bali (Indonesia)": "Bali (İndoneziya)",
+  "Switzerland": "İsveçrə",
+  "Portugal": "Portuqaliya",
+  "South Korea": "Cənubi Koreya"
+};
 export default function MentorDetail() {
-  const location = useLocation();
   const mentorID = useParams();
   const [mentorInfoById, setMentorInfoById] = useState("");
   const [mentorCategoryState, setMentorCategoryState] = useState("");
   const [iscommentWrite, setIscommentWrite] = useState(false);
+  console.log();
+  
+  
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]); 
   const getMentorInfoByIdFunc = async () => {
     try {
       const response = await axios.get(
@@ -118,12 +175,34 @@ export default function MentorDetail() {
     );
   };
   const formatDate = (dateString) => {
+    const months = [
+      "Yanvar",
+      "Fevral",
+      "Mart",
+      "Aprel",
+      "May",
+      "İyun",
+      "İyul",
+      "Avqust",
+      "Sentyabr",
+      "Oktyabr",
+      "Noyabr",
+      "Dekabr",
+    ];
     const date = new Date(dateString);
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Ayı 2 rəqəmli etmək üçün
-    const day = date.getDate().toString().padStart(2, "0"); // Günü 2 rəqəmli etmək üçün
-    return `${year}/${month}/${day}`;
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+
+    return `${day} ${month} ${year}`;
   };
+  function maskUserName(userName) {
+    const parts = userName.toUpperCase().split(" ");
+    const maskedParts = parts.map(
+      (part) => part.charAt(0) + "*".repeat(part.length - 1)
+    );
+    return maskedParts.join(" ");
+  }
   return (
     <>
       <Header />
@@ -142,7 +221,7 @@ export default function MentorDetail() {
                     </div>
                     <div className="text-center">
                       <h4>{mentorInfoById.fullName}</h4>
-                      <p>{mentorInfoById.country}</p>
+                      <p>{countryTranslations[mentorInfoById.country] || mentorInfoById.country}</p>
                       <p>{mentorCategoryState}</p>
                     </div>
                   </div>
@@ -167,7 +246,9 @@ export default function MentorDetail() {
                       <div>{starRating}</div>
                       <div>
                         <p>{`${
-                         Number.isInteger(rating) ? `${rating}.0` : rating.toFixed(1)
+                          Number.isInteger(rating)
+                            ? `${rating}.0`
+                            : rating.toFixed(1)
                         }`}</p>
                       </div>
                       <div className="cricle"></div>
@@ -209,6 +290,7 @@ export default function MentorDetail() {
                             <span>{formatDate(item.createdAt)}</span>
                           </div>
                           <p>{item.content}</p>
+                          <p>{maskUserName(item.userName)}</p>
                         </div>
                       ))}
                     </div>

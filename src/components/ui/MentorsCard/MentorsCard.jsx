@@ -4,23 +4,23 @@ import { useNavigate } from "react-router-dom";
 
 const MentorsCard = ({ data }) => {
     const navigate = useNavigate();
-
+    const categoryTranslations = {
+        LIFE: "YAŞAM",
+        EDUCATION: "TƏHSİL",
+        CAREER: "KARYERA",
+      };
+      const translateCategory = (category) => {
+        return categoryTranslations[category] || category;
+      };
     return (
         <div
             className={styles["mentor"]}
-            onClick={() => navigate(`/mentor/${data.id}`, {
-                state: {
-                    id: data.id,
-                    name: data.name,
-                    detail: data.detail,
-                    image: data.image
-                }
-            })}
+            onClick={() => navigate(`/mentor/${data.id}`, {})}
         >
-            <img src={data?.image} alt="" />
-            <h3>{data.name}</h3>
-            <span>{data.flag}</span>
-            <p>{data.detail}</p>
+            <img src={`https://minio-server-4oyt.onrender.com/yalli/${data.profilePicture}`} alt="" />
+            <p className={styles["name"]}>{data.fullName}</p>
+            <p className="country">{data.country}</p>
+            <p>{translateCategory(data.mentorCategory)}</p>
         </div>
     );
 };

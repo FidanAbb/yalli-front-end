@@ -156,6 +156,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       !groupData.title.trim() ||
       !groupData.link.trim() ||
       !groupData.memberCount ||
+      !groupData.country ||
       groupData.memberCount <= 0 ||
       !groupData.description.trim()
     ) {

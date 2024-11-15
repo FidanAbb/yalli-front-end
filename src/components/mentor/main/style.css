@@ -236,6 +236,7 @@ input {
     height: 100%;
     width: 100%;
     border-radius:1rem;
+    cursor: pointer;
 }
 .mentor-right .mentor-card .text-con{
     padding: .4rem 0;
@@ -246,6 +247,6 @@ input {
 .mentor-right .mentor-card .img-block img{
     object-fit: cover;
     width: 100%;
-    height: 14rem;
+    height: 14rem !important;
     border-radius:1rem;
 }

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, useLocation } from "react-router-dom";
 import Home from "../pages/Home/Home";
 import About from "../pages/About/About";
 import Mentor from "../pages/Mentor/Mentor";
@@ -25,6 +25,7 @@ import GroupEdit from "../pages/GroupEdit/GroupEdit";
 import Main from "../components/groupDetail/main/Main";
 
 const Router = createBrowserRouter([
+
   {
     path: "/",
     element: <Home />,

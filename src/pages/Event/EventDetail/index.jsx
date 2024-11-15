@@ -12,6 +12,10 @@ export default function EventDetail() {
   const [userData, setUserData] = useState("");
   const [eventById, setEventById] = useState("");
   console.log(eventById);
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]); 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const weekdays = [

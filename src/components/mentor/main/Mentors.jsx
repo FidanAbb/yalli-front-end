@@ -1,5 +1,5 @@
 // components/Events/Events.jsx
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -17,6 +17,8 @@ import MentorsCard from "../../ui/MentorsCard/MentorsCard";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
+import { YalliContext } from "../../../Context/YalliContext";
+import FetchCountries from "../../Countrys/FetchCountryCodes";
 
 const countryCategory = [
   "Azərbaycan",
@@ -82,6 +84,58 @@ const categoryTranslationsTwo = {
   CAREER: "Karyera",
 };
 
+const countryTranslations = {
+  Almanya: "Almaniya",
+  Azerbaijan: "Azərbaycan",
+  Turkey: "Türkiyə",
+  Russia: "Rusiya",
+  Germany: "Almaniya",
+  "United States": "ABŞ",
+  Ukraine: "Ukrayna",
+  "United Kingdom": "Böyük Britaniya",
+  Canada: "Kanada",
+  France: "Fransa",
+  Israel: "İsrail",
+  Georgia: "Gürcüstan",
+  Italy: "İtaliya",
+  Australia: "Avstraliya",
+  Spain: "İspaniya",
+  Netherlands: "Niderland",
+  Austria: "Avstriya",
+  Sweden: "İsveç",
+  Belgium: "Belçika",
+  Norway: "Norveç",
+  Finland: "Finlandiya",
+  Hungary: "Macarıstan",
+  Poland: "Polşa",
+  Greece: "Yunanıstan",
+  Slovakia: "Slovakiya",
+  Lithuania: "Litva",
+  Latvia: "Latviya",
+  Estonia: "Estoniya",
+  Kazakhstan: "Qazaxıstan",
+  "United Arab Emirates": "Birləşmiş Ərəb Əmirlikləri",
+  Japan: "Yaponiya",
+  Iran: "İran",
+  "Saudi Arabia": "Səudiyyə Ərəbistanı",
+  Belarus: "Belarus",
+  Moldova: "Moldova",
+  Kyrgyzstan: "Qırğızıstan",
+  Tajikistan: "Tacikistan",
+  Turkmenistan: "Türkmənistan",
+  Uzbekistan: "Özbəkistan",
+  Malaysia: "Malayziya",
+  Singapore: "Sinqapur",
+  Brazil: "Braziliya",
+  Argentina: "Argentina",
+  Mexico: "Meksika",
+  Vietnam: "Vietnam",
+  "Bali (Indonesia)": "Bali (İndoneziya)",
+  Switzerland: "İsveçrə",
+  Portugal: "Portuqaliya",
+  "South Korea": "Cənubi Koreya",
+};
+
 const mentorCategory = [
   { id: "YAŞAM", label: "Yaşam" },
   { id: "TƏHSİL", label: "Təhsil" },
@@ -96,9 +150,9 @@ const Mentors = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredMentors, setFilteredMentors] = useState(mentors);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const navigate = useNavigate();
-  console.log(filteredMentors);
+  const { countries, setCountries } = useContext(YalliContext);
 
+  const navigate = useNavigate();
   useEffect(() => {
     fetchMentors([]);
   }, []);
@@ -130,33 +184,22 @@ const Mentors = () => {
     country = inputMentorsCountry,
     name = inputMentorsTitle
   ) => {
-    console.log("Selected Category (Azerbaijani):", selectedCategory);
-
-    // Translate selected categories from Azerbaijani to English
     const translatedCategories = selectedCategory.map((category) => {
       return categoryTranslations[category] || category;
     });
-    console.log("Translated Categories (English):", translatedCategories);
-
     const result = mentors.filter((mentor) => {
-      console.log("Mentor Category:", mentor.mentorCategory);
-
       const matchesName = name
         ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
           mentor.fullName?.toLowerCase().includes(name.toLowerCase())
         : true;
-
       const matchesCountry = country
         ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
           mentor.country?.toLowerCase().includes(country.toLowerCase())
         : true;
-
-      // Check if mentor's category matches the translated categories
       const matchesCategory =
         translatedCategories.length > 0
           ? translatedCategories.includes(mentor.mentorCategory)
           : true;
-
       console.log(
         `Matches - Name: ${matchesName}, Country: ${matchesCountry}, Category: ${matchesCategory}`
       );
@@ -321,16 +364,27 @@ const Mentors = () => {
                           <div className="img-block">
                             <img
                               src={`https://minio-server-4oyt.onrender.com/yalli/${item.profilePicture}`}
-                              alt=""
+                              alt={`${item.fullName} profile`}
+                              style={{ width: "100%", height: "auto" }} // Mentorun şəkli
                             />
                           </div>
                           <div className="text-con">
                             <h5>{item.fullName}</h5>
-                            <p>{item.country}</p>
                             <p>
-                              {categoryTranslationsTwo[item.mentorCategory]
-                                ? categoryTranslationsTwo[item.mentorCategory]
-                                : "N/A"}
+                              <img
+                                src={
+                                  countries.find(
+                                    (country) => country?.name === item?.country
+                                  )?.flag || "#"
+                                } 
+                                alt={`${item.country} flag`}
+                                style={{ width: "2rem", height: "auto" }} // Bayraq genişliyi
+                              />
+                                 <FetchCountries/>  
+                            </p>
+                            <p>
+                              {categoryTranslationsTwo[item.mentorCategory] ||
+                                "N/A"}
                             </p>
                             {/* Translated category */}
                           </div>

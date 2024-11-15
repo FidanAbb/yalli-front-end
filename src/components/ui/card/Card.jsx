@@ -6,6 +6,7 @@ import saveBtn from "../../../assets/img/saveBtn.png"
 import styles from "./style.module.scss";
 import {useNavigate} from "react-router-dom";
 const Card = ({ sectionName, event, group }) => {
+    
     let navigate = useNavigate()
     return (
         <div className={sectionName === "group" ? styles["card_group"] : styles["card_event"]}>

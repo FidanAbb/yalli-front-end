@@ -1,108 +1,32 @@
-import React, { useRef, useState , useEffect} from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
 import Meal from "../../../assets/img/meal.svg";
 import badminton from "../../../assets/img/badminton.svg";
 import kitchen from "../../../assets/img/kitchen.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getEventData } from "../../../redux/slice/event/event";
-
+import axios from "axios";
+import "./event.css";
+import { CiLocationOn } from "react-icons/ci";
+import { IoBookmarkOutline, IoBookmarkSharp } from "react-icons/io5";
+import { YalliContext } from "../../../Context/YalliContext";
 const Event = () => {
-  const eventData = [
-    {
-      id: 1,
-      time: "Monday, 9 September",
-      hour: "19:00",
-      title: "Azərbaycanlıların Şam Yeməyi",
-      location: "Koln,Almaniya",
-      image: Meal,
-    },
-    {
-      id: 2,
-      time: "Friday, 25 October",
-      hour: "14:00",
-      title: "Badminton Yarışı | Southland Stadion",
-      location: "Calgary, Kanada",
-      image: badminton,
-    },
-    {
-      id: 3,
-      time: "Friday, 8 November",
-      hour: "16:00",
-      title: "Milli Mətbəx Yığıncağı",
-      location: "Poznan, Polşa",
-      image: kitchen,
-    },
-    {
-      id: 4,
-      time: "Monday, 9 September",
-      hour: "19:00",
-      title: "Futbol Yarışı | Warszawianka Football Center",
-      location: "Varşava, Polşa",
-      image: Meal,
-    },
-    {
-      id:5,
-      time: "Monday, 9 September",
-      hour: "19:00",
-      title: "Azərbaycanlıların Şam Yeməyi",
-      location: "Koln,Almaniya",
-      image: Meal,
-    },
-    {
-      id:6,
-      time: "Friday, 25 October",
-      hour: "14:00",
-      title: "Badminton Yarışı | Southland Stadion",
-      location: "Calgary, Kanada",
-      image: badminton,
-    },
-    {
-      id:7,
-      time: "Friday, 8 November",
-      hour: "16:00",
-      title: "Milli Mətbəx Yığıncağı",
-      location: "Poznan, Polşa",
-      image: kitchen,
-    },
-    {
-      id:8,
-      time: "Monday, 9 September",
-      hour: "19:00",
-      title: "Futbol Yarışı | Warszawianka Football Center",
-      location: "Varşava, Polşa",
-      image: Meal,
-    },
-  ];
-
-  const events = useSelector((state) => state.events.events);
-  const dispatch = useDispatch();
-
-  const [allData, setAllEventpData] = useState({
-    ...events,
-  });
-
-  useEffect(() => {
-    dispatch(getEventData());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setAllEventpData(events);
-  }, [events]);
-
   const sliderRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  const [events, setEvents] = useState([]);
+  const { userID } = useContext(YalliContext);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
     setStartX(e.pageX - sliderRef.current.offsetLeft);
     setScrollLeft(sliderRef.current.scrollLeft);
   };
-
   const handleMouseMove = (e) => {
     if (!isDragging) return;
     e.preventDefault();
@@ -134,25 +58,197 @@ const Event = () => {
         scrollRightBtn();
       }
     };
-
     window.addEventListener("keydown", handleKeyDown);
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+  const buildUrlWithCategories = (baseURL, categories = []) => {
+    const url = new URL(baseURL);
+
+    categories.forEach((category) => {
+      url.searchParams.append("category", category);
+    });
+
+    return url.toString();
+  };
+  const fetchEvents = async (categories = []) => {
+    try {
+      const url = buildUrlWithCategories(
+        "https://yalli-back-end.onrender.com/v1/events",
+        categories
+      );
+
+      const response = await axios.get(url, {
+        headers: {
+          Accept: "application/json",
+          token: localStorage.getItem("accessToken"),
+        },
+        params: {
+          title: "",
+          country: "",
+        },
+      });
+      if (response) {
+        setEvents(response?.data?.content);
+      }
+    } catch (error) {
+      console.log("Error fetching events:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      } else {
+        console.error("General error:", error.message);
+      }
+    }
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const weekdays = [
+      "Bazar",
+      "Bazar ertəsi",
+      "Çərşənbə axşamı",
+      "Çərşənbə",
+      "Cümə axşamı",
+      "Cümə",
+      "Şənbə",
+    ];
+    const months = [
+      "yanvar",
+      "fevral",
+      "mart",
+      "aprel",
+      "may",
+      "iyun",
+      "iyul",
+      "avqust",
+      "sentyabr",
+      "oktyabr",
+      "noyabr",
+      "dekabr",
+    ];
+    const weekday = weekdays[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    return `${weekday}, ${day} ${month}`;
+  };
   const navigate = useNavigate();
+  const unsaveEvent = async (eventId, userId) => {
+    try {
+      const response = await axios.patch(
+        "https://yalli-back-end.onrender.com/v1/events/unsaveEvent",
+        {
+          id: eventId,
+          userId: userId,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Unsave event response:", response.data);
+
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, saved: false } : event
+          )
+        );
+      } else {
+        console.warn("Unexpected status code:", response.status);
+      }
+    } catch (error) {
+      console.error("Error unsaving event:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      }
+    }
+  };
+  const saveEvent = async (eventId, userId) => {
+    if (!eventId || !userId) {
+      console.error("Event ID and User ID are required to save an event.");
+      return;
+    }
+    try {
+      const response = await axios.patch(
+        "https://yalli-back-end.onrender.com/v1/events/saveEvent",
+        {
+          id: eventId,
+          userId: userId,
+        },
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            token: localStorage.getItem("accessToken"),
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Event saved successfully:", response.data);
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === eventId ? { ...event, saved: true } : event
+          )
+        );
+      } else {
+        console.warn("Unexpected status code:", response.status);
+      }
+    } catch (error) {
+      console.error("Error saving event:", error);
+      if (error.response) {
+        console.error("Response error:", error.response.data);
+      } else if (error.request) {
+        console.error("Request error:", error.request);
+      }
+    }
+  };
+  const savedEventChange = (eventId, userId) => {
+    const eventToToggle = events.find((event) => event.id === eventId);
+    console.log(eventToToggle);
+
+    if (eventToToggle) {
+      if (eventToToggle.saved) {
+        unsaveEvent(eventId, userId);
+      } else {
+        saveEvent(eventId, userId);
+      }
+    }
+  };
+
+  const text =
+    "Sərhədləri aşır, xoş niyyət və sevgi ilə dünyanın fərqli nöqtələrində həmvətənlilərimizi bir araya gətiririk!";
+  const speed = 50; 
+  let index = 0;
+
+  function typeEffect() {
+    if (index < text.length) {
+      document.getElementById("animatedText").innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeEffect, speed);
+    }
+  }
+
+  window.onload = function () {
+    typeEffect();
+  };
+
   return (
     <div className={styles["group"]}>
       <div className="container">
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Tədbirlər</h2>
-            <p onClick={() =>
-              // window.location.href ="/event"
-              navigate("/events")
-              }>Hamısına bax</p>
+            <p onClick={() => navigate("/events")}>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>
@@ -167,8 +263,36 @@ const Event = () => {
               onMouseLeave={handleMouseUpOrLeave}
               style={{ cursor: isDragging ? "grabbing" : "grab" }}
             >
-              {eventData.map((event, index) => (
-                <Card key={index} sectionName={"event"} event={event} />
+              {events.map((event, index) => (
+                <div className="event-card" key={index}>
+                  <div className="img-block">
+                    <img
+                      src={`https://minio-server-4oyt.onrender.com/yalli/${event.imageId}`}
+                      alt=""
+                    />
+                    <div
+                      className="saved-icon"
+                      onClick={() => savedEventChange(event.id, userID)}
+                    >
+                      {event.saved ? (
+                        <IoBookmarkSharp className="icon" />
+                      ) : (
+                        <IoBookmarkOutline className="icon" />
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <p>{formatDate(event.date)}</p>
+                    <p className="event-title">{event.title}</p>
+                    <p>
+                      <CiLocationOn />
+                      {event.country}
+                    </p>
+                  </div>
+                  <Link to={`/event/${event.id}`} className="btn-info">
+                    <button className="w-100">Daha Ətraflı</button>
+                  </Link>
+                </div>
               ))}
             </div>
             <div className={styles["right_arrow"]} onClick={scrollRightBtn}>
@@ -191,10 +315,7 @@ const Event = () => {
             />
           </svg>
 
-          <h2>
-            Sərhədləri aşır, xoş niyyət və sevgi ilə dünyanın fərqli
-            nöqtələrində həmvətənlilərimizi bir araya gətiririk!
-          </h2>
+          <h2 id="animatedText"></h2>
         </div>
       </div>
     </div>

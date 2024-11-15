@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import Header from "../../components/Layout/Header/Header";
 import Hero from "../../components/home/Hero/Hero";
 import Group from "../../components/home/Group/Group";
 import Event from "../../components/home/Event/Event";
 import Mentor from "../../components/home/Mentor/Mentor";
 import Footer from "../../components/Layout/Footer/Footer";
+import FetchCountryCodes from "../../components/Countrys/FetchCountryCodes";
+import FetchCountries from "../../components/Countrys/FetchCountryCodes";
+import { YalliContext } from "../../Context/YalliContext";
 const Home = () => {
   const groupRef = useRef(null);
   const eventRef = useRef(null);
@@ -14,6 +17,8 @@ const Home = () => {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+ 
+  
 
   return (
     <>
@@ -24,6 +29,7 @@ const Home = () => {
         mentorRef={mentorRef}
       />
       <Hero />
+   
       <div ref={groupRef}>
         <Group />
       </div>

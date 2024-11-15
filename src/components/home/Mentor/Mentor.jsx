@@ -10,49 +10,13 @@ import { useNavigate } from "react-router-dom";
 import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
 import Usa from "../../ui/countries/Usa";
+import axios from "axios";
 const Mentor = () => {
-  const mentorData = [
-    {
-      name: "Emil Cahangirli",
-      flag: <Germany />,
-      detail: "Yaşam",
-      image: Emil,
-    },
-    {
-      name: "Fidan Abbaslı",
-      flag: <Polsa />,
-      detail: "Təhsil",
-      image: Fidan,
-    },
-    {
-      name: "Rahman Gasımlı",
-      flag: <Polsa />,
-      detail: "Yaşam",
-      image: Vuqar,
-    },
-    {
-      name: "Fidan Abbaslı",
-      flag: <Germany />,
-      detail: "Yaşam",
-      image: Fidan,
-    },
-    {
-      name: "Emil Cahangirli",
-      flag: <Germany />,
-      detail: "Yaşam",
-      image: Emil,
-    },
-    {
-      name: "Rahman Gasımlı",
-      flag: <Polsa />,
-      detail: "Yaşam",
-      image: Vuqar,
-    },
-  ];
   const sliderRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [mentors, setMentors] = useState([]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -64,7 +28,7 @@ const Mentor = () => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Sürükleme hızı (isteğe bağlı artırılabilir/azaltılabilir)
+    const walk = (x - startX) * 2; 
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -101,6 +65,42 @@ const Mentor = () => {
 
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    fetchMentors()
+  },[])
+  const fetchMentors = async () => {
+    try {
+      const response = await axios.get(
+        "https://yalli-back-end.onrender.com/v1/mentors/search",
+        {
+          headers: {
+            Accept: "application/json",
+          },
+          params: {
+            page: 0,
+            size: 100,
+            sort: "id",
+          },
+        }
+      );
+
+      if (response) {
+        console.log("Fetched Data:", response.data.content);
+        setMentors(response.data.content);
+      }
+    } catch (error) {
+      console.error("Error fetching mentors:", error);
+      if (error.response) {
+        console.error("Response error data:", error.response.data);
+      }
+    }
+  };
+
+
+
+
+
+
   return (
     <div className={styles["group"]}>
       <div className="container">
@@ -108,7 +108,6 @@ const Mentor = () => {
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
             <p onClick={() => 
-              // window.location.href = "/mentor"
               navigate("/mentors")
               }>
               Hamısına bax
@@ -127,7 +126,7 @@ const Mentor = () => {
               onMouseLeave={handleMouseUpOrLeave}
               style={{ cursor: isDragging ? "grabbing" : "grab" }}
             >
-              {mentorData.map((group, index) => (
+              {mentors.map((group, index) => (
                 <MentorCard key={index} data={group} />
               ))}
             </div>
