@@ -3,8 +3,8 @@ import Footer from "../../../components/Layout/Footer/Footer";
 import UpperIcon from "../../../components/icon/UpperIcon";
 import "./mentor.css";
 import StarIcon from "../../../components/icon/StarIcon";
-import { useLocation, useParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { MdArrowOutward } from "react-icons/md";
 import { RiStarHalfSFill, RiStarLine, RiStarSFill } from "react-icons/ri";
@@ -12,74 +12,78 @@ import fillStar from "../../../../src/pages/Mentor/MentorDetail/image/star-fill.
 import halfStar from "../../../../src/pages/Mentor/MentorDetail/image/star-half.png";
 import lineStar from "../../../../src/pages/Mentor/MentorDetail/image/star-line.png";
 import CommentWrite from "./components/CommentWrite";
+import FetchCountries from "../../../components/Countrys/FetchCountryCodes";
+import { YalliContext } from "../../../Context/YalliContext";
 const mentorCategory = [
   { id: "LIFE", label: "Yaşam" },
   { id: "EDUCATION", label: "Təhsil" },
   { id: "CAREER", label: "Karyera" },
 ];
 const countryTranslations = {
-  "Almanya": "Almaniya",
-  "Azerbaijan": "Azərbaycan",
-  "Turkey": "Türkiyə",
-  "Russia": "Rusiya",
-  "Germany": "Almaniya",
+  Almanya: "Almaniya",
+  Azerbaijan: "Azərbaycan",
+  Turkey: "Türkiyə",
+  Russia: "Rusiya",
+  Germany: "Almaniya",
   "United States": "ABŞ",
-  "Ukraine": "Ukrayna",
+  Ukraine: "Ukrayna",
   "United Kingdom": "Böyük Britaniya",
-  "Canada": "Kanada",
-  "France": "Fransa",
-  "Israel": "İsrail",
-  "Georgia": "Gürcüstan",
-  "Italy": "İtaliya",
-  "Australia": "Avstraliya",
-  "Spain": "İspaniya",
-  "Netherlands": "Niderland",
-  "Austria": "Avstriya",
-  "Sweden": "İsveç",
-  "Belgium": "Belçika",
-  "Norway": "Norveç",
-  "Finland": "Finlandiya",
-  "Hungary": "Macarıstan",
-  "Poland": "Polşa",
-  "Greece": "Yunanıstan",
-  "Slovakia": "Slovakiya",
-  "Lithuania": "Litva",
-  "Latvia": "Latviya",
-  "Estonia": "Estoniya",
-  "Kazakhstan": "Qazaxıstan",
+  Canada: "Kanada",
+  France: "Fransa",
+  Israel: "İsrail",
+  Georgia: "Gürcüstan",
+  Italy: "İtaliya",
+  Australia: "Avstraliya",
+  Spain: "İspaniya",
+  Netherlands: "Niderland",
+  Austria: "Avstriya",
+  Sweden: "İsveç",
+  Belgium: "Belçika",
+  Norway: "Norveç",
+  Finland: "Finlandiya",
+  Hungary: "Macarıstan",
+  Poland: "Polşa",
+  Greece: "Yunanıstan",
+  Slovakia: "Slovakiya",
+  Lithuania: "Litva",
+  Latvia: "Latviya",
+  Estonia: "Estoniya",
+  Kazakhstan: "Qazaxıstan",
   "United Arab Emirates": "Birləşmiş Ərəb Əmirlikləri",
-  "Japan": "Yaponiya",
-  "Iran": "İran",
+  Japan: "Yaponiya",
+  Iran: "İran",
   "Saudi Arabia": "Səudiyyə Ərəbistanı",
-  "Belarus": "Belarus",
-  "Moldova": "Moldova",
-  "Kyrgyzstan": "Qırğızıstan",
-  "Tajikistan": "Tacikistan",
-  "Turkmenistan": "Türkmənistan",
-  "Uzbekistan": "Özbəkistan",
-  "Malaysia": "Malayziya",
-  "Singapore": "Sinqapur",
-  "Brazil": "Braziliya",
-  "Argentina": "Argentina",
-  "Mexico": "Meksika",
-  "Vietnam": "Vietnam",
+  Belarus: "Belarus",
+  Moldova: "Moldova",
+  Kyrgyzstan: "Qırğızıstan",
+  Tajikistan: "Tacikistan",
+  Turkmenistan: "Türkmənistan",
+  Uzbekistan: "Özbəkistan",
+  Malaysia: "Malayziya",
+  Singapore: "Sinqapur",
+  Brazil: "Braziliya",
+  Argentina: "Argentina",
+  Mexico: "Meksika",
+  Vietnam: "Vietnam",
   "Bali (Indonesia)": "Bali (İndoneziya)",
-  "Switzerland": "İsveçrə",
-  "Portugal": "Portuqaliya",
-  "South Korea": "Cənubi Koreya"
+  Switzerland: "İsveçrə",
+  Portugal: "Portuqaliya",
+  "South Korea": "Cənubi Koreya",
 };
 export default function MentorDetail() {
   const mentorID = useParams();
   const [mentorInfoById, setMentorInfoById] = useState("");
   const [mentorCategoryState, setMentorCategoryState] = useState("");
   const [iscommentWrite, setIscommentWrite] = useState(false);
+  const {countries}=useContext(YalliContext)
   console.log();
-  
-  
+
+  const accessToken = localStorage.getItem("accessToken");
+  const navigete = useNavigate();
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]); 
+  }, [location]);
   const getMentorInfoByIdFunc = async () => {
     try {
       const response = await axios.get(
@@ -130,7 +134,7 @@ export default function MentorDetail() {
     () =>
       Array(5)
         .fill(0)
-        .map((_, index) => (
+        ?.map((_, index) => (
           <span key={index}>
             {index + 1 <= rating ? (
               <img className="big-star-img" src={fillStar} />
@@ -148,7 +152,7 @@ export default function MentorDetail() {
       <div className="comment-rating">
         {Array(5)
           .fill(0)
-          .map((_, index) => (
+          ?.map((_, index) => (
             <span key={index}>
               {index + 1 <= rate ? (
                 <img
@@ -198,10 +202,10 @@ export default function MentorDetail() {
   };
   function maskUserName(userName) {
     const parts = userName?.toUpperCase().split(" ");
-    const maskedParts = parts.map(
+    const maskedParts = parts?.map(
       (part) => part.charAt(0) + "*".repeat(part.length - 1)
     );
-    return maskedParts.join(" ");
+    return maskedParts?.join;
   }
   return (
     <>
@@ -221,7 +225,16 @@ export default function MentorDetail() {
                     </div>
                     <div className="text-center">
                       <h4>{mentorInfoById.fullName}</h4>
-                      <p>{countryTranslations[mentorInfoById.country] || mentorInfoById.country}</p>
+                      <img
+                        src={
+                          countries.find(
+                            (country) => country?.name === mentorInfoById?.country
+                          )?.flag || "#"
+                        }
+                        alt={`${mentorInfoById.country} flag`}
+                        style={{ width: "3rem", height: "auto" }} // Bayraq genişliyi
+                      />
+                      <FetchCountries />
                       <p>{mentorCategoryState}</p>
                     </div>
                   </div>
@@ -230,9 +243,18 @@ export default function MentorDetail() {
                   <div className="right">
                     <p>{mentorInfoById.description}</p>
                     <div className="contact-btn ">
-                      <a href={mentorInfoById.link} target="_blank">
-                        Əlaqəyə keç <MdArrowOutward className="icon" />
-                      </a>
+                      {accessToken ? (
+                        <a href={mentorInfoById.link} target="_blank">
+                          Əlaqəyə keç <MdArrowOutward className="icon" />
+                        </a>
+                      ) : (
+                        <a
+                          style={{ cursor: "pointer" }}
+                          onClick={() => navigete("/login")}
+                        >
+                          Əlaqəyə keç <MdArrowOutward className="icon" />
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -262,7 +284,13 @@ export default function MentorDetail() {
                       </div>
                     </div>
                     <div className="right">
-                      <p onClick={() => setIscommentWrite(true)}>Rəy bildir</p>
+                      {accessToken ? (
+                        <p onClick={() => setIscommentWrite(true)}>
+                          Rəy bildir
+                        </p>
+                      ) : (
+                        <p onClick={() => navigete("/login")}>Rəy bildir</p>
+                      )}
                       {iscommentWrite ? (
                         <CommentWrite
                           mentorInfoById={mentorInfoById}

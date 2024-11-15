@@ -11,7 +11,9 @@ import axios from "axios";
 export default function EventDetail() {
   const [userData, setUserData] = useState("");
   const [eventById, setEventById] = useState("");
-  console.log(eventById);
+
+  const accessToken=localStorage.getItem("accessToken")
+  const navigete=useNavigate()
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -106,13 +108,20 @@ export default function EventDetail() {
           </div>
           {userData ? (
             <div className={styles.btn_box}>
-              <a
+             {accessToken? <a
                 target="_blank"
                 href={eventById.link}
               >
                 <span>Qeydiyyatdan keç</span>
                 <UpperIcon />
               </a>
+              : <a
+              onClick={() =>navigete("/login")}
+            >
+              <span>Qeydiyyatdan keç</span>
+              <UpperIcon />
+            </a>
+             }
             </div>
           ) : (
             <div className={styles.btn_box}>
