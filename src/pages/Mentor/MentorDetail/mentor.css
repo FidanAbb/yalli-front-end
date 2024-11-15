@@ -107,7 +107,22 @@
 
 
 /* Commet Write Component */
-
+.dp-center{
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.comment-stars{
+    display: flex;
+    justify-content: center;
+}
+.comment-stars >div{
+    display: flex;
+    align-items:center;
+}
+.comment-stars >div p{
+    font-size: 1.5rem;
+}
 .comment-write .black-background{
     position: absolute;
     top: 0;

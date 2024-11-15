@@ -1,41 +1,34 @@
 import { useContext, useState } from "react";
-import { Rating } from "react-simple-star-rating";
-import fillStar from "../../../../../src/pages/Mentor/MentorDetail/image/star-fill.png";
-import halfStar from "../../../../../src/pages/Mentor/MentorDetail/image/star-half.png";
-import lineStar from "../../../../../src/pages/Mentor/MentorDetail/image/star-line.png";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { YalliContext } from "../../../../Context/YalliContext";
+
 import axios from "axios";
+import StarRating from "./StarRating";
 const CommentWrite = ({
   mentorInfoById,
   iscommentWrite,
   setIscommentWrite,
-  onCommentSubmit
+  onCommentSubmit,
 }) => {
   const { userID } = useContext(YalliContext);
-  console.log(userID);
 
   const [contentState, setContentState] = useState("");
   const [rating, setRating] = useState(0);
   const mentorID = useParams();
-  console.log(mentorID.id);
+console.log(rating);
 
-  const handleRating = (rate) => {
-    const normalizedRating = rate / 20;
-    setRating(normalizedRating);
-    console.log(`Rating: ${normalizedRating}`);
-  };
   const textareaOnChange = (e) => {
     setContentState(e.target.value);
+  }; const handleRatingChange = (newRating) => {
+    setRating(newRating);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Həm `rating`, həm də `contentState` yoxlanır
-    if (rating <1 && contentState.trim() === "") {
+    if (rating < 1 && contentState.trim() === "") {
       toast.warn(
         "Zəhmət olmasa, ən azı bir ulduz və ya rəy mətnini daxil edin.",
         {
@@ -51,21 +44,23 @@ const CommentWrite = ({
     }
 
     try {
-      
-      const normalizedRating = (rating * 20).toString();
-      const response = await axios.post("https://yalli-back-end.onrender.com/v1/comments", {
-        content: contentState,
-        rate: normalizedRating, 
-        userId: userID, 
-        mentorId: mentorID.id 
-      });
-  
+      const normalizedRating = (rating).toString();
+      const response = await axios.post(
+        "https://yalli-back-end.onrender.com/v1/comments",
+        {
+          content: contentState,
+          rate: normalizedRating,
+          userId: userID,
+          mentorId: mentorID.id,
+        }
+      );
+
       // Müvəffəqiyyət mesajı
       toast.success("Rəy uğurla göndərildi!", {
         position: "top-center",
         autoClose: 3000,
       });
-  
+
       // Formu təmizləmək
       setContentState("");
       setRating(0);
@@ -80,10 +75,7 @@ const CommentWrite = ({
       console.error("Error submitting comment:", error);
     }
   };
-  const onPointerEnter = () => console.log("Hover başladı");
-  const onPointerLeave = () => console.log("Hover dayandı");
-  const onPointerMove = (value, index) =>
-    console.log(`Hover: ${value}, Index: ${index}`);
+ 
 
   return (
     <div className="comment-write">
@@ -92,18 +84,7 @@ const CommentWrite = ({
           <form onSubmit={handleSubmit} className="form" action="">
             <p>Fikirləriniz bizim üçün önəmlidir!</p>
             <div className="App">
-              <Rating
-                onClick={handleRating}
-                onPointerEnter={onPointerEnter}
-                onPointerLeave={onPointerLeave}
-                onPointerMove={onPointerMove}
-                ratingValue={rating * 20}
-                size={50}
-                allowHalfIcon
-                transition
-                className="star-icons"
-              />
-              <p>Seçilmiş Reytinq: {rating * 20} </p>{" "}
+              <StarRating totalStars={5} onRatingChange={handleRatingChange} />
             </div>
             <textarea
               name=""
