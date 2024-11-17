@@ -6,7 +6,7 @@ import { RiFacebookCircleLine } from "react-icons/ri";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserDataById, patchUserData } from "../../../redux/slice/user/user";
-import { CiEdit } from "react-icons/ci";
+import { CiEdit, CiLinkedin } from "react-icons/ci";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -14,6 +14,7 @@ import { YalliContext } from "../../../Context/YalliContext";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 import { toast } from "react-toastify";
 const ProfileInfo = () => {
+  const [imgPop, setImgPop] = useState(false);
   const {
     localUserData,
     setLocalUserData,
@@ -23,6 +24,8 @@ const ProfileInfo = () => {
     loadingImage,
     allUsers,
   } = useContext(YalliContext);
+  console.log(localUserData);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const newFormData = { ...localUserData, [name]: value };
@@ -56,17 +59,19 @@ const ProfileInfo = () => {
   function isValidSocialUrl(url, platform) {
     const regexPatterns = {
       FACEBOOK: /(?:http(s)?:\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/,
-      INSTAGRAM: /(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
+      INSTAGRAM:
+        /(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
       WHATSAPP: /(?:http(s)?:\/\/)?api\.whatsapp\.com\/send\?phone=[0-9]+/,
-      TELEGRAM: /(?:http(s)?:\/\/)?(?:www\.)?t\.me\/[a-zA-Z0-9(\.\?)?]/
+      TELEGRAM: /(?:http(s)?:\/\/)?(?:www\.)?t\.me\/[a-zA-Z0-9(\.\?)?]/,
+      LINKEDIN: /(?:http(s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+/,
     };
-  
+
     const pattern = regexPatterns[platform];
     return pattern && pattern.test(url);
   }
   const socialMediaChange = (e) => {
     const { name, value } = e.target;
-    if (!isValidSocialUrl(value, name)) {
+    if (!isValidSocialUrl(value, name.toUpperCase())) {
       toast.error(`Daxil edilmiş ${name} URL düzgün deyil.`);
       return;
     }
@@ -83,7 +88,7 @@ const ProfileInfo = () => {
     setLocalUserData(newUserData);
     updateUserData(newUserData);
   };
-  
+
   const countries = [
     { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
     { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
@@ -133,8 +138,26 @@ const ProfileInfo = () => {
     { name: "İsveçrə", cities: [] },
     { name: "Portuqaliya", cities: [] },
     { name: "Cənubi Koreya", cities: [] },
-];
+  ];
 
+  const deleteProfileImage = () => {
+    const updatedUserData = { ...localUserData, profilePictureUrl: null };
+    setLocalUserData(updatedUserData);
+    updateUserData(updatedUserData);
+    // Şəkili silindikdən sonra input elementini təmizləyin
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.value = ""; // input elementinin dəyərini təmizləyir
+    }
+    toast.success("Şəkil uğurla silindi.");
+  };
+  const getInitials = (name) => {
+    let initials = name.match(/\b\w/g) || [];
+    initials = (
+      (initials.shift() || "") + (initials.pop() || "")
+    ).toUpperCase();
+    return initials;
+  };
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -149,23 +172,40 @@ const ProfileInfo = () => {
                 <div className="left">
                   <div className="img-block">
                     {loadingImage ? (
-                      <p>Loading...</p> 
+                      <p>Loading...</p>
+                    ) : localUserData.profilePictureUrl ? (
+                      <div
+                        className="profile-image-container"
+                        style={{
+                          backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                        }}
+                      ></div>
                     ) : (
-                      <img
-                        src={
-                          `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}` ||
-                          `${profileDefaultImg}`
-                        }
-                        alt="Profile"
-                      />
+                      <div className="profile-image-container profile-initials">
+                        {getInitials(localUserData.fullName || "NN")}
+                      </div>
                     )}
-                    <div
-                      className="edit-icon dp-center"
-                      onClick={() =>
-                        document.getElementById("fileInput").click()
-                      }
-                    >
-                      <CiEdit />
+                    <div className="edit-icon dp-center">
+                      <div
+                        onClick={() => setImgPop((prevState) => !prevState)}
+                        className="edit-con"
+                      >
+                        <CiEdit />
+                      </div>
+                      {imgPop && (
+                        <div className="img-pop">
+                          <div
+                            onClick={() =>
+                              document.getElementById("fileInput").click()
+                            }
+                          >
+                            Şəkil Dəyişdir
+                          </div>
+                          {localUserData.profilePictureUrl && (
+                            <div onClick={deleteProfileImage}>Şəkil Sil</div>
+                          )}
+                        </div>
+                      )}
                     </div>
                     <input
                       type="file"
@@ -229,7 +269,7 @@ const ProfileInfo = () => {
               </div>
             </div>
             <div className="bottom">
-              <ul className="dp-cloumn gap-3">
+              <ul className="dp-cloumn gap-2">
                 <li>
                   <RiFacebookCircleLine className="icon" />
                   <input
@@ -266,6 +306,15 @@ const ProfileInfo = () => {
                     name="INSTAGRAM"
                     type="text"
                     value={localUserData.socialMediaAccounts?.INSTAGRAM || ""}
+                  />
+                </li>
+                <li>
+                <CiLinkedin className="icon" />
+                  <input
+                    onChange={socialMediaChange}
+                    name="LINKEDIN"
+                    type="text"
+                    value={localUserData.socialMediaAccounts?.LINKEDIN || ""}
                   />
                 </li>
               </ul>

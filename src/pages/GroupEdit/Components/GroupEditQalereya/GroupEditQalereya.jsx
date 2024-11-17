@@ -21,6 +21,8 @@ const GroupEditGallery = () => {
     country: "",
     category: "LIFE",
   });
+  const [selectMode, setSelectMode] = useState(false); // State for toggling checkboxes
+
   useEffect(() => {
     if (groupDetailsByUserID) {
       const newFormData = {
@@ -37,7 +39,6 @@ const GroupEditGallery = () => {
       setInitialFormData(newFormData);
     }
   }, [groupDetailsByUserID]);
-  console.log(formData);
 
   useEffect(() => {
     if (groupID && userID) {
@@ -51,13 +52,13 @@ const GroupEditGallery = () => {
         });
     }
   }, [groupID, userID]);
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
     if (file) {
       try {
-        console.log(file);
         const response = await axios.post(
           "https://yalli-back-end.onrender.com/v1/files/upload",
           formData,
@@ -73,16 +74,15 @@ const GroupEditGallery = () => {
           gallery: [...prevFormData.gallery, imageUrl],
         }));
       } catch (err) {
-        console.log("upload da problem", err);
+        console.error("upload da problem", err);
         toast.error("Şəkil yüklənərkən problem oldu.");
       }
     }
   };
 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const changes = Object.keys(formData).reduce((acc, key) => {
       if (formData[key] !== initialFormData[key]) {
         acc[key] = formData[key];
@@ -91,13 +91,12 @@ const GroupEditGallery = () => {
       }
       return acc;
     }, {});
-    console.log(changes);
-    
+
     if (Object.keys(changes).length === 0) {
       toast.info("Heç bir dəyişiklik aşkarlanmadı.");
       return;
     }
-  
+
     try {
       await updateGroup(groupID, changes);
     } catch (error) {
@@ -105,6 +104,7 @@ const GroupEditGallery = () => {
       toast.error("Qrup məlumatları yenilənmədi: " + error.message);
     }
   };
+
   return (
     <div className="group-gallery h-100">
       <div className="gallery-con h-100">
@@ -113,7 +113,9 @@ const GroupEditGallery = () => {
             <IoInformationCircleOutline />
           </div>
           <div>
-            <button>Seç</button>
+            <button style={{zIndex:"10000000",position:"relative"}} onClick={() => setSelectMode((prev) => !prev)}>
+              {selectMode ? "Seçimi bağla" : "Seç"}
+            </button>
           </div>
         </div>
         <div className="body h-100">
@@ -133,18 +135,26 @@ const GroupEditGallery = () => {
               </div>
               {formData.gallery?.map((imageUrl, index) => (
                 <div key={index} className="col-md-3 col-sm-6 col-12">
-                  <div className="images box">
-                    <img
-                      src={`https://minio-server-4oyt.onrender.com/yalli/${imageUrl}`}
-                      alt={`Gallery image ${index}`}
-                    />
+                  <div className="img-block">
+                    <div className="images box">
+                      <img
+                        src={`https://minio-server-4oyt.onrender.com/yalli/${imageUrl}`}
+                        alt={`Gallery image ${index}`}
+                      />
+                      {selectMode && (
+                        <div className="checkbox">
+                          <input type="checkbox" id={`checkbox-${index}`} />
+                          <label htmlFor={`checkbox-${index}`}>Seç</label>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
             <div className="btns-con">
               <div>
-                <div className="save-btn ">
+                <div className="save-btn">
                   <button>Dəyişiklikləri yadda saxla</button>
                 </div>
                 <Link className="back-btn" to="/profile/profile-community-edit">

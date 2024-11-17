@@ -6,7 +6,7 @@ import { IoLogoInstagram, IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiFacebookCircleLine } from "react-icons/ri";
 import { BiLogoTelegram } from "react-icons/bi";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 import notLoginImage from "../../../../src/assets/img/member.png";
 import { Navigate, useNavigate } from "react-router-dom";
@@ -66,10 +66,11 @@ const socialMedia = {
   INSTAGRAM: <IoLogoInstagram className="icon" />,
   TELEGRAM: <BiLogoTelegram className="icon" />,
   WHATSAPP: <FaWhatsapp className="icon what-icon" />,
+  LINKEDIN: <FaLinkedin className="icon" />, // LinkedIn ikonunu əlavə edin
 };
 
 const Members = () => {
-  const { allUsers, localUserData, clickCountryToMembers } =
+  const { allUsers, localUserData, clickCountryToMembers, loadingImage } =
     useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
   const [inputUserCounty, setInputUserCounty] = useState(
@@ -80,6 +81,7 @@ const Members = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin, setIslogin] = useState(false);
   const navigate = useNavigate();
+  console.log(filteredUsers);
 
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
@@ -131,17 +133,32 @@ const Members = () => {
 
   const getCurrentMediaLinks = (user) => {
     const links = [];
-    if (user.socialMediaLinks) {
+    if (user?.socialMediaLinks) {
       Object.keys(socialMedia).forEach((media) => {
-        if (user.socialMediaLinks[media]) {
+        if (user?.socialMediaLinks[media]) {
           links.push({
             icon: socialMedia[media],
-            url: user.socialMediaLinks[media],
+            url: user?.socialMediaLinks[media],
           });
         }
       });
     }
     return links;
+  };
+  useEffect(() => {
+    if (localUserData) {
+      getCurrentMediaLinks();
+    }
+  }, [localUserData]);
+
+  const getInitials = (name) => {
+    // Əvvəlcə adın boşluqlarla ayrılmış hissələrini ayırırıq
+    console.log(name);
+
+    const words = name?.split(/\s+/);
+    // Sonra hər bir sözün ilk hərfi alınır və böyük hərfə çevrilir
+    const initials = words?.map((word) => word[0]?.toUpperCase()).join("");
+    return initials;
   };
 
   return (
@@ -220,15 +237,23 @@ const Members = () => {
                     filteredUsers.map((user, index) => (
                       <div key={index} className="member-card">
                         <div className="left">
-                          <div className="img-block">
-                            <img
-                              src={
-                                user.profilePicture
-                                  ? `https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture}`
-                                  : `${profileDefaultImg}`
-                              }
-                              alt="Profile"
-                            />
+                          <div>
+                            <div>
+                              {loadingImage ? (
+                                <p>Loading...</p>
+                              ) : localUserData.profilePictureUrl ? (
+                                <div
+                                  className="profile-image-container-member"
+                                  style={{
+                                    backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture})`,
+                                  }}
+                                ></div>
+                              ) : (
+                                <div className="no-image">
+                                  {getInitials(user.fullName || "NN")}
+                                </div>
+                              )}
+                            </div>
                           </div>
                           <div>
                             <p className="user-name">{user.fullName}</p>

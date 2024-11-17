@@ -1,0 +1,32 @@
+.profile-image-container-header {
+    width: 2.5rem; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    height: 2.5rem; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Dairəvi profil üçün */
+    overflow: hidden; /* Şəkil kənarlarından çıxmasın */
+    font-size: 50px; /* Baş hərflərin ölçüsü */
+    color: #fff; /* Baş hərflərin rəngi */
+    background-color: #A2A2A2; /* Əgər şəkil yoxdursa, fon rəngi */
+}
+
+.no-image{
+    width: 2.5rem; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    height: 2.5rem; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Dairəvi profil üçün */
+    overflow: hidden; /* Şəkil kənarlarından çıxmasın */
+    font-size: 1.1rem; /* Baş hərflərin ölçüsü */
+    color: #fff; /* Baş hərflərin rəngi */
+    background-color: #A2A2A2;
+}
+  .profile-initials-header {
+    line-height: 10px; /* Baş hərfləri qutunun mərkəzinə yerləşdirmək üçün */
+  }

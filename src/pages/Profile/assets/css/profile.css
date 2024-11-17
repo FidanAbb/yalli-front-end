@@ -187,6 +187,47 @@ height: 80vh;
     height: 2.6rem;
     cursor: pointer;
 }
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .edit-con{
+    position: relative;   
+}
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop{
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-size: 1rem;
+    background-color:#fff;
+    width: 1rem;
+    width: 10rem;
+    z-index: 10000;
+    border-radius:.5rem;
+    
+}
+
+.profile-image-container {
+    width: 150px; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    height: 150px; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%; /* Dairəvi profil üçün */
+    overflow: hidden; /* Şəkil kənarlarından çıxmasın */
+    font-size: 50px; /* Baş hərflərin ölçüsü */
+    color: #fff; /* Baş hərflərin rəngi */
+    background-color: #A2A2A2; /* Əgər şəkil yoxdursa, fon rəngi */
+  }
+
+
+.profile-initials {
+    line-height: 150px; /* Baş hərfləri qutunun mərkəzinə yerləşdirmək üçün */
+  }
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div{
+    padding: .4rem 0;
+}
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div:hover{
+    background-color:#EEEEEE;
+}
 .profile-right .profile-info .info-left .top .left .img-block img{
     width: 100%;   
     height: 100%;

@@ -28,18 +28,8 @@ console.log(rating);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (rating < 1 && contentState.trim() === "") {
-      toast.warn(
-        "Zəhmət olmasa, ən azı bir ulduz və ya rəy mətnini daxil edin.",
-        {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        }
-      );
+    if (rating < 1) { 
+      toast.warn("Zəhmət olmasa, ən azı bir ulduz seçin.", );
       return;
     }
 

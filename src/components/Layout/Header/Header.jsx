@@ -14,6 +14,7 @@ import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { YalliContext } from "../../../Context/YalliContext";
 import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
+import "./header.css";
 const navLinks = [
   {
     page: "Əsas səhifə",
@@ -98,8 +99,15 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [profileDropDown, setProfileDropDown] = useState(false);
   const navigate = useNavigate();
 
-  const { userID, localUserData, setLocalUserData, setImageUrl, imageUrl,setAccessToken } =
-    useContext(YalliContext);
+  const {
+    userID,
+    localUserData,
+    setLocalUserData,
+    setImageUrl,
+    imageUrl,
+    setAccessToken,
+    loadingImage,
+  } = useContext(YalliContext);
   useEffect(() => {
     const localProfileImage = localStorage.getItem("profileImg");
     if (localProfileImage) {
@@ -177,6 +185,13 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [isLoged, setIsLoged] = useState(false);
   const [searchItem, setSearchItem] = useState("");
 
+  const getInitials = (name) => {
+    let initials = name.match(/\b\w/g) || [];
+    initials = (
+      (initials.shift() || "") + (initials.pop() || "")
+    ).toUpperCase();
+    return initials;
+  };
   return (
     <div className={styles["navbar"]}>
       <div className="container">
@@ -253,14 +268,20 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               </>
             ) : (
               <div className={styles["user_img"]} onClick={profileDropDownFunc}>
-                <img
-                  src={
-                    localUserData.profilePictureUrl
-                      ? `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}`
-                      : profileImageDefault
-                  }
-                  alt="Profil Şəkli"
-                />
+                {loadingImage ? (
+                  <p>Loading...</p>
+                ) : localUserData.profilePictureUrl ? (
+                  <div
+                    className="profile-image-container-header"
+                    style={{
+                      backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                    }}
+                  ></div>
+                ) : (
+                  <div className="no-image">
+                    {getInitials(localUserData.fullName || "NN")}
+                  </div>
+                )}
               </div>
             )}
             <div
@@ -279,15 +300,20 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 >
                   <div className={styles["user-info"]}>
                     <div>
-                      <img
-                        src={
-                          localUserData.profilePictureUrl
-                            ? `https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl}`
-                            : profileImageDefault
-                        }
-                        alt="Profil Şəkli"
-                        className={styles["drop-down-img"]}
-                      />
+                      {loadingImage ? (
+                        <p>Loading...</p>
+                      ) : localUserData.profilePictureUrl ? (
+                        <div
+                          className="profile-image-container-header"
+                          style={{
+                            backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                          }}
+                        ></div>
+                      ) : (
+                        <div className="no-image">
+                          {getInitials(localUserData.fullName || "NN")}
+                        </div>
+                      )}
                     </div>
                     <div style={{ overflow: "hidden" }}>
                       <h5>{localUserData.fullName}</h5>
