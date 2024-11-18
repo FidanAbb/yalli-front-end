@@ -276,11 +276,11 @@ export default function MentorDetail() {
                       <div className="cricle"></div>
                       <div>
                         {mentorInfoById?.comments?.length}{" "}
-                        <span>dəyərləndirmə</span>
+                        <span>Dəyərləndirmə</span>
                       </div>
                       <div className="cricle"></div>
                       <div>
-                        {mentorInfoById?.comments?.length} <span>rəy</span>
+                        {mentorInfoById?.comments?.length} <span>Rəy</span>
                       </div>
                     </div>
                     <div className="right">

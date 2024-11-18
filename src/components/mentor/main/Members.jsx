@@ -73,15 +73,12 @@ const Members = () => {
   const { allUsers, localUserData, clickCountryToMembers, loadingImage } =
     useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
-  const [inputUserCounty, setInputUserCounty] = useState(
-    clickCountryToMembers ? clickCountryToMembers : ""
-  );
+  const [inputUserCounty, setInputUserCounty] = useState("")
   const [filteredUsers, setFilteredUsers] = useState(allUsers);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin, setIslogin] = useState(false);
   const navigate = useNavigate();
-  console.log(filteredUsers);
 
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
@@ -89,6 +86,15 @@ const Members = () => {
       setIslogin(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (localUserData && localUserData.country) {
+      setSelectedCountry(localUserData.country);
+      filterUser(localUserData.country);
+      const userCountry= localUserData?.country ?? clickCountryToMembers ?? ""
+      setInputUserCounty(userCountry);
+    }
+  }, [localUserData,clickCountryToMembers]);
   const userNameChange = (e) => {
     setInputUserName(e.target.value);
   };
@@ -212,16 +218,17 @@ const Members = () => {
                     </div>
                     {showDropdown && (
                       <div className="dropdown-list">
-                        {selectedCountry.map((country, index) => (
-                          <div
-                            key={index}
-                            onClick={() => handleCountrySelect(country)}
-                            style={{ padding: "8px", cursor: "pointer" }}
-                            onMouseDown={(e) => e.preventDefault()}
-                          >
-                            {country}
-                          </div>
-                        ))}
+                        {Array.isArray(selectedCountry) &&
+                          selectedCountry.map((country, index) => (
+                            <div
+                              key={index}
+                              onClick={() => handleCountrySelect(country)}
+                              style={{ padding: "8px", cursor: "pointer" }}
+                              onMouseDown={(e) => e.preventDefault()}
+                            >
+                              {country}
+                            </div>
+                          ))}
                       </div>
                     )}
                   </div>

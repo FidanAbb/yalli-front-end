@@ -1,13 +1,7 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
-import Meal from "../../../assets/img/meal.svg";
-import badminton from "../../../assets/img/badminton.svg";
-import kitchen from "../../../assets/img/kitchen.svg";
-import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { getEventData } from "../../../redux/slice/event/event";
 import axios from "axios";
 import "./event.css";
 import { CiLocationOn } from "react-icons/ci";
@@ -227,7 +221,7 @@ const Event = () => {
 
   const text =
     "Sərhədləri aşır, xoş niyyət və sevgi ilə dünyanın fərqli nöqtələrində həmvətənlilərimizi bir araya gətiririk!";
-  const speed = 50; 
+  const speed = 50;
   let index = 0;
 
   function typeEffect() {
@@ -238,10 +232,9 @@ const Event = () => {
     }
   }
 
-  window.onload = function () {
-    typeEffect();
-  };
-
+  useEffect(()=>{
+    typeEffect()
+  },[])
   return (
     <div className={styles["group"]}>
       <div className="container">
@@ -314,7 +307,6 @@ const Event = () => {
               fill-opacity="0.5"
             />
           </svg>
-
           <h2 id="animatedText"></h2>
         </div>
       </div>

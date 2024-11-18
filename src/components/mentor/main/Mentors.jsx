@@ -192,9 +192,13 @@ const Mentors = () => {
         ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
           mentor.fullName?.toLowerCase().includes(name.toLowerCase())
         : true;
+      const translatedMentorCountry =
+        countryTranslations[mentor.country] || mentor.country;
       const matchesCountry = country
-        ? mentor.country?.toLowerCase().startsWith(country.toLowerCase()) ||
-          mentor.country?.toLowerCase().includes(country.toLowerCase())
+        ? translatedMentorCountry
+            ?.toLowerCase()
+            ?.startsWith(country.toLowerCase()) ||
+          translatedMentorCountry?.toLowerCase()?.includes(country?.toLowerCase())
         : true;
       const matchesCategory =
         translatedCategories.length > 0
@@ -213,9 +217,14 @@ const Mentors = () => {
   const eventCountryChange = (e) => {
     const value = e.target.value;
     setInputMentorsCountry(value);
-    const matchedCountries = countryCategory.filter((country) =>
-      country.toLowerCase().startsWith(value.toLowerCase())
-    );
+    const matchedCountries = countryCategory.filter((country) => {
+      const translatedCountry =
+        Object.keys(countryTranslations).find(
+          (key) =>
+            countryTranslations[key].toLowerCase() === country.toLowerCase()
+        ) || country;
+      return translatedCountry.toLowerCase().startsWith(value.toLowerCase());
+    });
     setSelectedCountry(matchedCountries);
     setShowDropDown(true);
   };
@@ -316,7 +325,7 @@ const Mentors = () => {
                             onMouseDown={(e) => e.preventDefault()}
                             style={{ padding: "8px", cursor: "pointer" }}
                           >
-                            {country}
+                            {countryTranslations[country] || country}
                           </div>
                         ))}
                       </div>
@@ -376,11 +385,11 @@ const Mentors = () => {
                                   countries.find(
                                     (country) => country?.name === item?.country
                                   )?.flag || "#"
-                                } 
+                                }
                                 alt={`${item.country} flag`}
                                 style={{ width: "2rem", height: "auto" }} // Bayraq genişliyi
                               />
-                                 <FetchCountries/>  
+                              <FetchCountries />
                             </p>
                             <p>
                               {categoryTranslationsTwo[item.mentorCategory] ||

@@ -11,6 +11,11 @@ const GroupEditGallery = () => {
     useContext(YalliContext);
   const { groupID } = useParams();
   const [initialFormData, setInitialFormData] = useState({});
+  
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [isCheckedImage, setIsCheckedImage] = useState(false);
+  const [changesDetected, setChangesDetected] = useState(false);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -21,7 +26,7 @@ const GroupEditGallery = () => {
     country: "",
     category: "LIFE",
   });
-  const [selectMode, setSelectMode] = useState(false); // State for toggling checkboxes
+  const [selectMode, setSelectMode] = useState(false); 
 
   useEffect(() => {
     if (groupDetailsByUserID) {
@@ -80,6 +85,11 @@ const GroupEditGallery = () => {
     }
   };
 
+  const handleCancel = () => {
+    setFormData(initialFormData);
+    toast.info("Dəyişikliklər ləğv edildi.");
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -99,21 +109,53 @@ const GroupEditGallery = () => {
 
     try {
       await updateGroup(groupID, changes);
+      setChangesDetected(false); 
     } catch (error) {
       console.error("Qrup məlumatlarını yeniləyərkən xəta baş verdi:", error);
       toast.error("Qrup məlumatları yenilənmədi: " + error.message);
     }
   };
 
+  const deletSelectedImages = () => {
+    const newGallery = formData.gallery.filter(
+      (img) => !selectedImages?.includes(img)
+    );
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      gallery: newGallery,
+    }));
+    setSelectedImages([]);
+    toast.info("Seçilmiş şəkillər silindi.");
+  };
+  const toggleImageSelection = (imageId) => {
+    setIsCheckedImage((prev) => !prev);
+    setSelectedImages((prev) => {
+      if (prev?.includes(imageId)) {
+        return prev?.filter((id) => id !== imageId);
+      } else {
+        return [...prev, imageId];
+      }
+    });
+  };
+
+  const checkForChanges=()=>{
+    return JSON.stringify(initialFormData) !== JSON.stringify(formData)
+  }
+  useEffect(() => {
+    setChangesDetected(checkForChanges());
+  }, [formData, initialFormData]);
   return (
     <div className="group-gallery h-100">
       <div className="gallery-con h-100">
         <div className="head">
-          <div>
+          <div className="info-icon">
             <IoInformationCircleOutline />
           </div>
           <div>
-            <button style={{zIndex:"10000000",position:"relative"}} onClick={() => setSelectMode((prev) => !prev)}>
+            <button
+              style={{ zIndex: "1000", position: "relative" }}
+              onClick={() => setSelectMode((prev) => !prev)}
+            >
               {selectMode ? "Seçimi bağla" : "Seç"}
             </button>
           </div>
@@ -142,9 +184,18 @@ const GroupEditGallery = () => {
                         alt={`Gallery image ${index}`}
                       />
                       {selectMode && (
-                        <div className="checkbox">
-                          <input type="checkbox" id={`checkbox-${index}`} />
-                          <label htmlFor={`checkbox-${index}`}>Seç</label>
+                        <div
+                          className={`checkbox ${
+                            selectedImages.includes(imageUrl) ? "active" : ""
+                          }`}
+                        >
+                          <input
+                            checked={selectedImages?.includes(imageUrl)}
+                            onChange={() => toggleImageSelection(imageUrl)}
+                            style={{ opacity: "0", userSelect: "none" }}
+                            type="checkbox"
+                            id={`checkbox-${index}`}
+                          />
                         </div>
                       )}
                     </div>
@@ -153,14 +204,27 @@ const GroupEditGallery = () => {
               ))}
             </div>
             <div className="btns-con">
-              <div>
-                <div className="save-btn">
-                  <button>Dəyişiklikləri yadda saxla</button>
+              {(changesDetected || selectMode) && (
+                <div>
+                  <div className="save-btn">
+                    <button
+                      onClick={() =>
+                        selectMode ? deletSelectedImages() : handleSubmit()
+                      }
+                    >
+                      {selectMode
+                        ? "Seçilənləri sil"
+                        : "Dəyişiklikləri yadda saxla"}
+                    </button>
+                  </div>
+                  <Link
+                    className={selectMode?"back-btn none":"back-btn"}
+                    onClick={handleCancel}
+                  >
+                    Ləğv et
+                  </Link>
                 </div>
-                <Link className="back-btn" to="/profile/profile-community-edit">
-                  Ləğv et
-                </Link>
-              </div>
+              )}
             </div>
           </form>
         </div>
