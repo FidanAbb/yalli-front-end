@@ -58,7 +58,9 @@ body,* {
 
 body,html{
     overflow-x: hidden !important;
+    width: 100vw !important;
 }
 body{
 overflow: hidden !important;
+
 }
