@@ -17,8 +17,9 @@ body {
 
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
+
 
 // .container {
 //   max-width: 1400px !important;

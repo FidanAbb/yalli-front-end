@@ -45,6 +45,7 @@
   }
   .menu.active{
     transform: translate(100%);
+    display: none;
   }
   .menu .menu-con{
     position: relative;

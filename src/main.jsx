@@ -4,7 +4,7 @@ import { store } from "./redux/store/store.js";
 import { Provider } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ContextYalli from "./Context/YalliContext.jsx";
-import "./assets/css/index.css"
+import "./assets/css/index.css";
 createRoot(document.getElementById("root")).render(
   
   <>

@@ -10,6 +10,11 @@ import { useSelector } from "react-redux";
 function App() {
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
+  if (window.innerWidth < 768) {
+    document.body.style.overflowX = "hidden";
+  } else {
+    document.body.style.overflowX = "visible";
+  }
 
   useEffect(() => {
     if (user) {
