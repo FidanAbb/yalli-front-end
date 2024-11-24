@@ -55,3 +55,10 @@
 body,* {
     font-family: Gilroy, sans-serif;
 }
+
+body,html{
+    overflow-x: hidden !important;
+}
+body{
+overflow: hidden !important;
+}
