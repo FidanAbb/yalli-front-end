@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FetchCountries from "../components/Countrys/FetchCountryCodes";
 
-// Create the context
 export const YalliContext = createContext();
 const ContextYalli = ({ children }) => {
   const dispatch = useDispatch();
@@ -38,6 +37,19 @@ const ContextYalli = ({ children }) => {
 
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
+
+
+  const [isRegisterOtp, setIsRegisterOtp] = useState(() => {
+    // localStorage-dan ilkin dəyəri götürürük
+    const savedValue = localStorage.getItem("isRegisterOtp");
+    return savedValue ? JSON.parse(savedValue) : false; // Dəyəri parse edib false ilə default dəyər veririk
+  });
+  
+  useEffect(() => {
+    // Hər dəfə isRegisterOtp dəyişəndə localStorage-a yazırıq
+    localStorage.setItem("isRegisterOtp", JSON.stringify(isRegisterOtp));
+  }, [isRegisterOtp]);
+
 
 const [countries, setCountries] = useState([]);
   useEffect(() => {
@@ -302,7 +314,9 @@ const [countries, setCountries] = useState([]);
         filteredEvents,
         setFilteredEvents,
         setCountries,
-        countries
+        countries,
+        setIsRegisterOtp,
+        isRegisterOtp
       }}
     >
       {children}

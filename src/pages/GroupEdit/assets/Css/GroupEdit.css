@@ -192,9 +192,12 @@ form {
     right: 1rem;
     background-color: transparent !important;
     border: 1px solid;
+    border-radius:50%;
     cursor: pointer;
 }
 
 .group-edit .right .group-gallery .body .img-block .checkbox.active {
-    background-color: #FA4500 !important;
+    background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIA06GvvZ4mssQfZeQ3v6Sg6uFzxIvuXYUtw&s);
+    background-position: center;
+    background-size: 4rem;
 }

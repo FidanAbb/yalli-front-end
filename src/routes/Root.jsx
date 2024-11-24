@@ -23,6 +23,7 @@ import Events from "../components/mentor/main/Events";
 import Mentors from "../components/mentor/main/Mentors";
 import GroupEdit from "../pages/GroupEdit/GroupEdit";
 import Main from "../components/groupDetail/main/Main";
+import { PrivateRoute } from "../PrivateRoute";
 
 const Router = createBrowserRouter([
 
@@ -36,11 +37,11 @@ const Router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/profile/:section",
-    element: <Profile />,
+    element: <PrivateRoute />, 
+    children: [
+      { path: "", element: <Profile /> },
+      { path: ":section", element: <Profile /> },
+    ],
   },
   {
     path: "/member",
@@ -122,5 +123,5 @@ const Router = createBrowserRouter([
     path: "/event/:id",
     element: <EventDetail />,
   },
-]);
-export default Router;
+])
+export default Router

@@ -13,6 +13,21 @@
     object-fit: cover;
 }
 
+.back-btn-mentor{
+    position: absolute;
+    top: 6rem;
+    left: 2rem;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
+
+.back-btn-event{
+    position: absolute;
+    top: 6rem;
+    left: 4rem;
+    font-size: 1.7rem;
+    cursor: pointer;
+}
 .mentor-detail .detail-head .right{
     position: relative;
     height: 100%;

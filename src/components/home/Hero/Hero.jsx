@@ -121,7 +121,6 @@ const Hero = () => {
               <div className={styles["earthicon"]}>
                 <EarthIcon />
               </div>
-
               <input
                 type="text"
                 name=""
@@ -133,7 +132,6 @@ const Hero = () => {
                 onFocus={() => setShowOptions(true)}
                 onBlur={() => setTimeout(() => setShowOptions(false), 200)}
               />
-
               {showOptions && (
                 <div className={styles["options"]}>
                   {filteredCountries.length > 0 ? (

@@ -9,6 +9,13 @@
     .card {
       max-width: 963px;
       width: 100%;
+      .back-btn{
+        position: absolute; 
+        top: 8rem;
+        left: 10rem;
+        font-size: 1.7rem;
+        cursor: pointer;
+      }
       background-color: #fff;
       border-radius: 10px;
       .upper {

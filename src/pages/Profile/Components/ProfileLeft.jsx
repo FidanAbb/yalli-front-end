@@ -141,4 +141,4 @@ const ProfileLeft = () => {
   );
 };
 
-export default ProfileLeft;
+export default ProfileLeft

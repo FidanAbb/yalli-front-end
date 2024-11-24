@@ -6,19 +6,26 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { api } from "../../../api.config";
-
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./resetpass.css";
+import PasswordEye from "../../components/ui/PasswordEye";
+import PasswordEyeOpen from "../../components/ui/PasswordEyeOpen";
 const ResetPass = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errorFields, setErrorFields] = useState({});
-
+  const [isPassword, setIsPassword] = useState(false);
+  const [isPassowrdOne,setIsPassowrdOne]=useState()
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .required("Parol tələb olunur")
       .min(8, "Parol ən azı 8 simvol olmalıdır")
       .max(20, "Parol ən çox 20 simvol olmalıdır")
       .matches(/[A-Z]/, "Parolda ən azı bir böyük hərf olmalıdır")
-      .matches(/[0-9!@%^&*()_+=-]/, "Parolda ən azı bir rəqəm və ya simvol olmalıdır"),
+      .matches(
+        /[0-9!@%^&*()_+=-]/,
+        "Parolda ən azı bir rəqəm və ya simvol olmalıdır"
+      ),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref("password"), null], "Şifrələr uyğun deyil")
       .required("Şifrəni təkrarlamaq tələb olunur"),
@@ -77,16 +84,26 @@ const ResetPass = () => {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={styles["input_field"]}>
-            <input
-              {...register("password")}
-              type="password"
-              id="password"
-              placeholder="Şifrə"
-              style={{
-                color: errorFields.password ? "red" : "inherit",
-                border: `1px solid ${errorFields.password ? "red" : "inherit"}`,
-              }}
-            />
+            <div className="password-eye">
+              <input
+                {...register("password")}
+                type={isPassowrdOne ? "password" : "text"}
+                id="password"
+                placeholder="Şifrə"
+                style={{
+                  color: errorFields.password ? "red" : "inherit",
+                  border: `1px solid ${
+                    errorFields.password ? "red" : "inherit"
+                  }`,
+                }}
+              />
+               <div
+                className="icon"
+                onClick={() => setIsPassowrdOne((prev) => !prev)}
+              >
+                {isPassowrdOne ? <PasswordEyeOpen /> : <PasswordEye />}
+              </div>
+            </div>
             {touchedFields.password && errors.password && (
               <span>
                 <Warning />
@@ -96,16 +113,26 @@ const ResetPass = () => {
           </div>
 
           <div className={styles["input_field"]}>
-            <input
-              {...register("confirmPassword")}
-              type="password"
-              id="confirmPassword"
-              placeholder="Şifrəni təkrarlayın"
-              style={{
-                color: errorFields.confirmPassword ? "red" : "inherit",
-                border: `1px solid ${errorFields.confirmPassword ? "red" : "inherit"}`,
-              }}
-            />
+            <div className="password-eye">
+              <input
+                {...register("confirmPassword")}
+                type={isPassword ? "password" : "text"}
+                id="confirmPassword"
+                placeholder="Şifrəni təkrarlayın"
+                style={{
+                  color: errorFields.confirmPassword ? "red" : "inherit",
+                  border: `1px solid ${
+                    errorFields.confirmPassword ? "red" : "inherit"
+                  }`,
+                }}
+              />
+              <div
+                className="icon"
+                onClick={() => setIsPassword((prev) => !prev)}
+              >
+                {isPassword ?<PasswordEyeOpen  /> : <PasswordEye />}
+              </div>
+            </div>
             {touchedFields.confirmPassword && errors.confirmPassword && (
               <span>
                 <Warning />
@@ -141,4 +168,4 @@ const ResetPass = () => {
   );
 };
 
-export default ResetPass;
+export default ResetPass

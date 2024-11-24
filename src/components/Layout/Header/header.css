@@ -30,3 +30,46 @@
   .profile-initials-header {
     line-height: 10px; /* Baş hərfləri qutunun mərkəzinə yerləşdirmək üçün */
   }
+
+
+  .menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15rem;
+    height: 100vh;
+    background-color:#fff;
+    z-index: 10000;
+    transform: translate(0);
+    transition: .5s;
+  }
+  .menu.active{
+    transform: translate(100%);
+  }
+  .menu .menu-con{
+    position: relative;
+  }
+  .menu .menu-con .close-btn{
+    position: absolute;
+    right: 0;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+  .menu .menu-con  ul{
+    position: relative;
+    top: 4rem;
+  }
+  .menu .menu-con  ul li{
+    font-size: 1.3rem;
+  }
+  .menu-log-out{
+    position: relative;
+    top: 15rem;
+    font-size: 1.5rem !important;
+    padding: .2rem;
+  }
+  .menu-log-out>div>div {
+    color:red;
+    display: flex;
+    align-items:center;
+  }

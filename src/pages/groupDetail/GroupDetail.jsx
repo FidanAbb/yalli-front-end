@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import Header from "../../components/Layout/Header/Header";
 import Footer from "../../components/Layout/Footer/Footer";
 import Hero from "../../components/groupDetail/hero/Hero";
@@ -10,6 +10,16 @@ const GroupDetail = () => {
   let { id } = useParams();
   const group = useSelector((state) => state.groups.group);
   const dispatch = useDispatch();
+
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
 
   // const [allData, setAllData] = useState({
   //   ...groups,
@@ -24,6 +34,7 @@ const GroupDetail = () => {
 
   return (
     <>
+    {console.log(forServerError)}
      <Header/>
       <Hero group={group}/>
       <Main group={group}/>

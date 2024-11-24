@@ -176,6 +176,10 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      .menu-icon{
+        display: none;
+      }
+      
       .profile-dropdown{
         position: absolute;
         bottom: -1rem;
@@ -296,7 +300,22 @@
 }
 
 
-
+@media (max-width:1089px) {
+  .navbar{
+    .left{
+      ul{
+        display: none !important;
+      }
+    }
+    .right{
+      .menu-icon{
+        display: block !important;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    }
+  }
+}
 
 
 .disabled-link {

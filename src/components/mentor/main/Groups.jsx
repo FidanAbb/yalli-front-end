@@ -6,7 +6,7 @@ import { getGroupData } from "../../../redux/slice/group/group";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Layout/Header/Header";
 import Footer from "../../Layout/Footer/Footer";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Hero from "../../group/hero/Hero";
 
 const Groups = () => {
@@ -17,6 +17,20 @@ const Groups = () => {
   const [searchedItem, setSearchedItem] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [activeCategories, setActiveCategories] = useState([]);
+
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
 
   useEffect(() => {
     dispatch(getGroupData());
@@ -49,6 +63,8 @@ const Groups = () => {
 
   return (
     <>
+    {console.log(forServerError)
+    }
       <Header />
       <Hero />
       <div className={styles["main"]}>

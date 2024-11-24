@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Arrow from "../../components/ui/Arrow";
 import confirmEmail from "../../assets/img/confirmEmail.svg";
 import styles from "./style.module.scss";
 import { api } from "../../../api.config";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { YalliContext } from "../../Context/YalliContext";
 
 const ConfirmEmail = () => {
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
@@ -16,6 +18,10 @@ const ConfirmEmail = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [countdown, setCountdown] = useState(60);
   const [otpInputFilled, setOtpInputFilled] = useState(false);
+  const [attempts, setAttempts] = useState(0); // Cəhdləri izləmək üçün
+  const [blocked, setBlocked] = useState(false); // Bloklama statusu
+  const [blockTime, setBlockTime] = useState(null); // Bloklama vaxtı
+  const { isRegisterOtp, setIsRegisterOtp } = useContext(YalliContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,6 +43,16 @@ const ConfirmEmail = () => {
       setResetEmail(JSON.parse(storedEmail));
     }
   }, []);
+
+  useEffect(() => {
+    if (blocked) {
+      const unblockTime = setTimeout(() => {
+        setBlocked(false);
+        setAttempts(0); 
+      }, 5 * 60 * 1000); 
+      return () => clearTimeout(unblockTime);
+    }
+  }, [blocked]);
 
   const formatEmail = (email) => {
     if (!email) return "";
@@ -63,61 +79,81 @@ const ConfirmEmail = () => {
     }
   };
 
+  const handlePaste = (event) => {
+    const pastedData = event.clipboardData.getData("Text").slice(0, 6);
+    const newOtpCode = pastedData.split("");
+    while (newOtpCode.length < 6) newOtpCode.push("");
+    setOtpCode(newOtpCode);
+    setOtpInputFilled(newOtpCode.every((digit) => digit !== ""));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (blocked) {
+      setError("Hesab 5 dəqiqəlik bloklanıb. Zəhmət olmasa gözləyin.");
+      return;
+    }
     setLoading(true);
     setError(null);
     setSuccess(null);
     const otpString = otpCode.join("");
 
     try {
-      const endpoint = !resetEmail
+      // Endpointi və emaili `isRegisterOtp`-ə görə seçirik
+      const endpoint = isRegisterOtp
         ? "/users/confirm"
         : "/users/reset-password/verify";
+      const payloadEmail = isRegisterOtp ? email : resetEmail;
 
-      const response = resetEmail
-        ? await api.post(endpoint, {
-            email: resetEmail,
-            otp: otpString,
-          })
-        : await api.post(endpoint, {
-            email: email,
-            otp: otpString,
-          });
+      const response = await api.post(endpoint, {
+        email: payloadEmail,
+        otp: otpString,
+      });
 
-      if (response.status === 204 && !resetEmail) {
+      if (response.status === 204 && isRegisterOtp) {
         setSuccess(true);
         navigate("/success");
-      } else if (response.status === 204 && resetEmail) {
-        navigate("/reset-password");
+      } else if (response.status === 204 && !isRegisterOtp) {
+        navigate("/reset-password"); // Şifrə sıfırlama üçün uğurlu səhifə
       }
     } catch (error) {
-      setError("Xəta baş verdi. Yenidən cəhd edin.");
-      setErrorOccurred(true);
-      setCountdown(60); 
-      setOtpSent(false);
+      setAttempts((prev) => prev + 1); // Cəhdləri artır
+      if (attempts + 1 >= 3) {
+        setBlocked(true);
+        setBlockTime(Date.now());
+        setError("3 cəhddən sonra hesab 5 dəqiqəlik bloklanıb.");
+      } else {
+        setError(`Xəta baş verdi. Yenidən cəhd edin. (${attempts + 1}/3)`);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const resendOtp = async () => {
+    if (blocked) {
+      setError("Bu email bloklanıb. Zəhmət olmasa 5 dəqiqə gözləyin.");
+      return;
+    }
+    if (countdown > 0 || loading) {
+      // Yenidən göndərmək üçün countdown'un bitməsini və loading dəyişənin false olmasını gözləyirik
+      return;
+    }
     setLoading(true);
     setError(null);
     setSuccess(null);
-    setCountdown(60); 
+    setCountdown(60); // Yenidən göndərildikdən sonra countdown'u yenidən 60 saniyəyə qururuq
 
     try {
       const response = await api.get(`/users/send-otp?email=${email}`);
-
       if (response.status === 200) {
         setOtpSent(true);
         setSuccess("Yeni OTP kodu göndərildi!");
+      } else {
+        throw new Error("OTP göndərilmədi");
       }
     } catch (error) {
       setError("OTP göndərmə zamanı xəta baş verdi. Yenidən cəhd edin.");
-      setErrorOccurred(true);
-      setCountdown(60);
     } finally {
       setLoading(false);
     }
@@ -135,6 +171,11 @@ const ConfirmEmail = () => {
           Biz indicə sizə doğrulama kodunu {formatEmail(email)} ünvanına
           göndərdik
         </p>
+        {blocked && (
+          <p style={{width:"80%",margin:"0 auto",position:"relative",left:"5.7rem"}} className={`${styles.error} ${styles.errorHighlight}`}>
+            Hesabınız 5 dəqiqəlik bloklanıb. Zəhmət olmasa gözləyin.
+          </p>
+        )}
         <form onSubmit={handleSubmit}>
           <div className={styles["otp_code"]}>
             {otpCode.map((digit, index) => (
@@ -146,27 +187,19 @@ const ConfirmEmail = () => {
                 value={digit}
                 onChange={(e) => handleOtpChange(index, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(index, e)}
+                onPaste={(e) => handlePaste(e)}
                 maxLength="1"
+                disabled={blocked}
               />
             ))}
           </div>
           {error && <span className={styles["error"]}>{error}</span>}
-          {countdown < 60 && (
-            <span>Kodu {countdown} saniyə sonra yenidən göndərin</span>
-          )}
-          {!otpSent ? (
-            <button type="submit" disabled={loading || !otpInputFilled}>
-              {loading ? "Göndərilir..." : "Təsdiq edin"}
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={resendOtp}
-              disabled={loading || countdown > 0}
-            >
-              {loading ? "Göndərilir..." : "Yeni OTP göndərin"}
-            </button>
-          )}
+          <button
+            type="submit"
+            disabled={loading || blocked || !otpInputFilled}
+          >
+            {loading ? "Göndərilir..." : "Təsdiq edin"}
+          </button>
           <button
             className={styles["legv"]}
             type="button"
@@ -175,9 +208,6 @@ const ConfirmEmail = () => {
             Ləğv edin
           </button>
         </form>
-        {otpSent && (
-          <p className={styles["otp_sent"]}>Yeni OTP kodu göndərildi!</p>
-        )}
       </div>
     </div>
   );

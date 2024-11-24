@@ -1,19 +1,11 @@
 // components/Events/Events.jsx
 import React, { useContext, useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "../../Layout/Header/Header";
 import Hero from "../../mentor/hero/Hero";
 import Footer from "../../Layout/Footer/Footer";
-import styles from "./style.module.scss";
-import Sidebar from "../../ui/pageSidebar/PageSideBar";
-import Germany from "../../ui/countries/Germany";
-import Emil from "../../../assets/img/Emil.svg";
-import Polsa from "../../ui/countries/Polsa";
-import Fidan from "../../../assets/img/Fidan.svg";
-import Vuqar from "../../../assets/img/Vuqar.svg";
-import MentorsCard from "../../ui/MentorsCard/MentorsCard";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
@@ -142,6 +134,10 @@ const mentorCategory = [
   { id: "KARYERA", label: "Karyera" },
 ];
 const Mentors = () => {
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [mentors, setMentors] = useState([]);
   const [inputMentorsTitle, setInputMentorsTitle] = useState("");
@@ -152,6 +148,15 @@ const Mentors = () => {
   const [selectedCategory, setSelectedCategory] = useState([]);
   const { countries, setCountries } = useContext(YalliContext);
 
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchMentors([]);
@@ -268,6 +273,7 @@ const Mentors = () => {
 
   return (
     <>
+    {console.log(forServerError)}
       <Header />
       <Hero />
       <div className="mentor-page">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,10 @@ import Warning from "../ui/Warning";
 import PasswordEye from "../ui/PasswordEye";
 import PasswordEyeOpen from "../ui/PasswordEyeOpen";
 import DownArrow from "../ui/DownArrow";
-
+import { toast } from "react-toastify";
+import { YalliContext } from "../../Context/YalliContext";
+import "./register.css";
+import PrivacyPolicy from "../PrivacyPolicy/PrivacyPolicy";
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -68,6 +71,8 @@ const RegisterForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState("");
   const [checked, setChecked] = useState(false);
+  const { isRegisterOtp, setIsRegisterOtp } = useContext(YalliContext);
+  const [policyState, setPolicyState] = useState(false);
   const {
     register,
     handleSubmit,
@@ -82,13 +87,17 @@ const RegisterForm = () => {
 
   const onSubmit = async (data) => {
     try {
+      if (!checked) {
+        toast.info("Şərtləri qəbul etməlisiniz");
+        return;
+      }
       setLoading(true);
       const response = await api.post("/users/register", data);
 
       if (response.status === 201) {
-        
         localStorage.setItem("email-confirm", JSON.stringify(data.email));
         navigate("/confirm-email");
+        setIsRegisterOtp(true);
       }
     } catch (error) {
       if (
@@ -106,15 +115,17 @@ const RegisterForm = () => {
   };
 
   return (
-    <form  onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-      <h1 style={{fontWeight:"700",fontSize:"28px",textAlign:"center"}}>Hesabınızı yaradın</h1>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <h1 style={{ fontWeight: "700", fontSize: "28px", textAlign: "center" }}>
+        Hesabınızı yaradın
+      </h1>
 
       <div className={styles["input_field"]}>
         <input
           {...register("fullName")}
           type="text"
           placeholder="Ad və Soyad"
-          style={{width:"100%"}}
+          style={{ width: "100%" }}
         />
         {errors.fullName && <span>{errors.fullName.message}</span>}
       </div>
@@ -124,7 +135,7 @@ const RegisterForm = () => {
           {...register("email")}
           type="email"
           placeholder="E-posta ünvanı"
-          style={{width:"100%"}}
+          style={{ width: "100%" }}
         />
         {errors.email && (
           <span>
@@ -134,6 +145,17 @@ const RegisterForm = () => {
         )}
       </div>
 
+      {policyState && (
+        <div className="Privacy-Policy">
+          <PrivacyPolicy setPolicyState={setPolicyState} />
+          <div
+            onClick={() => {
+              setPolicyState(false);
+            }}
+            className="my-bg-color"
+          ></div>
+        </div>
+      )}
       <div className={styles["input_field"]}>
         <select
           {...register("country")}
@@ -141,9 +163,9 @@ const RegisterForm = () => {
           style={{
             color: `${errors.country ? "red" : ""}`,
             border: `1px solid ${errors.country ? "red" : ""}`,
-            width:"100%", padding:"1rem .8rem"
+            width: "100%",
+            padding: "1rem .8rem",
           }}
-          
         >
           <option value="" disabled hidden>
             Ölkə seçin
@@ -164,18 +186,36 @@ const RegisterForm = () => {
           </span>
         )}
       </div>
+      {/* <div className={styles["input_field"]}>
+        <div>
+          <div className="">Ölkə Secin</div>
+          <div className="">
+            {countryCategory.map((c, i) => (
+              <div key={i} value="azerbaijan">
+                {c}
+              </div>
+            ))}
+          </div>
+        </div>
+        {errors.country && (
+          <span>
+            <Warning />
+            {errors.country.message}
+          </span>
+        )}
+      </div> */}
 
       <div className={styles["input_field"]}>
         <input
           {...register("password")}
           type={showPassword ? "text" : "password"}
           placeholder="Şifrə"
-          style={{width:"100%"}}
-          />
+          style={{ width: "100%" }}
+        />
         <div
           onClick={() => setShowPassword(!showPassword)}
           className={styles["eye"]}
-          >
+        >
           {showPassword ? <PasswordEyeOpen /> : <PasswordEye />}
         </div>
         {touchedFields.password && errors.password && (
@@ -191,7 +231,7 @@ const RegisterForm = () => {
           {...register("confirmPassword")}
           type={showConfirmPassword ? "text" : "password"}
           placeholder="Şifrəni təkrarlayın"
-          style={{width:"100%"}}
+          style={{ width: "100%" }}
         />
         <div
           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -207,7 +247,7 @@ const RegisterForm = () => {
         )}
       </div>
 
-       <div
+      <div
         className={styles["remember_me"]}
         // style={{ marginLeft: `${!isSignUp ? "-200px" : ""}` }}
       >
@@ -217,33 +257,34 @@ const RegisterForm = () => {
           type="checkbox"
           id="rememberme"
         />
-        <p>
-         
-            <>
-              {`Mən `}
-              <span>Yalli-nin Məxfilik Siyasəti</span>
-              {` və `}
-              <span>Xidmət Şərtləri</span>
-              {` ilə razıyam`}
-            </>
-         
+        <p
+          style={{ cursor: "pointer" }}
+          onClick={() => {
+            setPolicyState(true);
+          }}
+        >
+          <>
+            {`Mən `}
+            <span>Yalli-nin Məxfilik Siyasəti</span>
+            {` və `}
+            <span>Xidmət Şərtləri</span>
+            {` ilə razıyam`}
+          </>
         </p>
       </div>
 
       {apiError && <p className={styles["error-message"]}>{apiError}</p>}
 
-
-
       <button
-  type="submit"
-  className={styles["submit-button"]}
-  disabled={!isValid || loading}
-  style={{
-    marginTop: "2rem",
-    }}
->
-  {loading ? "Göndərilir..." : "Qeydiyyatdan keç"}
-</button>
+        type="submit"
+        className={styles["submit-button"]}
+        disabled={!isValid || loading}
+        style={{
+          marginTop: "2rem",
+        }}
+      >
+        {loading ? "Göndərilir..." : "Qeydiyyatdan keç"}
+      </button>
     </form>
   );
 };

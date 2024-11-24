@@ -6,7 +6,18 @@ import memberImg from "../../assets/img/member.png";
 import styles from "./style.module.scss";
 import {useNavigate} from "react-router-dom";
 import { YalliContext } from "../../Context/YalliContext";
+import { useSelector } from "react-redux";
 const Member = () => {
+   
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
   let navigate= useNavigate()
   const [userData, setUserData] = useState("");
   
@@ -24,6 +35,8 @@ const Member = () => {
         <div className={styles["before_login"]}>
           <div className="container">
             <div onClick={()=>navigate('/login')} style={{cursor:'pointer'}}>
+              {console.log(forServerError)}
+              
               <img
 
                   src={memberImg}

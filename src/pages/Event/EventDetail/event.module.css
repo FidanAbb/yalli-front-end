@@ -9,6 +9,10 @@
     align-items: flex-start;
     gap: 28px;
 }
+.back-btn-my-event{
+    position: fixed;
+    
+}
 .event_left{
     min-width: 343px;
     max-width: 343px;

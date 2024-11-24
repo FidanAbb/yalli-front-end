@@ -14,6 +14,8 @@ import lineStar from "../../../../src/pages/Mentor/MentorDetail/image/star-line.
 import CommentWrite from "./components/CommentWrite";
 import FetchCountries from "../../../components/Countrys/FetchCountryCodes";
 import { YalliContext } from "../../../Context/YalliContext";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 const mentorCategory = [
   { id: "LIFE", label: "Yaşam" },
   { id: "EDUCATION", label: "Təhsil" },
@@ -75,8 +77,16 @@ export default function MentorDetail() {
   const [mentorInfoById, setMentorInfoById] = useState("");
   const [mentorCategoryState, setMentorCategoryState] = useState("");
   const [iscommentWrite, setIscommentWrite] = useState(false);
-  const {countries}=useContext(YalliContext)
-  console.log();
+  const { countries } = useContext(YalliContext);
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
 
   const accessToken = localStorage.getItem("accessToken");
   const navigete = useNavigate();
@@ -209,8 +219,16 @@ export default function MentorDetail() {
   }
   return (
     <>
+    {console.log(forServerError)
+    }
       <Header />
       <div className="mentor-detail">
+        <div
+          onClick={() => window.history.back()}
+          className={"back-btn-mentor"}
+        >
+          <FaArrowLeftLong />
+        </div>
         <div className="container">
           <div className="detail-con">
             <div className="detail-head">
@@ -228,7 +246,8 @@ export default function MentorDetail() {
                       <img
                         src={
                           countries.find(
-                            (country) => country?.name === mentorInfoById?.country
+                            (country) =>
+                              country?.name === mentorInfoById?.country
                           )?.flag || "#"
                         }
                         alt={`${mentorInfoById.country} flag`}

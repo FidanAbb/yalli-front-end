@@ -145,12 +145,36 @@
 } 
 
 .profile-right .group-edit{
-overflow-y: auto !important;
-overflow-x: hidden !important;
-height: 80vh;
-
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    height: 80vh;
+    padding: 2rem;
+    padding-top: 1rem;
+    position: relative;
 }
 
+.profile-right .group-edit-con .btns{
+    display: flex;
+    justify-content: end;
+    width: 100%;
+    padding: .5rem;
+    padding-bottom: 0;
+}
+.profile-right .group-edit-con .btns button:first-child{
+    border:none;
+    background-color:transparent;
+    font-size: 1.1rem;
+}
+.profile-right .group-edit-con .btns button:first-child.active{
+    color:#FA4500;
+}
+.profile-right .group-edit-con .btns button:last-child{
+    border-radius:.7rem;
+    background-color:#A2A2A2;
+    color:#fff;
+    padding: 0 1.5rem ;
+    border: none;
+}
 /* Profile Info */
 .profile-right .profile-info {
     padding: 2rem ;

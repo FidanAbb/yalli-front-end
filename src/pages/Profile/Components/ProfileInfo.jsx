@@ -24,7 +24,6 @@ const ProfileInfo = () => {
     loadingImage,
     allUsers,
   } = useContext(YalliContext);
-  console.log(localUserData);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -364,4 +363,4 @@ const ProfileInfo = () => {
   );
 };
 
-export default ProfileInfo;
+export default ProfileInfo

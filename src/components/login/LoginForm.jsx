@@ -10,7 +10,7 @@ import PasswordEyeOpen from "../ui/PasswordEyeOpen";
 import { useNavigate } from "react-router-dom";
 import { YalliContext } from "../../Context/YalliContext";
 import { getUserDataById } from "../../redux/slice/user/user";
-
+import welcomeImage from "../../../src/assets/img/Xoş Gəlmisiniz 👋🏻.png";
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -65,7 +65,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{padding:"2rem"}} className={styles.form}>
       <div className={styles["welcome-image"]}>
-        <img src="../../../src/assets/img/Xoş Gəlmisiniz 👋🏻.png" alt="" />
+        <img src={welcomeImage} alt="" />
       </div>
       <div className={styles["input_field"]}>
         <input

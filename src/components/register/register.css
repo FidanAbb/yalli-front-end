@@ -1,0 +1,43 @@
+.country-drop-down{
+    display: flex;
+    flex-direction: column;
+}
+.country-drop-down .country{
+    width: 100%;
+    height: 2rem;
+    background-color: aqua;
+    border-radius: .4rem;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.my-li .link {
+    color: #000;
+}
+
+.Privacy-Policy {
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 5rem;
+}
+
+.Privacy-Policy .copmonent-con {
+    position: relative;
+    height: 100%;
+}
+
+.Privacy-Policy .my-bg-color {
+    position: absolute;
+    bottom: -5rem;
+    left: 0;
+    z-index: 1;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    opacity: .2;
+    cursor: pointer;
+}

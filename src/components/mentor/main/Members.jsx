@@ -9,7 +9,9 @@ import { BiLogoTelegram } from "react-icons/bi";
 import { FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 import notLoginImage from "../../../../src/assets/img/member.png";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -70,10 +72,23 @@ const socialMedia = {
 };
 
 const Members = () => {
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
   const { allUsers, localUserData, clickCountryToMembers, loadingImage } =
     useContext(YalliContext);
   const [inputUserName, setInputUserName] = useState("");
-  const [inputUserCounty, setInputUserCounty] = useState("")
+  const [inputUserCounty, setInputUserCounty] = useState("");
   const [filteredUsers, setFilteredUsers] = useState(allUsers);
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -88,30 +103,38 @@ const Members = () => {
   }, []);
 
   useEffect(() => {
-    if (localUserData && localUserData.country) {
-      setSelectedCountry(localUserData.country);
-      filterUser(localUserData.country);
-      const userCountry= localUserData?.country ?? clickCountryToMembers ?? ""
-      setInputUserCounty(userCountry);
+    if (localUserData?.country) {
+      setInputUserCounty(localUserData.country);
+      setSelectedCountry([localUserData.country]);
     }
-  }, [localUserData,clickCountryToMembers]);
+  }, [localUserData]);
+
   const userNameChange = (e) => {
     setInputUserName(e.target.value);
   };
   const userCountryChange = (e) => {
     const value = e.target.value;
     setInputUserCounty(value);
-    const matchedCountries = countryCategory.filter((country) =>
-      country.toLowerCase().startsWith(value.toLowerCase())
-    );
-    setSelectedCountry(matchedCountries);
-    setShowDropdown(true);
+
+    if (value.trim() === "") {
+      if (localUserData?.country) {
+        setSelectedCountry([localUserData.country]);
+      } else {
+        setSelectedCountry(countryCategory);
+      }
+    } else {
+      const matchedCountries = countryCategory.filter((country) =>
+        country.toLowerCase().startsWith(value.toLowerCase())
+      );
+      setSelectedCountry(matchedCountries);
+    }
+
+    setShowDropdown(true); 
   };
 
   const handleCountrySelect = (country) => {
-    setInputUserCounty(country);
-    setShowDropdown(false);
-    filterUser(country, inputUserName);
+    setInputUserCounty(country); 
+    setShowDropdown(false); 
   };
 
   const filterUser = (country = inputUserCounty, name = inputUserName) => {
@@ -169,6 +192,7 @@ const Members = () => {
 
   return (
     <div className="members">
+      {console.log(forServerError)}
       <Header />
       {isLogin ? (
         <div className="members-page">
@@ -195,7 +219,13 @@ const Members = () => {
                         value={inputUserCounty}
                         onFocus={() => {
                           setShowDropdown(true);
-                          if (inputUserCounty.trim() === "") {
+                          if (
+                            inputUserCounty.trim() === "" &&
+                            localUserData?.country
+                          ) {
+                            // Əgər input boşdursa, localUserData-dakı ölkəni göstər
+                            setSelectedCountry([localUserData.country]);
+                          } else if (inputUserCounty.trim() === "") {
                             setSelectedCountry(countryCategory);
                           }
                         }}

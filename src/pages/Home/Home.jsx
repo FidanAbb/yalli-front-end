@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef,useEffect ,useState} from "react";
 import Header from "../../components/Layout/Header/Header";
 import Hero from "../../components/home/Hero/Hero";
 import Group from "../../components/home/Group/Group";
@@ -8,6 +8,7 @@ import Footer from "../../components/Layout/Footer/Footer";
 import FetchCountryCodes from "../../components/Countrys/FetchCountryCodes";
 import FetchCountries from "../../components/Countrys/FetchCountryCodes";
 import { YalliContext } from "../../Context/YalliContext";
+import { useSelector } from "react-redux";
 const Home = () => {
   const groupRef = useRef(null);
   const eventRef = useRef(null);
@@ -17,11 +18,23 @@ const Home = () => {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
  
   
 
   return (
     <>
+    {console.log(forServerError)
+    }
       <Header
         scrollToSection={scrollToSection}
         groupRef={groupRef}
@@ -44,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home

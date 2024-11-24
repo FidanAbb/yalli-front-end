@@ -3,45 +3,59 @@ import styles from "./style.module.scss";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../components/ui/Warning";
 import { api } from "../../../api.config";
+
 const ForgotPass = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_ENDPOINT = "/users/reset-password/request";
+
+  const ERROR_MESSAGES = {
+    empty: "E-poçt daxil edin",
+    invalid: "Düzgün e-poçt daxil edin",
+    notFound: "E-poçt ünvanı tapılmadı",
+    serverError: "Serverə qoşulmadı",
+    unknown: "E-poçt ünvanı yalnışdır",
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
 
     if (!email) {
-      setErrorMessage("E-poçt daxil edin");
+      setErrorMessage(ERROR_MESSAGES.empty);
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setErrorMessage("Düzgün e-poçt daxil edin");
+      setErrorMessage(ERROR_MESSAGES.invalid);
       return;
     }
-
     try {
       setLoading(true);
-      const response = await api.post(`/users/reset-password/request?email=${email}`);
-
-      if (response.status === 204) {
-        localStorage.setItem("resetEmail", JSON.stringify(email));
-        navigate("/confirm-email");
-      } else if (response.status === 404) {
-        setErrorMessage("E-poçt ünvanı tapılmadı");
-      } else {
-        setErrorMessage("E-poçt ünvanı yalnışdır");
+      const response = await api.post(API_ENDPOINT, { email });
+      switch (response.status) {
+        case 204:
+          localStorage.setItem("resetEmail", JSON.stringify(email));
+          navigate("/confirm-email");
+          break;
+        case 404:
+          setErrorMessage(ERROR_MESSAGES.notFound);
+          break;
+        default:
+          setErrorMessage(ERROR_MESSAGES.unknown);
+          break;
       }
     } catch (error) {
-      setErrorMessage("Serverə qoşulmadı");
+      setErrorMessage(ERROR_MESSAGES.serverError);
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className={styles["forgot_pass"]}>
       <div className={styles["forgot_window"]}>
@@ -62,7 +76,6 @@ const ForgotPass = () => {
             />
             {errorMessage && (
               <span style={{ color: "red" }}>
-                {" "}
                 <Warning />
                 {errorMessage}
               </span>

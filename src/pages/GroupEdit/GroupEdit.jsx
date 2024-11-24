@@ -5,6 +5,7 @@ import GroupEditAllInfo from "./Components/GroupEditAllInfo/GroupEditAllInfo";
 import GroupEditAbout from "./Components/GroupEditAbout/GroupEditAbout";
 import GroupEditGallery from "./Components/GroupEditQalereya/GroupEditQalereya";
 import { YalliContext } from "../../Context/YalliContext";
+import { useSelector } from "react-redux";
 
 // Komponentlər
 
@@ -13,6 +14,15 @@ const GroupEdit = () => {
   const navigate = useNavigate();
   const {updateGroup}=useContext(YalliContext)
   
+  const [forServerError, setForServerError] = useState();
+  const user = useSelector((state) => state.users.user);
+
+  
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,6 +46,8 @@ useEffect(() => {
 
   return (
     <div className="group-edit">
+      {console.log(forServerError)
+      }
       <div className="row h-100">
         <div className="col-md-3 h-100">
           <div className="left">

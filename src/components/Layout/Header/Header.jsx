@@ -9,11 +9,12 @@ import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { GoPeople } from "react-icons/go";
 import mentorIcon from "../../../../src/pages/Profile/assets/img/mentor-icon.svg";
 import mentorIconDark from "../../../../src/pages/Profile/assets/img/mentor-icon-dark.svg";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoCloseCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { YalliContext } from "../../../Context/YalliContext";
 import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
+import { FaBars } from "react-icons/fa6";
 import "./header.css";
 const navLinks = [
   {
@@ -98,7 +99,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [filteredCountries, setFilteredCountries] = useState(countryCategory);
   const [profileDropDown, setProfileDropDown] = useState(false);
   const navigate = useNavigate();
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const {
     userID,
     localUserData,
@@ -128,6 +129,22 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     navigate("/login");
     setProfileDropDown(false);
   };
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+      window.scrollTo(0, 0); // Yuxarı sürüşdürmək üçün
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      // Təmizlik funksiyası
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isMenuOpen]);
   const [userDataa, setUserData] = useState("");
   useEffect(() => {
     const checkUserLoggedIn = () => {
@@ -284,6 +301,11 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 )}
               </div>
             )}
+            <FaBars
+              onClick={() => setIsMenuOpen(true)}
+              className={styles["menu-icon"]}
+            />
+
             <div
               className={
                 profileDropDown
@@ -378,6 +400,43 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className={!isMenuOpen ? "menu active" : "menu"}>
+        <div className="menu-con">
+          <div className="close-btn">
+            <IoCloseCircleOutline onClick={() => setIsMenuOpen(false)} />
+          </div>
+
+          <ul>
+            {navLinks.map((link, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate(link.link);
+                }}
+                style={{
+                  backgroundColor:
+                    location.pathname === link.link ? "#FA4500" : "transparent",
+                  padding: "10px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  color: location.pathname === link.link ? "#fff" : "black",
+                }}
+              >
+                {link.page}
+              </li>
+            ))}
+            <li className="menu-log-out">
+              <div onClick={handleLogout} className={styles["log-out"]}>
+                <div>
+                  <IoIosLogOut className={styles["icon"]} />
+                  <span>Çıxış</span>
+                </div>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

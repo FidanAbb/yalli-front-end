@@ -1,0 +1,6 @@
+.errorHighlight {
+    color: red;
+    background-color: yellow;  
+    padding: 10px;       
+    border: 1px solid red
+}  

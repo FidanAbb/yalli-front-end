@@ -1,0 +1,8 @@
+.password-eye {
+    position: relative;
+}
+.password-eye .icon{
+    position: absolute;
+    top: 30%;
+    right: 1rem;
+}

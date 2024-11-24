@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { YalliContext } from "../../../Context/YalliContext";
-
+import { FaArrowLeftLong } from "react-icons/fa6";
 const Hero = ({ group }) => {
   const [isHover, setIsHover] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
@@ -73,6 +73,9 @@ const Hero = ({ group }) => {
       <div className="container">
         <div className={styles["hero"]}>
           <div className={styles["card"]}>
+            <div onClick={()=>window.history.back()} className={styles["back-btn"]}>
+              <FaArrowLeftLong />
+            </div>
             <div className={styles["upper"]}>
               <h1>{group.title}</h1>
               {accessToken ? (
@@ -84,7 +87,7 @@ const Hero = ({ group }) => {
                   İcmaya qoşul <JoinGroupIcon isHover={isHover} />
                 </button>
               ) : (
-                <button  onClick={() =>navigete("/login")}>
+                <button onClick={() => navigete("/login")}>
                   İcmaya qoşul <JoinGroupIcon isHover={isHover} />
                 </button>
               )}

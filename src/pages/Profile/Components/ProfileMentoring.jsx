@@ -73,4 +73,4 @@ const ProfileMentoring = () => {
   );
 };
 
-export default ProfileMentoring;
+export default ProfileMentoring

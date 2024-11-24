@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Card from "../../ui/card/Card";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Header from "../../Layout/Header/Header";
 import Hero from "../../event/hero/Hero";
 import Footer from "../../Layout/Footer/Footer";
@@ -14,6 +14,7 @@ import {
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { YalliContext } from "../../../Context/YalliContext";
+import { useSelector } from "react-redux";
 const eventCategories = [
   { id: "POPULAR", label: "Populyar" },
   { id: "EXPIRED", label: "Keçmiş" },
@@ -71,6 +72,7 @@ const countryCategory = [
   "Cənubi Koreya",
 ];
 
+
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const weekdays = [
@@ -103,6 +105,20 @@ const formatDate = (dateString) => {
 };
 
 const Events = () => {
+  const [forServerError, setForServerError] = useState();
+const user = useSelector((state) => state.users.user);
+
+const location = useLocation();
+useEffect(() => {
+  window.scrollTo(0, 0);
+}, [location]);
+
+
+useEffect(() => {
+  if (user) {
+    setForServerError(user);
+  }
+}, [user]);
   const navigate = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [events, setEvents] = useState([]);
@@ -323,6 +339,8 @@ const Events = () => {
 
   return (
     <>
+    {console.log(forServerError)}
+    
       <Header />
       <Hero />
       <div className="events-page">

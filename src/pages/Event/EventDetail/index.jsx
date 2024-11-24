@@ -8,6 +8,7 @@ import Header from "../../../components/Layout/Header/Header";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import defaultEventImg from "../../../../src/assets/img/kitchen.svg";
 import axios from "axios";
+import { FaArrowLeftLong } from "react-icons/fa6";
 export default function EventDetail() {
   const [userData, setUserData] = useState("");
   const [eventById, setEventById] = useState("");
@@ -84,6 +85,12 @@ export default function EventDetail() {
     <>
       <Header />
       <div className={styles.event_box}>
+      <div
+          onClick={() => window.history.back()}
+          className={"back-btn-event"}
+        >
+          <FaArrowLeftLong />
+        </div>
         <div className={styles.event_left}>
           <img
             src={
