@@ -44,6 +44,10 @@ const LoginForm = () => {
 
         if (response.data.id) {
           setUserID(response.data.id);
+          
+          document.cookie = `accessToken=${response.data.accessToken}; path=/; max-age=3600; secure; samesite=strict`;
+         
+          
           localStorage.setItem("userID", JSON.stringify(response.data.id));
           navigate("/");
         }
@@ -66,6 +70,13 @@ const LoginForm = () => {
     }
   };
 
+  function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    const cookie = cookies.find((row) => row.startsWith(`${name}=`));
+    return cookie ? cookie.split('=')[1] : null;
+  }
+  const token = getCookie('accessToken');
+  console.log(token);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

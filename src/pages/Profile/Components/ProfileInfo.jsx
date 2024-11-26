@@ -14,6 +14,7 @@ import { YalliContext } from "../../../Context/YalliContext";
 import profileDefaultImg from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 import { toast } from "react-toastify";
 const ProfileInfo = () => {
+  const wrapperRef = useRef(null);
   const [imgPop, setImgPop] = useState(false);
   const {
     localUserData,
@@ -138,15 +139,28 @@ const ProfileInfo = () => {
     { name: "Portuqaliya", cities: [] },
     { name: "Cənubi Koreya", cities: [] },
   ];
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setImgPop(false)
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+useOutsideAlerter(wrapperRef);
 
   const deleteProfileImage = () => {
     const updatedUserData = { ...localUserData, profilePictureUrl: null };
     setLocalUserData(updatedUserData);
     updateUserData(updatedUserData);
-    // Şəkili silindikdən sonra input elementini təmizləyin
     const fileInput = document.getElementById("fileInput");
     if (fileInput) {
-      fileInput.value = ""; // input elementinin dəyərini təmizləyir
+      fileInput.value = ""; 
     }
     toast.success("Şəkil uğurla silindi.");
   };
@@ -192,7 +206,7 @@ const ProfileInfo = () => {
                         <CiEdit />
                       </div>
                       {imgPop && (
-                        <div className="img-pop">
+                        <div ref={wrapperRef} className="img-pop">
                           <div
                             onClick={() =>
                               document.getElementById("fileInput").click()

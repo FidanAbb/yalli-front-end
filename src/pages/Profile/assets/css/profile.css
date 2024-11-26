@@ -1,4 +1,4 @@
-.profile-con{
+.profile-con {
     padding: 2rem 0;
     height: 36.7rem;
     padding-top: 1rem;
@@ -9,142 +9,162 @@
     pointer-events: none;
     opacity: 0.5;
     cursor: default;
-  }
+}
+
 .profile-left {
-    padding-right: 3rem ;
+    padding-right: 3rem;
     position: relative;
     height: 100%;
 }
+
 .profile-left .top ul li {
     position: relative;
     padding: 1rem 0;
 }
+
 .profile-left .top ul li:nth-child(2),
-.profile-left .top ul li:nth-child(4){
+.profile-left .top ul li:nth-child(4) {
     border-bottom: 1px solid #11111180;
 }
-.profile-left .top ul li .link{
-    color:#11111180;
+
+.profile-left .top ul li .link {
+    color: #11111180;
     text-decoration: none;
     font-size: 1.2rem;
-    display: flex;   
-    align-items:center;
+    display: flex;
+    align-items: center;
     gap: .6rem;
     cursor: pointer;
 }
-.profile-left .top ul li .link .user-icon{
+
+.profile-left .top ul li .link .user-icon {
     font-size: 1.6rem;
 }
-.profile-left .top ul li .link .notif-icon{
+
+.profile-left .top ul li .link .notif-icon {
     font-size: 1.6rem;
 }
-.profile-left .top ul li .link .mentor-icon{
+
+.profile-left .top ul li .link .mentor-icon {
     width: 1.5rem;
 }
 
-.profile-left .top ul li .link.active .mentor-icon{
+.profile-left .top ul li .link.active .mentor-icon {
     display: none;
 }
-.profile-left .top ul li .link.active .mentor-icon-dark{
+
+.profile-left .top ul li .link.active .mentor-icon-dark {
     width: 1.6rem;
     display: block;
 }
-.profile-left .top ul li .link .mentor-icon-dark{
+
+.profile-left .top ul li .link .mentor-icon-dark {
     display: none;
 }
 
 /* Log Out Btn */
 .profile-left .top ul li:nth-child(7) .link {
-    color:red !important;
+    color: red !important;
     font-size: 1.3rem;
 }
-.profile-left .top ul li:nth-child(7) .link .icon{
+
+.profile-left .top ul li:nth-child(7) .link .icon {
     font-size: 1.6rem;
     margin-top: .4rem;
 }
 
 /*! Log Out Btn */
-.profile-left .top ul li .link .help-icon{
+.profile-left .top ul li .link .help-icon {
     font-size: 1.4rem;
 }
-.profile-left .bottom{
+
+.profile-left .bottom {
     position: absolute;
-    bottom:0;
+    bottom: 0;
     padding-bottom: 2rem;
-} 
-.profile-left .bottom >div{
+}
+
+.profile-left .bottom>div {
     font-size: 1.4rem;
-    color:red;
+    color: red;
     gap: 1rem;
     cursor: pointer;
 }
-.profile-left .bottom  .back-black{
+
+.profile-left .bottom .back-black {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 999;
     height: 100vh;
     width: 100%;
-    background-color:#111111;
+    background-color: #111111;
     opacity: .4;
-    
 }
-.profile-left .bottom >div .delte-popap{
+
+.profile-left .bottom>div .delte-popap {
     position: fixed;
     top: 50%;
     left: 50%;
     z-index: 1000;
-    background-color:#fff;
-    transform: translate(-50%,-50%);
+    background-color: #fff;
+    transform: translate(-50%, -50%);
     width: 25rem;
-    border-radius:2rem;
+    border-radius: 2rem;
     text-align: center;
     padding: 1.6rem;
 }
-.profile-left .bottom >div .delte-popap p{
-    color:black;
+
+.profile-left .bottom>div .delte-popap p {
+    color: black;
 }
 
-.profile-left .bottom >div .delte-popap .btn-con{
+.profile-left .bottom>div .delte-popap .btn-con {
     margin-top: 1rem;
 }
-.profile-left .bottom >div .delte-popap .btn-con button{
+
+.profile-left .bottom>div .delte-popap .btn-con button {
     padding: .2rem 3rem;
-    border-radius:1rem;
-    border:none;
+    border-radius: 1rem;
+    border: none;
 }
-.profile-left .bottom >div .delte-popap .btn-con button:first-child{
-    background-color:transparent;
+
+.profile-left .bottom>div .delte-popap .btn-con button:first-child {
+    background-color: transparent;
     transition: .4s;
     border: 1px solid #FA4500;
 }
-.profile-left .bottom >div .delte-popap .btn-con button:first-child:hover{
-    background-color:#FA4500;
+
+.profile-left .bottom>div .delte-popap .btn-con button:first-child:hover {
+    background-color: #FA4500;
     color: #fff;
 }
-.profile-left .bottom >div .delte-popap .btn-con button:last-child{
-    background-color:#FA4500;
-    color:#fff;
+
+.profile-left .bottom>div .delte-popap .btn-con button:last-child {
+    background-color: #FA4500;
+    color: #fff;
     transition: .4s;
 }
-.profile-left .bottom >div .delte-popap .btn-con button:last-child:hover{
-    color:#FA4500;
-    background-color:#fff;
+
+.profile-left .bottom>div .delte-popap .btn-con button:last-child:hover {
+    color: #FA4500;
+    background-color: #fff;
     border: 1px solid #FA4500;
 }
-.link.active ,
-.link.active *{
-    color: #111111 !important; 
+
+.link.active,
+.link.active * {
+    color: #111111 !important;
     font-weight: bold;
-  }
-  
-.profile-right{
+}
+
+.profile-right {
     background-color: #fff;
     border-radius: 1rem;
     height: 100%;
-} 
+}
 
-.profile-right .group-edit{
+.profile-right .group-edit {
     overflow-y: auto !important;
     overflow-x: hidden !important;
     height: 80vh;
@@ -153,132 +173,158 @@
     position: relative;
 }
 
-.profile-right .group-edit-con .btns{
+.profile-right .group-edit-con .btns {
     display: flex;
     justify-content: end;
     width: 100%;
     padding: .5rem;
     padding-bottom: 0;
 }
-.profile-right .group-edit-con .btns button:first-child{
-    border:none;
-    background-color:transparent;
+
+.profile-right .group-edit-con .btns button:first-child {
+    border: none;
+    background-color: transparent;
     font-size: 1.1rem;
 }
-.profile-right .group-edit-con .btns button:first-child.active{
-    color:#FA4500;
+
+.profile-right .group-edit-con .btns button:first-child.active {
+    color: #FA4500;
 }
-.profile-right .group-edit-con .btns button:last-child{
-    border-radius:.7rem;
-    background-color:#A2A2A2;
-    color:#fff;
-    padding: 0 1.5rem ;
+
+.profile-right .group-edit-con .btns button:last-child {
+    border-radius: .7rem;
+    background-color: #A2A2A2;
+    color: #fff;
+    padding: 0 1.5rem;
     border: none;
 }
+
 /* Profile Info */
 .profile-right .profile-info {
-    padding: 2rem ;
+    padding: 2rem;
     padding-top: 1rem;
 }
+
 .profile-right .profile-info .info-left {
     gap: 1rem;
 }
-.profile-right .profile-info .info-left .top{
-    background-color:#F9F9F9;
+
+.profile-right .profile-info .info-left .top {
+    background-color: #F9F9F9;
     padding: 2rem 0;
     border-radius: 1rem;
     width: 100%;
     margin: 0 !important;
 }
-.profile-right .profile-info .info-left .top .left{
+
+.profile-right .profile-info .info-left .top .left {
     text-align: center;
     border-right: 1px solid #A2A2A2;
 }
+
 .profile-right .profile-info .info-left .top .left .img-block {
     width: 9rem;
     height: 9rem;
     margin: 0 auto;
     position: relative;
 }
-.profile-right .profile-info .info-left .top .left .img-block .edit-icon{
+
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon {
     position: absolute;
     bottom: 0;
     right: 0;
     font-size: 1.7rem;
-    background-color:#fff;
-    border-radius:50%;
+    background-color: #fff;
+    border-radius: 50%;
     width: 2.6rem;
     height: 2.6rem;
     cursor: pointer;
 }
-.profile-right .profile-info .info-left .top .left .img-block .edit-icon .edit-con{
-    position: relative;   
+
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .edit-con {
+    position: relative;
 }
-.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop{
+
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop {
     position: absolute;
     top: 2rem;
     left: 2rem;
     font-size: 1rem;
-    background-color:#fff;
+    background-color: #fff;
     width: 1rem;
     width: 10rem;
     z-index: 10000;
-    border-radius:.5rem;
-    
+    border-radius: .5rem;
+
 }
 
 .profile-image-container {
-    width: 150px; /* İstədiyiniz ölçüyə uyğunlaşdırın */
-    height: 150px; /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    width: 150px;
+    /* İstədiyiniz ölçüyə uyğunlaşdırın */
+    height: 150px;
+    /* İstədiyiniz ölçüyə uyğunlaşdırın */
     display: flex;
     align-items: center;
     justify-content: center;
     background-size: cover;
     background-position: center;
-    border-radius: 50%; /* Dairəvi profil üçün */
-    overflow: hidden; /* Şəkil kənarlarından çıxmasın */
-    font-size: 50px; /* Baş hərflərin ölçüsü */
-    color: #fff; /* Baş hərflərin rəngi */
-    background-color: #A2A2A2; /* Əgər şəkil yoxdursa, fon rəngi */
-  }
+    border-radius: 50%;
+    /* Dairəvi profil üçün */
+    overflow: hidden;
+    /* Şəkil kənarlarından çıxmasın */
+    font-size: 50px;
+    /* Baş hərflərin ölçüsü */
+    color: #fff;
+    /* Baş hərflərin rəngi */
+    background-color: #A2A2A2;
+    /* Əgər şəkil yoxdursa, fon rəngi */
+}
 
 
 .profile-initials {
-    line-height: 150px; /* Baş hərfləri qutunun mərkəzinə yerləşdirmək üçün */
-  }
-.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div{
+    line-height: 150px;
+    /* Baş hərfləri qutunun mərkəzinə yerləşdirmək üçün */
+}
+
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div {
     padding: .4rem 0;
 }
-.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div:hover{
-    background-color:#EEEEEE;
+
+.profile-right .profile-info .info-left .top .left .img-block .edit-icon .img-pop>div:hover {
+    background-color: #EEEEEE;
 }
-.profile-right .profile-info .info-left .top .left .img-block img{
-    width: 100%;   
+
+.profile-right .profile-info .info-left .top .left .img-block img {
+    width: 100%;
     height: 100%;
-    border-radius:50%;
+    border-radius: 50%;
     object-fit: cover;
 }
-.profile-right .profile-info .info-left .top .left p{
+
+.profile-right .profile-info .info-left .top .left p {
     font-size: 1.8rem;
     font-weight: 600;
 }
-.profile-right .profile-info .info-left .top .right{
+
+.profile-right .profile-info .info-left .top .right {
     width: 100%;
     font-size: 1.1rem;
 }
-.profile-right .profile-info .info-left .top .right>div{
+
+.profile-right .profile-info .info-left .top .right>div {
     width: 100%;
-    padding:2rem 1rem ;
+    padding: 2rem 1rem;
 }
-.profile-right .profile-info .info-left .top .right input{
-border:none;
-background-color:transparent;
-outline: none;
-width: 100%;
+
+.profile-right .profile-info .info-left .top .right input {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    width: 100%;
 }
 
 .profile-right .profile-info .info-left .top .right .date-con,
-.profile-right .profile-info .info-left .top .right .input-con{
+.profile-right .profile-info .info-left .top .right .input-con {
     background-color: #EEEEEE;
     width: 100%;
     height: 2.4rem;
@@ -288,92 +334,110 @@ width: 100%;
     margin: .5rem 0;
     position: relative;
 }
-.profile-right .profile-info .info-left .top .right .date-con .date-icon{
+
+.profile-right .profile-info .info-left .top .right .date-con .date-icon {
     position: absolute;
     right: 0;
     top: 50%;
-    transform:translate(-50%,-50%) ;
+    transform: translate(-50%, -50%);
 }
+
 .profile-right .profile-info .info-left .bottom {
     background-color: #F9F9F9;
     padding: 1rem;
     width: 100%;
-    border-radius:1rem;
+    border-radius: 1rem;
 }
-.profile-right .profile-info .info-left .bottom ul li{
+
+.profile-right .profile-info .info-left .bottom ul li {
     display: flex;
     align-items: center;
     gap: 1.4rem;
 }
-.profile-right .profile-info .info-left .bottom ul li input{
-    background-color:#EEEEEE;
+
+.profile-right .profile-info .info-left .bottom ul li input {
+    background-color: #EEEEEE;
     width: 15rem;
     padding: .2rem .4rem !important;
-    border-radius:.5rem;
+    border-radius: .5rem;
     outline: none;
     border: none;
 }
-.profile-right .profile-info .info-left .bottom ul li .icon{
+
+.profile-right .profile-info .info-left .bottom ul li .icon {
     font-size: 1.9rem;
 }
-.profile-right .profile-info .info-left .bottom ul li .teleqram-icon{
+
+.profile-right .profile-info .info-left .bottom ul li .teleqram-icon {
     border: 3px solid;
-    width: 1.56rem ;
+    width: 1.56rem;
     height: 1.56rem;
     border-radius: 50%;
     margin-left: .23rem;
 }
-.profile-right .profile-info .info-left .bottom ul li .what-icon{
+
+.profile-right .profile-info .info-left .bottom ul li .what-icon {
     font-size: 1.75rem;
     margin-left: .1rem;
 }
-.profile-right .profile-info .info-left .bottom ul li .teleqram-icon .icon{
+
+.profile-right .profile-info .info-left .bottom ul li .teleqram-icon .icon {
     font-size: 1rem;
 }
-.profile-right .profile-info .info-right{
+
+.profile-right .profile-info .info-right {
     background-color: #F9F9F9;
     height: 100%;
-    border-radius:1rem;
+    border-radius: 1rem;
     padding: 1rem;
 }
-.profile-right .profile-info .info-right .profile-select{
-    background-color:#EEEEEE;
-    padding: .2rem 1rem ;
-    border-radius:1rem;
+
+.profile-right .profile-info .info-right .profile-select {
+    background-color: #EEEEEE;
+    padding: .2rem 1rem;
+    border-radius: 1rem;
     font-size: 1.1rem;
     width: 100%;
 }
+
 /*! Profile Info */
 /* Profile-Notif*/
-.profile-notif{
+.profile-notif {
     height: 100%;
     overflow-y: auto;
     height: 34rem;
     padding-left: 2rem;
     padding-top: 2rem;
 }
+
 .profile-notif .box {
     display: flex;
-    border-bottom:1px solid #A2A2A2;
+    border-bottom: 1px solid #A2A2A2;
     padding: .3rem 0;
 }
-.profile-notif .box:not(:first-child){
+
+.profile-notif .box:not(:first-child) {
     margin: 1.4rem 0;
 }
-h5{
+
+h5 {
     margin: 0 !important;
     padding: 0 !important;
 }
-.profile-notif .box .img-block img{
+
+.profile-notif .box .img-block img {
     width: 3rem;
 }
-.profile-notif .box p{
-    color:#A2A2A2;
+
+.profile-notif .box p {
+    color: #A2A2A2;
 }
-.profile-notif .box span{
+
+.profile-notif .box span {
     margin-top: 1rem !important;
     display: block;
 }
+
 /*! Profile-Notif*/
 
 /* Profile-Mentor */
@@ -381,78 +445,90 @@ h5{
     padding: 2rem;
     height: 60%;
 }
-.profile-mentor .mentor-top .left{
+
+.profile-mentor .mentor-top .left {
     text-align: center;
     width: 100%;
 }
-.profile-mentor .mentor-top .left p{
+
+.profile-mentor .mentor-top .left p {
     font-size: 1.6rem;
     font-weight: 500;
 }
-.profile-mentor .mentor-top .left ul{
+
+.profile-mentor .mentor-top .left ul {
     width: 100%;
     margin: 0 auto;
-    padding:0 .9rem !important;
+    padding: 0 .9rem !important;
 }
-.profile-mentor .mentor-top .left ul li{
+
+.profile-mentor .mentor-top .left ul li {
     font-size: 1.8rem;
-    
+
 }
-.profile-mentor .mentor-top .left ul li .teleqram-icon{
-    border:2px solid;
-    border-radius:50%;
+
+.profile-mentor .mentor-top .left ul li .teleqram-icon {
+    border: 2px solid;
+    border-radius: 50%;
     width: 1.6rem;
     height: 1.6rem;
     margin-top: .5rem;
 }
-.profile-mentor .mentor-top .left ul li .teleqram-icon .icon{
+
+.profile-mentor .mentor-top .left ul li .teleqram-icon .icon {
     font-size: 1.1rem;
 }
 
 .profile-mentor .mentor-top {
-    height:18rem;
+    height: 18rem;
 }
+
 .profile-mentor .mentor-top .middle {
-    height: 100%;   
+    height: 100%;
 }
-.profile-mentor .mentor-top .middle .top{
-    padding: 1rem 1rem ;
-    border-radius:1rem !important;
-    background-color:#F9F9F9;
+
+.profile-mentor .mentor-top .middle .top {
+    padding: 1rem 1rem;
+    border-radius: 1rem !important;
+    background-color: #F9F9F9;
 }
-.profile-mentor .mentor-top .middle .bottom{
+
+.profile-mentor .mentor-top .middle .bottom {
     padding: 1rem;
-    background-color:#F9F9F9;
-    border-radius:1rem !important;
+    background-color: #F9F9F9;
+    border-radius: 1rem !important;
     height: 79%;
     margin-top: .4rem;
     display: flex;
     justify-content: space-between;
 }
+
 .profile-mentor .mentor-top .right {
     height: 100%;
-    background-color:#F9F9F9;
-    padding: .7rem ;
-    border-radius:1rem ;
+    background-color: #F9F9F9;
+    padding: .7rem;
+    border-radius: 1rem;
 }
-.profile-mentor .mentor-top .right .top{
-    padding: 1rem 1rem ;
-    border-radius:1rem !important;
-    background-color:#EEEEEE;
+
+.profile-mentor .mentor-top .right .top {
+    padding: 1rem 1rem;
+    border-radius: 1rem !important;
+    background-color: #EEEEEE;
 }
-.profile-mentor .mentor-bottom .apply-btn{
-    color:#FA4500;
-    border:1.4px solid #FA4500;
+
+.profile-mentor .mentor-bottom .apply-btn {
+    color: #FA4500;
+    border: 1.4px solid #FA4500;
     background-color: transparent;
-    padding: .5rem ;
-    border-radius:1rem;
+    padding: .5rem;
+    border-radius: 1rem;
     width: 80%;
     margin: 0 auto;
     font-weight: 500;
 }
 
-.profile-mentor .mentor-bottom p span{
-    color:#FA4500;
+.profile-mentor .mentor-bottom p span {
+    color: #FA4500;
 
 }
 
@@ -467,61 +543,91 @@ h5{
     height: 100%;
     overflow: hidden;
 }
-.profile-help .accordion-con{
+
+.profile-help .accordion-con {
     height: 17.6rem !important;
     overflow: auto;
 }
-.profile-help *{
-transition: .5s all;
+
+.profile-help * {
+    transition: .5s all;
 
 }
+
 .profile-help .accordion-button:focus {
     box-shadow: none;
 }
+
 .profile-help .accordion-button:not(.collapsed) {
-    background-color:#fff;
-    
+    background-color: #fff;
+
 }
+
 .accordion-item {
-    border: none !important; /* Sərhədləri sil */
-    border-top:1px solid !important;
+    border: none !important;
+    /* Sərhədləri sil */
+    border-top: 1px solid !important;
 }
 
 /* Accordion headerinin altındakı borderi götür */
 .accordion-button:not(.collapsed) {
-    box-shadow: none !important; /* Kölgəni (shadow) sil */
+    box-shadow: none !important;
+    /* Kölgəni (shadow) sil */
 }
+
 .profile-help .bottom {
     position: absolute;
-    bottom:0;
+    bottom: 0;
     height: 10.3rem;
     text-align: center;
 }
-.profile-help .bottom .bottom-con{
+
+.profile-help .bottom .bottom-con {
     /* height: 10rem; */
     padding: 1rem;
     width: 40%;
     margin: 0 auto;
 }
-.profile-help .bottom .bottom-con .email-copy{
-    background-color:#EEEEEE;
+
+.profile-help .bottom .bottom-con .email-copy {
+    background-color: #EEEEEE;
     width: 60%;
     margin: 0 auto;
     padding: .5rem 1rem;
-    border-radius:.7rem;
+    border-radius: .7rem;
     cursor: pointer;
 }
 
-.accordion-button.collapsed::after{
+.accordion-button.collapsed::after {
     background-image: url(../../../../../src/pages/Profile/assets/img/plus-icon.svg) !important;
 }
-.accordion-button::after{
+
+.accordion-button::after {
     background-image: url(../../../../../src/pages/Profile/assets/img/minus-icon.png) !important;
 }
+
 /* ! Profile Help */
 
-@media screen and (max-width:700px){
-    .profile-con{
+@media screen and (max-width:700px) {
+    .profile-con {
         overflow-y: auto;
-    }   
+    }
+
+    .profile-left {
+        height: 90vh;
+    }
+
+    .profile-right .profile-info .info-left .top .left {
+        border-right: 0px;
+    }
+
+    .profile-help {
+        height: 90vh;
+    }
+
+    .profile-help .bottom .bottom-con {
+        width: 90%;
+        padding: 0rem;
+        position: absolute;
+    }
 }

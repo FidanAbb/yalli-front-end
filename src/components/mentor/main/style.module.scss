@@ -50,7 +50,15 @@
         .main{
             flex-direction: column;
 
-           
+            .sidebar{
+                max-width: 100% !important;
+                width: 100%;
+            }
+            .cards{
+                width: 100%;
+                flex-wrap: nowrap;
+                flex-direction: column;
+            }
         }
     }
   }

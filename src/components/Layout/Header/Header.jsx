@@ -1,19 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
-import logo from "../../../assets/Logo/logo.svg";
+import { useState, useEffect, useContext, useRef } from "react";
 import navLogo from "../../../assets/Logo/navLogo.svg";
-import languageAz from "../../../assets/img/AzFlag.svg";
-import Bell from "../../ui/Bell";
 import styles from "./style.module.scss";
-import DownArrow from "../../ui/DownArrow";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { GoPeople } from "react-icons/go";
 import mentorIcon from "../../../../src/pages/Profile/assets/img/mentor-icon.svg";
-import mentorIconDark from "../../../../src/pages/Profile/assets/img/mentor-icon-dark.svg";
 import { IoCloseCircleOutline, IoSettingsOutline } from "react-icons/io5";
 import { CiCircleQuestion } from "react-icons/ci";
 import { IoIosLogOut } from "react-icons/io";
 import { YalliContext } from "../../../Context/YalliContext";
-import profileImageDefault from "../../../../src/pages/Profile/assets/img/default-profile-img.webp";
 import { FaBars } from "react-icons/fa6";
 import "./header.css";
 const navLinks = [
@@ -100,6 +94,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
   const [profileDropDown, setProfileDropDown] = useState(false);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const wrapperRef = useRef(null);
   const {
     userID,
     localUserData,
@@ -119,6 +114,21 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
       setLocalUserData(JSON.parse(localUserInfo));
     }
   }, []);
+
+  function useOutsideAlerter(ref) {
+    useEffect(() => {
+      function handleClickOutside(event) {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setIsMenuOpen(false);
+        }
+      }
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }, [ref]);
+  }
+  useOutsideAlerter(wrapperRef);
   console.info();
   const handleLogout = () => {
     sessionStorage.removeItem("accessToken");
@@ -343,6 +353,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                     </div>
                   </div>
                 </NavLink>
+                {isMenuOpen&&<div className="bg-black-color"></div>}
                 <ul className="p-3">
                   <li>
                     <NavLink
@@ -402,7 +413,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
           </div>
         </div>
       </div>
-      <div className={!isMenuOpen ? "menu active" : "menu"}>
+      <div ref={wrapperRef} className={!isMenuOpen ? "menu active" : "menu"}>
         <div className="menu-con">
           <div className="close-btn">
             <IoCloseCircleOutline onClick={() => setIsMenuOpen(false)} />
@@ -437,6 +448,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
               </div>
             </li>
           </ul>
+          
         </div>
       </div>
     </div>
