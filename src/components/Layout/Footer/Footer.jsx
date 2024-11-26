@@ -112,27 +112,43 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
-            <ul>
+            <ul className={styles["last-ul"]}>
               <h4>Əlaqə</h4>
               <li>
                 <EmailIcon />
                 info@yalli.org
               </li>
-              <li className={styles["links"]}>
-                <a href="https://www.facebook.com/profile.php?id=61567225002273&mibextid=LQQJ4d" target="_blank">
-                  <Fc className={styles["icon"]} />
-                </a>
-                <a href="https://www.instagram.com/yalli.hub/" target="_blank">
-                  <Ins className={styles["icon"]} />
-                </a>
-                <a href="https://www.linkedin.com/company/yalli-org/" target="_blank">
-                  <CiLinkedin style={{fontSize:"2rem",color:"#000"}} className={styles["icon"]} />
-                </a>
-              </li>
+              <div className={styles["social"]}>
+                <li className={styles["links"]}>
+                  <a
+                    href="https://www.facebook.com/profile.php?id=61567225002273&mibextid=LQQJ4d"
+                    target="_blank"
+                  >
+                    <Fc className={styles["icon"]} />
+                  </a>
+                  <a
+                    href="https://www.instagram.com/yalli.hub/"
+                    target="_blank"
+                  >
+                    <Ins className={styles["icon"]} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/company/yalli-org/"
+                    target="_blank"
+                  >
+                    <CiLinkedin
+                      style={{ fontSize: "2rem", color: "#000" }}
+                      className={styles["icon"]}
+                    />
+                  </a>
+                </li>
+              </div>
             </ul>
           </div>
+        <p className={styles["my-text-new"]}>Dünyanın hər yerindən fərqli icmaları burada kəşf et!</p>
         </div>
         <p className={styles["copy_right"]}>
+          
           Müəllif hüququ © Bütün hüquqlar qorunur
         </p>
       </div>

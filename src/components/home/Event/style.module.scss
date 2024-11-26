@@ -71,3 +71,13 @@
     }
   }
 }
+
+@media (max-width:558px) {
+  .group{
+    .groups{
+      .slider{
+        display: none !important;
+      }
+    }
+  }
+}

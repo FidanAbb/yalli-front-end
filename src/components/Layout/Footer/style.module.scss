@@ -45,10 +45,50 @@
       }
     }
   }
+  .my-text-new{
+    display: none;
+    font-size: 1.2rem;
+    margin: 2rem 0 !important; 
+    margin-bottom: 0 !important;
+  }
   .copy_right {
     padding: 5px 0 20px 0;
     font-weight: 400;
     font-size: 14px;
     margin-bottom: 0;
+  }
+}
+
+@media (max-width:773px) {
+  .footer{
+    .footer{
+      flex-direction: column;
+      .left{
+        width: 100%;
+        img{
+          width: 10rem;
+        }
+        p{
+          display: none !important;
+        }
+      }
+      .right{
+        flex-direction: column;
+        ul{
+          .social{
+            width: 4rem !important;
+            display: flex ;
+            align-items:center;
+          }
+        }
+      }
+    }
+    .my-text-new{
+      display: block;
+    }
+    .copy_right {
+      font-size: 1rem;
+      padding: .5rem .2rem !important;
+    }
   }
 }

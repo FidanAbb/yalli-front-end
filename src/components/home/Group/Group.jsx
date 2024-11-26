@@ -14,8 +14,7 @@ import Usa from "../../ui/countries/Usa";
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
-  
-  
+
   const dispatch = useDispatch();
 
   const [allData, setAllGroupData] = useState({
@@ -29,51 +28,6 @@ const Group = () => {
   useEffect(() => {
     setAllGroupData(groups);
   }, [groups]);
-
-  const groupData = [
-    {
-      title: "Almaniyada Ausbildung Edənlər",
-      members: "9k+ üzv",
-      country: "Almaniya",
-      image: <Germany />,
-    },
-    {
-      title: "Amerikada PHD",
-      members: "13k üzv",
-      country: "Amerika",
-      image: <Usa />,
-    },
-    {
-      title: "Berlində Networking",
-      members: "1k üzv",
-      country: "Almaniya",
-      image: <Germany />,
-    },
-    {
-      title: "Polşada İş",
-      members: "9k üzv",
-      country: "Polşa",
-      image: <Polsa />,
-    },
-    {
-      title: "Amerikada PHD",
-      members: "13k üzv",
-      country: "Amerika",
-      image: <Usa />,
-    },
-    {
-      title: "Almaniyada Ausbildung Edənlər",
-      members: "9k+ üzv",
-      country: "Almaniya",
-      image: <Germany />,
-    },
-    {
-      title: "Amerikada PHD",
-      members: "13k üzv",
-      country: "Amerika",
-      image: <Usa />,
-    },
-  ];
 
   const sliderRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -137,10 +91,14 @@ const Group = () => {
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>İcmalar</h2>
-            <p onClick={() => 
-              // window.location.href ="/qrup"
-              navigate("/groups")
-              }>Hamısına bax</p>
+            <p
+              onClick={() =>
+                // window.location.href ="/qrup"
+                navigate("/groups")
+              }
+            >
+              Hamısına bax
+            </p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>
@@ -165,6 +123,14 @@ const Group = () => {
             <div className={styles["right_arrow"]} onClick={scrollRightBtn}>
               <Arrow />
             </div>
+          </div>
+          <div className="response-group">
+            {allData &&
+              allData.content?.slice(0,4).map((group, index) => (
+                <div key={index} onClick={() => handleCardClick(group.id)}>
+                  <Card key={index} sectionName={"group"} group={group} />
+                </div>
+              ))}
           </div>
         </div>
       </div>

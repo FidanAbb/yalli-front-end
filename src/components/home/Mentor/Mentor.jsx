@@ -28,7 +28,7 @@ const Mentor = () => {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - sliderRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
+    const walk = (x - startX) * 2;
     sliderRef.current.scrollLeft = scrollLeft - walk;
   };
 
@@ -65,9 +65,9 @@ const Mentor = () => {
 
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    fetchMentors()
-  },[])
+  useEffect(() => {
+    fetchMentors();
+  }, []);
   const fetchMentors = async () => {
     try {
       const response = await axios.get(
@@ -96,22 +96,13 @@ const Mentor = () => {
     }
   };
 
-
-
-
-
-
   return (
     <div className={styles["group"]}>
       <div className="container">
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
-            <p onClick={() => 
-              navigate("/mentors")
-              }>
-              Hamısına bax
-            </p>
+            <p onClick={() => navigate("/mentors")}>Hamısına bax</p>
           </div>
           <div className={styles["slider"]}>
             <div className={styles["left_arrow"]} onClick={scrollLeftBtn}>
@@ -133,6 +124,11 @@ const Mentor = () => {
             <div className={styles["right_arrow"]} onClick={scrollRightBtn}>
               <Arrow />
             </div>
+          </div>
+          <div className="response-mentor">
+            {mentors.slice(0, 4).map((group, index) => (
+              <MentorCard key={index} data={group} />
+            ))}
           </div>
         </div>
       </div>

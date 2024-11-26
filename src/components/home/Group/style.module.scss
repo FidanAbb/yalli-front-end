@@ -48,5 +48,20 @@
         transform: rotate(180deg);
       }
     }
+    .response{
+      display: none !important;
+    }
+  }
+}
+
+
+
+@media (max-width:558px) {
+  .group{
+    .groups{
+      .slider{
+        display: none !important;
+      }
+    }
   }
 }

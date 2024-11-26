@@ -9,6 +9,7 @@
   border-radius: 10px;
   position: relative;
   cursor: pointer;
+
   .save_btn {
     border-radius: 50%;
     width: 30px;
@@ -22,21 +23,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
     .save_img {
       display: flex;
       justify-content: center;
       align-items: center;
     }
   }
+
   .save_btn:hover {
     background-color: #fff;
   }
+
   .groupImage {
     width: 100%;
     object-fit: cover;
     height: 122px;
     background-position: center;
   }
+
   .event_time {
     font-size: 12px;
     font-weight: 400;
@@ -44,6 +49,7 @@
     margin: 0;
     padding-top: 5px;
   }
+
   .group_title {
     color: #fa4500;
     font-size: 18px;
@@ -51,6 +57,7 @@
     margin: 0;
     margin-top: 5px;
   }
+
   .event_title {
     color: #fa4500;
     font-size: 18px;
@@ -58,10 +65,12 @@
     margin: 0;
     margin-top: 6px;
   }
+
   .card_detail {
     display: flex;
     align-items: center;
     gap: 4px;
+
     p {
       font-size: 13px;
       font-weight: 400;
@@ -69,6 +78,7 @@
       // padding-top: 4px;
     }
   }
+
   .card_footer {
     font-size: 16px;
     font-weight: 400;
@@ -77,6 +87,7 @@
     right: 8px;
     bottom: 8px;
   }
+
   .daha_etrafli {
     position: absolute;
     font-size: 14px;
@@ -98,19 +109,34 @@
     transition: opacity 0.5s ease, background 0.5s ease;
   }
 }
+
 .card_group {
   height: 263px;
 }
+
 .card_group:hover {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .card_event {
   height: 279px;
 }
+
 .card_event:hover {
   button {
     opacity: 1;
     background: rgba(238, 238, 238, 1);
     display: block;
+  }
+}
+
+
+@media (max-width:558px) {
+
+  .card_group,
+  .card_event {
+    width: 90%;
+    height: 20rem !important;
+    margin: 1rem auto;
   }
 }
