@@ -104,6 +104,8 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     setAccessToken,
     loadingImage,
   } = useContext(YalliContext);
+  console.log(userID);
+  
   useEffect(() => {
     const localProfileImage = localStorage.getItem("profileImg");
     if (localProfileImage) {
@@ -139,6 +141,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
     navigate("/login");
     setProfileDropDown(false);
   };
+  const localUserId=localStorage.getItem("userID");
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -439,14 +442,16 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                 {link.page}
               </li>
             ))}
-            <li className="menu-log-out">
-              <div onClick={handleLogout} className={styles["log-out"]}>
-                <div>
-                  <IoIosLogOut className={styles["icon"]} />
-                  <span>Çıxış</span>
-                </div>
-              </div>
-            </li>
+           {
+            localUserId? <li className="menu-log-out">
+             <div onClick={handleLogout} className={styles["log-out"]}>
+               <div>
+                 <IoIosLogOut className={styles["icon"]} />
+                 <span>Çıxış</span>
+               </div>
+             </div>
+           </li>:""
+           }
           </ul>
           
         </div>
