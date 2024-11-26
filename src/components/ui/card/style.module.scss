@@ -133,7 +133,10 @@
 
 @media (max-width:558px) {
 
-  .card_group,
+  .card_group{
+    height: 20rem !important;
+    margin: 1rem auto;
+  }
   .card_event {
     width: 90%;
     height: 20rem !important;

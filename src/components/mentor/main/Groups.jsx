@@ -86,7 +86,7 @@ const Groups = () => {
                 <p>Loading...</p>
               ) : (
                 filteredGroups.map((group, i) => (
-                  <div key={i} onClick={() => navigate(`/qrup/${group.id}`)}>
+                  <div className={styles["group-cards-con"]} key={i} onClick={() => navigate(`/qrup/${group.id}`)}>
                     <Card sectionName="group" group={group} />
                   </div>
                 ))
