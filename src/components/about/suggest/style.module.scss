@@ -37,3 +37,17 @@
   }
 }
 }
+
+@media (max-width:1050px){
+  .suggest{
+    .suggest{
+      .cards{
+        flex-direction: column;
+        .card{
+          max-width: 80% !important;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}

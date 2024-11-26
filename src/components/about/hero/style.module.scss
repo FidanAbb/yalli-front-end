@@ -21,3 +21,14 @@
     }
   }
 }
+
+@media (max-width:1285px) {
+  .hero{
+    .hero{
+    flex-direction: column !important;
+    img{
+      max-width: 100% !important;
+    }
+    }
+  }
+}
