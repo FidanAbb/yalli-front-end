@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { YalliContext } from "../../Context/YalliContext";
 import "./register.css";
 import PrivacyPolicy from "../PrivacyPolicy/PrivacyPolicy";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -73,17 +74,21 @@ const RegisterForm = () => {
   const [checked, setChecked] = useState(false);
   const { isRegisterOtp, setIsRegisterOtp } = useContext(YalliContext);
   const [policyState, setPolicyState] = useState(false);
+
+  const [showDropdown, setShowDropdown] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, touchedFields },
     watch,
+    setValue,
   } = useForm({
     resolver: yupResolver(signUpValidationSchema),
     mode: "onBlur",
   });
 
   const password = watch("password", "");
+  const selectedCountry = watch("country");
 
   const onSubmit = async (data) => {
     try {
@@ -113,7 +118,6 @@ const RegisterForm = () => {
       setLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h1 style={{ fontWeight: "700", fontSize: "28px", textAlign: "center" }}>
@@ -156,7 +160,7 @@ const RegisterForm = () => {
           ></div>
         </div>
       )}
-      <div className={styles["input_field"]}>
+      {/* <div className={styles["input_field"]}>
         <select
           {...register("country")}
           id="country"
@@ -185,25 +189,50 @@ const RegisterForm = () => {
             {errors.country.message}
           </span>
         )}
-      </div>
-      {/* <div className={styles["input_field"]}>
+      </div> */}
+
+      <div className="register-drop-down">
         <div>
-          <div className="">Ölkə Secin</div>
-          <div className="">
-            {countryCategory.map((c, i) => (
-              <div key={i} value="azerbaijan">
-                {c}
-              </div>
-            ))}
+          <div
+            onClick={() => setShowDropdown((prev) => !prev)}
+            className={`head ${errors.country ? "error" : ""}`}
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {selectedCountry || "Ölkə Seçin"}
+            {showDropdown ? (
+              <IoIosArrowUp onClick={() => setShowDropdown(true)} />
+            ) : (
+              <IoIosArrowDown onClick={() => setShowDropdown(false)} />
+            )}
           </div>
+
+          {showDropdown && (
+            <div className="body">
+              <div className="body-con">
+                {countryCategory.map((c, i) => (
+                  <div
+                    className="item"
+                    key={i}
+                    onClick={() => {
+                      setValue("country", c); // Hook Form-a dəyər təyin edilir
+                      setShowDropdown(false); // Dropdown bağlanır
+                    }}
+                  >
+                    {c}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         {errors.country && (
-          <span>
-            <Warning />
-            {errors.country.message}
-          </span>
+          <span className="error">{errors.country.message}</span>
         )}
-      </div> */}
+      </div>
 
       <div className={styles["input_field"]}>
         <input

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginValidationSchema } from "./validationSchema";
@@ -9,27 +9,29 @@ import PasswordEye from "../ui/PasswordEye";
 import PasswordEyeOpen from "../ui/PasswordEyeOpen";
 import { useNavigate } from "react-router-dom";
 import { YalliContext } from "../../Context/YalliContext";
-import { getUserDataById } from "../../redux/slice/user/user";
 import welcomeImage from "../../../src/assets/img/Xoş Gəlmisiniz 👋🏻.png";
+
 const LoginForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [apiError, setApiError] = useState("");
-  
-  const {setUserID,setAccessToken}=useContext(YalliContext);
+  const [isEmailError, setIsEmailError] = useState(""); // Yeni state
+  const { setUserID, setAccessToken } = useContext(YalliContext);
+  const [isPassWord, setIsPassWord] = useState("");
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, touchedFields },
+    formState: { errors, isValid },
   } = useForm({
     resolver: yupResolver(loginValidationSchema),
     mode: "onBlur",
   });
+
   const onSubmit = async (data) => {
-    
     try {
       setLoading(true);
+      setIsEmailError(""); // Reset email error
       const response = await api.post("/users/login", {
         email: data.email,
         password: data.password,
@@ -39,55 +41,80 @@ const LoginForm = () => {
         const { accessToken } = response.data;
         sessionStorage.setItem("accessToken", accessToken);
         localStorage.setItem("accessToken", accessToken);
-        if(response.data.id){
+
+        if (response.data.id) {
           setUserID(response.data.id);
           localStorage.setItem("userID", JSON.stringify(response.data.id));
-          getUserDataById(response.data.id)          
-          const imageKey = `profileImg-${response.data.id}`;
-          localStorage.removeItem(imageKey);
+          navigate("/");
         }
-        navigate("/");
       }
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setApiError("Yanlış e-poçt və ya şifrə.");
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status === 400 && data.message === "INVALID_PASSWORD") {
+          setIsPassWord("Şifrə düzgün daxil edilməyib");
+        } else if (status === 404 && data.message === "User not found") {
+          setIsEmailError("Bu e-poçt ünvanına aid hesab tapılmadı.");
+        } else {
+          setApiError("Bir xəta baş verdi. Yenidən cəhd edin.");
+        }
       } else {
-        setApiError("Bir xəta baş verdi. Yenidən cəhd edin.");
+        setApiError("Serverə qoşulmaq mümkün olmadı.");
       }
-      console.error("Login Error: ", error);
     } finally {
       setLoading(false);
     }
   };
 
-
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{padding:"2rem"}} className={styles.form}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      style={{ padding: "2rem" }}
+      className={styles.form}
+    >
       <div className={styles["welcome-image"]}>
-        <img src={welcomeImage} alt="" />
+        <img src={welcomeImage} alt="Welcome" />
       </div>
+
+      {/* Email Input */}
       <div className={styles["input_field"]}>
         <input
           {...register("email")}
           type="email"
           placeholder="E-posta ünvanı"
-          style={{width:"100%"}}
+          style={{
+            width: "100%",
+            border:
+              isEmailError || errors.email ? "1px solid red" : "1px solid #ccc",
+            color: isEmailError || errors.email ? "red" : "#000",
+          }}
+          onChange={(e) => {
+            setIsEmailError(""); // Email dəyişəndə error reset edilir
+            register("email").onChange(e); // React Hook Form-un onChange hadisəsini saxlayır
+          }}
         />
-        {errors.email && (
-          <span>
+        {(errors.email || isEmailError) && (
+          <span className={styles["error-message"]}>
             <Warning />
-            {errors.email.message}
+            {errors.email?.message || isEmailError}
           </span>
         )}
       </div>
 
+      {/* Password Input */}
       <div className={styles["input_field"]}>
         <input
           {...register("password")}
           type={showPassword ? "text" : "password"}
           placeholder="Şifrə"
-          style={{width:"100%"}}
+          style={{
+            width: "100%",
+            border:
+              isPassWord || errors.password
+                ? "1px solid red"
+                : "1px solid #ccc",
+            color: isPassWord || errors.password ? "red" : "#000",
+          }}
         />
         <div
           className={styles["eye"]}
@@ -95,12 +122,12 @@ const LoginForm = () => {
         >
           {showPassword ? <PasswordEyeOpen /> : <PasswordEye />}
         </div>
-        {touchedFields.password && errors.password && (
-          <span>
+        {errors.password || isPassWord ? (
+          <span className={styles["error-message"]}>
             <Warning />
-            {errors.password.message}
+            {errors.password ? errors.password.message : isPassWord}
           </span>
-        )}
+        ) : null}
       </div>
 
       <p
@@ -109,8 +136,6 @@ const LoginForm = () => {
       >
         Şifrənizi unutmusunuz?
       </p>
-
-      {apiError && <p className={styles["error-message"]}>{apiError}</p>}
 
       <button
         type="submit"

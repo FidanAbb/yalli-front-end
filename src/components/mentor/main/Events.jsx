@@ -125,15 +125,11 @@ useEffect(() => {
   const [inputEventsTitle, setInputEventsTitle] = useState("");
   const [inputEventsCountry, setInputEventsCountry] = useState("");
   const [accessTokenLocal, setAccessTokenLocal] = useState("");
-  console.log();
-
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredEvents, setFilteredEvents] = useState(events);
   const [isEventSaved, setIsEventSaved] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const { userID } = useContext(YalliContext);
-
-  console.log(events);
 
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");

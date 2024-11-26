@@ -6,7 +6,7 @@ import { api } from "../../../api.config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { YalliContext } from "../../Context/YalliContext";
-
+import "./style.css";
 const ConfirmEmail = () => {
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
@@ -29,12 +29,12 @@ const ConfirmEmail = () => {
     if (storedEmail) {
       setEmail(JSON.parse(storedEmail));
     }
+    
+    // const timer = setInterval(() => {
+    //   setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    // }, 1000);
 
-    const timer = setInterval(() => {
-      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-
-    return () => clearInterval(timer);
+    // return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -45,13 +45,30 @@ const ConfirmEmail = () => {
   }, []);
 
   useEffect(() => {
+    let timer;
+  
     if (blocked) {
-      const unblockTime = setTimeout(() => {
-        setBlocked(false);
-        setAttempts(0); 
-      }, 5 * 60 * 1000); 
-      return () => clearTimeout(unblockTime);
+      // Bloklanma vəziyyəti üçün 5 dəqiqəlik geri sayım
+      setCountdown(5 * 60); // 300 saniyə
+      timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer); // Intervalu dayandır
+            setBlocked(false); // Bloklamanı aç
+            setAttempts(0); // Cəhdləri sıfırla
+            return 0;
+          }
+          return prev - 1; // Geri sayım
+        });
+      }, 1000);
+    } else {
+      // Normal vəziyyətdə 60 saniyəlik geri sayım
+      timer = setInterval(() => {
+        setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
     }
+  
+    return () => clearInterval(timer); // Əvvəlki interval-u təmizlə
   }, [blocked]);
 
   const formatEmail = (email) => {
@@ -123,41 +140,13 @@ const ConfirmEmail = () => {
         setBlockTime(Date.now());
         setError("3 cəhddən sonra hesab 5 dəqiqəlik bloklanıb.");
       } else {
-        setError(`Xəta baş verdi. Yenidən cəhd edin. (${attempts + 1}/3)`);
+        setError(`Zəhmət olmasa kodu düzgün daxil edin (${attempts + 1}/3)`);
       }
     } finally {
       setLoading(false);
     }
   };
 
-  const resendOtp = async () => {
-    if (blocked) {
-      setError("Bu email bloklanıb. Zəhmət olmasa 5 dəqiqə gözləyin.");
-      return;
-    }
-    if (countdown > 0 || loading) {
-      // Yenidən göndərmək üçün countdown'un bitməsini və loading dəyişənin false olmasını gözləyirik
-      return;
-    }
-    setLoading(true);
-    setError(null);
-    setSuccess(null);
-    setCountdown(60); // Yenidən göndərildikdən sonra countdown'u yenidən 60 saniyəyə qururuq
-
-    try {
-      const response = await api.get(`/users/send-otp?email=${email}`);
-      if (response.status === 200) {
-        setOtpSent(true);
-        setSuccess("Yeni OTP kodu göndərildi!");
-      } else {
-        throw new Error("OTP göndərilmədi");
-      }
-    } catch (error) {
-      setError("OTP göndərmə zamanı xəta baş verdi. Yenidən cəhd edin.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className={styles["confirm_email"]}>
@@ -171,11 +160,19 @@ const ConfirmEmail = () => {
           Biz indicə sizə doğrulama kodunu {formatEmail(email)} ünvanına
           göndərdik
         </p>
-        {blocked && (
-          <p style={{width:"80%",margin:"0 auto",position:"relative",left:"5.7rem"}} className={`${styles.error} ${styles.errorHighlight}`}>
+        {/* {blocked && (
+          <p
+            style={{
+              width: "80%",
+              margin: "0 auto",
+              position: "relative",
+              left: "5.7rem",
+            }}
+            className={`${styles.error} ${styles.errorHighlight}`}
+          >
             Hesabınız 5 dəqiqəlik bloklanıb. Zəhmət olmasa gözləyin.
           </p>
-        )}
+        )} */}
         <form onSubmit={handleSubmit}>
           <div className={styles["otp_code"]}>
             {otpCode.map((digit, index) => (
@@ -193,6 +190,7 @@ const ConfirmEmail = () => {
               />
             ))}
           </div>
+          <p style={{position:"relative",left:"6rem"}}>Kodu {countdown} saniyə sonra yenidən göndərin</p>
           {error && <span className={styles["error"]}>{error}</span>}
           <button
             type="submit"

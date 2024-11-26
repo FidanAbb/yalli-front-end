@@ -73,7 +73,6 @@ const Footer = () => {
                 </li>
               ))}
             </ul>
-
             <ul>
               <h4>Dəstək</h4>
               {policyState && (

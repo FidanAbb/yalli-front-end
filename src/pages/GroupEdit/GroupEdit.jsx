@@ -49,7 +49,7 @@ useEffect(() => {
       {console.log(forServerError)
       }
       <div className="row h-100">
-        <div className="col-md-3 h-100">
+        <div className="col-md-3 col-sm-12 col-12 h-100">
           <div className="left">
             <ul className="dp-cloumn">
               <li>
@@ -85,7 +85,7 @@ useEffect(() => {
             </ul>
           </div>
         </div>
-        <div className="col-md-9">
+        <div className="col-md-9 col-sm-12 col-12">
           <div className="right">
             {sectionGroup === "all-info" && <GroupEditAllInfo />}
             {sectionGroup === "about" && <GroupEditAbout />}
