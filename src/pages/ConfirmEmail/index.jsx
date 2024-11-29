@@ -21,7 +21,8 @@ const ConfirmEmail = () => {
   const [attempts, setAttempts] = useState(0); // Cəhdləri izləmək üçün
   const [blocked, setBlocked] = useState(false); // Bloklama statusu
   const [blockTime, setBlockTime] = useState(null); // Bloklama vaxtı
-  const { isRegisterOtp, setIsRegisterOtp } = useContext(YalliContext);
+  const { isRegisterOtp, setIsRegisterOtp, setAfterRegisterState } =
+    useContext(YalliContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const ConfirmEmail = () => {
     if (storedEmail) {
       setEmail(JSON.parse(storedEmail));
     }
-    
+
     // const timer = setInterval(() => {
     //   setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
     // }, 1000);
@@ -46,7 +47,7 @@ const ConfirmEmail = () => {
 
   useEffect(() => {
     let timer;
-  
+
     if (blocked) {
       // Bloklanma vəziyyəti üçün 5 dəqiqəlik geri sayım
       setCountdown(5 * 60); // 300 saniyə
@@ -67,7 +68,7 @@ const ConfirmEmail = () => {
         setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
     }
-  
+
     return () => clearInterval(timer); // Əvvəlki interval-u təmizlə
   }, [blocked]);
 
@@ -130,11 +131,14 @@ const ConfirmEmail = () => {
       if (response.status === 204 && isRegisterOtp) {
         setSuccess(true);
         navigate("/success");
+        localStorage.setItem("afterRegister", true);
       } else if (response.status === 204 && !isRegisterOtp) {
-        navigate("/reset-password"); // Şifrə sıfırlama üçün uğurlu səhifə
+        navigate("/reset-password");
+        localStorage.setItem("afterRegister", true);
+        localStorage.setItem("afterChangePass", false);
       }
     } catch (error) {
-      setAttempts((prev) => prev + 1); // Cəhdləri artır
+      setAttempts((prev) => prev + 1);
       if (attempts + 1 >= 3) {
         setBlocked(true);
         setBlockTime(Date.now());
@@ -146,7 +150,27 @@ const ConfirmEmail = () => {
       setLoading(false);
     }
   };
+  const handleResendOtp = async () => {
+    if (countdown > 0) return; // Əgər geri sayım bitməyibsə, funksiya işləməsin
+    try {
+      setLoading(true);
+      setError(null);
+      const endpoint = isRegisterOtp
+        ? "/users/register/resend-otp"
+        : "/users/reset-password/request";
+      const payloadEmail = isRegisterOtp ? email : resetEmail;
 
+      await api.post(endpoint, { email: payloadEmail });
+      setCountdown(60); // Yenidən geri sayımı başlat
+      setSuccess("Kod yenidən göndərildi!");
+    } catch (error) {
+      setError(
+        "Kodun yenidən göndərilməsi mümkün olmadı. Zəhmət olmasa sonra cəhd edin."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={styles["confirm_email"]}>
@@ -160,19 +184,7 @@ const ConfirmEmail = () => {
           Biz indicə sizə doğrulama kodunu {formatEmail(email)} ünvanına
           göndərdik
         </p>
-        {/* {blocked && (
-          <p
-            style={{
-              width: "80%",
-              margin: "0 auto",
-              position: "relative",
-              left: "5.7rem",
-            }}
-            className={`${styles.error} ${styles.errorHighlight}`}
-          >
-            Hesabınız 5 dəqiqəlik bloklanıb. Zəhmət olmasa gözləyin.
-          </p>
-        )} */}
+
         <form onSubmit={handleSubmit}>
           <div className={styles["otp_code"]}>
             {otpCode.map((digit, index) => (
@@ -190,7 +202,19 @@ const ConfirmEmail = () => {
               />
             ))}
           </div>
-          <p style={{position:"relative",left:"6rem"}}>Kodu {countdown} saniyə sonra yenidən göndərin</p>
+          <p
+            onClick={countdown === 0 ? handleResendOtp : null} 
+            className={"resend-text"}
+            style={{
+              color: countdown === 0 ? "#ff4d4f" : "#A2A2A2", 
+              cursor: countdown === 0 ? "pointer" : "default", 
+              pointerEvents: countdown === 0 ? "auto" : "none", 
+            }}
+          >
+            {countdown > 0
+              ? `Kodu ${countdown} saniyə sonra yenidən göndərin`
+              : "Kodu 60 saniyə sonra yenidən göndərin"}
+          </p>
           {error && <span className={styles["error"]}>{error}</span>}
           <button
             type="submit"

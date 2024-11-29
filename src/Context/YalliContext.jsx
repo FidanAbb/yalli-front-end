@@ -10,7 +10,8 @@ export const YalliContext = createContext();
 const ContextYalli = ({ children }) => {
   const dispatch = useDispatch();
   const userFromStore = useSelector((state) => state.users.user);
-  
+  const afterRegister = localStorage.getItem("afterRegister");
+
   const initialData = {
     fullName: "",
     email: "",
@@ -34,7 +35,7 @@ const ContextYalli = ({ children }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
   const [clickCountryToMembers,setClickCountryToMembers]=useState("")
-
+const [afterRegisterState,setAfterRegisterState]=useState(false)
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
 
@@ -316,7 +317,9 @@ const [countries, setCountries] = useState([]);
         setCountries,
         countries,
         setIsRegisterOtp,
-        isRegisterOtp
+        isRegisterOtp,
+        setAfterRegisterState,
+        afterRegisterState
       }}
     >
       {children}

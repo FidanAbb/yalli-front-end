@@ -60,6 +60,7 @@ const ResetPass = () => {
       if (response.status === 204) {
         localStorage.setItem("pass", true);
         navigate("/success");
+        localStorage.setItem("afterChangePass",true)
       }
     } catch (error) {
       if (error.response) {

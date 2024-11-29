@@ -68,7 +68,7 @@ const socialMedia = {
   INSTAGRAM: <IoLogoInstagram className="icon" />,
   TELEGRAM: <BiLogoTelegram className="icon" />,
   WHATSAPP: <FaWhatsapp className="icon what-icon" />,
-  LINKEDIN: <FaLinkedin className="icon" />, // LinkedIn ikonunu əlavə edin
+  LINKEDIN: <FaLinkedin className="icon" />, 
 };
 
 const Members = () => {
@@ -181,11 +181,7 @@ const Members = () => {
   }, [localUserData]);
 
   const getInitials = (name) => {
-    // Əvvəlcə adın boşluqlarla ayrılmış hissələrini ayırırıq
-    console.log(name);
-
     const words = name?.split(/\s+/);
-    // Sonra hər bir sözün ilk hərfi alınır və böyük hərfə çevrilir
     const initials = words?.map((word) => word[0]?.toUpperCase()).join("");
     return initials;
   };
@@ -223,7 +219,6 @@ const Members = () => {
                             inputUserCounty.trim() === "" &&
                             localUserData?.country
                           ) {
-                            // Əgər input boşdursa, localUserData-dakı ölkəni göstər
                             setSelectedCountry([localUserData.country]);
                           } else if (inputUserCounty.trim() === "") {
                             setSelectedCountry(countryCategory);
@@ -278,7 +273,7 @@ const Members = () => {
                             <div>
                               {loadingImage ? (
                                 <p>Loading...</p>
-                              ) : localUserData.profilePictureUrl ? (
+                              ) :user.profilePicture ? (
                                 <div
                                   className="profile-image-container-member"
                                   style={{

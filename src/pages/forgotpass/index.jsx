@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState ,useContext} from "react";
 import styles from "./style.module.scss";
 import { useNavigate } from "react-router-dom";
 import Warning from "../../components/ui/Warning";
 import { api } from "../../../api.config";
+import { YalliContext } from "../../Context/YalliContext";
 
 const ForgotPass = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
+const {setIsRegisterOtp}=useContext(YalliContext)
   const API_ENDPOINT = "/users/reset-password/request";
 
   const ERROR_MESSAGES = {
@@ -40,8 +41,11 @@ const ForgotPass = () => {
       switch (response.status) {
         case 204:
           localStorage.setItem("resetEmail", JSON.stringify(email));
+          setIsRegisterOtp(false)
           navigate("/confirm-email");
+          localStorage.setItem("afterRegister",false)
           break;
+          
         case 404:
           setErrorMessage(ERROR_MESSAGES.notFound);
           break;

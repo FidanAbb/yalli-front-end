@@ -24,6 +24,8 @@ import Mentors from "../components/mentor/main/Mentors";
 import GroupEdit from "../pages/GroupEdit/GroupEdit";
 import Main from "../components/groupDetail/main/Main";
 import { PrivateRoute } from "../PrivateRoute";
+import { HideAfterRegisterRoute } from "../components/Private/AfterRegister";
+import { HideAfterChangePass } from "../components/Private/AfterChangePass";
 
 const Router = createBrowserRouter([
 
@@ -96,6 +98,12 @@ const Router = createBrowserRouter([
     element: <Login />,
   },
   {
+    element: <HideAfterRegisterRoute />,
+    children: [
+      { path: "/confirm-email", element: <ConfirmEmail /> },
+    ],
+  },
+  {
     path: "/register",
     element: <Register />,
   },
@@ -107,17 +115,16 @@ const Router = createBrowserRouter([
     path: "/forgot-password",
     element: <ForgotPass />,
   },
-  {
-    path: "/confirm-email",
-    element: <ConfirmEmail />,
-  },
+
   {
     path: "/success",
     element: <Success />,
   },
   {
-    path: "/reset-password",
-    element: <ResetPass />,
+    element: <HideAfterChangePass />,
+    children: [
+      { path: "/reset-password", element: <ResetPass /> },
+    ],
   },
   {
     path: "/event/:id",

@@ -72,7 +72,12 @@ const RegisterForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [apiError, setApiError] = useState("");
   const [checked, setChecked] = useState(false);
-  const { isRegisterOtp, setIsRegisterOtp } = useContext(YalliContext);
+  const {
+    isRegisterOtp,
+    setIsRegisterOtp,
+    setAfterRegisterState,
+    afterRegisterState,
+  } = useContext(YalliContext);
   const [policyState, setPolicyState] = useState(false);
 
   const [showDropdown, setShowDropdown] = useState(false);
@@ -101,6 +106,7 @@ const RegisterForm = () => {
 
       if (response.status === 201) {
         localStorage.setItem("email-confirm", JSON.stringify(data.email));
+        localStorage.setItem("afterRegister",false)
         navigate("/confirm-email");
         setIsRegisterOtp(true);
       }
@@ -114,6 +120,7 @@ const RegisterForm = () => {
         setApiError("Bir xəta baş verdi. Birdaha sınayın.");
       }
       console.error("Registration Error: ", error);
+      setAfterRegisterState(true)
     } finally {
       setLoading(false);
     }
