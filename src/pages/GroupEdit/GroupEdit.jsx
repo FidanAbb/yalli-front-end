@@ -49,7 +49,7 @@ useEffect(() => {
       {console.log(forServerError)
       }
       <div className="row h-100">
-        <div className="col-md-3 col-sm-12 col-12 h-100">
+        <div className="col-md-2 col-sm-12 col-12 h-100">
           <div className="left">
             <ul className="dp-cloumn">
               <li>

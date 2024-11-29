@@ -213,7 +213,7 @@ const ConfirmEmail = () => {
           >
             {countdown > 0
               ? `Kodu ${countdown} saniyə sonra yenidən göndərin`
-              : "Kodu 60 saniyə sonra yenidən göndərin"}
+              : "Otp yenidən göndər"}
           </p>
           {error && <span className={styles["error"]}>{error}</span>}
           <button
@@ -225,7 +225,7 @@ const ConfirmEmail = () => {
           <button
             className={styles["legv"]}
             type="button"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate(`${isRegisterOtp ?"/register":"/forgot-password"}`)}
           >
             Ləğv edin
           </button>

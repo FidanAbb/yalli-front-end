@@ -53,7 +53,7 @@ const GroupEditGallery = () => {
         })
         .catch((error) => {
           console.error("Error fetching group details:", error);
-          toast.error("Qrup məlumatları yüklənə bilmədi: " + error.message);
+          toast.error("Qrup məlumatları yüklənə bilmədi:");
         });
     }
   }, [groupID, userID]);
@@ -155,8 +155,9 @@ const GroupEditGallery = () => {
             <button
               style={{ zIndex: "1000", position: "relative" }}
               onClick={() => setSelectMode((prev) => !prev)}
+              className="select-btn"
             >
-              {selectMode ? "Seçimi bağla" : "Seç"}
+              {selectMode ? "Ləğv et" : "Seç"}
             </button>
           </div>
         </div>

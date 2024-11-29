@@ -144,6 +144,13 @@ form {
     display: flex;
     justify-content: space-between;
 }
+.group-edit .right .group-gallery .head .select-btn{
+    border: none;
+    background-color:#C8C8C8;
+    color:#fff;
+    border-radius: 1rem ;
+    padding: .3rem 1.4rem ;
+}
 
 .group-edit .right .group-gallery .body .create-image {
     display: flex;
@@ -191,13 +198,49 @@ form {
     top: 1rem;
     right: 1rem;
     background-color: transparent !important;
-    border: 1px solid;
-    border-radius:50%;
+    border: 1px solid #fff;
+    /* border-radius:50 %; */
     cursor: pointer;
 }
 
 .group-edit .right .group-gallery .body .img-block .checkbox.active {
-    background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIA06GvvZ4mssQfZeQ3v6Sg6uFzxIvuXYUtw&s);
+    background-image:url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkzIM7_xdfn92K-L7UNkx81JlgZDL_zJa9IY-dJULrGP1kenDpGkNsJfPgKmtVqeb3YOc&usqp=CAU);
     background-position: center;
+    background-size:2rem !important;
     background-size: 4rem;
+}
+
+@media (max-width:600px) {
+.group-edit{
+    height: auto;
+    background-color:#EEEEEE;
+    overflow: hidden;
+}    
+.group-edit .right{
+    background-color:#fff;
+}
+.group-edit .right *{
+    width: 99% !important;
+    margin: .2rem auto;
+}    
+.group-edit .right {
+    height: auto;
+}
+.group-edit .right .group-gallery .body .btns-con {
+    position: static;
+    bottom: 1rem;
+    width: 40%;
+    text-align: center;
+}
+.group-edit .right .group-about {
+    height: 100vh;
+    padding: 1rem;
+}
+.group-edit .right .group-about .btns {
+    width: 100% !important;
+}
+.group-edit .right .group-about .btns button{
+    font-size: .9rem;
+    width: 100% !important;
+}
 }

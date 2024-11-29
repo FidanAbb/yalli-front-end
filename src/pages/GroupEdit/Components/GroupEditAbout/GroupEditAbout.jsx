@@ -88,7 +88,7 @@ const GroupEditAbout = () => {
       <div className="about-con">
         <form onSubmit={handleSubmit} action="">
           <textarea onChange={handleInputChange} name="description" value={formData?.description} id=""></textarea>
-          <div className="text-center mt-5">
+          <div className="text-center mt-5 btns">
             <div className="save-btn ">
               <button type="submit">Dəyişiklikləri yadda saxla</button>
             </div>

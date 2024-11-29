@@ -191,3 +191,10 @@
     font-size: 1.5rem;
     font-weight: 600;
 }
+
+
+@media (max-width:500px) {
+    .mentor-detail .detail-body .top .top-con .left {        
+        flex-wrap:wrap;
+    }
+}

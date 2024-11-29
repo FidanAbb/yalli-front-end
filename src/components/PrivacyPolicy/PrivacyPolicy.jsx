@@ -24,7 +24,7 @@ const PrivacyPolicy = ({setPolicyState}) => {
         <span className="send-message-span"><MdOutlineMailOutline />Surəti e-poçtuma göndərin</span>
         <div className="btns">
           <button onClick={()=>setPolicyState(false)} className="first btn">Ləğv edin</button>
-          <button  className="btn">Qəbul edin</button>
+          <button onClick={()=>setPolicyState(false)} className="btn">Qəbul edin</button>
         </div>
       </div>
     </div>

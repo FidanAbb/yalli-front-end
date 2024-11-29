@@ -13,12 +13,12 @@ export default function EventDetail() {
   const [userData, setUserData] = useState("");
   const [eventById, setEventById] = useState("");
 
-  const accessToken=localStorage.getItem("accessToken")
-  const navigete=useNavigate()
+  const accessToken = localStorage.getItem("accessToken");
+  const navigete = useNavigate();
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]); 
+  }, [location]);
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const weekdays = [
@@ -54,7 +54,7 @@ export default function EventDetail() {
   const fetchEventById = async () => {
     try {
       const response = await axios.get(
-    `https://yalli-back-end.onrender.com/v1/events/${eventId.id}`,
+        `https://yalli-back-end.onrender.com/v1/events/${eventId.id}`,
         {
           headers: {
             Accept: "application/json",
@@ -85,22 +85,23 @@ export default function EventDetail() {
     <>
       <Header />
       <div className={styles.event_box}>
-      <div
-          onClick={() => window.history.back()}
-          className={"back-btn-event"}
-        >
+        <div onClick={() => window.history.back()} className={"back-btn-event"}>
           <FaArrowLeftLong />
         </div>
-        <div className={styles.event_left}>
-          <img
-            src={
-              `https://minio-server-4oyt.onrender.com/yalli/${eventById?.imageId}` ||
-              defaultEventImg
-            }
-            alt=""
-          />
-        </div>
-        <div className={styles.event_right}>
+        <div className="row">
+          <div className="col-md-4 col-sm-12 col-12">
+            <div className={styles.event_left}>
+              <img
+                src={
+                  `https://minio-server-4oyt.onrender.com/yalli/${eventById?.imageId}` ||
+                  defaultEventImg
+                }
+                alt=""
+              />
+            </div>
+          </div>
+          <div className="col-md-8 col-sm-12 col-12">
+          <div className={styles.event_right}>
           <div>
             <h4>{eventById?.title}</h4>
             <div className={styles?.subtitle}>
@@ -115,33 +116,31 @@ export default function EventDetail() {
           </div>
           {userData ? (
             <div className={styles.btn_box}>
-             {accessToken? <a
-                target="_blank"
-                href={eventById.link}
-              >
-                <span>Qeydiyyatdan keç</span>
-                <UpperIcon />
-              </a>
-              : <a
-              onClick={() =>navigete("/login")}
-            >
-              <span>Qeydiyyatdan keç</span>
-              <UpperIcon />
-            </a>
-             }
+              {accessToken ? (
+                <a target="_blank" href={eventById.link}>
+                  <span>Qeydiyyatdan keç</span>
+                  <UpperIcon />
+                </a>
+              ) : (
+                <a onClick={() => navigete("/login")}>
+                  <span>Qeydiyyatdan keç</span>
+                  <UpperIcon />
+                </a>
+              )}
             </div>
           ) : (
             <div className={styles.btn_box}>
-              <Link
-                target="_blank"
-                to="/login"
-              >
+              <Link target="_blank" to="/login">
                 <span>Qeydiyyatdan keç</span>
                 <UpperIcon />
               </Link>
             </div>
           )}
         </div>
+          </div>
+        </div>
+
+        
       </div>
       <Footer />
     </>

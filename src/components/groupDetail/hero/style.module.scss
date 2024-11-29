@@ -1,34 +1,42 @@
 @import "../../../styles/main.module.scss";
+
 .hero {
-    padding: 50px 0;
-    font-family: "Gilroy", sans-serif;
-    .hero {
-      display: flex;
-      // width: 100%;
+  padding: 50px 0;
+  font-family: "Gilroy", sans-serif;
+
+  .hero {
+    display: flex;
+    // width: 100%;
     justify-content: center;
+
     .card {
       max-width: 963px;
       width: 100%;
-      .back-btn{
-        position: absolute; 
+
+      .back-btn {
+        position: absolute;
         top: 8rem;
         left: 10rem;
         font-size: 1.7rem;
         cursor: pointer;
       }
+
       background-color: #fff;
       border-radius: 10px;
+
       .upper {
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 5px 20px;
         border-bottom: 1px solid #56565680;
+
         h1 {
           font-size: 28px;
           font-weight: 700;
           color: #111111;
         }
+
         button {
           background-color: #fff;
           padding: 10px;
@@ -40,6 +48,7 @@
           gap: 3px;
           cursor: pointer;
         }
+
         button:hover {
           background-color: #fa4500;
           padding: 10px;
@@ -52,48 +61,82 @@
           cursor: pointer;
         }
       }
+
       .down {
         display: flex;
         gap: 10px;
         padding: 19px;
-        img{
+
+        img {
           width: 282px;
           border-radius: 10px;
         }
-        .detail{
+
+        .detail {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          width: 100%;
+
+          p {
+            color: #11111180;
+            line-height: 22px;
+          }
+
+          .foot {
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            width: 100%;
-            p{
-                color: #11111180;
-                line-height: 22px;
+            align-items: flex-end;
+            color: rgba(17, 17, 17, 1);
+
+            p {
+              display: flex;
+              align-items: center;
+              gap: 5px;
+              color: #111111;
             }
-            .foot{
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
-                color: rgba(17, 17, 17, 1);
-                p{
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    color: #111111;
-                }
-            }
+          }
         }
       }
     }
   }
 }
+
 .copy-success {
   color: green;
   margin-left: 10px;
   font-size: 0.9em;
 }
-.copy-text{
+
+.copy-text {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
+}
+
+@media (max-width:500px) {
+  .hero {
+    .hero {
+      .card {
+        .back-btn {
+          position: absolute;
+          top: 8rem;
+          left: 2rem;
+          font-size: 1.7rem;
+          cursor: pointer;
+        }
+        .down {
+          flex-direction: column;
+          img{
+            width: 100%;
+            height: 15rem;
+            object-fit: cover;
+          }
+          .detail {
+          }
+        }
+      }
+    }
+  }
 }

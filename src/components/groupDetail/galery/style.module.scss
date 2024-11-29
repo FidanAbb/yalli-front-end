@@ -15,3 +15,24 @@
         }
     }
 }
+@media (max-width:500px) {
+    .galery{
+        .galery{
+            margin: 2rem 0;
+            .cards{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 2rem;
+                .card{
+    
+                    margin: 0 auto !important;
+                    img{
+                        width: 17rem;
+                        height: 18rem;
+                        object-fit: cover;
+                    }
+                }
+            }
+        }
+    }
+  }
