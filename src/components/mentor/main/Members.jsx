@@ -94,6 +94,7 @@ const Members = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLogin, setIslogin] = useState(false);
   const navigate = useNavigate();
+console.log(clickCountryToMembers);
 
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
@@ -103,11 +104,17 @@ const Members = () => {
   }, []);
 
   useEffect(() => {
-    if (localUserData?.country) {
+    if (clickCountryToMembers) {
+      // Əgər clickCountryToMembers mövcuddursa, onu təyin edirik
+      setInputUserCounty(clickCountryToMembers);
+      setSelectedCountry([clickCountryToMembers]);
+    } else if (localUserData?.country) {
+      // Əks halda, localUserData.country dəyərini istifadə edirik
       setInputUserCounty(localUserData.country);
       setSelectedCountry([localUserData.country]);
     }
-  }, [localUserData]);
+  }, [clickCountryToMembers, localUserData]);
+  
 
   const userNameChange = (e) => {
     setInputUserName(e.target.value);
@@ -117,8 +124,11 @@ const Members = () => {
     setInputUserCounty(value);
 
     if (value.trim() === "") {
-      if (localUserData?.country) {
+      if (clickCountryToMembers) {
+        setSelectedCountry([clickCountryToMembers]);
+      }else if(localUserData?.country){
         setSelectedCountry([localUserData.country]);
+        
       } else {
         setSelectedCountry(countryCategory);
       }
@@ -215,12 +225,15 @@ const Members = () => {
                         value={inputUserCounty}
                         onFocus={() => {
                           setShowDropdown(true);
-                          if (
-                            inputUserCounty.trim() === "" &&
-                            localUserData?.country
-                          ) {
+                          
+                          if (clickCountryToMembers) {
+                            // Əgər clickCountryToMembers varsa, onu seçirik
+                            setSelectedCountry([clickCountryToMembers]);
+                          } else if (localUserData?.country) {
+                            // Əgər clickCountryToMembers yoxdursa, localUserData.country istifadə olunur
                             setSelectedCountry([localUserData.country]);
-                          } else if (inputUserCounty.trim() === "") {
+                          } else {
+                            // Əgər heç biri yoxdursa, bütün ölkələr göstərilir
                             setSelectedCountry(countryCategory);
                           }
                         }}

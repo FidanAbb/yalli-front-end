@@ -38,13 +38,14 @@ const ContextYalli = ({ children }) => {
 const [afterRegisterState,setAfterRegisterState]=useState(false)
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-
-
+  const [hideGroupEdit,setHideGroupEdit]=useState(true)
   const [isRegisterOtp, setIsRegisterOtp] = useState(() => {
     // localStorage-dan ilkin dəyəri götürürük
     const savedValue = localStorage.getItem("isRegisterOtp");
     return savedValue ? JSON.parse(savedValue) : false; // Dəyəri parse edib false ilə default dəyər veririk
   });
+  console.log(hideGroupEdit);
+  
   
   useEffect(() => {
     // Hər dəfə isRegisterOtp dəyişəndə localStorage-a yazırıq
@@ -319,7 +320,9 @@ const [countries, setCountries] = useState([]);
         setIsRegisterOtp,
         isRegisterOtp,
         setAfterRegisterState,
-        afterRegisterState
+        afterRegisterState,
+        hideGroupEdit,
+        setHideGroupEdit
       }}
     >
       {children}

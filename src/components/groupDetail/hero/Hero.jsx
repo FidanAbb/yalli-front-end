@@ -73,7 +73,7 @@ const Hero = ({ group }) => {
       <div className="container">
         <div className={styles["hero"]}>
           <div className={styles["card"]}>
-            <div onClick={()=>window.history.back()} className={styles["back-btn"]}>
+            <div onClick={()=>navigate("/groups")} className={styles["back-btn"]}>
               <FaArrowLeftLong />
             </div>
             <div className={styles["upper"]}>

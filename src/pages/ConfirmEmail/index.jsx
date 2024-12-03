@@ -18,9 +18,9 @@ const ConfirmEmail = () => {
   const [resetEmail, setResetEmail] = useState("");
   const [countdown, setCountdown] = useState(60);
   const [otpInputFilled, setOtpInputFilled] = useState(false);
-  const [attempts, setAttempts] = useState(0); // Cəhdləri izləmək üçün
-  const [blocked, setBlocked] = useState(false); // Bloklama statusu
-  const [blockTime, setBlockTime] = useState(null); // Bloklama vaxtı
+  const [attempts, setAttempts] = useState(0);
+  const [blocked, setBlocked] = useState(false); 
+  const [blockTime, setBlockTime] = useState(null); 
   const { isRegisterOtp, setIsRegisterOtp, setAfterRegisterState } =
     useContext(YalliContext);
   const navigate = useNavigate();
@@ -30,12 +30,6 @@ const ConfirmEmail = () => {
     if (storedEmail) {
       setEmail(JSON.parse(storedEmail));
     }
-
-    // const timer = setInterval(() => {
-    //   setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    // }, 1000);
-
-    // return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -49,27 +43,25 @@ const ConfirmEmail = () => {
     let timer;
 
     if (blocked) {
-      // Bloklanma vəziyyəti üçün 5 dəqiqəlik geri sayım
-      setCountdown(5 * 60); // 300 saniyə
+      setCountdown(5 * 60); 
       timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
-            clearInterval(timer); // Intervalu dayandır
-            setBlocked(false); // Bloklamanı aç
-            setAttempts(0); // Cəhdləri sıfırla
+            clearInterval(timer); 
+            setBlocked(false); 
+            setAttempts(0); 
             return 0;
           }
           return prev - 1; // Geri sayım
         });
       }, 1000);
     } else {
-      // Normal vəziyyətdə 60 saniyəlik geri sayım
       timer = setInterval(() => {
         setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
     }
 
-    return () => clearInterval(timer); // Əvvəlki interval-u təmizlə
+    return () => clearInterval(timer); 
   }, [blocked]);
 
   const formatEmail = (email) => {
@@ -175,7 +167,7 @@ const ConfirmEmail = () => {
   return (
     <div className={styles["confirm_email"]}>
       <div className={styles["confirm_window"]}>
-        <div className={styles["arrow"]} onClick={() => navigate(`/register`)}>
+        <div className={styles["arrow"]}  onClick={() => navigate(`${isRegisterOtp ?"/register":"/forgot-password"}`)}>
           <Arrow />
         </div>
         <img src={confirmEmail} alt="" />

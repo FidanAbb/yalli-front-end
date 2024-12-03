@@ -87,7 +87,7 @@ const Hero = () => {
         currentTextIndexRef.current === texts.length - 1
           ? 0
           : currentTextIndexRef.current + 1;
-      setCurrentTextIndex(currentTextIndexRef.current); // Only updates when needed
+      setCurrentTextIndex(currentTextIndexRef.current); 
     }, 6000);
 
     return () => clearInterval(intervalId);

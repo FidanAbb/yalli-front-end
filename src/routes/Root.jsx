@@ -26,6 +26,7 @@ import Main from "../components/groupDetail/main/Main";
 import { PrivateRoute } from "../PrivateRoute";
 import { HideAfterRegisterRoute } from "../components/Private/AfterRegister";
 import { HideAfterChangePass } from "../components/Private/AfterChangePass";
+import { HideGroupEditRoute } from "../components/Private/GroupEditSide";
 
 const Router = createBrowserRouter([
 
@@ -82,8 +83,14 @@ const Router = createBrowserRouter([
     element: <GroupDetail />,
   },
   {
-    path: "/group-edit/:groupID/:sectionGroup",
-    element: <GroupEdit />,
+    path: "/",
+    element: <HideGroupEditRoute />,
+    children: [
+      {
+        path: "group-edit/:groupID/:sectionGroup",
+        element: <GroupEdit />,
+      },
+    ],
   },
   {
     path: "/event",

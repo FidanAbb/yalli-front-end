@@ -43,12 +43,34 @@ const options = [
   "Belçika",
   "Norveç",
   "Finlandiya",
+  "Macarıstan",
   "Polşa",
   "Yunanıstan",
+  "Slovakiya",
+  "Litva",
+  "Latviya",
+  "Estoniya",
+  "Qazaxıstan",
+  "BƏƏ",
+  "Yaponiya",
+  "İran",
+  "Səudiyyə Ərəbistanı",
+  "Belarus",
+  "Moldova",
+  "Qırğızıstan",
+  "Tacikistan",
+  "Türkmənistan",
+  "Özbəkistan",
+  "Malayziya",
   "Sinqapur",
   "Braziliya",
   "Argentina",
   "Meksika",
+  "Vietnam",
+  "Bali (İndoneziya)",
+  "İsveçrə",
+  "Portuqaliya",
+  "Cənubi Koreya",
 ];
 
 const CreateGroup = ({ setModal, setGroupumData }) => {
@@ -160,8 +182,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       groupData.memberCount <= 0 ||
       !groupData.description.trim()
     ) {
-      toast.error("Bütün sahələri doldurun.");
-      return;
+      toast.info("Bütün sahələri doldurun.");
+      return
     }
     const formattedData = {
       title: groupData.title,
