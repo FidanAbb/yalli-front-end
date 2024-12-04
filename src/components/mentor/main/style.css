@@ -19,10 +19,12 @@
     background-color: #EEEEEE;
     padding: .4rem .5rem;
     border-radius: .6rem;
+    gap: 4px;
 }
 
 .name-input .icon {
-    font-size: 1.4rem;
+    font-size: 18px;
+    color:#A2A2A2;
 }
 .linkedin-icon{
     font-size: 1.8rem;
@@ -49,7 +51,10 @@ input {
     background-color: #fff;
     padding: .4rem .5rem;
     border-radius: .6rem;
-    border: 1px solid;
+    border: 1px solid #A2A2A2;
+}
+.country-con .country-input .icon{
+    color:#A2A2A2;
 }
 
 .country-con .dropdown-list {
@@ -67,6 +72,7 @@ input {
 
 .country-con .dropdown-list>div:hover {
     background-color: #EEEEEE;
+                        className="icon"
 }
 
 .members-page .members-right {
@@ -143,7 +149,7 @@ input {
 
 .events-page .event-left{
     background-color:#fff;
-    padding: 1rem .5rem;
+    padding: 33px 18px;
     border-radius:.8rem;
     height: 20rem;
 }
@@ -151,7 +157,8 @@ input {
     background-color: #fff;
     padding: .4rem;
     border-radius: .5rem;
-    height: 16.8rem;
+    height: 286px !important;
+    width: 300px !important ;
 }
 
 .event-card .img-block {
@@ -185,6 +192,7 @@ input {
 
 .event-card:hover .more-info {
     display: block;
+    margin-top: 22px;
 }
 
 .event-card .event-title {
@@ -194,7 +202,7 @@ input {
 
 .event-card .more-info {
     text-align: center;
-    padding: .6rem 0;
+    padding: 10px 0;
     transition: .4s;
     cursor: pointer;
     display: none;
@@ -233,7 +241,7 @@ input {
 }
 .mentor-left{
     background-color:#fff;
-    padding: .7rem;
+    padding: 1rem;
     border-radius:1rem;
     height: 100%;
 }

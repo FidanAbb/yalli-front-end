@@ -152,6 +152,11 @@ form {
     padding: .3rem 1.4rem ;
 }
 
+.group-edit .right .group-gallery .body {
+    height: 32rem !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
 .group-edit .right .group-gallery .body .create-image {
     display: flex;
     justify-content: center;

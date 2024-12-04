@@ -244,9 +244,10 @@ console.log(clickCountryToMembers);
                         }
                       />
                       {showDropdown ? (
-                        <IoIosArrowUp onClick={() => setShowDropdown(false)} />
+                        <IoIosArrowUp className="icon" onClick={() => setShowDropdown(false)} />
                       ) : (
                         <IoIosArrowDown
+                        className="icon"
                           onClick={() => {
                             setShowDropdown(true);
                             if (inputUserCounty.trim() === "") {
