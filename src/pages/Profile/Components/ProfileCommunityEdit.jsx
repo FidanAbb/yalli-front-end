@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { YalliContext } from "../../../Context/YalliContext";
 import Card from "../../../components/ui/card/Card";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -9,11 +9,21 @@ import "react-toastify/dist/ReactToastify.css";
 
 
 const ProfileCommunityEdit = () => {
-  const { groupsByUserID, setGroupsByUserID, userID } =
+  const { groupsByUserID, setGroupsByUserID, userID,setHideGroupEdit,hideGroupEdit } =
     useContext(YalliContext);
   const [isSelectGroup, setIsSelectGroup] = useState(false);
   const [selectedGroupsID, setSelectedGroupsID] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation(); // Cari marşrut haqqında məlumat alır
+
+
+  useEffect(() => {
+    if (hideGroupEdit) {
+      setHideGroupEdit(true);
+    } else {
+      setHideGroupEdit(false);
+    }
+  }, [location.pathname, hideGroupEdit]);
 
   const deleteGroup = () => {
     if (selectedGroupsID?.length > 0) {

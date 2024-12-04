@@ -12,6 +12,8 @@ import notLoginImage from "../../../../src/assets/img/member.png";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import { AiOutlineLinkedin } from "react-icons/ai";
+import { CiLinkedin } from "react-icons/ci";
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -68,7 +70,7 @@ const socialMedia = {
   INSTAGRAM: <IoLogoInstagram className="icon" />,
   TELEGRAM: <BiLogoTelegram className="icon" />,
   WHATSAPP: <FaWhatsapp className="icon what-icon" />,
-  LINKEDIN: <FaLinkedin className="icon" />, 
+  LINKEDIN: <AiOutlineLinkedin className="icon linkedin-icon" />, 
 };
 
 const Members = () => {

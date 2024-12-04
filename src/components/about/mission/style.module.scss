@@ -25,8 +25,9 @@
         font-weight: 600;
         font-size: 28px;
         color: #fff;
-        top: 40%;
-        left: 33%;
+        top: 50%;
+        left: 44%;
+        transform: translate(-50%,-50%);
       }
 
     }
@@ -60,8 +61,9 @@
 
     h2 {
       position: absolute;
-      top: 50%;
-    }
+      top: 50% !important;
+      left: 56% !important;
+     }
   }
 }
 

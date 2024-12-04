@@ -72,7 +72,6 @@ const countryCategory = [
   "Cənubi Koreya",
 ];
 
-
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const weekdays = [
@@ -106,19 +105,18 @@ const formatDate = (dateString) => {
 
 const Events = () => {
   const [forServerError, setForServerError] = useState();
-const user = useSelector((state) => state.users.user);
+  const user = useSelector((state) => state.users.user);
 
-const location = useLocation();
-useEffect(() => {
-  window.scrollTo(0, 0);
-}, [location]);
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
-
-useEffect(() => {
-  if (user) {
-    setForServerError(user);
-  }
-}, [user]);
+  useEffect(() => {
+    if (user) {
+      setForServerError(user);
+    }
+  }, [user]);
   const navigate = useNavigate();
   const [selectedCountry, setSelectedCountry] = useState([]);
   const [events, setEvents] = useState([]);
@@ -203,6 +201,10 @@ useEffect(() => {
   };
 
   const savedEventChange = (eventId, userId) => {
+    if (!userId) {
+      console.error("User ID is missing. Unable to save the event.");
+      return;
+    }
     const eventToToggle = filteredEvents.find((event) => event.id === eventId);
     console.log(eventToToggle);
 
@@ -231,7 +233,7 @@ useEffect(() => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            token: localStorage.getItem("accessToken"), // Include the token for authorization
+            token: localStorage.getItem("accessToken"),
           },
         }
       );
@@ -335,8 +337,8 @@ useEffect(() => {
 
   return (
     <>
-    {console.log(forServerError)}
-    
+      {console.log(forServerError)}
+
       <Header />
       <Hero />
       <div className="events-page">

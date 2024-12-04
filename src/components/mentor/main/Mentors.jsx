@@ -388,9 +388,7 @@ const Mentors = () => {
                             <p>
                               <img
                                 src={
-                                  countries.find(
-                                    (country) => country?.name === item?.country
-                                  )?.flag || "#"
+                                  countries[index]|| "#"
                                 }
                                 alt={`${item.country} flag`}
                                 style={{ width: "2rem", height: "auto" }} // Bayraq genişliyi

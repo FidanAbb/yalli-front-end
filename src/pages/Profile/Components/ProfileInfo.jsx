@@ -59,8 +59,7 @@ const ProfileInfo = () => {
   function isValidSocialUrl(url, platform) {
     const regexPatterns = {
       FACEBOOK: /(?:http(s)?:\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/,
-      INSTAGRAM:
-        /(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
+      INSTAGRAM:/(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
       WHATSAPP: /(?:http(s)?:\/\/)?api\.whatsapp\.com\/send\?phone=[0-9]+/,
       TELEGRAM: /(?:http(s)?:\/\/)?(?:www\.)?t\.me\/[a-zA-Z0-9(\.\?)?]/,
       LINKEDIN: /(?:http(s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+/,
@@ -71,24 +70,55 @@ const ProfileInfo = () => {
   }
   const socialMediaChange = (e) => {
     const { name, value } = e.target;
-    if (!isValidSocialUrl(value, name.toUpperCase())) {
-      toast.error(`Daxil edilmiş ${name} URL düzgün deyil.`);
-      return;
-    }
   
-    const updatedSocialMediaAccounts = {
-      ...localUserData.socialMediaAccounts,
-      [name]: value,
-    };
+    const updatedSocialMediaAccounts = value
+      ? { ...localUserData.socialMediaAccounts, [name]: value }
+      : Object.fromEntries(
+          Object.entries(localUserData.socialMediaAccounts || {}).filter(
+            ([key]) => key !== name
+          )
+        );
   
     const newUserData = {
       ...localUserData,
       socialMediaAccounts: updatedSocialMediaAccounts,
     };
+  
     setLocalUserData(newUserData);
     updateUserData(newUserData);
+  
+    // URL düzgün olmadıqda xəbərdarlıq və avtomatik silmə
+    if (value && !isValidSocialUrl(value, name.toUpperCase())) {
+      // Xəbərdarlıq mesajı göstər
+      toast.info(
+        `Daxil edilmiş ${name} URL düzgün deyil və 5 saniyə ərzində silinəcək.`
+      );
+  
+      // 5 saniyə sonra düzgün olmayan URL-ni sil
+      setTimeout(() => {
+        const cleanedSocialMediaAccounts = Object.fromEntries(
+          Object.entries(localUserData.socialMediaAccounts || {}).filter(
+            ([key]) => key !== name
+          )
+        );
+  
+        const cleanedUserData = {
+          ...localUserData,
+          socialMediaAccounts: cleanedSocialMediaAccounts,
+        };
+  
+        setLocalUserData(cleanedUserData);
+        updateUserData(cleanedUserData);
+  
+        // Silindikdən sonra bildiriş göstər
+        // toast.success(`${name} URL silindi.`);
+      }, 5000); // 5 saniyə
+    }
   };
-
+  
+  
+  
+  
   const countries = [
     { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
     { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },

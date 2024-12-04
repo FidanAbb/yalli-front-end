@@ -11,6 +11,9 @@
     top: .5rem;
     right: .5rem;
 }
+.dp-none{
+    display: none !important;
+}
 
 .event-card:hover .btn-info {
     display: block;
@@ -30,14 +33,11 @@
 
 #animatedText {
     font-size: clamp(1rem, 2.5vw, 2rem);
-    /* Dinamik font ölçüsü */
     line-height: 1.5;
     word-wrap: break-word;
     word-break: break-word;
     max-width: 90%;
-    /* Mətnin ekran kənarından çıxmasını məhdudlaşdırır */
     margin: 0 auto;
-    /* Ortaya mərkəzləşdirir */
 }
 
 .response-group,
@@ -51,11 +51,14 @@
     .response-group,
     .response-event,
     .response-mentor {
-        display: block !important;
+        display: flex  !important;
+        flex-direction: column;
     }
-
+    .response-event{
+       
+        gap:2rem; 
+    }
     .event-card {
-        width: 90% !important;
-        margin: 1rem auto;
+        width: 100% !important;
     }
 }

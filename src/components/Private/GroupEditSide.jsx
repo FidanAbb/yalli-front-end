@@ -1,9 +1,14 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useParams } from "react-router-dom";
 import { YalliContext } from "../../Context/YalliContext";
-import {useContext} from "react"
+import { useContext, useEffect } from "react";
+
 export const HideGroupEditRoute = () => {
-    const {hideGroupEdit,setHideGroupEdit}=useContext(YalliContext)
-    console.log(hideGroupEdit);
-    
+  const { groupID,sectionGroup } = useParams();
+  console.log(groupID,sectionGroup);
+
+  const { hideGroupEdit, setHideGroupEdit, groupDetailsByUserID } =
+    useContext(YalliContext);
+
+  
   return hideGroupEdit ? <Navigate to="/groups" /> : <Outlet />;
 };

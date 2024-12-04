@@ -3,7 +3,7 @@
 }
 
 .members-page {
-    padding: 2rem 0;
+    padding: 50px 0;
 }
 
 .members-page .members-left {
@@ -24,7 +24,9 @@
 .name-input .icon {
     font-size: 1.4rem;
 }
-
+.linkedin-icon{
+    font-size: 1.8rem;
+}
 .name-input input {
     outline: none;
     background-color: transparent;
@@ -71,8 +73,8 @@ input {
     display: flex;
     flex-direction: column;
     background-color: #fff;
-    padding: 1rem;
-    border-radius: 2rem;
+    padding: 20px 20px;
+    border-radius: 10px;
 }
 
 .members-page .members-right .member-card {

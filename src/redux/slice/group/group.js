@@ -4,11 +4,19 @@ import axios from "axios";
 const baseURL = "https://yalli-back-end.onrender.com/v1/groups";
 
 // Thunks
-export const getGroupData = createAsyncThunk("groups/getGroupData", async () => {
-  const response = await axios.get(baseURL);
-  return response.data;
-});
-
+export const getGroupData = createAsyncThunk(
+  "groups/getGroupData",
+  async ({ page, size, sort }) => {
+    const response = await axios.get(baseURL, {
+      params: {
+        page,
+        size,
+        sort,
+      },
+    });
+    return response.data;
+  }
+);
 export const getGroupDataById = createAsyncThunk("groups/getGroupDataById", async (id) => {
   const response = await axios.get(`${baseURL}/${id}`);
   return response.data;

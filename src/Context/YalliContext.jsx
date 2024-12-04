@@ -22,6 +22,8 @@ const ContextYalli = ({ children }) => {
     socialMediaAccounts: null,
   };
   const { groupID } = useParams();
+  console.log(groupID);
+  
   const [userID, setUserID] = useState(null);
   const [localUserData, setLocalUserData] = useState(initialData);
   const [imageUrl, setImageUrl] = useState("");
@@ -34,26 +36,72 @@ const ContextYalli = ({ children }) => {
   const [myEvents, setMyEvents] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
   const [isLogin, setIsLogin] = useState("");
-  const [clickCountryToMembers,setClickCountryToMembers]=useState("")
-const [afterRegisterState,setAfterRegisterState]=useState(false)
+  const [clickCountryToMembers, setClickCountryToMembers] = useState("");
+  const [afterRegisterState, setAfterRegisterState] = useState(false);
   const [events, setEvents] = useState([]);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [hideGroupEdit,setHideGroupEdit]=useState(true)
+  const [hideGroupEdit, setHideGroupEdit] = useState(true);
   const [isRegisterOtp, setIsRegisterOtp] = useState(() => {
-    // localStorage-dan ilkin dəyəri götürürük
     const savedValue = localStorage.getItem("isRegisterOtp");
-    return savedValue ? JSON.parse(savedValue) : false; // Dəyəri parse edib false ilə default dəyər veririk
+    return savedValue ? JSON.parse(savedValue) : false;
   });
-  console.log(hideGroupEdit);
-  
-  
+  console.log(groupDetailsByUserID);
+  console.log(group);
+  const [allGroups,setAllGroups]=useState([])
+  const [mentorCountrys,setMentorCountrys]=useState(null)
+  const [mentors, setMentors] = useState([]);
   useEffect(() => {
-    // Hər dəfə isRegisterOtp dəyişəndə localStorage-a yazırıq
+    fetchMentors();
+  }, []);
+  const fetchMentors = async () => {
+    try {
+      const response = await axios.get(
+        "https://yalli-back-end.onrender.com/v1/mentors/search",
+        {
+          headers: {
+            Accept: "application/json",
+          },
+          params: {
+            page: 0,
+            size: 100,
+            sort: "id",
+          },
+        }
+      );
+
+      if (response) {
+        console.log("Fetched Data:", response.data.content);
+        setMentors(response.data.content);
+      }
+    } catch (error) {
+      console.error("Error fetching mentors:", error);
+      if (error.response) {
+        console.error("Response error data:", error.response.data);
+      }
+    }
+  };
+  
+  // console.log(hideGroupEdit);
+  // const handleLogout = () => {
+  //   sessionStorage.removeItem("accessToken");
+  //   localStorage.removeItem("accessToken");
+  //   localStorage.removeItem("userInfo");
+  //   localStorage.removeItem("userProfile");
+  //   localStorage.removeItem("userID");
+  // };
+
+
+  // useEffect(() => {
+  //   if (!userID) {
+  //     handleLogout();
+  //     console.log("User ID boşdur, logout edildi.");
+  //   }
+  // }, [userID]);
+  useEffect(() => {
     localStorage.setItem("isRegisterOtp", JSON.stringify(isRegisterOtp));
   }, [isRegisterOtp]);
 
-
-const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState([]);
   useEffect(() => {
     const accessTokenStorage = localStorage.getItem("accessToken");
     if (accessTokenStorage) {
@@ -123,7 +171,6 @@ const [countries, setCountries] = useState([]);
             headers: {
               "Content-Type": "multipart/form-data",
             },
-            
           }
         );
         const imageUrl = response.data;
@@ -133,7 +180,7 @@ const [countries, setCountries] = useState([]);
         };
         localStorage.setItem("imgUrl", response.data);
         updateUserData(updateUserDataOb);
-        setLocalUserData(updateUserDataOb)
+        setLocalUserData(updateUserDataOb);
       } catch (errr) {
         console.log("upload da problem", errr);
       }
@@ -222,7 +269,7 @@ const [countries, setCountries] = useState([]);
               token: localStorage.getItem("accessToken"),
             },
           }
-        );        
+        );
         setMyEvents(response.data.content);
       } catch (error) {
         console.error("Failed to fetch events:", error);
@@ -230,11 +277,24 @@ const [countries, setCountries] = useState([]);
     };
     fetchEvents();
   }, []);
+  const getAllGroups = async () => {
+    try {
+      const response = await axios.get('https://yalli-back-end.onrender.com/v1/groups');
+      setAllGroups(response.data.content); 
+    } catch (error) {
+      console.error('Error fetching groups:', error);
+    }
+  }
+  
+  useEffect(()=>{
+    getAllGroups();
+  },[])
+  
   const fetchAllUsers = async () => {
     try {
       let page = 0;
       let allUsers = [];
-      let hasMore = true; 
+      let hasMore = true;
       while (hasMore) {
         const response = await axios.get(
           `https://yalli-back-end.onrender.com/v1/users/search?page=${page}&size=20`,
@@ -244,13 +304,13 @@ const [countries, setCountries] = useState([]);
             },
           }
         );
-        
-        allUsers = [...allUsers, ...response.data.content]; 
+
+        allUsers = [...allUsers, ...response.data.content];
         page++;
-        hasMore = !response.data.last; 
+        hasMore = !response.data.last;
       }
 
-      return allUsers; 
+      return allUsers;
     } catch (error) {
       console.error("Failed to fetch users:", error);
     }
@@ -277,8 +337,6 @@ const [countries, setCountries] = useState([]);
     }
   };
 
-  
-  
   return (
     <YalliContext.Provider
       value={{
@@ -322,7 +380,12 @@ const [countries, setCountries] = useState([]);
         setAfterRegisterState,
         afterRegisterState,
         hideGroupEdit,
-        setHideGroupEdit
+        setHideGroupEdit,
+        setMentorCountrys,
+        mentorCountrys,
+        setMentors,
+        mentors,
+        allGroups
       }}
     >
       {children}
@@ -330,4 +393,4 @@ const [countries, setCountries] = useState([]);
   );
 };
 
-export default ContextYalli;  
+export default ContextYalli;

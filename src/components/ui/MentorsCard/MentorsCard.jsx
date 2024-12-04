@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FetchCountries from "../../Countrys/FetchCountryCodes";
 import { YalliContext } from "../../../Context/YalliContext";
 
-const MentorsCard = ({ data }) => {
+const MentorsCard = ({ data ,index}) => {
   const navigate = useNavigate();
   const {countries}=useContext(YalliContext)
   const categoryTranslations = {
@@ -12,6 +12,7 @@ const MentorsCard = ({ data }) => {
     EDUCATION: "TƏHSİL",
     CAREER: "KARYERA",
   };
+  
   const translateCategory = (category) => {
     return categoryTranslations[category] || category;
   };
@@ -27,7 +28,7 @@ const MentorsCard = ({ data }) => {
       <p className={styles["name"]}>{data.fullName}</p>
       <img
         src={
-          countries.find((country) => country?.name === data?.country)?.flag ||
+          countries[index] ||
           "#"
         }
         alt={`${data.country} flag`}

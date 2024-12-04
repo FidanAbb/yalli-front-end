@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
 import MentorCard from "../../ui/MentorsCard/MentorsCard";
 import Arrow from "../../ui/Arrow";
@@ -11,12 +11,13 @@ import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
 import Usa from "../../ui/countries/Usa";
 import axios from "axios";
+import { YalliContext } from "../../../Context/YalliContext";
 const Mentor = () => {
   const sliderRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [mentors, setMentors] = useState([]);
+ const {mentors,setMentors}=useContext(YalliContext);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -65,40 +66,10 @@ const Mentor = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchMentors();
-  }, []);
-  const fetchMentors = async () => {
-    try {
-      const response = await axios.get(
-        "https://yalli-back-end.onrender.com/v1/mentors/search",
-        {
-          headers: {
-            Accept: "application/json",
-          },
-          params: {
-            page: 0,
-            size: 100,
-            sort: "id",
-          },
-        }
-      );
-
-      if (response) {
-        console.log("Fetched Data:", response.data.content);
-        setMentors(response.data.content);
-      }
-    } catch (error) {
-      console.error("Error fetching mentors:", error);
-      if (error.response) {
-        console.error("Response error data:", error.response.data);
-      }
-    }
-  };
 
   return (
     <div className={styles["group"]}>
-      <div className="container">
+      <div className={mentors?.length > 0 ? "container" : "dp-none"}>
         <div className={styles["groups"]}>
           <div className={styles["hero_text"]}>
             <h2>Mentorlar</h2>
@@ -118,7 +89,7 @@ const Mentor = () => {
               style={{ cursor: isDragging ? "grabbing" : "grab" }}
             >
               {mentors.map((group, index) => (
-                <MentorCard key={index} data={group} />
+                <MentorCard key={index} data={group} index={index} />
               ))}
             </div>
             <div className={styles["right_arrow"]} onClick={scrollRightBtn}>

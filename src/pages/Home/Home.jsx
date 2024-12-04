@@ -9,6 +9,7 @@ import FetchCountryCodes from "../../components/Countrys/FetchCountryCodes";
 import FetchCountries from "../../components/Countrys/FetchCountryCodes";
 import { YalliContext } from "../../Context/YalliContext";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 const Home = () => {
   const groupRef = useRef(null);
   const eventRef = useRef(null);
@@ -18,6 +19,10 @@ const Home = () => {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  const location = useLocation(); 
+  console.log(location.pathname);
+  
 
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);

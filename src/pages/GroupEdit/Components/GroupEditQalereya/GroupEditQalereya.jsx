@@ -13,7 +13,7 @@ const GroupEditGallery = () => {
   const [initialFormData, setInitialFormData] = useState({});
   
   const [selectedImages, setSelectedImages] = useState([]);
-  const [isCheckedImage, setIsCheckedImage] = useState(false);
+  const [isCheckedImage,setIsCheckedImage] = useState(false);
   const [changesDetected, setChangesDetected] = useState(false);
 
   const [formData, setFormData] = useState({
