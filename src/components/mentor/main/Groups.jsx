@@ -17,9 +17,10 @@ const Groups = () => {
   const [searchedItem, setSearchedItem] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [activeCategories, setActiveCategories] = useState([]);
-
+  const [showAllPages, setShowAllPages] = useState(false);
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
+  console.log();
 
   const location = useLocation();
   useEffect(() => {
@@ -34,13 +35,14 @@ const Groups = () => {
   }, [user]);
 
   useEffect(() => {
-    dispatch(getGroupData({ page, size: 20 }));
+    dispatch(getGroupData({ page, size: 18 }));
   }, [dispatch, page]);
   const handlePageChange = (newPage) => {
     setPage(newPage);
   };
 
-  const totalPages = Math.ceil(groups.totalItems / 20);
+  const totalPages = Math.ceil(groups.totalElements / 18);
+  console.log(totalPages);
 
   const groupCategory = [
     { LIFE: "Yaşam" },
@@ -112,22 +114,43 @@ const Groups = () => {
               )}
             </div>
           </div>
-          <div className="text-center">
-            <button
-              disabled={page === 0}
-              onClick={() => handlePageChange(page - 1)}
-            >
-              Previous
-            </button>
-            <span>
-              Page {page + 1} of {totalPages}
-            </span>
-            <button
-              disabled={page === totalPages - 1}
-              onClick={() => handlePageChange(page + 1)}
-            >
-              Next
-            </button>
+          <div className="text-center pagination-con">
+            {Array.from({ length: totalPages }, (_, index) => {
+              if (!showAllPages && index >= 5) return null; // İlk 5 düymə göstərilir
+              return (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index)}
+                  style={{
+                    margin: "0 5px",
+                    padding: "8px 12px",
+                    backgroundColor: page === index ? "#FF0000" : "#fff",
+                    color: page === index ? "#fff" : "#FF0000",
+                    border: "1px solid #FF0000",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  {index + 1}
+                </button>
+              );
+            })}
+            {!showAllPages && totalPages > 5 && (
+              <button
+                onClick={() => setShowAllPages(true)}
+                style={{
+                  margin: "0 5px",
+                  padding: "8px 12px",
+                  backgroundColor: "#fff",
+                  color: "#FF0000",
+                  border: "1px solid #FF0000",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+              >
+                ...
+              </button>
+            )}
           </div>
         </div>
       </div>

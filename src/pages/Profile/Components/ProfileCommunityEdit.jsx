@@ -5,17 +5,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GroupEditModal from "../../../components/GroupEditModal/GroupEditModal";
 
 
 
 const ProfileCommunityEdit = () => {
-  const { groupsByUserID, setGroupsByUserID, userID,setHideGroupEdit,hideGroupEdit } =
+  const { groupsByUserID, setGroupsByUserID, userID,setHideGroupEdit,hideGroupEdit ,groupEditModal} =
     useContext(YalliContext);
   const [isSelectGroup, setIsSelectGroup] = useState(false);
   const [selectedGroupsID, setSelectedGroupsID] = useState([]);
   const navigate = useNavigate();
   const location = useLocation(); // Cari marşrut haqqında məlumat alır
-
 
   useEffect(() => {
     if (hideGroupEdit) {
@@ -73,6 +73,8 @@ const ProfileCommunityEdit = () => {
               Seçilənləri sil
             </button>
           )}
+
+
           <button onClick={() => setIsSelectGroup((prev) => !prev)}>
             {isSelectGroup ? "Ləğv Et" : "Seç"}
           </button>
@@ -93,6 +95,7 @@ const ProfileCommunityEdit = () => {
             </div>
           ))}
       </div>
+      {groupEditModal &&<GroupEditModal/>}
     </div>
   );
 };

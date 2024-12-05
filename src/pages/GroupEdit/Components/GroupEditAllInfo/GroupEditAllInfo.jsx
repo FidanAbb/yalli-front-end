@@ -43,10 +43,7 @@ const options = [
 const GroupEditAllInfo = () => {
   const { updateGroup, findGroupByUserId, userID, groupDetailsByUserID } =
     useContext(YalliContext);
-  const { groupID } = useParams();  
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imageId, setImageId] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
+  const { groupID } = useParams();
   const [initialFormData, setInitialFormData] = useState({});
   const [formData, setFormData] = useState({
     title: "",
@@ -112,7 +109,7 @@ const GroupEditAllInfo = () => {
           }
         );
         const imageUrl = response.data;
-        setFormData(prevFormData => ({
+        setFormData((prevFormData) => ({
           ...prevFormData,
           imageId: imageUrl,
         }));
@@ -122,10 +119,10 @@ const GroupEditAllInfo = () => {
       }
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     const changes = Object.keys(formData).reduce((acc, key) => {
       if (formData[key] !== initialFormData[key]) {
         acc[key] = formData[key];
@@ -135,12 +132,12 @@ const GroupEditAllInfo = () => {
       return acc;
     }, {});
     console.log(changes);
-    
+
     if (Object.keys(changes).length === 0) {
       toast.info("Heç bir dəyişiklik aşkarlanmadı.");
       return;
     }
-  
+
     try {
       await updateGroup(groupID, changes);
     } catch (error) {
@@ -148,13 +145,19 @@ const GroupEditAllInfo = () => {
       toast.error("Qrup məlumatları yenilənmədi: " + error.message);
     }
   };
-  
 
   return (
     <div className="all-info">
       <div>
         <div className="image-block">
-          <img src={formData.imageId?`https://minio-server-4oyt.onrender.com/yalli/${formData.imageId}`:""} alt="" />
+          <img
+            src={
+              formData.imageId
+                ? `https://minio-server-4oyt.onrender.com/yalli/${formData.imageId}`
+                : ""
+            }
+            alt=""
+          />
         </div>
         <div className="image-change-btn">
           <label htmlFor="file-input" className="button">
@@ -218,7 +221,9 @@ const GroupEditAllInfo = () => {
             <div className="save-btn ">
               <button>Dəyişiklikləri yadda saxla</button>
             </div>
-            <Link className="back-btn" to="/profile/profile-community-edit">Ləğv et</Link>
+            <Link className="back-btn" to="/profile/profile-community-edit">
+              Ləğv et
+            </Link>
           </form>
         </div>
       </div>

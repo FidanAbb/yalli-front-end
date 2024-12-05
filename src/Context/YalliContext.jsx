@@ -21,8 +21,7 @@ const ContextYalli = ({ children }) => {
     profilePictureUrl: "",
     socialMediaAccounts: null,
   };
-  const { groupID } = useParams();
-  console.log(groupID);
+  
   
   const [userID, setUserID] = useState(null);
   const [localUserData, setLocalUserData] = useState(initialData);
@@ -45,11 +44,37 @@ const ContextYalli = ({ children }) => {
     const savedValue = localStorage.getItem("isRegisterOtp");
     return savedValue ? JSON.parse(savedValue) : false;
   });
-  console.log(groupDetailsByUserID);
-  console.log(group);
   const [allGroups,setAllGroups]=useState([])
   const [mentorCountrys,setMentorCountrys]=useState(null)
   const [mentors, setMentors] = useState([]);
+
+  const [groupID,setGroupID]=useState(null)
+  const [groupEditModal,setGroupEditModal]=useState(false)
+console.log(groupID);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     fetchMentors();
   }, []);
@@ -81,22 +106,6 @@ const ContextYalli = ({ children }) => {
     }
   };
   
-  // console.log(hideGroupEdit);
-  // const handleLogout = () => {
-  //   sessionStorage.removeItem("accessToken");
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("userInfo");
-  //   localStorage.removeItem("userProfile");
-  //   localStorage.removeItem("userID");
-  // };
-
-
-  // useEffect(() => {
-  //   if (!userID) {
-  //     handleLogout();
-  //     console.log("User ID boşdur, logout edildi.");
-  //   }
-  // }, [userID]);
   useEffect(() => {
     localStorage.setItem("isRegisterOtp", JSON.stringify(isRegisterOtp));
   }, [isRegisterOtp]);
@@ -223,7 +232,7 @@ const ContextYalli = ({ children }) => {
       );
       setGroup(response.data);
       console.log("Qrup məlumatı yeniləndi:", response.data);
-      toast.success("Qrup məlumatları uğurla yeniləndi.");
+      
     } catch (error) {
       console.error("Qrupu yeniləmək alınmadı:", error);
       if (
@@ -385,7 +394,11 @@ const ContextYalli = ({ children }) => {
         mentorCountrys,
         setMentors,
         mentors,
-        allGroups
+        allGroups,
+        setGroupEditModal,
+        groupEditModal,
+        groupID,
+        setGroupID
       }}
     >
       {children}

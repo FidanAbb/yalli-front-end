@@ -455,7 +455,11 @@ const Events = () => {
                         </div>
                         <div>
                           <p>{formatDate(event.date)}</p>
-                          <p className="event-title">{event.title}</p>
+                          <p className="event-title">
+                            {event.title.length > 29
+                              ? `${event.title.slice(0, 28)}...`
+                              : event.title}
+                          </p>
                           <p>
                             <CiLocationOn />
                             {event.country}

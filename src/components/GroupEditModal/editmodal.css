@@ -1,0 +1,251 @@
+.editmodal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 95%;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 2rem;
+    overflow: hidden;
+}
+
+.editmodal-con {
+    display: flex;
+}
+
+.editmodal-left {
+    background-color: #EEEEEE;
+    height: 100%;
+    width: 27%;
+    padding: 1rem;
+    padding-top: 3rem;
+}
+
+.editmodal-left ul li {
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+
+.editmodal-left ul li:first-child{
+    padding-top: 0 !important;
+}
+.editmodal-left ul li:last-child{
+    padding: 1rem .4rem;
+}
+.editmodal-left ul li:not(:last-child){
+    border-bottom: 2px solid;
+    padding: 1rem .4rem;
+}
+.editmodal-right {
+    width: 73%;
+    position: relative;
+}
+
+.editmodal-right .close-btn {
+    position: absolute;
+    top: .7rem;
+    right: .7rem;
+    cursor: pointer;
+}
+
+.editmodal-right .close-btn .icon {
+    font-size: 2rem;
+}
+
+.editmodal-right .right-con {
+    padding: 3rem 1rem;
+
+}
+.editmodal-right .group-edit-info{
+    padding: 0 3rem;
+}
+.editmodal-right .group-edit-info .top .img-block {
+    text-align: center;
+}
+
+.editmodal-right .group-edit-info .top .img-block .change-img-btn{
+    padding: .5rem 0;
+}
+.editmodal-right .group-edit-info .top .img-block .change-img-btn label{
+    width: 70%;
+    border: none;
+    background-color:#EEEEEE;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.editmodal-right .group-edit-info .top .inputs-con .input-con{
+    background-color: #EEEEEE;
+    margin: .5rem 0;
+    border-radius: 10px;
+}
+.group-edit-info form input{
+    padding: .6rem !important;
+    color:black !important;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+ form button{
+    transition: .5s;
+}
+ form button:hover{
+    color:#fff !important;
+}
+.editmodal-right .group-edit-info .country-con ,
+.editmodal-right .group-edit-info .category-con {
+    position: relative;
+} 
+.editmodal-right .group-edit-info .category-con {
+    margin: .5rem 0;
+} 
+.editmodal-right .group-edit-info .country-con .head, 
+.editmodal-right .group-edit-info .category-con .head{ 
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: .9rem .7rem !important;   
+    background-color: #EEEEEE;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.editmodal-right .group-edit-info .category-con .body,
+.editmodal-right .group-edit-info .country-con .body{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 9rem;
+    overflow-x: auto;
+    background-color: #EEEEEE;
+    z-index: 11;
+} 
+.editmodal-right .group-edit-info .category-con .body .option,
+.editmodal-right .group-edit-info .country-con .body .option{
+    padding: .12rem .7rem;
+    cursor: pointer;
+}
+.editmodal-right .group-edit-info .category-con .body .option:hover,
+.editmodal-right .group-edit-info .country-con .body .option:hover{
+    background-color: #e4e2e2;
+}
+.group-edit-info .group-name-input{
+    width: 100%;
+}
+.group-edit-info .country-select{
+    width: 100%;
+    position: relative;
+}
+.group-edit-info .country-select .options{
+    height: 11rem;
+    z-index: 11 !important;
+    background-color: #EEEEEE;
+    overflow-x: auto;
+    position: absolute;
+    width: 100%;
+}
+.group-edit-info .country-select .head{
+    background-color:#EEEEEE ;
+    padding: 15px !important;
+    border-radius: 10px;
+
+}
+.editmodal-right .group-edit-info .top .inputs-con .input-con input{
+    outline: none;
+    background-color: transparent;
+    padding: 1rem;
+    padding-left: .7rem;
+    font-size: 1.1rem;
+}
+ .bottom {
+    padding-top: 1rem;
+ }
+ .bottom .my-btns button{
+    width: 100%;
+    background-color: #fff;
+    color:#FA4500;
+    border: 1px solid #FA4500;
+    padding: .8rem;
+    border-radius: 10px;
+}
+ .bottom .my-btns p{
+    text-align: center;
+    color:#FA4500;
+    padding: 5px !important;
+    cursor: pointer;
+}
+.black-background {
+    background-color: black;
+    opacity: .4;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    cursor: pointer;
+}
+
+
+
+.about .top{
+    height: 30rem;
+    background-color: #EEEEEE;
+    padding: .5rem;
+    border-radius: 10px;
+}
+.about .textarea{
+    resize: none;
+    width: 100%;
+    height: 30rem !important;
+    background-color: transparent;
+    outline: none;
+    border: none;
+}
+
+
+.galery .galery-con{
+    padding: 0 1rem;
+}
+.galery .top-btns-con{
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+}
+.galery .top-btns-con .info-icon{
+    font-size: 27px;
+}
+.galery .top-btns-con .select-btn button{
+    background-color:#C8C8C8;
+    color:#fff;
+    border: none;
+    border-radius: 1rem;
+    padding: 2px 30px;
+}
+
+.galery-img-con{
+    /* height: 29rem; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.galery-img-con .create-image{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    font-size: 2rem;
+    background-color:#EEEEEE;
+    border-radius: .7rem;
+    cursor: pointer;
+}
+.galery-img-con .box{
+    width: 140px;
+    height:150px;
+}
+
+.galery-img-con .row{
+    height: 30rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

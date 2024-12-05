@@ -14,7 +14,6 @@ const Hero = ({ group }) => {
   const [copySuccess, setCopySuccess] = useState(false);
   const [userData, setUserData] = useState("");
   const { scrollToAbout } = useContext(YalliContext);
-  let navigate = useNavigate();
   const moreTextRef = useRef(null);
   console.log();
 
@@ -25,31 +24,38 @@ const Hero = ({ group }) => {
     }
   }, []);
   const accessToken = localStorage.getItem("accessToken");
-  const navigete = useNavigate();
+  console.log(accessToken);
+
+  let navigate = useNavigate();
   const handleCopyToClipboard = async () => {
+    if (accessToken == null) {
+      toast.error("Kopyalamaq üçün əvvəlcə daxil olun.");
+      navigate("/login");
+      return;
+    }
     try {
       const url = window.location.href;
       await navigator.clipboard.writeText(url);
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-      toast.success("URL copied!");
+      toast.success("URL uğurla kopyalandı.");
     } catch (err) {
       console.error("Failed to copy: ", err);
-      toast.error("Failed to copy URL.");
+      toast.error("URL-ni kopyalamaq alınmadı.");
     }
   };
 
   const handleJoinGroup = () => {
-    if (userData) {
-      const url = group.link;
-      window.open(url);
-    } else {
+    if (accessToken == null) {
       navigate("/login");
+    } else {
+      const url = group?.link;
+      window.open(url);
     }
   };
 
   const handleMoreClick = () => {
-    moreTextRef.current.scrollIntoView({ behavior: "smooth" }); // Scrolls to the more text ref smoothly
+    moreTextRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const descriptionPreview =
@@ -73,21 +79,24 @@ const Hero = ({ group }) => {
       <div className="container">
         <div className={styles["hero"]}>
           <div className={styles["card"]}>
-            <div onClick={()=>navigate("/groups")} className={styles["back-btn"]}>
+            <div
+              onClick={() => navigate("/groups")}
+              className={styles["back-btn"]}
+            >
               <FaArrowLeftLong />
             </div>
             <div className={styles["upper"]}>
               <h1>{group.title}</h1>
               {accessToken ? (
                 <button
-                  onClick={handleJoinGroup}
+                  onClick={() => handleJoinGroup()}
                   onMouseLeave={() => setIsHover(false)}
                   onMouseEnter={() => setIsHover(true)}
                 >
                   İcmaya qoşul <JoinGroupIcon isHover={isHover} />
                 </button>
               ) : (
-                <button onClick={() => navigete("/login")}>
+                <button onClick={() => navigate("/login")}>
                   İcmaya qoşul <JoinGroupIcon isHover={isHover} />
                 </button>
               )}

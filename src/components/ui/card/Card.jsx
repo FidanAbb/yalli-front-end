@@ -19,7 +19,7 @@ const Card = ({
   console.log(selectedGroupsID);
 
   let navigate = useNavigate();
-  const { userID } = useContext(YalliContext);
+  const { userID, setGroupID, groupID,setGroupEditModal } = useContext(YalliContext);
   const toggleImageSelection = (groupID) => {
     if (selectedGroupsID?.includes(groupID)) {
       setSelectedGroupsID(selectedGroupsID?.filter((id) => id !== groupID));
@@ -27,12 +27,21 @@ const Card = ({
       setSelectedGroupsID([...selectedGroupsID, groupID]);
     }
   };
-  const isSelectGroupSecond = selectedGroupsID?.includes(group.id)
+  const isSelectGroupSecond = selectedGroupsID?.includes(group.id);
   return (
     <div
       className={
         sectionName === "group" ? styles["card_group"] : styles["card_event"]
       }
+      onClick={() => {
+        if (isSelectGroup) {
+          toggleImageSelection(group.id);
+          setGroupEditModal(false)
+        }else{
+          setGroupID(group.id);
+          setGroupEditModal(true)
+        }
+      }}
     >
       {sectionName !== "group" && (
         <button className={styles["save_btn"]}>
@@ -60,10 +69,7 @@ const Card = ({
           ></div>
         )}
       </div>
-      <div
-        style={{ height: "55%" }}
-        onClick={() => navigate(`/group-edit/${group.id}/all-info`)}
-      >
+      <div style={{ height: "55%" }} onClick={() => setGroupID(group.id)}>
         <p
           className={
             styles[`${sectionName === "group" ? "group_title" : "event_title"}`]
