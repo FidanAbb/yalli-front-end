@@ -50,7 +50,7 @@ const ContextYalli = ({ children }) => {
 
   const [groupID,setGroupID]=useState(null)
   const [groupEditModal,setGroupEditModal]=useState(false)
-console.log(groupID);
+console.log();
 
 
 
@@ -106,6 +106,12 @@ console.log(groupID);
     }
   };
   
+  useEffect(() => {
+    if (groupsByUserID) {
+      // Yeniləməni həyata keçirin
+      setGroupsByUserID(groupsByUserID);
+    }
+  }, [groupsByUserID]);
   useEffect(() => {
     localStorage.setItem("isRegisterOtp", JSON.stringify(isRegisterOtp));
   }, [isRegisterOtp]);
@@ -232,7 +238,6 @@ console.log(groupID);
       );
       setGroup(response.data);
       console.log("Qrup məlumatı yeniləndi:", response.data);
-      
     } catch (error) {
       console.error("Qrupu yeniləmək alınmadı:", error);
       if (

@@ -52,6 +52,7 @@ const GroupEditModal = () => {
     groupsByUserID,
     groupID,
     setGroupEditModal,
+    setGroupsByUserID
   } = useContext(YalliContext);
   const [initialFormData, setInitialFormData] = useState({});
   const [formData, setFormData] = useState({
@@ -204,7 +205,7 @@ const GroupEditModal = () => {
   };
   const deletSelectedImages = () => {
     if (selectedImages.length <= 0) {
-      toast.info("secin");
+      toast.info("Zəhmət olmasa, şəkil seçin.");
     } else {
       const newGallery = formData.gallery.filter(
         (img) => !selectedImages?.includes(img)
@@ -215,7 +216,7 @@ const GroupEditModal = () => {
       }));
       setSelectedImages([]);
       setSelectMode(false);
-      toast.info("Seçilmiş şəkillər silindi.");
+      // toast.info("Seçilmiş şəkillər silindi.");
     }
   };
   const toggleImageSelection = (imageId) => {

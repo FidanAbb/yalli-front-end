@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect,useContext } from "react";
 import styles from "./style.module.scss";
 import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
@@ -11,10 +11,11 @@ import { getGroupData } from "../../../redux/slice/group/group";
 import Germany from "../../ui/countries/Germany";
 import Polsa from "../../ui/countries/Polsa";
 import Usa from "../../ui/countries/Usa";
+import { YalliContext } from "../../../Context/YalliContext";
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
-  console.log(groups.content);
+  const {allGroups}=useContext(YalliContext)
 
   const dispatch = useDispatch();
 
@@ -23,7 +24,7 @@ const Group = () => {
   });
 
   useEffect(() => {
-    dispatch(getGroupData());
+    dispatch(getGroupData({ page:0, size: 18 }));
   }, [dispatch]);
 
   useEffect(() => {
@@ -88,9 +89,9 @@ const Group = () => {
 
   return (
     <div>
-      {groups.content?.length > 0 && (
+      {  (
         <div className={styles["group"]}>
-          <div className="container">
+          <div className={allGroups?.length > 0 ? "container" : "dp-none"}>
             <div className={styles["groups"]}>
               <div className={styles["hero_text"]}>
                 <h2>İcmalar</h2>
