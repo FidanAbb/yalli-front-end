@@ -431,7 +431,7 @@ const Events = () => {
             <div className="col-md-9 col-sm-12 col-12">
               <div>
                 <div className="row g-2">
-                  {filteredEvents.map((event, index) => (
+                  {filteredEvents?.map((event, index) => (
                     <div key={index} className="col-md-4 col-sm-12 col-12">
                       <div className="event-card">
                         <div className="img-block">

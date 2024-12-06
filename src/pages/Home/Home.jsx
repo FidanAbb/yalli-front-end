@@ -1,4 +1,4 @@
-import React, { useContext, useRef,useEffect ,useState} from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import Header from "../../components/Layout/Header/Header";
 import Hero from "../../components/home/Hero/Hero";
 import Group from "../../components/home/Group/Group";
@@ -10,6 +10,7 @@ import FetchCountries from "../../components/Countrys/FetchCountryCodes";
 import { YalliContext } from "../../Context/YalliContext";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import ScrollCounter from "../../components/ScrollCounter/ScrollCounter";
 const Home = () => {
   const groupRef = useRef(null);
   const eventRef = useRef(null);
@@ -20,26 +21,21 @@ const Home = () => {
     }
   };
 
-  const location = useLocation(); 
+  const location = useLocation();
   console.log(location.pathname);
-  
 
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
 
-  
   useEffect(() => {
     if (user) {
       setForServerError(user);
     }
   }, [user]);
- 
-  
 
   return (
     <>
-    {console.log(forServerError)
-    }
+      {console.log(forServerError)}
       <Header
         scrollToSection={scrollToSection}
         groupRef={groupRef}
@@ -47,7 +43,6 @@ const Home = () => {
         mentorRef={mentorRef}
       />
       <Hero />
-   
       <div ref={groupRef}>
         <Group />
       </div>
@@ -62,4 +57,4 @@ const Home = () => {
   );
 };
 
-export default Home
+export default Home;

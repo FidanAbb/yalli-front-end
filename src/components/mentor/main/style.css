@@ -15,18 +15,45 @@
     border-radius: 1rem;
     height: 22rem;
 }
-
+.group-left{
+    background-color:#fff;
+    padding: 33px 16px;
+    border-radius: 10px;
+}
+.group-left .category-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.group-left .category-text {
+    padding: 10px ;
+    color:#A2A2A2;
+}
+.group-left .category-btn{
+    color:#A2A2A2;
+    background-color:#fff;
+    border:1px solid #A2A2A2;
+    padding: .2rem .7rem;
+    border-radius: 10px;
+    padding: .4rem 1.5rem;
+    flex-wrap: wrap;
+}
+.group-left .category-btn.active{
+    background-color: #FA4500;
+    color:#fff;
+    border: none;
+}
 .name-input {
     display: flex;
     align-items: center;
     background-color: #EEEEEE;
-    padding: .4rem .5rem;
+    padding: 10px;
     border-radius: .6rem;
     gap: 4px;
 }
 
 .name-input .icon {
-    font-size: 18px;
+    font-size: 25px;
     color:#A2A2A2;
 }
 .linkedin-icon{
@@ -45,14 +72,15 @@ input {
 
 .country-con {
     position: relative;
-    margin-top: .5rem;
+    margin: 14px 0;
+
 }
 
 .country-con .country-input {
     display: flex;
     align-items: center;
     background-color: #fff;
-    padding: .4rem .5rem;
+    padding: 10px;
     border-radius: .6rem;
     border: 1px solid #A2A2A2;
 }
@@ -75,7 +103,6 @@ input {
 
 .country-con .dropdown-list>div:hover {
     background-color: #EEEEEE;
-                        className="icon"
 }
 
 .members-page .members-right {

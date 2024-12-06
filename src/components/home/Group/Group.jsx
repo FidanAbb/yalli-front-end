@@ -16,6 +16,7 @@ import { YalliContext } from "../../../Context/YalliContext";
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
   const {allGroups}=useContext(YalliContext)
+console.log(groups);
 
   const dispatch = useDispatch();
 

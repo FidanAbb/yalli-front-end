@@ -12,6 +12,7 @@ const ContextYalli = ({ children }) => {
   const userFromStore = useSelector((state) => state.users.user);
   const afterRegister = localStorage.getItem("afterRegister");
 
+
   const initialData = {
     fullName: "",
     email: "",
@@ -108,7 +109,6 @@ console.log();
   
   useEffect(() => {
     if (groupsByUserID) {
-      // Yeniləməni həyata keçirin
       setGroupsByUserID(groupsByUserID);
     }
   }, [groupsByUserID]);
@@ -129,7 +129,7 @@ console.log();
       const storedImage = localStorage.getItem(imageKey);
       if (storedImage) {
         setImageUrl(JSON.parse(storedImage));
-      }
+      } 
     }
   }, [userID]);
   useEffect(() => {
