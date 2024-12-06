@@ -61,7 +61,18 @@ const countryCategory = [
   "Portuqaliya",
   "Cənubi Koreya",
 ];
-
+const groupCategory = {
+  LIFE: "Yaşam",
+  CAREER: "Karyera",
+  EDUCATION: "Təhsil",
+  ENTERTAINMENT: "Əyləncə",
+  TRAVEL: "Səyahət",
+  LOCATION: "Yerləşmə",
+  LAW: "Qanunlar",
+  INNOVATION: "İnnovasiya",
+  TECHNOLOGY: "Texnologiya",
+  OTHER: "Digər",
+};
 const Groups = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -83,69 +94,29 @@ const Groups = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
-  useEffect(() => {
-    filterData(inputCountryState, inputTitleState); // Məlumatları filtr et
-  }, [activeCategories, inputCountryState, inputTitleState]);
 
-  useEffect(() => {
-    const fetchAllGroups = async () => {
-      try {
-        const allGroups = [];
-        const totalPages = Math.ceil(groups.totalElements / 18);
-        
-        for (let i = 0; i < totalPages; i++) {
-          const response = await dispatch(getGroupData({ page: i, size: 18 }));
-          allGroups.push(...response.payload.content);
-        }
-        
-        filterData(inputCountryState, inputTitleState, allGroups);
-      } catch (error) {
-        console.error('Error fetching groups:', error);
-      }
-    };
-  
-    fetchAllGroups();
-  }, [dispatch, inputCountryState, inputTitleState]);
+
+console.log(groups);
+
   const [page, setPage] = useState(0);
+  
+  
   useEffect(() => {
     if (user) {
       setForServerError(user);
     }
   }, [user]);
 
-  useEffect(() => {
-    if (searchedItem) {
-      dispatch(getGroupData({ page: 0, size: groups.totalElements || 1000 }));
-    } else {
-      dispatch(getGroupData({ page, size: 18 }));
-    }
-  }, [dispatch, searchedItem]);
+
   const handlePageChange = (newPage) => {
     setPage(newPage);
     dispatch(getGroupData({ page: newPage, size: 18 })); // API çağırışı
   };
-  useEffect(() => {
-    if (inputTitleState || inputCountryState) {
-      filterData();
-    } else {
-      setFilteredData(groups.content);
-    }
-  }, [inputTitleState, inputCountryState, groups.content]);
+  
 
   const totalPages = Math.ceil(groups.totalElements / 18);
 
-  const groupCategory = {
-    LIFE: "Yaşam",
-    CAREER: "Karyera",
-    EDUCATION: "Təhsil",
-    ENTERTAINMENT: "Əyləncə",
-    TRAVEL: "Səyahət",
-    LOCATION: "Yerləşmə",
-    LAW: "Qanunlar",
-    INNOVATION: "İnnovasiya",
-    TECHNOLOGY: "Texnologiya",
-    OTHER: "Digər",
-  };
+ 
 
   const titleChangeInput = (e) => {
     setInputTitleState(e.target.value);
@@ -164,51 +135,32 @@ const Groups = () => {
   const handleCountrySelect = (country) => {
     setInputCountryState(country);
     setShowDropDown(false);
-    filterData(country, inputTitleState);
   };
 
-  const filterData = (country = inputCountryState, name = inputTitleState, allGroups = groups.content) => {
-    if (!allGroups) return; // Əgər allGroups undefined və ya null-dursa, funksiyanı dayandır
-  
-    const result = allGroups.filter((group) => {
-      const matchesName = name
-        ? group.title?.toLowerCase().startsWith(name.toLowerCase()) || 
-          group.title?.toLowerCase().includes(name.toLowerCase())
-        : true;
-  
-      const matchesCountry = country
-        ? group.country?.toLowerCase().startsWith(country.toLowerCase()) || 
-          group.country?.toLowerCase().includes(country.toLowerCase())
-        : true;
-  
-      const matchesCategory =
-        activeCategories.length > 0
-          ? activeCategories.some((cat) =>
-              Array.isArray(group.groupCategory)
-                ? group.groupCategory.includes(cat)
-                : group.groupCategory === cat
-            )
-          : true;
-  
-      return matchesName && matchesCountry && matchesCategory;
-    });
-    setFilteredData(result);
-  };
+  useEffect(() => {
+    dispatch(getGroupData({
+      page,
+      size: 18,
+      title: inputTitleState,
+      country: inputCountryState,
+      categories:activeCategories
+    }));
+  }, [dispatch,inputTitleState,activeCategories,inputCountryState,page]);
   
 
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
-      ? activeCategories.filter((category) => category !== key) // Seçilmiş kateqoriyanı çıxar
-      : [...activeCategories, key]; // Yeni kateqoriyanı əlavə et
+      ? activeCategories.filter((category) => category !== key) 
+      : [...activeCategories, key]; 
 
     setActiveCategories(updatedCategories);
-    filterData(inputCountryState, inputTitleState); // Məlumatları yenilə
+    
   };
 
   return (
     <>
-      {console.log(forServerError)}
+      {/* {console.log(forServerError)} */}
       <Header />
       <Hero />
       <div className={styles["main"]}>
@@ -299,7 +251,7 @@ const Groups = () => {
                 // Əgər filteredData boşdursa
                 <p>Heç bir icma tapılmadı.</p>
               ) : (
-                filteredData?.map((group, i) => (
+                groups.content?.map((group, i) => (
                   <div
                     className={styles["group-cards-con"]}
                     key={i}
