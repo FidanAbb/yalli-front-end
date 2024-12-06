@@ -427,8 +427,8 @@ const GroupEditModal = () => {
                         action=""
                         className="h-100 relative"
                       >
-                        <div className="row g-4">
-                          <div className="col-md-4 col-sm-6 col-12">
+                        <div className="row  g-4">
+                          <div className="col-md-4 col-sm-6 col-6">
                             <div>
                               <label
                                 htmlFor="file-input"
@@ -448,7 +448,7 @@ const GroupEditModal = () => {
                           {formData.gallery?.map((imageUrl, index) => (
                             <div
                               key={index}
-                              className="col-md-4 col-sm-6 col-12"
+                              className="col-md-4 col-sm-6 col-6"
                               onClick={() => toggleImageSelection(imageUrl)}
                             >
                               <div className="img-block">

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect,useContext } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
 import German from "../../../assets/img/German.svg";
 import Abd from "../../../assets/img/Abd.svg";
@@ -15,8 +15,8 @@ import { YalliContext } from "../../../Context/YalliContext";
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
-  const {allGroups}=useContext(YalliContext)
-console.log(groups);
+  const { allGroups } = useContext(YalliContext);
+  console.log(groups);
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,15 @@ console.log(groups);
   });
 
   useEffect(() => {
-    dispatch(getGroupData({ page:0, size: 18 }));
+    dispatch(
+      getGroupData({
+        page: 0,
+        size: 18,
+        title: "",
+        country: "",
+        categories: [""],
+      })
+    );
   }, [dispatch]);
 
   useEffect(() => {
@@ -90,7 +98,7 @@ console.log(groups);
 
   return (
     <div>
-      {  (
+      {
         <div className={styles["group"]}>
           <div className={allGroups?.length > 0 ? "container" : "dp-none"}>
             <div className={styles["groups"]}>
@@ -143,7 +151,7 @@ console.log(groups);
             </div>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 };

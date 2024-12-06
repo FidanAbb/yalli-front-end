@@ -80,8 +80,8 @@ export default function MentorDetail() {
   const { countries } = useContext(YalliContext);
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
+console.log(mentorInfoById);
 
-  
   useEffect(() => {
     if (user) {
       setForServerError(user);
@@ -217,10 +217,13 @@ export default function MentorDetail() {
     );
     return maskedParts?.join;
   }
+  const localMentorsData = localStorage.getItem("mentorFlags");
+  const parsedMetorsData = JSON.parse(localMentorsData);
+  console.log(parsedMetorsData);
+
   return (
     <>
-    {console.log(forServerError)
-    }
+      {console.log(forServerError)}
       <Header />
       <div className="mentor-detail">
         <div
@@ -245,9 +248,9 @@ export default function MentorDetail() {
                       <h4>{mentorInfoById.fullName}</h4>
                       <img
                         src={
-                          countries.find(
-                            (country) =>
-                              country?.name === mentorInfoById?.country
+                          parsedMetorsData.find(
+                            (localMentor) =>
+                              localMentor?.mentorName === mentorInfoById?.fullName
                           )?.flag || "#"
                         }
                         alt={`${mentorInfoById.country} flag`}

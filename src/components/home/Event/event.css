@@ -32,7 +32,7 @@
 }
 
 #animatedText {
-    font-size: clamp(1rem, 2.5vw, 2rem);
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
     line-height: 1.5;
     word-wrap: break-word;
     word-break: break-word;
@@ -44,6 +44,7 @@
 .response-event,
 .response-mentor {
     display: none;
+    padding: 0 22px;
 }
 
 @media (max-width:558px) {
@@ -60,5 +61,10 @@
     }
     .event-card {
         width: 100% !important;
+    }
+    #animatedText{
+        width: 100% !important;
+        font-size: 1.6rem !important;
+        font-weight: 500;
     }
 }

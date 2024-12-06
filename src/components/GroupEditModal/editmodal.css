@@ -13,6 +13,7 @@
 
 .editmodal-con {
     display: flex;
+
 }
 
 .editmodal-left {
@@ -248,4 +249,37 @@
     height: 30rem;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+@media (max-width:500px){
+
+.editmodal-con {
+    display: flex;   
+    flex-direction: column;
+}
+.editmodal{
+    width: 90%;
+    overflow-y: auto;
+}
+.editmodal-left{
+    width: 100%;
+}
+.editmodal-right{
+    width: 100%;
+}
+.galery-img-con{
+    display: flex;
+    flex-wrap: wrap;
+}
+.galery-img-con .box{
+    width: 130px;
+    height:150px;
+}
+.galery-img-con .create-image{
+    height: 10rem;
+}
+.galery-img-con  .col-6{
+    height: 2rem !important;
+}
+
 }

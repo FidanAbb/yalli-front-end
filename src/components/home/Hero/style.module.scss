@@ -227,11 +227,10 @@
 
     .heroside {
       // border: 1px solid;
-      height: 600px;
+      height: auto;
+      padding-bottom: 30px;
       text-align: center;
       position: relative;
-
-      h1 {}
 
       h1+p {
         margin: 0 auto;
@@ -282,10 +281,12 @@
 
       .find_box {
         margin-top: 40px;
+        padding: 16px 1rem;
+        border-radius: 0;
         .find_inp {
           .texts {
             p {
-              font-size: 10px;
+              font-size: 13px;
             }
           }
         }
@@ -294,6 +295,123 @@
   }
 }
 
+@media (max-width:498px) {
+  .hero {
+    .hero_left_circle {
+      width: 1rem !important;
+      top: 3rem;
+    }
+
+    .hero_right_circle {
+      width: 11rem;
+      height: 10rem;
+    }
+
+    .heroside {
+      // border: 1px solid;
+
+      h1 {
+        margin-top: 30px;
+      }
+
+      h1+p {
+        margin: 0 auto;
+        font-size: 22px;
+        padding: 1rem 1rem !important;
+        margin-top: 10rem !important;
+      }
+      .find_box {
+        padding: 16px 1rem;
+
+        .find_inp {
+          .texts {
+            p {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width:467px) {
+  .hero {
+    .hero_left_circle {
+      width: 1rem !important;
+      top: 3rem;
+    }
+
+    .hero_right_circle {
+      width: 11rem;
+      height: 10rem;
+    }
+
+    .heroside {
+      // border: 1px solid;
+
+      h1 {
+        margin-top: 30px;
+      }
+
+      h1+p {
+        margin: 0 auto;
+        font-size: 22px;
+        padding: 1rem 1rem !important;
+        margin-top: 10rem !important;
+      }
+      .find_box {
+        padding: 16px 1rem;
+
+        .find_inp {
+          .texts {
+            p {
+              font-size: 11px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width:432px) {
+  .hero {
+    .hero_left_circle {
+      width: 1rem !important;
+      top: 3rem;
+    }
+
+    .hero_right_circle {
+      width: 11rem;
+      height: 10rem;
+    }
+
+    .heroside {
+      // border: 1px solid;
+
+      h1 {
+        margin-top: 30px;
+      }
+
+      h1+p {
+        margin: 0 auto;
+        font-size: 22px;
+        padding: 1rem 1rem !important;
+        margin-top: 10rem !important;
+      }
+      .find_box {
+        padding: 16px 1rem;
+
+        .find_inp {
+          .texts {
+            p {
+              font-size: 10.6px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
 @media (max-width:408px) {
   .hero {
     .hero_left_circle {
@@ -320,12 +438,11 @@
         margin-top: 10rem !important;
       }
       .find_box {
-        padding: 0 1rem;
-
+        padding: 16px 1rem;
         .find_inp {
           .texts {
             p {
-              font-size: 8px;
+              font-size: 9px;
             }
           }
         }
@@ -365,7 +482,7 @@
         .find_inp {
           .texts {
             p {
-              font-size: 8px;
+              font-size: 10px;
             }
           }
         }

@@ -127,7 +127,6 @@ const countryTranslations = {
   Portugal: "Portuqaliya",
   "South Korea": "Cənubi Koreya",
 };
-
 const mentorCategory = [
   { id: "YAŞAM", label: "Yaşam" },
   { id: "TƏHSİL", label: "Təhsil" },
@@ -146,7 +145,7 @@ const Mentors = () => {
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredMentors, setFilteredMentors] = useState(mentors);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const { countries, setCountries } = useContext(YalliContext);
+  const {countries} = useContext(YalliContext);
 
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
@@ -160,21 +159,9 @@ const Mentors = () => {
   const navigate = useNavigate();
   useEffect(() => {
     fetchMentors([]);
-  }, []);
-  useEffect(() => {
-    filterMentors(inputMentorsCountry, inputMentorsTitle);
-  }, [inputMentorsTitle, inputMentorsCountry, selectedCategory, mentors]);
+  }, [inputMentorsTitle]);
 
-  useEffect(() => {
-    setFilteredMentors(mentors);
-  }, [mentors]);
-  useEffect(() => {
-    if (inputMentorsTitle || inputMentorsCountry) {
-      filterMentors();
-    } else {
-      setFilteredMentors(mentors);
-    }
-  }, [inputMentorsTitle, inputMentorsCountry, mentors]);
+
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory((prevSelected) => {
       const newSelected = prevSelected.includes(categoryId)
@@ -185,51 +172,24 @@ const Mentors = () => {
     });
   };
 
-  const filterMentors = (
-    country = inputMentorsCountry,
-    name = inputMentorsTitle
-  ) => {
-    const translatedCategories = selectedCategory.map((category) => {
-      return categoryTranslations[category] || category;
-    });
-    const result = mentors.filter((mentor) => {
-      const matchesName = name
-        ? mentor.fullName?.toLowerCase().startsWith(name.toLowerCase()) ||
-          mentor.fullName?.toLowerCase().includes(name.toLowerCase())
-        : true;
-      const translatedMentorCountry =
-        countryTranslations[mentor.country] || mentor.country;
-      const matchesCountry = country
-        ? translatedMentorCountry
-            ?.toLowerCase()
-            ?.startsWith(country.toLowerCase()) ||
-          translatedMentorCountry?.toLowerCase()?.includes(country?.toLowerCase())
-        : true;
-      const matchesCategory =
-        translatedCategories.length > 0
-          ? translatedCategories.includes(mentor.mentorCategory)
-          : true;
-      console.log(
-        `Matches - Name: ${matchesName}, Country: ${matchesCountry}, Category: ${matchesCategory}`
-      );
-      return matchesName && matchesCountry && matchesCategory;
-    });
-
-    console.log("Filtered Mentors Result:", result);
-    setFilteredMentors(result);
-  };
+ 
 
   const eventCountryChange = (e) => {
-    const value = e.target.value;
-    setInputMentorsCountry(value);
+    const value = e.target.value.toLowerCase();
+  
     const matchedCountries = countryCategory.filter((country) => {
       const translatedCountry =
         Object.keys(countryTranslations).find(
-          (key) =>
-            countryTranslations[key].toLowerCase() === country.toLowerCase()
+          (key) => countryTranslations[key]?.toLowerCase() === country.toLowerCase()
         ) || country;
-      return translatedCountry.toLowerCase().startsWith(value.toLowerCase());
+  
+      return (
+        translatedCountry.toLowerCase().startsWith(value) ||
+        translatedCountry.toLowerCase().includes(value)
+      );
     });
+  
+    setInputMentorsCountry(value);
     setSelectedCountry(matchedCountries);
     setShowDropDown(true);
   };
@@ -255,6 +215,7 @@ const Mentors = () => {
             page: 0,
             size: 100,
             sort: "id",
+            
           },
         }
       );
@@ -368,7 +329,7 @@ const Mentors = () => {
               <div className="col-md-9 col-sm-12 col-12">
                 <div className="mentor-right">
                   <div className="row">
-                    {filteredMentors.map((item, index) => (
+                    {mentors.map((item, index) => (
                       <div key={index} className="col-md-4 col-sm-6 col-12">
                         <div
                           onClick={() => {

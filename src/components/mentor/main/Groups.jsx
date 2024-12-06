@@ -90,34 +90,22 @@ const Groups = () => {
   const [inputTitleState, setInputTitleState] = useState("");
   const [inputCountryState, setInputCountryState] = useState("");
   const [filteredData, setFilteredData] = useState(groups.content);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location]);
-
-
-console.log(groups);
-
-  const [page, setPage] = useState(0);
-  
-  
+  }, [location,page]);
   useEffect(() => {
     if (user) {
       setForServerError(user);
     }
   }, [user]);
 
-
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    dispatch(getGroupData({ page: newPage, size: 18 })); // API çağırışı
+    dispatch(getGroupData({ page: newPage, size: 18 })); 
   };
-  
-
   const totalPages = Math.ceil(groups.totalElements / 18);
-
- 
-
   const titleChangeInput = (e) => {
     setInputTitleState(e.target.value);
   };
@@ -137,16 +125,26 @@ console.log(groups);
     setShowDropDown(false);
   };
 
-  useEffect(() => {
-    dispatch(getGroupData({
-      page,
-      size: 18,
-      title: inputTitleState,
-      country: inputCountryState,
-      categories:activeCategories
-    }));
-  }, [dispatch,inputTitleState,activeCategories,inputCountryState,page]);
+  const fetchGroupData = (resetPage = false) => {
+    const currentPage = resetPage ? 0 : page;
+    dispatch(
+      getGroupData({
+        page: currentPage,
+        size: 18,
+        title: inputTitleState,
+        country: inputCountryState,
+        categories: activeCategories,
+      })
+    );
+    if (resetPage) setPage(0); 
+  };
   
+  useEffect(() => {
+    const hasSearchCriteria =
+      inputTitleState || activeCategories.length > 0 || inputCountryState;
+  
+    fetchGroupData(hasSearchCriteria && page !== 0);
+  }, [dispatch, inputTitleState, activeCategories, inputCountryState, page]);
 
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);

@@ -53,40 +53,51 @@ const countryCategory = [
 ];
 
 const FetchCountries = () => {
-  const { countries,setCountries, mentors } = useContext(YalliContext);
-  
-  
+  const { setCountries, mentors } = useContext(YalliContext);
+
   useEffect(() => {
-    fetch('https://restcountries.com/v3.1/all')
+    fetch("https://restcountries.com/v3.1/all")
       .then((response) => response.json())
       .then((data) => {
-        const englishCountryNames = countryCategory.map((country) => country.en);
-        
-        data.map(country=>{
-          if(country.name.common=="USA"){
-            console.log(country.name.common);
-            
-          }
-          
-        })
-        const filteredCountries = data
-          .filter((country) => englishCountryNames.includes(country.name.common))
-          .map((country) => ({
-            name: country.name.common,
-            flag: country.flags.png,
-          }));
+        const filteredCountries = countryCategory.map((category) => {
+          const countryData = data.find(
+            (country) => country.name.common === category.en
+          );
+          return {
+            name: category.en,
+            flag: countryData?.flags.png || null,
+          };
+        });
 
-        const mentorFlags = mentors
-          .map((mentor) => {
-            const matchingCategory = countryCategory.find((cat) => cat.az === mentor.country);
-            const englishName = matchingCategory?.en;
-            return filteredCountries.find((country) => country.name === englishName)?.flag || null;
-          })
-          .filter((flag) => flag); // null dəyərləri silmək üçün
+        const mentorFlags = mentors.map((mentor) => {
+          const countryInfo = countryCategory.find(
+            (cat) => cat.az === mentor.country
+          );
+          const flag = filteredCountries.find(
+            (country) => country.name === countryInfo?.en
+          )?.flag;
 
-        setCountries(mentorFlags);
+          return { mentorName: mentor.fullName, flag }; // Array-in sonunda yalnız bayrağı olanları göndərmək üçün.
+        });
+
+        // Yalnız bayrağı olanları filtr edirəm
+        const validMentors = mentorFlags.filter((item) => item.flag);
+
+        // Local storage-a yalnız bayrağı olanları bir array olaraq saxlayıram
+        const currentMentorFlags = validMentors.map((mentor) => ({
+          mentorName: mentor.mentorName,
+          flag: mentor.flag,
+        }));
+
+        localStorage.setItem(
+          'mentorFlags',
+          JSON.stringify(currentMentorFlags) // Məlumatları bir array olaraq saxlayırıq
+        );
+
+        // MentorFlags-ı set edirik
+        setCountries(currentMentorFlags.map((mentor) => mentor.flag));
       })
-      .catch((error) => console.error('Error fetching countries:', error));
+      .catch((error) => console.error("Error fetching countries:", error));
   }, [mentors, setCountries]);
 
   return <div />;

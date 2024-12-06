@@ -14,7 +14,7 @@ const Hero = ({ setGroupData }) => {
   }, []);
   return (
     <div className={styles["hero"]}>
-      <div className="my-container">
+      <div className="container"> 
         <div className={styles["hero"]}>
           <div className={styles["detail"]}>
             <div className={styles["p"]}>

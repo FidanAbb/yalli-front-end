@@ -1,4 +1,7 @@
 .hero {
+  .container{
+    padding: 1rem !important;
+  }
   .hero {
     margin: 50px 0;
     text-align: center;
@@ -13,6 +16,7 @@
       padding: 10px 0;
       max-width: 764px;
       margin: 0 auto;
+      width: 100%;
       .p {
         margin-bottom: 40px;
       }

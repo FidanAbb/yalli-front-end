@@ -1,10 +1,10 @@
 .create_group {
   text-align: center;
-  height: 100vh;
+  height: auto;
   max-width: 750px;
   background-color: #fff;
   border-radius: 10px;
-  padding: 20px 0;
+  // padding: 20px 0;
 
   h1 {
     font-weight: 600;
@@ -30,10 +30,13 @@
         color:#000 !important;
       }
       input::placeholder{
-        color:#000;
+        color:#A2A2A2;
       }
       textarea::placeholder{
-        color:#000;
+        color:#A2A2A2;
+      }
+      textarea{
+        outline: none;
       }
       .selected {
         position: relative;
@@ -70,6 +73,10 @@
           display: flex;
           justify-content: space-between;
           cursor: pointer;
+          color:#A2A2A2;
+          p{
+            color:#000;
+          }
         }
         .body{
           height: 15rem;
@@ -100,6 +107,7 @@
           display: flex;
           justify-content: space-between;
           cursor: pointer;
+          color:#A2A2A2;
         }
         .category-body{
           height: 15rem;
@@ -174,7 +182,7 @@
       }
 
       button {
-        width: 350px;
+        width: 76% !important;
         padding: 12px 0;
         margin-top: 10px;
         border: 1px solid #ff5722;

@@ -165,7 +165,6 @@ const Events = () => {
   const eventTitleChange = (e) => {
     setInputEventsTitle(e.target.value);
   };
-
   const eventCountryChange = (e) => {
     const value = e.target.value;
     setInputEventsCountry(value);
@@ -175,7 +174,6 @@ const Events = () => {
     setSelectedCountry(matchedCountries);
     setShowDropDown(true);
   };
-
   const filterEvent = (
     country = inputEventsCountry,
     name = inputEventsTitle
@@ -338,7 +336,6 @@ const Events = () => {
   return (
     <>
       {console.log(forServerError)}
-
       <Header />
       <Hero />
       <div className="events-page">
@@ -429,8 +426,8 @@ const Events = () => {
               </div>
             </div>
             <div className="col-md-9 col-sm-12 col-12">
-              <div>
-                <div className="row g-2">
+              <div className="cards">
+                <div className="row" >
                   {filteredEvents?.map((event, index) => (
                     <div key={index} className="col-md-4 col-sm-12 col-12">
                       <div className="event-card">

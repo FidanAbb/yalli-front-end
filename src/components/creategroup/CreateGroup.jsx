@@ -183,7 +183,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       !groupData.description.trim()
     ) {
       toast.info("Bütün sahələri doldurun.");
-      return
+      return;
     }
     const formattedData = {
       title: groupData.title,
@@ -229,7 +229,9 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
 
       <div className={styles["form"]}>
         <form onSubmit={handleSubmit}>
-          <div onClick={()=>setModal(false)}    className={styles["close-btn"]}><IoIosCloseCircleOutline /></div>
+          <div onClick={() => setModal(false)} className={styles["close-btn"]}>
+            <IoIosCloseCircleOutline />
+          </div>
           <div
             className={styles["img"]}
             style={{
@@ -265,7 +267,11 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               style={{ width: "350px", padding: ".8rem" }}
               className={styles["head"]}
             >
-              <div>{groupData.country || "Ölkə"}</div>
+              <div>
+                <p style={{ color: groupData.country ? "black" : "#a2a2a2" }}>
+                  {groupData.country || "Ölkə"}
+                </p>
+              </div>
               <DownArrow />
             </div>
             {showCountryDrop && (
@@ -288,7 +294,9 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               className={styles["category-head"]}
             >
               <div>
-                {groupCategoryOptions[groupData.category] || "Kateqoriya"}
+                <p style={{ color: groupData.category ? "black" : "#a2a2a2" }}>
+                  {groupCategoryOptions[groupData.category] || "Kateqoriya"}
+                </p>
               </div>
               <DownArrow />
             </div>
@@ -310,6 +318,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
               </div>
             )}
           </div>
+
           <input
             type="url"
             name="link"
