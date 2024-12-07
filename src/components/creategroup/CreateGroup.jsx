@@ -79,7 +79,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const [loadingGroups, setLoadingGroups] = useState(true);
   const countryDropdownRef = useRef(null);
   const categoryDropdownRef = useRef(null);
-  const { userID ,getCreatedGruopState,setGetCreatedGruopState} = useContext(YalliContext);
+  const { userID ,getCreatedGruopState,setGetCreatedGruopState,setEditGroupAfter} = useContext(YalliContext);
 
   const [showCountryDrop, setShowCountryDrop] = useState(false);
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
@@ -207,6 +207,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
       setGetCreatedGruopState(true);
       toast.success("Yeni qrup uğurla yaradıldı.");
       setModal(false);
+      setEditGroupAfter(prev=>!prev)
     } catch (error) {
       console.error("Qrup yaratmaqda problem oldu", error);
       toast.error("Qrup yaratmaq uğursuz oldu.");

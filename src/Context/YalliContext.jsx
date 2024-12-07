@@ -198,7 +198,7 @@ const ContextYalli = ({ children }) => {
     }
   };
   useEffect(() => {
-    if (userID) {
+    if (userID ) {
       getGroupByUserID(userID);
     }
   }, [userID,editGroupAfter]);

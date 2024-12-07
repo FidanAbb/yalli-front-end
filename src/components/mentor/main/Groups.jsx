@@ -79,28 +79,18 @@ const Groups = () => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groups.groups);
   const loading = useSelector((state) => state.groups.loading);
-  const {getCreatedGruopState}=useContext(YalliContext);
-  const [searchedItem, setSearchedItem] = useState("");
   const [showAllPages, setShowAllPages] = useState(false);
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
   const location = useLocation();
-  const [activeCategories, setActiveCategories] = useState([]);
 
-  const [selectedCountry, setSelectedCountry] = useState("");
+  const [activeCategories, setActiveCategories] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [inputTitleState, setInputTitleState] = useState("");
-  const [inputCountryState, setInputCountryState] = useState("");
-  const [filteredData, setFilteredData] = useState(groups.content);
   const [page, setPage] = useState(0);
-  const [inputCountryChange,setInputCountryChange]=useState()
-  useEffect(() => {
-    console.log(inputCountryChange);
-    
-    if(inputCountryChange!=selectedCountry){
-      setSelectedCountry("")
-    }
-  }, [inputCountryChange, selectedCountry]);
+
+  const [selectCountyState, setSelectCountryState] = useState("");
+  const [countyChangeInput, setCountyChangeInput] = useState("");
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location, page]);
@@ -117,18 +107,18 @@ const Groups = () => {
   const titleChangeInput = (e) => {
     setInputTitleState(e.target.value);
   };
+  
   const countryChange = (e) => {
     const value = e.target.value;
-    setInputCountryState(value);
     setShowDropDown(true);
-    setInputCountryChange(value)
+    setCountyChangeInput(value);
   };
   const handleCountrySelect = (country) => {
-    setInputCountryState(country);
-    setShowDropDown(false);
-    setSelectedCountry(country);
-    fetchGroupData(true);
-    setInputCountryChange(country)
+    setSelectCountryState(country); 
+    setCountyChangeInput(country); 
+    setShowDropDown(false); 
+    setPage(0); 
+    fetchGroupData(true); 
   };
   const fetchGroupData = (resetPage = false) => {
     const currentPage = resetPage ? 0 : page;
@@ -137,7 +127,7 @@ const Groups = () => {
         page: currentPage,
         size: 18,
         title: inputTitleState,
-        country: selectedCountry,
+        country: selectCountyState,
         categories: activeCategories,
       })
     );
@@ -145,9 +135,9 @@ const Groups = () => {
   };
   useEffect(() => {
     const hasSearchCriteria =
-      inputTitleState || activeCategories?.length > 0 || selectedCountry;
+      inputTitleState || activeCategories?.length > 0 || selectCountyState;
     fetchGroupData(hasSearchCriteria && page !== 0);
-  }, [inputTitleState, activeCategories, selectedCountry, page]);
+  }, [inputTitleState, activeCategories, page, selectCountyState]);
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
@@ -183,17 +173,27 @@ const Groups = () => {
                       name="country"
                       type="text"
                       placeholder="Ölkə"
-                      value={inputCountryState}
                       onChange={countryChange}
+                      value={countyChangeInput}
                       onFocus={() => {
                         setShowDropDown(true);
-                        if (inputCountryState.trim() === "") {
-                          setSelectedCountry(countryCategory);
+                        if (selectCountyState.trim() === "") {
+                          setSelectCountryState(countryCategory);
                         }
                       }}
-                      onBlur={() =>
-                        setTimeout(() => setShowDropDown(false), 200)
-                      }
+                      onBlur={(e) => {
+                        const relatedTarget = e.relatedTarget; // Fokusun getdiyi element
+                        const dropdownList =
+                          document.querySelector(".dropdown-list");
+                        if (
+                          relatedTarget &&
+                          dropdownList?.contains(relatedTarget)
+                        ) {
+                          // Drop-down-da başqa bir elementə fokuslanılıbsa, bağlama
+                          return;
+                        }
+                        setShowDropDown(false);
+                      }}
                     />
                     {showDropDown ? (
                       <IoIosArrowUp onClick={() => setShowDropDown(false)} />
@@ -201,8 +201,8 @@ const Groups = () => {
                       <IoIosArrowDown
                         onClick={() => {
                           setShowDropDown(true);
-                          if (inputCountryState.trim() === "") {
-                            setSelectedCountry(countryCategory);
+                          if (selectCountyState.trim() === "") {
+                            setSelectCountryState(countryCategory);
                           }
                         }}
                       />
@@ -214,13 +214,13 @@ const Groups = () => {
                         .filter((country) =>
                           country
                             .toLowerCase()
-                            .includes(inputCountryChange?.toLowerCase())
+                            .includes(countyChangeInput?.toLowerCase())
                         )
                         .map((country, index) => (
                           <div
                             key={index}
                             onClick={() => handleCountrySelect(country)}
-                            onMouseDown={(e) => e.preventDefault()}
+                            onMouseDown={(e) => e.preventDefault()} // onBlur-un qabağını alır
                             style={{ padding: "8px", cursor: "pointer" }}
                           >
                             {country}
@@ -254,7 +254,7 @@ const Groups = () => {
             </div>
             <div className={styles["cards"]}>
               {loading ? (
-                <p>Loading...</p>
+                <p>Yüklənir...</p>
               ) : !groups?.content || groups.content.length === 0 ? (
                 <p>Heç bir icma tapılmadı.</p>
               ) : (
@@ -273,7 +273,7 @@ const Groups = () => {
           {activeCategories?.length === 0 && (
             <div className="text-center pagination-con">
               {!inputTitleState &&
-                !inputCountryState &&
+                !selectCountyState &&
                 Array.from({ length: totalPages }, (_, index) => {
                   if (!showAllPages && index >= 5) return null; // İlk 5 düymə göstərilir
                   return (
@@ -295,8 +295,8 @@ const Groups = () => {
                   );
                 })}
               {!inputTitleState &&
-                !inputCountryState &&
                 !showAllPages &&
+                selectCountyState &&
                 totalPages > 5 && (
                   <button
                     onClick={() => setShowAllPages(true)}
