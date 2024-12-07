@@ -79,7 +79,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
   const [loadingGroups, setLoadingGroups] = useState(true);
   const countryDropdownRef = useRef(null);
   const categoryDropdownRef = useRef(null);
-  const { userID } = useContext(YalliContext);
+  const { userID ,getCreatedGruopState,setGetCreatedGruopState} = useContext(YalliContext);
 
   const [showCountryDrop, setShowCountryDrop] = useState(false);
   const [showCategoryDrop, setShowCategoryDrop] = useState(false);
@@ -92,7 +92,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     category: "",
   });
   const [imageId, setImageId] = useState("");
-  const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
+ 
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -100,7 +100,6 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           "https://yalli-back-end.onrender.com/v1/groups"
         );
         setGroups(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error("Qrupları çəkməkdə problem oldu", error);
       } finally {
@@ -220,9 +219,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     }));
     setShowCountryDrop(false);
   };
-  const handleArrowClick = () => {
-    selectRef.current?.focus();
-  };
+ 
   return (
     <div className={styles["create_group"]}>
       <h1>Öz icmanı yarat</h1>

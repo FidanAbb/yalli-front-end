@@ -11,6 +11,7 @@ import Hero from "../../group/hero/Hero";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
+import { YalliContext } from "../../../Context/YalliContext";
 const countryCategory = [
   "Azərbaycan",
   "Türkiyə",
@@ -78,6 +79,7 @@ const Groups = () => {
   const dispatch = useDispatch();
   const groups = useSelector((state) => state.groups.groups);
   const loading = useSelector((state) => state.groups.loading);
+  const {getCreatedGruopState}=useContext(YalliContext);
   const [searchedItem, setSearchedItem] = useState("");
   const [showAllPages, setShowAllPages] = useState(false);
   const [forServerError, setForServerError] = useState();
@@ -91,7 +93,7 @@ const Groups = () => {
   const [inputCountryState, setInputCountryState] = useState("");
   const [filteredData, setFilteredData] = useState(groups.content);
   const [page, setPage] = useState(0);
-  
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location, page]);
@@ -102,7 +104,7 @@ const Groups = () => {
   }, [user]);
   useEffect(() => {
     if (inputCountryState !== selectedCountry) {
-      setSelectedCountry(""); 
+      setSelectedCountry("");
     }
   }, [inputCountryState, selectedCountry]);
   const handlePageChange = (newPage) => {
@@ -119,10 +121,10 @@ const Groups = () => {
     setShowDropDown(true);
   };
   const handleCountrySelect = (country) => {
-    setInputCountryState(country); 
-    setShowDropDown(false); 
-    setSelectedCountry(country); 
-    fetchGroupData(true); 
+    setInputCountryState(country);
+    setShowDropDown(false);
+    setSelectedCountry(country);
+    fetchGroupData(true);
   };
   const fetchGroupData = (resetPage = false) => {
     const currentPage = resetPage ? 0 : page;
@@ -140,9 +142,9 @@ const Groups = () => {
   useEffect(() => {
     const hasSearchCriteria =
       inputTitleState || activeCategories?.length > 0 || selectedCountry;
-  
+
     fetchGroupData(hasSearchCriteria && page !== 0);
-  }, [dispatch, inputTitleState, activeCategories, selectedCountry, page]);
+  }, [dispatch, inputTitleState, activeCategories, selectedCountry, page,getCreatedGruopState]);
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
@@ -151,7 +153,7 @@ const Groups = () => {
 
     setActiveCategories(updatedCategories);
   };
-console.log(groups.content);
+  console.log(groups.content);
 
   return (
     <>
@@ -250,10 +252,10 @@ console.log(groups.content);
             <div className={styles["cards"]}>
               {loading ? (
                 <p>Loading...</p>
-              ) : !groups.content && groups.content?.length === 0 ? (
+              ) : !groups?.content || groups.content.length === 0 ? (
                 <p>Heç bir icma tapılmadı.</p>
               ) : (
-                groups.content?.map((group, i) => (
+                groups.content.map((group, i) => (
                   <div
                     className={styles["group-cards-con"]}
                     key={i}

@@ -616,8 +616,38 @@ h5 {
 .group-card:hover{
     box-shadow: 1px 1px 7px 0px rgba(0,0,0,0.75);
 }
-
+.profile-con .country-drop-con{   
+    position: relative;
+}
+.profile-con .country-drop-con .head {
+background-color: #EEE;
+padding: .4rem .5rem !important;
+border-radius: .7rem;
+cursor: pointer;
+}
+.profile-con .country-drop-con .body {
+    height: 10rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: absolute;
+    width: 100%;
+    top: 2rem;
+    background-color: #fff;
+}
+.profile-con .country-drop-con .body .item{
+    padding: .4rem .5rem;
+    background-color: #EEE;
+}
+.profile-con .country-drop-con .body .item:hover{
+    background-color: #e1e1e1;
+}
 @media screen and (max-width:700px) {
+    .dp-none{
+        display: block !important;
+    }
+    .rp-none{
+        display: none !important;
+    }
     .profile-con {
         overflow-y: auto;
     }
@@ -625,11 +655,40 @@ h5 {
     .profile-left {
         height: 90vh;
     }
-
+    .profile-right .profile-info .info-left {
+        gap: 0;
+    }
+    .profile-right .profile-info .info-left .top{
+        background-color: transparent;
+        padding-bottom: 0;
+    }
+    .profile-right .profile-info .info-left .top .right>div {
+        padding-bottom: 0;
+    }
     .profile-right .profile-info .info-left .top .left {
         border-right: 0px;
+        position: relative;
+        
+    }
+    .profile-right .profile-info .info-left .top .left::after{
+        content: "";
+        display: block;
+        width: 110%;
+        height: .5px;
+        background-color: #A2A2A2;
+        position: absolute;
+        left: -1rem;
+        margin-top: 16px;
+    }
+    .profile-right .profile-info .info-left .top .right{  
     }
 
+    .profile-right .profile-info .info-left .bottom {
+        background-color: transparent;
+    }
+    .profile-right .profile-info .info-left .bottom .rp-social-text{
+        padding-left: 1rem;
+    }
     .profile-help {
         height: 90vh;
     }

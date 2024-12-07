@@ -25,7 +25,7 @@ const ProfileInfo = () => {
     loadingImage,
     allUsers,
   } = useContext(YalliContext);
-
+  const [showCountryDropDown, setShowCountryDropDown] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const newFormData = { ...localUserData, [name]: value };
@@ -49,7 +49,6 @@ const ProfileInfo = () => {
     setLocalUserData(newFormData);
     updateUserData(newFormData);
   };
-
   const handleCityChange = (e) => {
     const selectedCity = e.target.value;
     const newFormData = { ...localUserData, city: selectedCity };
@@ -59,7 +58,8 @@ const ProfileInfo = () => {
   function isValidSocialUrl(url, platform) {
     const regexPatterns = {
       FACEBOOK: /(?:http(s)?:\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9(\.\?)?]/,
-      INSTAGRAM:/(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
+      INSTAGRAM:
+        /(?:http(s)?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9(\.\?)?]/,
       WHATSAPP: /(?:http(s)?:\/\/)?api\.whatsapp\.com\/send\?phone=[0-9]+/,
       TELEGRAM: /(?:http(s)?:\/\/)?(?:www\.)?t\.me\/[a-zA-Z0-9(\.\?)?]/,
       LINKEDIN: /(?:http(s)?:\/\/)?(?:www\.)?linkedin\.com\/in\/[a-zA-Z0-9-]+/,
@@ -70,7 +70,7 @@ const ProfileInfo = () => {
   }
   const socialMediaChange = (e) => {
     const { name, value } = e.target;
-  
+
     const updatedSocialMediaAccounts = value
       ? { ...localUserData.socialMediaAccounts, [name]: value }
       : Object.fromEntries(
@@ -78,47 +78,35 @@ const ProfileInfo = () => {
             ([key]) => key !== name
           )
         );
-  
+
     const newUserData = {
       ...localUserData,
       socialMediaAccounts: updatedSocialMediaAccounts,
     };
-  
+
     setLocalUserData(newUserData);
     updateUserData(newUserData);
-  
-    // URL düzgün olmadıqda xəbərdarlıq və avtomatik silmə
+
     if (value && !isValidSocialUrl(value, name.toUpperCase())) {
-      // Xəbərdarlıq mesajı göstər
       toast.info(
         `Daxil edilmiş ${name} URL düzgün deyil və 5 saniyə ərzində silinəcək.`
       );
-  
-      // 5 saniyə sonra düzgün olmayan URL-ni sil
       setTimeout(() => {
         const cleanedSocialMediaAccounts = Object.fromEntries(
           Object.entries(localUserData.socialMediaAccounts || {}).filter(
             ([key]) => key !== name
           )
         );
-  
         const cleanedUserData = {
           ...localUserData,
           socialMediaAccounts: cleanedSocialMediaAccounts,
         };
-  
+
         setLocalUserData(cleanedUserData);
         updateUserData(cleanedUserData);
-  
-        // Silindikdən sonra bildiriş göstər
-        // toast.success(`${name} URL silindi.`);
-      }, 5000); // 5 saniyə
+      }, 5000);
     }
   };
-  
-  
-  
-  
   const countries = [
     { name: "Azərbaycan", cities: ["Bakı", "Gəncə", "Sumqayıt"] },
     { name: "Türkiyə", cities: ["İstanbul", "Ankara", "İzmir"] },
@@ -173,7 +161,7 @@ const ProfileInfo = () => {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
-          setImgPop(false)
+          setImgPop(false);
         }
       }
       document.addEventListener("mousedown", handleClickOutside);
@@ -182,15 +170,14 @@ const ProfileInfo = () => {
       };
     }, [ref]);
   }
-useOutsideAlerter(wrapperRef);
-
+  useOutsideAlerter(wrapperRef);
   const deleteProfileImage = () => {
     const updatedUserData = { ...localUserData, profilePictureUrl: null };
     setLocalUserData(updatedUserData);
     updateUserData(updatedUserData);
     const fileInput = document.getElementById("fileInput");
     if (fileInput) {
-      fileInput.value = ""; 
+      fileInput.value = "";
     }
     toast.success("Şəkil uğurla silindi.");
   };
@@ -201,6 +188,19 @@ useOutsideAlerter(wrapperRef);
     ).toUpperCase();
     return initials;
   };
+  const dropdownRef = useRef(null);
+  useEffect(() => {
+    const closeDropdownOnOutsideClick = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowCountryDropDown(false); 
+      }
+    };
+
+    document.addEventListener("mousedown", closeDropdownOnOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", closeDropdownOnOutsideClick);
+    };
+  }, []);
   if (!localUserData) {
     return <div>Loading...</div>;
   }
@@ -307,12 +307,27 @@ useOutsideAlerter(wrapperRef);
                         className="profile-input"
                       />
                     </div>
+                    <div  ref={dropdownRef} className="country-drop-con dp-none">
+                      <div onClick={()=>{setShowCountryDropDown(prev=>!prev)}} className="head">
+                        <p>Olke</p>
+                      </div>
+                      {showCountryDropDown && (
+                        <div className="body">
+                          {countries.map((country, index) => (
+                            <div className="item" key={index}>{country.name}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div className="bottom">
-              <ul className="dp-cloumn gap-2">
+              <div className="rp-social-text dp-none">
+                <p>Sosial medialarım</p>
+              </div>
+              <ul className="dp-cloumn gap-2 rp-none">
                 <li>
                   <RiFacebookCircleLine className="icon" />
                   <input
@@ -352,7 +367,7 @@ useOutsideAlerter(wrapperRef);
                   />
                 </li>
                 <li>
-                <CiLinkedin className="icon" />
+                  <CiLinkedin className="icon" />
                   <input
                     onChange={socialMediaChange}
                     name="LINKEDIN"
@@ -364,7 +379,7 @@ useOutsideAlerter(wrapperRef);
             </div>
           </div>
         </div>
-        <div className="col-md-4 col-sm-12 col-12">
+        <div className="col-md-4 col-sm-12 col-12 rp-none">
           <div className="info-right">
             <div className="dp-cloumn gap-2">
               <div className="country-drop-con">
@@ -407,4 +422,4 @@ useOutsideAlerter(wrapperRef);
   );
 };
 
-export default ProfileInfo
+export default ProfileInfo;
