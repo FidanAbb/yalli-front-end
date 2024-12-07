@@ -15,6 +15,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { YalliContext } from "../../../Context/YalliContext";
 import { useSelector } from "react-redux";
+import { FiSearch } from "react-icons/fi";
 const eventCategories = [
   { id: "POPULAR", label: "Populyar" },
   { id: "EXPIRED", label: "Keçmiş" },
@@ -128,22 +129,22 @@ const Events = () => {
   const [isEventSaved, setIsEventSaved] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const { userID } = useContext(YalliContext);
-
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
       setAccessTokenLocal(accessToken);
     }
-    fetchEvents();
   }, []);
+  console.log(events);
+  
   useEffect(() => {
-    if (inputEventsTitle || inputEventsCountry) {
-      filterEvent();
-    } else {
-      setFilteredEvents(events);
+    fetchEvents();
+  }, [inputEventsTitle, selectedCountry]);
+  useEffect(() => {
+    if(inputEventsCountry !==selectedCountry){
+      setSelectedCountry("")
     }
-  }, [inputEventsTitle, inputEventsCountry, events, filteredEvents]);
-
+  }, [inputEventsCountry, selectedCountry]);
   const handleCategorySelect = (categoryId) => {
     setSelectedCategory((prevSelected) => {
       const newSelected = prevSelected.includes(categoryId)
@@ -168,52 +169,43 @@ const Events = () => {
   const eventCountryChange = (e) => {
     const value = e.target.value;
     setInputEventsCountry(value);
-    const matchedCountries = countryCategory.filter((country) =>
-      country.toLowerCase().startsWith(value.toLowerCase())
-    );
-    setSelectedCountry(matchedCountries);
     setShowDropDown(true);
   };
-  const filterEvent = (
-    country = inputEventsCountry,
-    name = inputEventsTitle
-  ) => {
-    const result = events.filter((event) => {
-      const matchesName = name
-        ? event.title?.toLowerCase().startsWith(name.toLowerCase()) ||
-          event.title?.toLowerCase().includes(name.toLowerCase())
-        : true;
-      const matchesCountry = country
-        ? event.country?.toLowerCase().startsWith(country.toLowerCase()) ||
-          event.country?.toLowerCase().includes(country.toLowerCase())
-        : true;
-      return matchesName && matchesCountry;
-    });
-    setFilteredEvents(result);
-  };
-
   const handleCountrySelect = (country) => {
     setInputEventsCountry(country);
+    setSelectedCountry(country);
     setShowDropDown(false);
-    filterEvent(country, inputEventsTitle);
   };
 
   const savedEventChange = (eventId, userId) => {
+    if (!eventId) {
+      console.error("Event ID is missing.");
+      return;
+    }
+
     if (!userId) {
       console.error("User ID is missing. Unable to save the event.");
       return;
     }
-    const eventToToggle = filteredEvents.find((event) => event.id === eventId);
-    console.log(eventToToggle);
 
-    if (eventToToggle) {
-      if (eventToToggle.saved) {
-        unsaveEvent(eventId, userId);
-      } else {
-        saveEvent(eventId, userId);
-      }
+    console.log(`Toggling save for event: ${eventId}, user: ${userId}`);
+    
+    const eventToToggle = events.find((event) => event.id === eventId);
+
+    if (!eventToToggle) {
+      console.error("Event not found.");
+      return;
     }
-  };
+
+    if (eventToToggle.saved) {
+      console.log(`Unsaving event: ${eventId}`);
+      unsaveEvent(eventId, userId);
+    } else {
+      console.log(`Saving event: ${eventId}`);
+      saveEvent(eventId, userId);
+    }
+};
+
   const saveEvent = async (eventId, userId) => {
     if (!eventId || !userId) {
       console.error("Event ID and User ID are required to save an event.");
@@ -240,11 +232,6 @@ const Events = () => {
         console.log("Event saved successfully:", response.data);
         setEvents((prevEvents) =>
           prevEvents.map((event) =>
-            event.id === eventId ? { ...event, saved: true } : event
-          )
-        );
-        setFilteredEvents((prevFilteredEvents) =>
-          prevFilteredEvents.map((event) =>
             event.id === eventId ? { ...event, saved: true } : event
           )
         );
@@ -313,8 +300,8 @@ const Events = () => {
           token: localStorage.getItem("accessToken"),
         },
         params: {
-          title: "",
-          country: "",
+          title: inputEventsTitle,
+          country: selectedCountry,
         },
       });
       if (response) {
@@ -344,7 +331,7 @@ const Events = () => {
             <div className="col-md-3 col-sm-12 col-12">
               <div className="event-left">
                 <div className="name-input">
-                  <IoSearchOutline className="icon" />
+                  <FiSearch className="icon" />
                   <input
                     name="name"
                     type="text"
@@ -385,16 +372,22 @@ const Events = () => {
                   </div>
                   {showDropDown && (
                     <div className="dropdown-list">
-                      {selectedCountry.map((country, index) => (
-                        <div
-                          key={index}
-                          onClick={() => handleCountrySelect(country)}
-                          onMouseDown={(e) => e.preventDefault()}
-                          style={{ padding: "8px", cursor: "pointer" }}
-                        >
-                          {country}
-                        </div>
-                      ))}
+                      {countryCategory
+                        .filter((country) =>
+                          country
+                            .toLowerCase()
+                            .includes(inputEventsCountry.toLowerCase())
+                        )
+                        .map((country, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleCountrySelect(country)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            style={{ padding: "8px", cursor: "pointer" }}
+                          >
+                            {country}
+                          </div>
+                        ))}
                     </div>
                   )}
                 </div>
@@ -427,8 +420,8 @@ const Events = () => {
             </div>
             <div className="col-md-9 col-sm-12 col-12">
               <div className="cards">
-                <div className="row" >
-                  {filteredEvents?.map((event, index) => (
+                <div className="row">
+                  {events?.map((event, index) => (
                     <div key={index} className="col-md-4 col-sm-12 col-12">
                       <div className="event-card">
                         <div className="img-block">

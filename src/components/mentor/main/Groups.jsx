@@ -91,19 +91,23 @@ const Groups = () => {
   const [inputCountryState, setInputCountryState] = useState("");
   const [filteredData, setFilteredData] = useState(groups.content);
   const [page, setPage] = useState(0);
-
+  
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location,page]);
+  }, [location, page]);
   useEffect(() => {
     if (user) {
       setForServerError(user);
     }
   }, [user]);
-
+  useEffect(() => {
+    if (inputCountryState !== selectedCountry) {
+      setSelectedCountry(""); // Seçimi sıfırlamaq (və ya başqa bir default dəyər təyin etmək)
+    }
+  }, [inputCountryState, selectedCountry]);
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    dispatch(getGroupData({ page: newPage, size: 18 })); 
+    dispatch(getGroupData({ page: newPage, size: 18 }));
   };
   const totalPages = Math.ceil(groups.totalElements / 18);
   const titleChangeInput = (e) => {
@@ -113,18 +117,15 @@ const Groups = () => {
   const countryChange = (e) => {
     const value = e.target.value;
     setInputCountryState(value);
-    const matchedCountries = countryCategory.filter((country) =>
-      country.toLowerCase().startsWith(value.toLowerCase())
-    );
-    setSelectedCountry(matchedCountries);
-    setShowDropDown(true);
+    setShowDropDown(true); // Input dəyişdikdə dropdown göstər
   };
-
+  
   const handleCountrySelect = (country) => {
-    setInputCountryState(country);
-    setShowDropDown(false);
+    setInputCountryState(country); 
+    setShowDropDown(false); 
+    setSelectedCountry(country); 
+    fetchGroupData(true); 
   };
-
   const fetchGroupData = (resetPage = false) => {
     const currentPage = resetPage ? 0 : page;
     dispatch(
@@ -132,28 +133,27 @@ const Groups = () => {
         page: currentPage,
         size: 18,
         title: inputTitleState,
-        country: inputCountryState,
+        country: selectedCountry,
         categories: activeCategories,
       })
     );
-    if (resetPage) setPage(0); 
+    if (resetPage) setPage(0);
   };
-  
+
   useEffect(() => {
     const hasSearchCriteria =
       inputTitleState || activeCategories.length > 0 || inputCountryState;
   
-    fetchGroupData(hasSearchCriteria && page !== 0);
+    fetchGroupData(hasSearchCriteria && page !== 0); // Sayfa dəyişmədikcə məlumatları çəkməyə davam et
   }, [dispatch, inputTitleState, activeCategories, inputCountryState, page]);
 
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
-      ? activeCategories.filter((category) => category !== key) 
-      : [...activeCategories, key]; 
+      ? activeCategories.filter((category) => category !== key)
+      : [...activeCategories, key];
 
     setActiveCategories(updatedCategories);
-    
   };
 
   return (
@@ -208,16 +208,22 @@ const Groups = () => {
                   </div>
                   {showDropDown && (
                     <div className="dropdown-list">
-                      {selectedCountry.map((country, index) => (
-                        <div
-                          key={index}
-                          onClick={() => handleCountrySelect(country)}
-                          onMouseDown={(e) => e.preventDefault()}
-                          style={{ padding: "8px", cursor: "pointer" }}
-                        >
-                          {country}
-                        </div>
-                      ))}
+                      {countryCategory
+                        .filter((country) =>
+                          country
+                            .toLowerCase()
+                            .includes(inputCountryState.toLowerCase())
+                        )
+                        .map((country, index) => (
+                          <div
+                            key={index}
+                            onClick={() => handleCountrySelect(country)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            style={{ padding: "8px", cursor: "pointer" }}
+                          >
+                            {country}
+                          </div>
+                        ))}
                     </div>
                   )}
                 </div>
@@ -231,7 +237,9 @@ const Groups = () => {
                           <button
                             key={index}
                             onClick={() => handleCategorySelect(key)}
-                            className={isActive?"category-btn active":"category-btn"}
+                            className={
+                              isActive ? "category-btn active" : "category-btn"
+                            }
                           >
                             {value}
                           </button>

@@ -180,7 +180,8 @@ input {
     padding-bottom: 71px;
 }
 .events-page .cards .row{
-    row-gap: 2rem !important;
+    row-gap: 16px !important;
+    /* column-gap: 32px; */
 }
 
 .events-page .event-left{

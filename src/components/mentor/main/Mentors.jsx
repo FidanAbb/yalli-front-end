@@ -167,7 +167,7 @@ const Mentors = () => {
       const newSelected = prevSelected.includes(categoryId)
         ? prevSelected.filter((id) => id !== categoryId)
         : [...prevSelected, categoryId];
-      filterMentors(inputMentorsCountry, inputMentorsTitle);
+
       return newSelected;
     });
   };
@@ -196,7 +196,6 @@ const Mentors = () => {
   const handleCountrySelect = (country) => {
     setInputMentorsCountry(country);
     setShowDropDown(false);
-    filterMentors(country, inputMentorsTitle);
   };
 
   const eventTitleChange = (e) => {
@@ -215,7 +214,7 @@ const Mentors = () => {
             page: 0,
             size: 100,
             sort: "id",
-            
+            title:inputMentorsTitle
           },
         }
       );
