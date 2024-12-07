@@ -102,7 +102,7 @@ const Groups = () => {
   }, [user]);
   useEffect(() => {
     if (inputCountryState !== selectedCountry) {
-      setSelectedCountry(""); // Seçimi sıfırlamaq (və ya başqa bir default dəyər təyin etmək)
+      setSelectedCountry(""); 
     }
   }, [inputCountryState, selectedCountry]);
   const handlePageChange = (newPage) => {
@@ -113,13 +113,11 @@ const Groups = () => {
   const titleChangeInput = (e) => {
     setInputTitleState(e.target.value);
   };
-
   const countryChange = (e) => {
     const value = e.target.value;
     setInputCountryState(value);
-    setShowDropDown(true); // Input dəyişdikdə dropdown göstər
+    setShowDropDown(true);
   };
-  
   const handleCountrySelect = (country) => {
     setInputCountryState(country); 
     setShowDropDown(false); 
@@ -139,14 +137,12 @@ const Groups = () => {
     );
     if (resetPage) setPage(0);
   };
-
   useEffect(() => {
     const hasSearchCriteria =
-      inputTitleState || activeCategories.length > 0 || inputCountryState;
+      inputTitleState || activeCategories?.length > 0 || selectedCountry;
   
-    fetchGroupData(hasSearchCriteria && page !== 0); // Sayfa dəyişmədikcə məlumatları çəkməyə davam et
-  }, [dispatch, inputTitleState, activeCategories, inputCountryState, page]);
-
+    fetchGroupData(hasSearchCriteria && page !== 0);
+  }, [dispatch, inputTitleState, activeCategories, selectedCountry, page]);
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
@@ -155,6 +151,7 @@ const Groups = () => {
 
     setActiveCategories(updatedCategories);
   };
+console.log(groups.content);
 
   return (
     <>
@@ -253,8 +250,7 @@ const Groups = () => {
             <div className={styles["cards"]}>
               {loading ? (
                 <p>Loading...</p>
-              ) : filteredData && filteredData.length === 0 ? (
-                // Əgər filteredData boşdursa
+              ) : !groups.content && groups.content?.length === 0 ? (
                 <p>Heç bir icma tapılmadı.</p>
               ) : (
                 groups.content?.map((group, i) => (
@@ -269,7 +265,7 @@ const Groups = () => {
               )}
             </div>
           </div>
-          {activeCategories.length === 0 && (
+          {activeCategories?.length === 0 && (
             <div className="text-center pagination-con">
               {!inputTitleState &&
                 !inputCountryState &&

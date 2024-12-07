@@ -245,7 +245,7 @@ const Mentors = () => {
               <div className="col-md-3 col-sm-12 col-12">
                 <div className="mentor-left">
                   <div className="name-input">
-                    <FiSearch className="icon" />
+                    <FiSearch  className="icon" />
                     <input
                       name="name"
                       type="text"
