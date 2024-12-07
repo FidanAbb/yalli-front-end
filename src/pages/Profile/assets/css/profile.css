@@ -81,7 +81,6 @@
 .profile-left .bottom {
     position: absolute;
     bottom: 0;
-
     padding-bottom: 2rem;
     background-color:#F5F5F5;
 }
@@ -577,15 +576,16 @@ h5 {
 
 /* Profile Help */
 .profile-help {
-    padding: 2rem;
+    padding: 2rem !important;
     position: relative;
-    height: 100%;
+    height: 97%;
     overflow: hidden;
 }
 
 .profile-help .accordion-con {
-    height: 17.6rem !important;
+    height: 17.2rem !important;
     overflow: auto;
+    padding-bottom: 1rem;
 }
 
 .profile-help * {
@@ -619,6 +619,7 @@ h5 {
     bottom: 0;
     height: 10.3rem;
     text-align: center;
+    background-color:transparent;
 }
 
 .profile-help .bottom .bottom-con {
@@ -631,6 +632,7 @@ h5 {
 .profile-help .bottom .bottom-con .email-copy {
     background-color: #EEEEEE;
     width: 60%;
+    height: 1.6rem;
     margin: 0 auto;
     padding: .5rem 1rem;
     border-radius: .7rem;
@@ -773,6 +775,9 @@ h5 {
         height: 90vh;
     }
 
+    .profile-help .bottom{
+        padding-left: 0;
+    }
     .profile-help .bottom .bottom-con {
         width: 90%;
         padding: 0rem;
