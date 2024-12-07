@@ -4,6 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import {
   IoIosArrowBack,
   IoIosArrowDown,
+  IoIosArrowForward,
   IoIosArrowUp,
   IoLogoInstagram,
 } from "react-icons/io";
@@ -369,8 +370,12 @@ const ProfileInfo = () => {
                   onClick={() => setShowSocialMediaSide(true)}
                   className="rp-social-text dp-none"
                 >
-                  <p>Sosial medialarım</p>
-                  
+                  <div>
+                    <p>Sosial medialarım</p>
+                    <span>
+                      <IoIosArrowForward className="icon"/>
+                    </span>
+                  </div>
                 </div>
                 <ul className="dp-cloumn gap-2 rp-none">
                   <li>

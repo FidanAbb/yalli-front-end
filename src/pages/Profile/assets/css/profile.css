@@ -81,7 +81,9 @@
 .profile-left .bottom {
     position: absolute;
     bottom: 0;
+
     padding-bottom: 2rem;
+    background-color:#F5F5F5;
 }
 
 .profile-left .bottom>div {
@@ -754,9 +756,18 @@ h5 {
 
     .profile-right .profile-info .info-left .bottom .rp-social-text {
         padding-left: 1rem;
+       
+    }
+    .profile-right .profile-info .info-left .bottom .rp-social-text >div{
         display: flex;
         align-items:center;
         gap: 2rem;
+    }
+    .profile-right .profile-info .info-left .bottom .rp-social-text >div p{
+        font-size: 18px;
+    }
+    .profile-right .profile-info .info-left .bottom .rp-social-text >div .icon{
+        font-size: 18px;
     }
 
     .profile-help {
@@ -773,5 +784,7 @@ h5 {
         background-color: #fff;
         height: 100%;
     }
-
+    .profile-left .bottom{
+        padding-left: 0;
+    }
 }
