@@ -13,7 +13,7 @@
 
 .editmodal-con {
     display: flex;
-
+    position: relative;
 }
 
 .editmodal-left {
@@ -253,8 +253,17 @@
     overflow-y: auto;
 }
 
-@media (max-width:500px){
-
+@media (max-width:600px){
+.rp-none{
+    display: none !important;
+}
+.close-btn-rp{
+    position: absolute;
+    top: 0;
+    right: .5rem;
+    font-size: 2rem;
+    cursor: pointer;
+}
 .editmodal-con {
     display: flex;   
     flex-direction: column;

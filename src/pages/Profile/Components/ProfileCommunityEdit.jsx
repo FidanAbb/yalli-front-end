@@ -15,7 +15,7 @@ const ProfileCommunityEdit = () => {
   const [isSelectGroup, setIsSelectGroup] = useState(false);
   const [selectedGroupsID, setSelectedGroupsID] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation(); // Cari marşrut haqqında məlumat alır
+  const location = useLocation(); 
 
   useEffect(() => {
     if (hideGroupEdit) {

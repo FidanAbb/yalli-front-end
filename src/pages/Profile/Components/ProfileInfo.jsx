@@ -225,6 +225,7 @@ const ProfileInfo = () => {
     <>
       <div
         className={showSocialMediaSide ? "profile-info none" : "profile-info"}
+        id="profile-info-section"
       >
         <h4>Profil Məlumatlarım</h4>
         <div className="row">

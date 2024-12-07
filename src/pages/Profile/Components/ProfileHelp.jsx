@@ -20,7 +20,7 @@ const ProfileHelp = () => {
     }
   };
   return (
-    <div className="profile-help">
+    <div id="profile-help-section" className="profile-help">
       <div className="head">
         <h4>Tez-tez Verilən Suallar (FAQ)</h4>
         <p>

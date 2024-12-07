@@ -52,7 +52,8 @@ const GroupEditModal = () => {
     groupsByUserID,
     groupID,
     setGroupEditModal,
-    setGroupsByUserID
+    setGroupsByUserID,
+    setEditGroupAfter
   } = useContext(YalliContext);
   const [initialFormData, setInitialFormData] = useState({});
   const [formData, setFormData] = useState({
@@ -168,6 +169,7 @@ const GroupEditModal = () => {
       await updateGroup(groupID, changes);
       setInitialFormData(formData);
       toast.success("Qrup məlumatları uğurla yeniləndi.");
+      setEditGroupAfter(prev=>!prev)
     } catch (error) {
       console.error("Qrup məlumatlarını yeniləyərkən xəta baş verdi:", error);
       toast.error("Qrup məlumatları yenilənmədi: " + error.message);
@@ -234,6 +236,9 @@ const GroupEditModal = () => {
     <div>
       <div className="editmodal">
         <div className="editmodal-con h-100">
+        <div onClick={() => setGroupEditModal(false)} className="close-btn-rp ">
+              <IoIosCloseCircleOutline className="icon" />
+            </div>
           <div className="editmodal-left">
             <ul>
               <li
@@ -263,7 +268,7 @@ const GroupEditModal = () => {
             </ul>
           </div>
           <div className="editmodal-right">
-            <div onClick={() => setGroupEditModal(false)} className="close-btn">
+            <div onClick={() => setGroupEditModal(false)} className="close-btn rp-none">
               <IoIosCloseCircleOutline className="icon" />
             </div>
             <div className="right-con">

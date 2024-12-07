@@ -49,34 +49,11 @@ const ContextYalli = ({ children }) => {
   const [mentorCountrys,setMentorCountrys]=useState(null)
   const [mentors, setMentors] = useState([]);
   const [localMentorFlags, setLocalMentorFlags] = useState("");
-console.log(localMentorFlags);
-
   const [groupID,setGroupID]=useState(null)
   const [groupEditModal,setGroupEditModal]=useState(false)
-console.log();
+  const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
 
-const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  const [editGroupAfter,setEditGroupAfter]=useState(false);
 
   useEffect(() => {
     fetchMentors();
@@ -224,7 +201,7 @@ const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
     if (userID) {
       getGroupByUserID(userID);
     }
-  }, [userID]);
+  }, [userID,editGroupAfter]);
   const aboutRef = useRef(null);
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -409,7 +386,9 @@ const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
         setGetCreatedGruopState,
         getCreatedGruopState,
         setLocalMentorFlags,
-        localMentorFlags
+        localMentorFlags,
+        setEditGroupAfter,
+        editGroupAfter
       }}
     >
       {children}

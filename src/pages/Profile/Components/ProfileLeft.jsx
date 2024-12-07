@@ -46,6 +46,14 @@ const ProfileLeft = () => {
                 className="link"
                 to="/profile/profile-info"
                 activeClassName="active-link"
+                onClick={() => {
+                  const section = document.getElementById(
+                    "profile-info-section"
+                  );
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 <FaRegUserCircle className="user-icon" />
                 Profil Məlumatları
@@ -56,6 +64,14 @@ const ProfileLeft = () => {
                 className="link"
                 to="/profile/profile-notification"
                 activeClassName="active-link"
+                onClick={() => {
+                  const section = document.getElementById(
+                    "profile-notification-section"
+                  );
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 <IoNotificationsOutline className="notif-icon" />
                 Bildirişlər
@@ -77,6 +93,14 @@ const ProfileLeft = () => {
                 className="link"
                 to="/profile/profile-community-edit"
                 activeClassName="active-link"
+                onClick={() => {
+                  const section = document.getElementById(
+                    "profile-community-section"
+                  );
+                  if (section) {
+                    section.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 <GoPeople />
                 <p>İcmaları redaktə et</p>
@@ -92,7 +116,14 @@ const ProfileLeft = () => {
                 Parametrlər
               </NavLink>
             </li>
-            <li>
+            <li
+              onClick={() => {
+                const section = document.getElementById("profile-help-section");
+                if (section) {
+                  section.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            >
               <NavLink
                 className="link"
                 to="/profile/profile-help"
@@ -111,34 +142,36 @@ const ProfileLeft = () => {
           </ul>
         </div>
         <div className="bottom">
-          <div onClick={() => setDeletePopap(true)}  className="dp-align ">
+          <div onClick={() => setDeletePopap(true)} className="dp-align ">
             <RiDeleteBin6Line />
             <p>Hesabı sil</p>
           </div>
-            {deltePopap && (
-              <div>
-                <div className="delte-popap">
-                  <h4>
-                    Siz həqiqətən hesabınızı silmək istədiyinizdən əminsinizmi?
-                  </h4>
-                  <p>
-                    Hesabınızı silmək bütün məlumatlarınızın, daxil olmaq
-                    qabiliyyətinizin və xidmətlərdən istifadənin daimi olaraq
-                    itirilməsinə səbəb olacaq. Bu addımı geri ala
-                    bilməyəcəksiniz.
-                  </p>
-                  <div className="btn-con dp-center gap-2 ">
-                    <button onClick={() => setDeletePopap(false)}>Xeyr</button>
-                    <button  onClick={handleDeleteAccount}>Bəli</button>
-                  </div>
+          {deltePopap && (
+            <div>
+              <div className="delte-popap">
+                <h4>
+                  Siz həqiqətən hesabınızı silmək istədiyinizdən əminsinizmi?
+                </h4>
+                <p>
+                  Hesabınızı silmək bütün məlumatlarınızın, daxil olmaq
+                  qabiliyyətinizin və xidmətlərdən istifadənin daimi olaraq
+                  itirilməsinə səbəb olacaq. Bu addımı geri ala bilməyəcəksiniz.
+                </p>
+                <div className="btn-con dp-center gap-2 ">
+                  <button onClick={() => setDeletePopap(false)}>Xeyr</button>
+                  <button onClick={handleDeleteAccount}>Bəli</button>
                 </div>
-                <div onClick={() => setDeletePopap(false)} className="back-black"></div>
               </div>
-            )}
+              <div
+                onClick={() => setDeletePopap(false)}
+                className="back-black"
+              ></div>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default ProfileLeft
+export default ProfileLeft;
