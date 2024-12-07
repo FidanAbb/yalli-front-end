@@ -49,6 +49,17 @@ const ProfileInfo = () => {
     setLocalUserData(newFormData);
     updateUserData(newFormData);
   };
+  const handleCountryChangeDrop = (selectedCountry) => {
+    const newFormData = {
+      ...localUserData,
+      country: selectedCountry,
+      city: "", // Ölkə dəyişəndə şəhəri sıfırlamaq üçün
+    };
+    setLocalUserData(newFormData);
+    updateUserData(newFormData);
+    setShowCountryDropDown(false); // Dropdown-u bağla
+  };
+
   const handleCityChange = (e) => {
     const selectedCity = e.target.value;
     const newFormData = { ...localUserData, city: selectedCity };
@@ -309,12 +320,15 @@ const ProfileInfo = () => {
                     </div>
                     <div  ref={dropdownRef} className="country-drop-con dp-none">
                       <div onClick={()=>{setShowCountryDropDown(prev=>!prev)}} className="head">
-                        <p>Olke</p>
+                      <p>{localUserData.country || "Ölkələr"}</p> 
                       </div>
                       {showCountryDropDown && (
                         <div className="body">
                           {countries.map((country, index) => (
-                            <div className="item" key={index}>{country.name}</div>
+                            <div onClick={()=>{
+                              setShowCountryDropDown(false)
+                              handleCountryChangeDrop(country.name)
+                            }} className="item" key={index}>{country.name}</div>
                           ))}
                         </div>
                       )}
