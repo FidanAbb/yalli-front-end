@@ -1,7 +1,12 @@
 import { MdOutlineDateRange } from "react-icons/md";
 import { BiLogoTelegram } from "react-icons/bi";
 import { FaWhatsapp } from "react-icons/fa";
-import { IoLogoInstagram } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowUp,
+  IoLogoInstagram,
+} from "react-icons/io";
 import { RiFacebookCircleLine } from "react-icons/ri";
 import { useEffect, useState, useRef, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +31,7 @@ const ProfileInfo = () => {
     allUsers,
   } = useContext(YalliContext);
   const [showCountryDropDown, setShowCountryDropDown] = useState(false);
+  const [showSocialMediaSide, setShowSocialMediaSide] = useState(false);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const newFormData = { ...localUserData, [name]: value };
@@ -59,7 +65,6 @@ const ProfileInfo = () => {
     updateUserData(newFormData);
     setShowCountryDropDown(false); // Dropdown-u bağla
   };
-
   const handleCityChange = (e) => {
     const selectedCity = e.target.value;
     const newFormData = { ...localUserData, city: selectedCity };
@@ -203,7 +208,7 @@ const ProfileInfo = () => {
   useEffect(() => {
     const closeDropdownOnOutsideClick = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowCountryDropDown(false); 
+        setShowCountryDropDown(false);
       }
     };
 
@@ -216,201 +221,229 @@ const ProfileInfo = () => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="profile-info">
-      <h4>Profil Məlumatlarım</h4>
-      <div className="row">
-        <div className="col-md-8 col-sm-12 col-12">
-          <div className="info-left dp-cloumn">
-            <div className="row top">
-              <div className="col-md-6 col-sm-12 col-12">
-                <div className="left">
-                  <div className="img-block">
-                    {loadingImage ? (
-                      <p>Loading...</p>
-                    ) : localUserData.profilePictureUrl ? (
-                      <div
-                        className="profile-image-container"
-                        style={{
-                          backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
-                        }}
-                      ></div>
-                    ) : (
-                      <div className="profile-image-container profile-initials">
-                        {getInitials(localUserData.fullName || "NN")}
-                      </div>
-                    )}
-                    <div className="edit-icon dp-center">
-                      <div
-                        onClick={() => setImgPop((prevState) => !prevState)}
-                        className="edit-con"
-                      >
-                        <CiEdit />
-                      </div>
-                      {imgPop && (
-                        <div ref={wrapperRef} className="img-pop">
-                          <div
-                            onClick={() =>
-                              document.getElementById("fileInput").click()
-                            }
-                          >
-                            Şəkil Dəyişdir
+    <>
+      <div
+        className={showSocialMediaSide ? "profile-info none" : "profile-info"}
+      >
+        <h4>Profil Məlumatlarım</h4>
+        <div className="row">
+          <div className="col-md-8 col-sm-12 col-12">
+            <div className="info-left dp-cloumn">
+              <div className="row top">
+                <div className="col-md-6 col-sm-12 col-12">
+                  <div className="left">
+                    <div className="img-block">
+                      {loadingImage ? (
+                        <p>Loading...</p>
+                      ) : localUserData.profilePictureUrl ? (
+                        <div
+                          className="profile-image-container"
+                          style={{
+                            backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                          }}
+                        ></div>
+                      ) : (
+                        <div className="profile-image-container profile-initials">
+                          {getInitials(localUserData.fullName || "NN")}
+                        </div>
+                      )}
+                      <div className="edit-icon dp-center">
+                        <div
+                          onClick={() => setImgPop((prevState) => !prevState)}
+                          className="edit-con"
+                        >
+                          <CiEdit />
+                        </div>
+                        {imgPop && (
+                          <div ref={wrapperRef} className="img-pop">
+                            <div
+                              onClick={() =>
+                                document.getElementById("fileInput").click()
+                              }
+                            >
+                              Şəkil Dəyişdir
+                            </div>
+                            {localUserData.profilePictureUrl && (
+                              <div onClick={deleteProfileImage}>Şəkil Sil</div>
+                            )}
                           </div>
-                          {localUserData.profilePictureUrl && (
-                            <div onClick={deleteProfileImage}>Şəkil Sil</div>
+                        )}
+                      </div>
+                      <input
+                        type="file"
+                        id="fileInput"
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                      />
+                    </div>
+                    <p>
+                      {localUserData?.fullName
+                        ? localUserData?.fullName
+                        : "No Name"}
+                    </p>
+                    <span>
+                      {localUserData.country}
+                      {/* {localUserData.city ? "," : ""}{" "} */}
+                      {/* {localUserData.city ? localUserData.city : ""} */}
+                    </span>
+                  </div>
+                </div>
+                <div className="col-md-6 col-sm-12 col-12">
+                  <div className="right dp-center">
+                    <div>
+                      <div className="input-con">
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={localUserData?.fullName}
+                          onChange={handleInputChange}
+                          placeholder="Adınızı daxil edin"
+                          className="profile-input"
+                        />
+                      </div>
+                      <div className="date-con">
+                        <DatePicker
+                          selected={
+                            localUserData.birthDate
+                              ? new Date(localUserData.birthDate)
+                              : null
+                          }
+                          onChange={handleDateChange}
+                          dateFormat="yyyy-MM-dd"
+                          className="profile-input"
+                          placeholderText="Doğum tarixi"
+                        />
+                        <MdOutlineDateRange className="date-icon" />
+                      </div>
+                      <div className="input-con">
+                        <input
+                          type="email"
+                          name="email"
+                          value={localUserData?.email}
+                          onChange={handleInputChange}
+                          placeholder="E-poçt ünvanı"
+                          className="profile-input"
+                        />
+                      </div>
+                      <div
+                        ref={dropdownRef}
+                        className="country-drop-con dp-none"
+                      >
+                        <div
+                          onClick={() => {
+                            setShowCountryDropDown((prev) => !prev);
+                          }}
+                          className="head"
+                        >
+                          <p>{localUserData.country || "Ölkələr"}</p>
+                          {showCountryDropDown ? (
+                            <IoIosArrowUp />
+                          ) : (
+                            <IoIosArrowDown />
                           )}
                         </div>
-                      )}
+                        {showCountryDropDown && (
+                          <div className="body">
+                            {countries.map((country, index) => (
+                              <div
+                                onClick={() => {
+                                  setShowCountryDropDown(false);
+                                  handleCountryChangeDrop(country.name);
+                                }}
+                                className="item"
+                                key={index}
+                              >
+                                {country.name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bottom">
+                <div className="rp-social-text dp-none">
+                  <p onClick={() => setShowSocialMediaSide(true)}>
+                    Sosial medialarım
+                  </p>
+                </div>
+                <ul className="dp-cloumn gap-2 rp-none">
+                  <li>
+                    <RiFacebookCircleLine className="icon" />
+                    <input
+                      onChange={socialMediaChange}
+                      name="FACEBOOK"
+                      type="text"
+                      value={localUserData.socialMediaAccounts?.FACEBOOK || ""}
+                    />
+                  </li>
+                  <li>
+                    <div className="telegram-icon dp-center">
+                      <BiLogoTelegram className="icon" />
                     </div>
                     <input
-                      type="file"
-                      id="fileInput"
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      onChange={handleImageUpload}
+                      onChange={socialMediaChange}
+                      name="TELEGRAM"
+                      type="text"
+                      value={localUserData.socialMediaAccounts?.TELEGRAM || ""}
                     />
-                  </div>
-                  <p>
-                    {localUserData?.fullName
-                      ? localUserData?.fullName
-                      : "No Name"}
-                  </p>
-                  <span>
-                    {localUserData.country}
-                    {/* {localUserData.city ? "," : ""}{" "} */}
-                    {/* {localUserData.city ? localUserData.city : ""} */}
-                  </span>
-                </div>
+                  </li>
+                  <li>
+                    <FaWhatsapp className="icon what-icon" />
+                    <input
+                      onChange={socialMediaChange}
+                      name="WHATSAPP"
+                      type="text"
+                      value={localUserData.socialMediaAccounts?.WHATSAPP || ""}
+                    />
+                  </li>
+                  <li>
+                    <IoLogoInstagram className="icon" />
+                    <input
+                      onChange={socialMediaChange}
+                      name="INSTAGRAM"
+                      type="text"
+                      value={localUserData.socialMediaAccounts?.INSTAGRAM || ""}
+                    />
+                  </li>
+                  <li>
+                    <CiLinkedin className="icon" />
+                    <input
+                      onChange={socialMediaChange}
+                      name="LINKEDIN"
+                      type="text"
+                      value={localUserData.socialMediaAccounts?.LINKEDIN || ""}
+                    />
+                  </li>
+                </ul>
               </div>
-              <div className="col-md-6 col-sm-12 col-12">
-                <div className="right dp-center">
-                  <div>
-                    <div className="input-con">
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={localUserData?.fullName}
-                        onChange={handleInputChange}
-                        placeholder="Adınızı daxil edin"
-                        className="profile-input"
-                      />
-                    </div>
-                    <div className="date-con">
-                      <DatePicker
-                        selected={
-                          localUserData.birthDate
-                            ? new Date(localUserData.birthDate)
-                            : null
-                        }
-                        onChange={handleDateChange}
-                        dateFormat="yyyy-MM-dd"
-                        className="profile-input"
-                        placeholderText="Doğum tarixi"
-                      />
-                      <MdOutlineDateRange className="date-icon" />
-                    </div>
-                    <div className="input-con">
-                      <input
-                        type="email"
-                        name="email"
-                        value={localUserData?.email}
-                        onChange={handleInputChange}
-                        placeholder="E-poçt ünvanı"
-                        className="profile-input"
-                      />
-                    </div>
-                    <div  ref={dropdownRef} className="country-drop-con dp-none">
-                      <div onClick={()=>{setShowCountryDropDown(prev=>!prev)}} className="head">
-                      <p>{localUserData.country || "Ölkələr"}</p> 
-                      </div>
-                      {showCountryDropDown && (
-                        <div className="body">
-                          {countries.map((country, index) => (
-                            <div onClick={()=>{
-                              setShowCountryDropDown(false)
-                              handleCountryChangeDrop(country.name)
-                            }} className="item" key={index}>{country.name}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="bottom">
-              <div className="rp-social-text dp-none">
-                <p>Sosial medialarım</p>
-              </div>
-              <ul className="dp-cloumn gap-2 rp-none">
-                <li>
-                  <RiFacebookCircleLine className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="FACEBOOK"
-                    type="text"
-                    value={localUserData.socialMediaAccounts?.FACEBOOK || ""}
-                  />
-                </li>
-                <li>
-                  <div className="telegram-icon dp-center">
-                    <BiLogoTelegram className="icon" />
-                  </div>
-                  <input
-                    onChange={socialMediaChange}
-                    name="TELEGRAM"
-                    type="text"
-                    value={localUserData.socialMediaAccounts?.TELEGRAM || ""}
-                  />
-                </li>
-                <li>
-                  <FaWhatsapp className="icon what-icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="WHATSAPP"
-                    type="text"
-                    value={localUserData.socialMediaAccounts?.WHATSAPP || ""}
-                  />
-                </li>
-                <li>
-                  <IoLogoInstagram className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="INSTAGRAM"
-                    type="text"
-                    value={localUserData.socialMediaAccounts?.INSTAGRAM || ""}
-                  />
-                </li>
-                <li>
-                  <CiLinkedin className="icon" />
-                  <input
-                    onChange={socialMediaChange}
-                    name="LINKEDIN"
-                    type="text"
-                    value={localUserData.socialMediaAccounts?.LINKEDIN || ""}
-                  />
-                </li>
-              </ul>
             </div>
           </div>
-        </div>
-        <div className="col-md-4 col-sm-12 col-12 rp-none">
-          <div className="info-right">
-            <div className="dp-cloumn gap-2">
-              <div className="country-drop-con">
-                <select
-                  value={localUserData.country}
-                  onChange={(e) => handleCountryChange(e)}
-                  className="profile-select"
-                >
-                  {localUserData.country ? "" : <option value="">Seçin</option>}
-                  {countries.map((country, index) => (
-                    <option key={index} value={country.name}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {/* <div className="city-drop-con">
+          <div className="col-md-4 col-sm-12 col-12 rp-none">
+            <div className="info-right">
+              <div className="dp-cloumn gap-2">
+                <div className="country-drop-con">
+                  <select
+                    value={localUserData.country}
+                    onChange={(e) => handleCountryChange(e)}
+                    className="profile-select"
+                  >
+                    {localUserData.country ? (
+                      ""
+                    ) : (
+                      <option value="">Seçin</option>
+                    )}
+                    {countries.map((country, index) => (
+                      <option key={index} value={country.name}>
+                        {country.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {/* <div className="city-drop-con">
                 <select
                   onChange={(e) => handleCityChange(e)}
                   className="profile-select"
@@ -428,11 +461,74 @@ const ProfileInfo = () => {
                       ))}
                 </select>
               </div> */}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      {showSocialMediaSide && (
+        <div className={"media-side dp-none"}>
+          <div className="head">
+            <span onClick={() => setShowSocialMediaSide(false)}>
+              <IoIosArrowBack />
+            </span>
+            <p>Sosial medialarım</p>
+          </div>
+          <div className="bottom">
+            <div className="rp-social-text dp-none"></div>
+            <ul className="dp-cloumn gap-2 ">
+              <li>
+                <RiFacebookCircleLine className="icon" />
+                <input
+                  onChange={socialMediaChange}
+                  name="FACEBOOK"
+                  type="text"
+                  value={localUserData.socialMediaAccounts?.FACEBOOK || ""}
+                />
+              </li>
+              <li>
+                <div className="telegram-icon dp-center">
+                  <BiLogoTelegram className="icon" />
+                </div>
+                <input
+                  onChange={socialMediaChange}
+                  name="TELEGRAM"
+                  type="text"
+                  value={localUserData.socialMediaAccounts?.TELEGRAM || ""}
+                />
+              </li>
+              <li>
+                <FaWhatsapp className="icon what-icon" />
+                <input
+                  onChange={socialMediaChange}
+                  name="WHATSAPP"
+                  type="text"
+                  value={localUserData.socialMediaAccounts?.WHATSAPP || ""}
+                />
+              </li>
+              <li>
+                <IoLogoInstagram className="icon" />
+                <input
+                  onChange={socialMediaChange}
+                  name="INSTAGRAM"
+                  type="text"
+                  value={localUserData.socialMediaAccounts?.INSTAGRAM || ""}
+                />
+              </li>
+              <li>
+                <CiLinkedin className="icon" />
+                <input
+                  onChange={socialMediaChange}
+                  name="LINKEDIN"
+                  type="text"
+                  value={localUserData.socialMediaAccounts?.LINKEDIN || ""}
+                />
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
