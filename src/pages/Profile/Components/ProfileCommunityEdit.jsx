@@ -81,7 +81,7 @@ const ProfileCommunityEdit = () => {
         </div>
       )}
       <div className="row group-edit">
-        {Array.isArray(groupsByUserID) &&
+        {groupsByUserID.length>0 ?Array.isArray(groupsByUserID) &&
           groupsByUserID.map((group, i) => (
             <div key={i} className="col-md-4 col-sm-12 col-12">
               <Card
@@ -93,7 +93,9 @@ const ProfileCommunityEdit = () => {
                 selectedGroupsID={selectedGroupsID}
               />
             </div>
-          ))}
+          ))
+          :<p>Icma yoxdu</p>
+        }
       </div>
       {groupEditModal &&<GroupEditModal/>}
     </div>
