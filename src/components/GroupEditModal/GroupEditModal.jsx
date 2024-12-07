@@ -176,7 +176,7 @@ const GroupEditModal = () => {
     }
   };
 
-  const handleImageUpload = async (event) => {
+  const handleImageUploadGallery = async (event) => {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
@@ -196,6 +196,36 @@ const GroupEditModal = () => {
           ...prevFormData,
           gallery: [...prevFormData.gallery, imageUrl],
         }));
+
+        toast.success("Qrup məlumatları uğurla yeniləndi.");
+        setSelectMode(false);
+      } catch (err) {
+        console.error("upload da problem", err);
+        toast.error("Şəkil yüklənərkən problem oldu.");
+      }
+    }
+  };
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    if (file) {
+      try {
+        const response = await axios.post(
+          "https://yalli-back-end.onrender.com/v1/files/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        const imageUrl = response.data;
+        setFormData((prevFormData) => ({
+          ...prevFormData,
+          imageId: imageUrl, 
+        }));
+  
 
         toast.success("Qrup məlumatları uğurla yeniləndi.");
         setSelectMode(false);
@@ -444,7 +474,7 @@ const GroupEditModal = () => {
                                   id="file-input"
                                   type="file"
                                   style={{ display: "none" }}
-                                  onChange={handleImageUpload}
+                                  onChange={handleImageUploadGallery}
                                   accept="image/*"
                                 />
                               </label>

@@ -93,7 +93,14 @@ const Groups = () => {
   const [inputCountryState, setInputCountryState] = useState("");
   const [filteredData, setFilteredData] = useState(groups.content);
   const [page, setPage] = useState(0);
-
+  const [inputCountryChange,setInputCountryChange]=useState()
+  useEffect(() => {
+    console.log(inputCountryChange);
+    
+    if(inputCountryChange!=selectedCountry){
+      setSelectedCountry("")
+    }
+  }, [inputCountryChange, selectedCountry]);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location, page]);
@@ -102,11 +109,6 @@ const Groups = () => {
       setForServerError(user);
     }
   }, [user]);
-  useEffect(() => {
-    if (inputCountryState !== selectedCountry) {
-      setSelectedCountry("");
-    }
-  }, [inputCountryState, selectedCountry]);
   const handlePageChange = (newPage) => {
     setPage(newPage);
     dispatch(getGroupData({ page: newPage, size: 18 }));
@@ -119,12 +121,14 @@ const Groups = () => {
     const value = e.target.value;
     setInputCountryState(value);
     setShowDropDown(true);
+    setInputCountryChange(value)
   };
   const handleCountrySelect = (country) => {
     setInputCountryState(country);
     setShowDropDown(false);
     setSelectedCountry(country);
     fetchGroupData(true);
+    setInputCountryChange(country)
   };
   const fetchGroupData = (resetPage = false) => {
     const currentPage = resetPage ? 0 : page;
@@ -142,9 +146,8 @@ const Groups = () => {
   useEffect(() => {
     const hasSearchCriteria =
       inputTitleState || activeCategories?.length > 0 || selectedCountry;
-
     fetchGroupData(hasSearchCriteria && page !== 0);
-  }, [dispatch, inputTitleState, activeCategories, selectedCountry, page,getCreatedGruopState]);
+  }, [inputTitleState, activeCategories, selectedCountry, page]);
   const handleCategorySelect = (key) => {
     const isActive = activeCategories.includes(key);
     const updatedCategories = isActive
@@ -211,7 +214,7 @@ const Groups = () => {
                         .filter((country) =>
                           country
                             .toLowerCase()
-                            .includes(inputCountryState.toLowerCase())
+                            .includes(inputCountryChange?.toLowerCase())
                         )
                         .map((country, index) => (
                           <div

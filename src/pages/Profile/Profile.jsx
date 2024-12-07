@@ -11,15 +11,8 @@ const Profile = () => {
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
   const { hideGroupEdit, setHideGroupEdit } = useContext(YalliContext);
-  const location = useLocation(); // Cari marşrut haqqında məlumat alır
+  const location = useLocation(); 
 
-  // İlk render zamanı müəyyən bölməyə scroll
-  useEffect(() => {
-    const section = document.getElementById("profile-info-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
 
   useEffect(() => {
     if (user) {

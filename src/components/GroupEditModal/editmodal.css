@@ -253,6 +253,10 @@
     overflow-y: auto;
 }
 
+.close-btn-rp{
+    display: none;
+}
+
 @media (max-width:600px){
 .rp-none{
     display: none !important;
@@ -263,6 +267,7 @@
     right: .5rem;
     font-size: 2rem;
     cursor: pointer;
+    display: block;
 }
 .editmodal-con {
     display: flex;   
