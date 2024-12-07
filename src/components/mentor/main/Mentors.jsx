@@ -11,6 +11,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import axios from "axios";
 import { YalliContext } from "../../../Context/YalliContext";
 import FetchCountries from "../../Countrys/FetchCountryCodes";
+import { FiSearch } from "react-icons/fi";
 
 const countryCategory = [
   "Azərbaycan",
@@ -63,9 +64,9 @@ const countryCategory = [
   "Cənubi Koreya",
 ];
 const categoryTranslations = {
-  YAŞAM: "LIFE",
-  TƏHSİL: "EDUCATION",
-  KARYERA: "CAREER",
+  LIFE: "Yaşam",
+  EDUCATION: "Təhsil",
+  CAREER: "Karyera",
 };
 const categoryTranslationsTwo = {
   YAŞAM: "Yaşam",
@@ -141,16 +142,28 @@ const Mentors = () => {
   const [mentors, setMentors] = useState([]);
   const [inputMentorsTitle, setInputMentorsTitle] = useState("");
   const [inputMentorsCountry, setInputMentorsCountry] = useState("");
+  const [inputCountryState, setInputCountryState] = useState("");
 
   const [showDropDown, setShowDropDown] = useState(false);
   const [filteredMentors, setFilteredMentors] = useState(mentors);
   const [selectedCategory, setSelectedCategory] = useState([]);
-  const {countries} = useContext(YalliContext);
+  const { countries } = useContext(YalliContext);
+  console.log(selectedCategory);
 
   const [forServerError, setForServerError] = useState();
   const user = useSelector((state) => state.users.user);
+  const [localMentorFlags, setLocalMentorFlags] = useState("");
+  const [activeCategories, setActiveCategories] = useState([]);
 
-  
+  useEffect(() => {
+    const localMentorsFlag = localStorage.getItem("mentorFlags");
+    setLocalMentorFlags(JSON.parse(localMentorsFlag));
+  }, []);
+  useEffect(() => {
+    if (inputCountryState !== selectedCountry) {
+      setSelectedCountry("");
+    }
+  }, [selectedCountry, inputCountryState]);
   useEffect(() => {
     if (user) {
       setForServerError(user);
@@ -159,49 +172,29 @@ const Mentors = () => {
   const navigate = useNavigate();
   useEffect(() => {
     fetchMentors([]);
-  }, [inputMentorsTitle]);
+  }, [inputMentorsTitle, selectedCountry, activeCategories]);
 
+  const handleCategorySelect = (key) => {
+    const isActive = activeCategories.includes(key);
+    const updatedCategories = isActive
+      ? activeCategories.filter((category) => category !== key)
+      : [...activeCategories, key];
 
-  const handleCategorySelect = (categoryId) => {
-    setSelectedCategory((prevSelected) => {
-      const newSelected = prevSelected.includes(categoryId)
-        ? prevSelected.filter((id) => id !== categoryId)
-        : [...prevSelected, categoryId];
-
-      return newSelected;
-    });
+    setActiveCategories(updatedCategories);
   };
-
- 
 
   const eventCountryChange = (e) => {
     const value = e.target.value.toLowerCase();
-  
-    const matchedCountries = countryCategory.filter((country) => {
-      const translatedCountry =
-        Object.keys(countryTranslations).find(
-          (key) => countryTranslations[key]?.toLowerCase() === country.toLowerCase()
-        ) || country;
-  
-      return (
-        translatedCountry.toLowerCase().startsWith(value) ||
-        translatedCountry.toLowerCase().includes(value)
-      );
-    });
-  
-    setInputMentorsCountry(value);
-    setSelectedCountry(matchedCountries);
-    setShowDropDown(true);
+    setInputCountryState(value);
   };
   const handleCountrySelect = (country) => {
-    setInputMentorsCountry(country);
+    setInputCountryState(country);
+    setSelectedCountry(country);
     setShowDropDown(false);
   };
-
   const eventTitleChange = (e) => {
     setInputMentorsTitle(e.target.value);
   };
-
   const fetchMentors = async () => {
     try {
       const response = await axios.get(
@@ -213,8 +206,9 @@ const Mentors = () => {
           params: {
             page: 0,
             size: 100,
-            sort: "id",
-            title:inputMentorsTitle
+            fullName: inputMentorsTitle,
+            country: selectedCountry,
+            category:activeCategories.join(","),
           },
         }
       );
@@ -231,9 +225,17 @@ const Mentors = () => {
     }
   };
 
+  const findMentorFlag = (mentorFullName) => {
+    if (localMentorFlags) {
+      const filter = localMentorFlags.find(
+        (item) => item.mentorName === mentorFullName
+      );
+      return filter;
+    }
+  };
   return (
     <>
-    {console.log(forServerError)}
+      {/* {console.log(forServerError)} */}
       <Header />
       <Hero />
       <div className="mentor-page">
@@ -243,7 +245,7 @@ const Mentors = () => {
               <div className="col-md-3 col-sm-12 col-12">
                 <div className="mentor-left">
                   <div className="name-input">
-                    <IoSearchOutline className="icon" />
+                    <FiSearch className="icon" />
                     <input
                       name="name"
                       type="text"
@@ -257,7 +259,7 @@ const Mentors = () => {
                         name="country"
                         type="text"
                         placeholder="Ölkə"
-                        value={inputMentorsCountry}
+                        value={inputCountryState}
                         onChange={eventCountryChange}
                         onFocus={() => {
                           setShowDropDown(true);
@@ -284,51 +286,49 @@ const Mentors = () => {
                     </div>
                     {showDropDown && (
                       <div className="dropdown-list">
-                        {selectedCountry.map((country, index) => (
-                          <div
-                            key={index}
-                            onClick={() => handleCountrySelect(country)}
-                            onMouseDown={(e) => e.preventDefault()}
-                            style={{ padding: "8px", cursor: "pointer" }}
-                          >
-                            {countryTranslations[country] || country}
-                          </div>
-                        ))}
+                        {countryCategory
+                          .filter((country) =>
+                            country
+                              .toLowerCase()
+                              .includes(inputCountryState.toLowerCase())
+                          )
+                          .map((country, index) => (
+                            <div
+                              key={index}
+                              onClick={() => handleCountrySelect(country)}
+                              onMouseDown={(e) => e.preventDefault()}
+                              style={{ padding: "8px", cursor: "pointer" }}
+                            >
+                              {country}
+                            </div>
+                          ))}
                       </div>
                     )}
                   </div>
                   <div className="category-list">
-                    {mentorCategory.map((category) => (
-                      <a
-                        className="event-category-link"
-                        key={category.id}
-                        href="#"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          handleCategorySelect(category.id);
-                        }}
-                        style={{
-                          cursor: "pointer",
-                          backgroundColor: selectedCategory.includes(
-                            category.id
-                          )
-                            ? "#FA4500"
-                            : "transparent",
-                          color: selectedCategory.includes(category.id)
-                            ? "#fff"
-                            : "#A2A2A2",
-                        }}
-                      >
-                        {category.label}
-                      </a>
-                    ))}
+                    {Object.entries(categoryTranslations).map(
+                      ([key, value], index) => {
+                        const isActive = activeCategories.includes(key);
+                        return (
+                          <button
+                            key={index}
+                            onClick={() => handleCategorySelect(key)}
+                            className={
+                              isActive ? "category-btn active" : "category-btn"
+                            }
+                          >
+                            {value}
+                          </button>
+                        );
+                      }
+                    )}
                   </div>
                 </div>
               </div>
               <div className="col-md-9 col-sm-12 col-12">
                 <div className="mentor-right">
                   <div className="row">
-                    {mentors.map((item, index) => (
+                    {mentors.length<=0?<p>Bu məlumat tapılmadı!</p>:mentors.map((item, index) => (
                       <div key={index} className="col-md-4 col-sm-6 col-12">
                         <div
                           onClick={() => {
@@ -347,9 +347,7 @@ const Mentors = () => {
                             <h5>{item.fullName}</h5>
                             <p>
                               <img
-                                src={
-                                  countries[index]|| "#"
-                                }
+                                src={findMentorFlag(item.fullName).flag || "#"}
                                 alt={`${item.country} flag`}
                                 style={{ width: "2rem", height: "auto" }} // Bayraq genişliyi
                               />
