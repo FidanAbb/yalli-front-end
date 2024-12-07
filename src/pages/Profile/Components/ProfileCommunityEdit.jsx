@@ -62,7 +62,7 @@ const ProfileCommunityEdit = () => {
   };
 
   return (
-    <div className="group-edit-con">
+    <div id="profile-community-section" className="group-edit-con">
       {groupsByUserID?.length > 0 && (
         <div className="btns">
           {isSelectGroup && (
