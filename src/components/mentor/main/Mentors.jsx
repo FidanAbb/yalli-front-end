@@ -347,7 +347,7 @@ const Mentors = () => {
                             <h5>{item.fullName}</h5>
                             <p>
                               <img
-                                src={findMentorFlag(item.fullName).flag || "#"}
+                                src={findMentorFlag(item.fullName)?.flag || "#"}
                                 alt={`${item.country} flag`}
                                 style={{ width: "2rem", height: "auto" }} // Bayraq genişliyi
                               />
