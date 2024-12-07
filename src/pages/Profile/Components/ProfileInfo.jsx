@@ -105,9 +105,9 @@ const ProfileInfo = () => {
     updateUserData(newUserData);
 
     if (value && !isValidSocialUrl(value, name.toUpperCase())) {
-      toast.info(
-        `Daxil edilmiş ${name} URL düzgün deyil və 5 saniyə ərzində silinəcək.`
-      );
+      // toast.info(
+      //   `Daxil edilmiş ${name} URL düzgün deyil və 5 saniyə ərzində silinəcək.`
+      // );
       setTimeout(() => {
         const cleanedSocialMediaAccounts = Object.fromEntries(
           Object.entries(localUserData.socialMediaAccounts || {}).filter(
