@@ -46,6 +46,9 @@
     display: none;
     padding: 0 22px;
 }
+.event-card .btn-info{
+    margin-top: 1rem;
+}
 
 @media (max-width:558px) {
 

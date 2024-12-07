@@ -1,7 +1,7 @@
 import React from "react";
 import earth from "../../../assets/img/aboutEarth.svg";
 import hand from "../../../assets/img/aboutHand.svg";
-import love from "../../../assets/img/aboutLove.svg";
+import love from "../../../assets/img/lucide_heart-handshake.png";
 import styles from "./style.module.scss";
 const suggestData = [
   {
@@ -20,7 +20,7 @@ const suggestData = [
     icon: love,
     title: "Dəstək və İnkişaf",
     detail:
-      "Platformamız, Azərbaycan mədəniyyətini, ənənələrini və dilini yaşatmaq və təbliğ etmək məqsədi daşıyır.",
+      "Platformamız, Azərbaycan icmasına dəstək olmaqla, həmyerlilərimizin bir-birinə yardım etməsini və birlikdə inkişaf etməsini təşviq edir.",
   },
 ];
 const Suggest = () => {
