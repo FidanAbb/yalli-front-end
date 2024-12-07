@@ -432,24 +432,40 @@ const ProfileInfo = () => {
           <div className="col-md-4 col-sm-12 col-12 rp-none">
             <div className="info-right">
               <div className="dp-cloumn gap-2">
-                <div className="country-drop-con">
-                  <select
-                    value={localUserData.country}
-                    onChange={(e) => handleCountryChange(e)}
-                    className="profile-select"
-                  >
-                    {localUserData.country ? (
-                      ""
-                    ) : (
-                      <option value="">Seçin</option>
-                    )}
-                    {countries.map((country, index) => (
-                      <option key={index} value={country.name}>
-                        {country.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <div
+                        ref={dropdownRef}
+                        className="country-drop-con rp-none"
+                      >
+                        <div
+                          onClick={() => {
+                            setShowCountryDropDown((prev) => !prev);
+                          }}
+                          className="head"
+                        >
+                          <p>{localUserData.country || "Ölkələr"}</p>
+                          {showCountryDropDown ? (
+                            <IoIosArrowUp />
+                          ) : (
+                            <IoIosArrowDown />
+                          )}
+                        </div>
+                        {showCountryDropDown && (
+                          <div className="body">
+                            {countries.map((country, index) => (
+                              <div
+                                onClick={() => {
+                                  setShowCountryDropDown(false);
+                                  handleCountryChangeDrop(country.name);
+                                }}
+                                className="item"
+                                key={index}
+                              >
+                                {country.name}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                 {/* <div className="city-drop-con">
                 <select
                   onChange={(e) => handleCityChange(e)}

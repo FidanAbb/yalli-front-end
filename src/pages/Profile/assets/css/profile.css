@@ -353,7 +353,7 @@
 
 }
 .media-side{
-    background-color: #F9F9F9;
+    background-color: #F5F5F5;
 }
 .media-side .head {
     display: flex;
@@ -371,7 +371,7 @@
     font-weight: 500;
 }
 .media-side .bottom {
-    background-color: #F9F9F9;
+    background-color: #F5F5F5;
     padding: 1rem;
     width: 100%;
     border-radius: 1rem;
@@ -683,6 +683,7 @@ h5 {
 .profile-con .country-drop-con .body .item {
     padding: .4rem .5rem;
     background-color: #EEE;
+    cursor: pointer;
 }
 
 .profile-con .country-drop-con .body .item:hover {
