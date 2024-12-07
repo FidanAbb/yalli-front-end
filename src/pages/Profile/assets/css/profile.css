@@ -345,8 +345,8 @@
     transform: translate(-50%, -50%);
 }
 
- .bottom {
-    background-color: #F9F9F9;
+.profile-con .bottom {
+    background-color: #F5F5F5;
     padding: 1rem;
     width: 100%;
     border-radius: 1rem;
@@ -377,13 +377,13 @@
     border-radius: 1rem;
 }
 
- .bottom ul li {
+.profile-con .bottom ul li {
     display: flex;
     align-items: center;
     gap: 1.4rem;
 }
 
- .bottom ul li input {
+.profile-con .bottom ul li input {
     background-color: #EEEEEE;
     width: 15rem;
     padding: .2rem .4rem !important;
@@ -403,11 +403,11 @@
     border: none;
 }
 
- .bottom ul li .icon {
+.profile-con .bottom ul li .icon {
     font-size: 1.9rem;
 }
 
- .bottom ul li .teleqram-icon {
+.profile-con .bottom ul li .teleqram-icon {
     border: 3px solid;
     width: 1.56rem;
     height: 1.56rem;
@@ -415,12 +415,12 @@
     margin-left: .23rem;
 }
 
- .bottom ul li .what-icon {
+.profile-con .bottom ul li .what-icon {
     font-size: 1.75rem;
     margin-left: .1rem;
 }
 
- .bottom ul li .teleqram-icon .icon {
+.profile-con .bottom ul li .teleqram-icon .icon {
     font-size: 1rem;
 }
 
@@ -683,7 +683,7 @@ h5 {
 .profile-con .country-drop-con .body .item {
     padding: .4rem .5rem;
     background-color: #EEE;
-    cursor: pointer;
+    
 }
 
 .profile-con .country-drop-con .body .item:hover {
@@ -735,9 +735,7 @@ h5 {
         position: relative;
 
     }
-    .bottom{
-
-    }
+ 
     .profile-right .profile-info .info-left .top .left::after {
         content: "";
         display: block;
