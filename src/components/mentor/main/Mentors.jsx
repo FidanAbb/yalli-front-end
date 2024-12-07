@@ -157,8 +157,11 @@ const Mentors = () => {
 
   useEffect(() => {
     const localMentorsFlag = localStorage.getItem("mentorFlags");
-    setLocalMentorFlags(JSON.parse(localMentorsFlag));
-  }, []);
+    if(localMentorsFlag){
+      setLocalMentorFlags(JSON.parse(localMentorsFlag));
+    }
+      
+  }, [mentors]);
   useEffect(() => {
     if (inputCountryState !== selectedCountry) {
       setSelectedCountry("");

@@ -48,6 +48,8 @@ const ContextYalli = ({ children }) => {
   const [allGroups,setAllGroups]=useState([])
   const [mentorCountrys,setMentorCountrys]=useState(null)
   const [mentors, setMentors] = useState([]);
+  const [localMentorFlags, setLocalMentorFlags] = useState("");
+console.log(localMentorFlags);
 
   const [groupID,setGroupID]=useState(null)
   const [groupEditModal,setGroupEditModal]=useState(false)
@@ -405,7 +407,9 @@ const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
         groupID,
         setGroupID,
         setGetCreatedGruopState,
-        getCreatedGruopState
+        getCreatedGruopState,
+        setLocalMentorFlags,
+        localMentorFlags
       }}
     >
       {children}

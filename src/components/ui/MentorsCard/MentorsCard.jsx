@@ -6,8 +6,8 @@ import { YalliContext } from "../../../Context/YalliContext";
 
 const MentorsCard = ({ data ,index}) => {
   const navigate = useNavigate();
-  const [localMentorFlags, setLocalMentorFlags] = useState("");
-  const {countries}=useContext(YalliContext)
+
+  const {countries,mentors,setLocalMentorFlags,localMentorFlags}=useContext(YalliContext)
   const categoryTranslations = {
     LIFE: "YAŞAM",
     EDUCATION: "TƏHSİL",
@@ -16,8 +16,11 @@ const MentorsCard = ({ data ,index}) => {
 
   useEffect(() => {
     const localMentorsFlag = localStorage.getItem("mentorFlags");
-    setLocalMentorFlags(JSON.parse(localMentorsFlag));
-  }, []);
+    if(localMentorsFlag){
+      setLocalMentorFlags(JSON.parse(localMentorsFlag));
+
+    }
+  }, [mentors]);
   const findMentorFlag = (mentorFullName) => {
     if (localMentorFlags) {
       const filter = localMentorFlags.find(
