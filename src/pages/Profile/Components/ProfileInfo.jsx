@@ -365,10 +365,12 @@ const ProfileInfo = () => {
                 </div>
               </div>
               <div className="bottom">
-                <div className="rp-social-text dp-none">
-                  <p onClick={() => setShowSocialMediaSide(true)}>
-                    Sosial medialarım
-                  </p>
+                <div
+                  onClick={() => setShowSocialMediaSide(true)}
+                  className="rp-social-text dp-none"
+                >
+                  <p>Sosial medialarım</p>
+                  
                 </div>
                 <ul className="dp-cloumn gap-2 rp-none">
                   <li>

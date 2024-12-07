@@ -754,6 +754,9 @@ h5 {
 
     .profile-right .profile-info .info-left .bottom .rp-social-text {
         padding-left: 1rem;
+        display: flex;
+        align-items:center;
+        gap: 2rem;
     }
 
     .profile-help {
