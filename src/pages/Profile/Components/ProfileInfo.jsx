@@ -244,7 +244,7 @@ const ProfileInfo = () => {
                             backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
                           }}
                         ></div>
-                      ) : (
+                      ) : (   
                         <div className="profile-image-container profile-initials">
                           {getInitials(localUserData.fullName || "NN")}
                         </div>
