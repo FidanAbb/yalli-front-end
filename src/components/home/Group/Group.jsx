@@ -1,25 +1,16 @@
-import React, { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import styles from "./style.module.scss";
-import German from "../../../assets/img/German.svg";
-import Abd from "../../../assets/img/Abd.svg";
-import Network from "../../../assets/img/Network.svg";
 import Card from "../../ui/card/Card";
 import Arrow from "../../ui/Arrow";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupData } from "../../../redux/slice/group/group";
-import Germany from "../../ui/countries/Germany";
-import Polsa from "../../ui/countries/Polsa";
-import Usa from "../../ui/countries/Usa";
 import { YalliContext } from "../../../Context/YalliContext";
 
 const Group = () => {
   const groups = useSelector((state) => state.groups.groups);
   const { allGroups } = useContext(YalliContext);
-  console.log(groups);
-
   const dispatch = useDispatch();
-
   const [allData, setAllGroupData] = useState({
     ...groups,
   });
@@ -92,7 +83,6 @@ const Group = () => {
 
   const navigate = useNavigate();
   const handleCardClick = (id) => {
-    // window.location.href = `/qrup/${id}`
     navigate(`/qrup/${id}`);
   };
 
@@ -106,7 +96,6 @@ const Group = () => {
                 <h2>İcmalar</h2>
                 <p
                   onClick={() =>
-                    // window.location.href ="/qrup"
                     navigate("/groups")
                   }
                 >

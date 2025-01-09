@@ -97,7 +97,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     const fetchGroups = async () => {
       try {
         const response = await axios.get(
-          "https://yalli-back-end.onrender.com/v1/groups"
+          "https://yalli-back-end-7v7d.onrender.com/v1/groups"
         );
         setGroups(response.data);
       } catch (error) {
@@ -153,9 +153,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     formData.append("file", file);
     if (file) {
       try {
-        console.log(file);
         const response = await axios.post(
-          "https://yalli-back-end.onrender.com/v1/files/upload",
+          "https://yalli-back-end-7v7d.onrender.com/v1/files/upload",
           formData,
           {
             headers: {
@@ -164,6 +163,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           }
         );
         const imageUrl = response.data;
+        
         setImageId(imageUrl);
       } catch (errr) {
         console.log("upload da problem", errr);
@@ -196,7 +196,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     };
     try {
       const response = await axios.post(
-        "https://yalli-back-end.onrender.com/v1/groups",
+        "https://yalli-back-end-7v7d.onrender.com/v1/groups",
         formattedData,
         {
           headers: {
@@ -234,7 +234,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             className={styles["img"]}
             style={{
               backgroundImage: imageId
-                ? `url(https://yalli-back-end.onrender.com/v1/files/${imageId})`
+                ? `url(https://yalli-back-end-7v7d.onrender.com/v1/files/${imageId})`
                 : "none",
               backgroundSize: "cover",
               backgroundPosition: "center",

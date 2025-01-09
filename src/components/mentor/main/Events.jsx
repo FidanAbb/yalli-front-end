@@ -214,7 +214,7 @@ const Events = () => {
 
     try {
       const response = await axios.patch(
-        "https://yalli-back-end.onrender.com/v1/events/saveEvent",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events/saveEvent",
         {
           id: eventId,
           userId: userId,
@@ -251,7 +251,7 @@ const Events = () => {
   const unsaveEvent = async (eventId, userId) => {
     try {
       const response = await axios.patch(
-        "https://yalli-back-end.onrender.com/v1/events/unsaveEvent",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events/unsaveEvent",
         {
           id: eventId,
           userId: userId,
@@ -290,7 +290,7 @@ const Events = () => {
   const fetchEvents = async (categories = []) => {
     try {
       const url = buildUrlWithCategories(
-        "https://yalli-back-end.onrender.com/v1/events",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events",
         categories
       );
 
@@ -305,7 +305,6 @@ const Events = () => {
         },
       });
       if (response) {
-        console.log(response);
         setEvents(response?.data?.content);
       }
     } catch (error) {
@@ -420,7 +419,7 @@ const Events = () => {
             </div>
             <div className="col-md-9 col-sm-12 col-12">
               <div className="cards">
-                <div className="row">
+                <div className="row ">
                   {events?.map((event, index) => (
                     <div key={index} className="col-md-4 col-sm-12 col-12">
                       <div className="event-card">
@@ -434,7 +433,7 @@ const Events = () => {
                           />
                           <div
                             className="saved-icon"
-                            onClick={() => savedEventChange(event.id, userID)}
+                            onClick={() => savedEventChange(event.id, Number(userID))}
                           >
                             {event.saved ? (
                               <IoBookmarkSharp className="icon" />

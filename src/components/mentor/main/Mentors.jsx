@@ -201,7 +201,7 @@ const Mentors = () => {
   const fetchMentors = async () => {
     try {
       const response = await axios.get(
-        "https://yalli-back-end.onrender.com/v1/mentors/search",
+        "https://yalli-back-end-7v7d.onrender.com/v1/mentors/search",
         {
           headers: {
             Accept: "application/json",

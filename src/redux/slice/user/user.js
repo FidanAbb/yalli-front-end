@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = "https://yalli-back-end.onrender.com/v1/users";
+const baseURL = "https://yalli-back-end-7v7d.onrender.com/v1/users";
 
 export const getUserData = createAsyncThunk("users/getUserData", async () => {
   const response = await axios.get(baseURL);

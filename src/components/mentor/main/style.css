@@ -331,9 +331,29 @@ input {
     background-color: #A2A2A2; 
 }
 
+@media (max-width:1440px){
+    .event-card {
+        background-color: #fff;
+        padding: .4rem;
+        border-radius: .5rem;
+        height: 286px !important;
+        width: 100% !important ;
+    }
+    ._main_m4tvl_7 ._main_m4tvl_7 ._cards_m4tvl_16{
+        
+    }
+}
+@media (max-width:1000px){
+    .event-card {
+        background-color: #fff;
+        height: auto !important;
+        width: 100% !important ;
+    }
+}
 @media (max-width:500px){
     .event-card{
         width: 100% !important;
+        height: 286px !important;
     }
     .events-page .event-left{
         margin-bottom: 16px;

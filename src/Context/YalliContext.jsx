@@ -12,7 +12,6 @@ const ContextYalli = ({ children }) => {
   const userFromStore = useSelector((state) => state.users.user);
   const afterRegister = localStorage.getItem("afterRegister");
 
-
   const initialData = {
     fullName: "",
     email: "",
@@ -22,8 +21,7 @@ const ContextYalli = ({ children }) => {
     profilePictureUrl: "",
     socialMediaAccounts: null,
   };
-  
-  
+
   const [userID, setUserID] = useState(null);
   const [localUserData, setLocalUserData] = useState(initialData);
   const [imageUrl, setImageUrl] = useState("");
@@ -45,15 +43,15 @@ const ContextYalli = ({ children }) => {
     const savedValue = localStorage.getItem("isRegisterOtp");
     return savedValue ? JSON.parse(savedValue) : false;
   });
-  const [allGroups,setAllGroups]=useState([])
-  const [mentorCountrys,setMentorCountrys]=useState(null)
+  const [allGroups, setAllGroups] = useState([]);
+  const [mentorCountrys, setMentorCountrys] = useState(null);
   const [mentors, setMentors] = useState([]);
   const [localMentorFlags, setLocalMentorFlags] = useState("");
-  const [groupID,setGroupID]=useState(null)
-  const [groupEditModal,setGroupEditModal]=useState(false)
+  const [groupID, setGroupID] = useState(null);
+  const [groupEditModal, setGroupEditModal] = useState(false);
   const [getCreatedGruopState, setGetCreatedGruopState] = useState(false);
 
-  const [editGroupAfter,setEditGroupAfter]=useState(false);
+  const [editGroupAfter, setEditGroupAfter] = useState(false);
 
   useEffect(() => {
     fetchMentors();
@@ -61,7 +59,7 @@ const ContextYalli = ({ children }) => {
   const fetchMentors = async () => {
     try {
       const response = await axios.get(
-        "https://yalli-back-end.onrender.com/v1/mentors/search",
+        "https://yalli-back-end-7v7d.onrender.com/v1/mentors/search",
         {
           headers: {
             Accept: "application/json",
@@ -85,7 +83,7 @@ const ContextYalli = ({ children }) => {
       }
     }
   };
-  
+
   useEffect(() => {
     if (groupsByUserID) {
       setGroupsByUserID(groupsByUserID);
@@ -108,7 +106,7 @@ const ContextYalli = ({ children }) => {
       const storedImage = localStorage.getItem(imageKey);
       if (storedImage) {
         setImageUrl(JSON.parse(storedImage));
-      } 
+      }
     }
   }, [userID]);
   useEffect(() => {
@@ -159,7 +157,7 @@ const ContextYalli = ({ children }) => {
       try {
         console.log(file);
         const response = await axios.post(
-          "https://yalli-back-end.onrender.com/v1/files/upload",
+          "https://yalli-back-end-7v7d.onrender.com/v1/files/upload",
           formData,
           {
             headers: {
@@ -168,6 +166,8 @@ const ContextYalli = ({ children }) => {
           }
         );
         const imageUrl = response.data;
+        console.log(imageUrl);
+        
         const updateUserDataOb = {
           ...localUserData,
           profilePictureUrl: imageUrl,
@@ -183,7 +183,7 @@ const ContextYalli = ({ children }) => {
   const getGroupByUserID = async (userID) => {
     try {
       const response = await axios.get(
-        `https://yalli-back-end.onrender.com/v1/groups/users/${userID}`,
+        `https://yalli-back-end-7v7d.onrender.com/v1/groups/users/${userID}`,
         {
           headers: {
             Accept: "application/json",
@@ -198,10 +198,10 @@ const ContextYalli = ({ children }) => {
     }
   };
   useEffect(() => {
-    if (userID ) {
+    if (userID) {
       getGroupByUserID(userID);
     }
-  }, [userID,editGroupAfter]);
+  }, [userID, editGroupAfter]);
   const aboutRef = useRef(null);
   const scrollToAbout = () => {
     aboutRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -209,7 +209,7 @@ const ContextYalli = ({ children }) => {
   const updateGroup = async (groupId, groupData) => {
     try {
       const response = await axios.put(
-        `https://yalli-back-end.onrender.com/v1/groups/${groupId}`,
+        `https://yalli-back-end-7v7d.onrender.com/v1/groups/${groupId}`,
         groupData,
         {
           headers: { "Content-Type": "application/json" },
@@ -233,7 +233,7 @@ const ContextYalli = ({ children }) => {
   };
   const findGroupByUserId = useCallback(async (groupId, userId) => {
     try {
-      const url = `https://yalli-back-end.onrender.com/v1/groups/${groupId}/users/${userId}`;
+      const url = `https://yalli-back-end-7v7d.onrender.com/v1/groups/${groupId}/users/${userId}`;
       const response = await axios.get(url, {
         headers: {
           "Content-Type": "application/json",
@@ -251,7 +251,7 @@ const ContextYalli = ({ children }) => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get(
-          "https://yalli-back-end.onrender.com/v1/events?title=&country=&",
+          "https://yalli-back-end-7v7d.onrender.com/v1/events?title=&country=&",
           {
             params: {
               page: 0,
@@ -272,17 +272,19 @@ const ContextYalli = ({ children }) => {
   }, []);
   const getAllGroups = async () => {
     try {
-      const response = await axios.get('https://yalli-back-end.onrender.com/v1/groups');
-      setAllGroups(response.data.content); 
+      const response = await axios.get(
+        "https://yalli-back-end-7v7d.onrender.com/v1/groups"
+      );
+      setAllGroups(response.data.content);
     } catch (error) {
-      console.error('Error fetching groups:', error);
+      console.error("Error fetching groups:", error);
     }
-  }
-  
-  useEffect(()=>{
+  };
+
+  useEffect(() => {
     getAllGroups();
-  },[])
-  
+  }, []);
+
   const fetchAllUsers = async () => {
     try {
       let page = 0;
@@ -290,7 +292,7 @@ const ContextYalli = ({ children }) => {
       let hasMore = true;
       while (hasMore) {
         const response = await axios.get(
-          `https://yalli-back-end.onrender.com/v1/users/search?page=${page}&size=20`,
+          `https://yalli-back-end-7v7d.onrender.com/v1/users/search?page=${page}&size=20`,
           {
             headers: {
               accept: "*/*",
@@ -316,7 +318,7 @@ const ContextYalli = ({ children }) => {
   const deleteUserAccount = async (userID) => {
     try {
       const response = await axios.delete(
-        `https://yalli-back-end.onrender.com/v1/users/delete/${userID}`
+        `https://yalli-back-end-7v7d.onrender.com/v1/users/delete/${userID}`
       );
       toast.success("İstifadəçi hesabı uğurla silindi.");
     } catch (error) {
@@ -388,7 +390,7 @@ const ContextYalli = ({ children }) => {
         setLocalMentorFlags,
         localMentorFlags,
         setEditGroupAfter,
-        editGroupAfter
+        editGroupAfter,
       }}
     >
       {children}

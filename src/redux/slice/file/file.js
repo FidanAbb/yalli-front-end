@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'; 
 import { createSlice } from '@reduxjs/toolkit';
-const BASE_URL = 'https://yalli-back-end.onrender.com/v1/files';
+const BASE_URL = 'https://yalli-back-end-7v7d.onrender.com/v1/files';
 const initialState={
   file:null,
   status:"idle",

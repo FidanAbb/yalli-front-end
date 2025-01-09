@@ -27,7 +27,7 @@ const ProfileLeft = () => {
   const handleDeleteAccount = async () => {
     try {
       await axios.delete(
-        `https://yalli-back-end.onrender.com/v1/users/delete/${userID}`
+        `https://yalli-back-end-7v7d.onrender.com/v1/users/delete/${userID}`
       );
       handleLogout();
       toast.success("Hesab uğurla silindi");

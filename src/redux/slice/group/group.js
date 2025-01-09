@@ -7,14 +7,14 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const baseURL = "https://yalli-back-end.onrender.com/v1/groups";
+const baseURL = "https://yalli-back-end-7v7d.onrender.com/v1/groups";
 
 // Thunks
 export const getGroupData = createAsyncThunk(
   "groups/getGroupData",
   async ({ page, size, title, country, categories }) => {
     const response = await axios.get(
-      "https://yalli-back-end.onrender.com/v1/groups",
+      "https://yalli-back-end-7v7d.onrender.com/v1/groups",
       {
         params: {
           page,

@@ -27,7 +27,7 @@ const ProfileCommunityEdit = () => {
 
   const deleteGroup = () => {
     if (selectedGroupsID?.length > 0) {
-      const url = `https://yalli-back-end.onrender.com/v1/groups/users/${userID}`;
+      const url = `https://yalli-back-end-7v7d.onrender.com/v1/groups/users/${userID}`;
       const params = {
         groupIds: selectedGroupsID.join(","),
       };
