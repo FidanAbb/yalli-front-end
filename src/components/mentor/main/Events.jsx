@@ -422,7 +422,7 @@ const Events = () => {
                 <div className="row ">
                   {events?.map((event, index) => (
                     <div key={index} className="col-md-4 col-sm-12 col-12">
-                      <div className="event-card">
+                      <div className="event-card event-page">
                         <div className="img-block">
                           <img
                             src={
