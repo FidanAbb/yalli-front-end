@@ -92,6 +92,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
     category: "",
   });
   const [imageId, setImageId] = useState("");
+  console.log(imageId);
+  
  
   useEffect(() => {
     const fetchGroups = async () => {
@@ -230,6 +232,8 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
           <div onClick={() => setModal(false)} className={styles["close-btn"]}>
             <IoIosCloseCircleOutline />
           </div>
+          {console.log(imageId)}
+          
           <div
             className={styles["img"]}
             style={{
@@ -256,6 +260,7 @@ const CreateGroup = ({ setModal, setGroupumData }) => {
             placeholder="İcmanın adı"
             onChange={handleChange}
           />
+          {/* <img src={`https://yalli-back-end-7v7d.onrender.com/v1/files/${imageId}`} alt="" /> */}
           <div
             className={styles["country-dropdown"]}
             ref={countryDropdownRef}

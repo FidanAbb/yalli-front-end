@@ -304,7 +304,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                   <div
                     className="profile-image-container-header"
                     style={{
-                      backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                      backgroundImage: `url(https://yalli-back-end-7v7d.onrender.com/v1/files/${localUserData.profilePictureUrl})`,
                     }}
                   ></div>
                 ) : (
@@ -341,7 +341,7 @@ const Header = ({ scrollToSection, groupRef, eventRef, mentorRef }) => {
                         <div
                           className="profile-image-container-header"
                           style={{
-                            backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                            backgroundImage: `url(https://yalli-back-end-7v7d.onrender.com/v1/files/${localUserData.profilePictureUrl})`,
                           }}
                         ></div>
                       ) : (

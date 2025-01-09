@@ -426,7 +426,7 @@ const Events = () => {
                         <div className="img-block">
                           <img
                             src={
-                              `https://minio-server-4oyt.onrender.com/yalli/${event.imageId}` ||
+                              `https://yalli-back-end-7v7d.onrender.com/v1/files/${event.imageId}` ||
                               defaultEventImg
                             }
                             alt=""

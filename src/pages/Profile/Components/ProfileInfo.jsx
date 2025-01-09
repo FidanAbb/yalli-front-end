@@ -105,9 +105,6 @@ const ProfileInfo = () => {
     updateUserData(newUserData);
 
     if (value && !isValidSocialUrl(value, name.toUpperCase())) {
-      // toast.info(
-      //   `Daxil edilmiş ${name} URL düzgün deyil və 5 saniyə ərzində silinəcək.`
-      // );
       setTimeout(() => {
         const cleanedSocialMediaAccounts = Object.fromEntries(
           Object.entries(localUserData.socialMediaAccounts || {}).filter(
@@ -221,6 +218,8 @@ const ProfileInfo = () => {
   if (!localUserData) {
     return <div>Loading...</div>;
   }
+  console.log( localUserData.profilePictureUrl);
+  
   return (
     <>
       <div
@@ -235,13 +234,14 @@ const ProfileInfo = () => {
                 <div className="col-md-6 col-sm-12 col-12">
                   <div className="left">
                     <div className="img-block">
+                      
                       {loadingImage ? (
                         <p>Loading...</p>
                       ) : localUserData.profilePictureUrl ? (
                         <div
                           className="profile-image-container"
                           style={{
-                            backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${localUserData.profilePictureUrl})`,
+                            backgroundImage: `url(https://yalli-back-end-7v7d.onrender.com/v1/files/${localUserData.profilePictureUrl})`,
                           }}
                         ></div>
                       ) : (   

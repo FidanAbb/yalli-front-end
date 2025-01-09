@@ -55,7 +55,7 @@ const Card = ({
         <img
           src={
             sectionName === "group"
-              ? `https://minio-server-4oyt.onrender.com/yalli/${group?.imageId}`
+              ? `https://yalli-back-end-7v7d.onrender.com/v1/files/${group?.imageId}`
               : event?.image
           }
           alt={group ? group.title : event?.title}

@@ -215,6 +215,7 @@ const Mentors = () => {
           },
         }
       );
+console.log(response);
 
       if (response) {
         console.log("Fetched Data:", response.data.content);
@@ -341,7 +342,7 @@ const Mentors = () => {
                         >
                           <div className="img-block">
                             <img
-                              src={`https://minio-server-4oyt.onrender.com/yalli/${item.profilePicture}`}
+                              src={`https://yalli-back-end-7v7d.onrender.com/v1/files/${item.profilePicture}`}
                               alt={`${item.fullName} profile`}
                               style={{ width: "100%", height: "auto" }} // Mentorun şəkli
                             />

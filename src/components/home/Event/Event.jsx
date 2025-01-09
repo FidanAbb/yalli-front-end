@@ -72,7 +72,7 @@ const Event = () => {
   const fetchEvents = async (categories = []) => {
     try {
       const url = buildUrlWithCategories(
-        "https://yalli-back-end.onrender.com/v1/events",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events",
         categories
       );
 
@@ -135,7 +135,7 @@ const Event = () => {
   const unsaveEvent = async (eventId, userId) => {
     try {
       const response = await axios.patch(
-        "https://yalli-back-end.onrender.com/v1/events/unsaveEvent",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events/unsaveEvent",
         {
           id: eventId,
           userId: userId,
@@ -172,7 +172,7 @@ const Event = () => {
     }
     try {
       const response = await axios.patch(
-        "https://yalli-back-end.onrender.com/v1/events/saveEvent",
+        "https://yalli-back-end-7v7d.onrender.com/v1/events/saveEvent",
         {
           id: eventId,
           userId: userId,

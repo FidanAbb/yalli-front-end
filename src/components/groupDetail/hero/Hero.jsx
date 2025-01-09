@@ -103,7 +103,7 @@ const Hero = ({ group }) => {
             </div>
             <div className={styles["down"]}>
               <img
-                src={`https://minio-server-4oyt.onrender.com/yalli/${group?.imageId}`}
+                src={`https://yalli-back-end-7v7d.onrender.com/v1/files/${group?.imageId}`}
                 alt=""
               />
               <div className={styles["detail"]}>
