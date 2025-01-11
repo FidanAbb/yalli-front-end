@@ -260,7 +260,7 @@ const Event = () => {
                 <div className="event-card" key={index}>
                   <div className="img-block">
                     <img
-                      src={`https://minio-server-4oyt.onrender.com/yalli/${event.imageId}`}
+                      src={`https://yalli-back-end-7v7d.onrender.com/v1/files/${event.imageId}`}
                       alt=""
                     />
                     <div

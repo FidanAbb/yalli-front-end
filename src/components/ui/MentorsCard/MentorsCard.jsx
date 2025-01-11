@@ -39,7 +39,7 @@ const MentorsCard = ({ data ,index}) => {
       onClick={() => navigate(`/mentor/${data.id}`, {})}
     >
       <img
-        src={`https://minio-server-4oyt.onrender.com/yalli/${data.profilePicture}`}
+        src={`https://yalli-back-end-7v7d.onrender.com/v1/files/${data.profilePicture}`}
         alt=""
       />
       <p className={styles["name"]}>{data.fullName}</p>

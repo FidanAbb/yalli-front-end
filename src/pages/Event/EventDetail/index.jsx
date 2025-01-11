@@ -54,7 +54,7 @@ export default function EventDetail() {
   const fetchEventById = async () => {
     try {
       const response = await axios.get(
-        `https://yalli-back-end.onrender.com/v1/events/${eventId.id}`,
+        `https://yalli-back-end-7v7d.onrender.com/v1/events/${eventId.id}`,
         {
           headers: {
             Accept: "application/json",
@@ -93,7 +93,7 @@ export default function EventDetail() {
             <div className={styles.event_left}>
               <img
                 src={
-                  `https://minio-server-4oyt.onrender.com/yalli/${eventById?.imageId}` ||
+                  `https://yalli-back-end-7v7d.onrender.com/v1/files/${eventById?.imageId}` ||
                   defaultEventImg
                 }
                 alt=""
