@@ -91,6 +91,8 @@ const Groups = () => {
 
   const [selectCountyState, setSelectCountryState] = useState("");
   const [countyChangeInput, setCountyChangeInput] = useState("");
+  
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location, page]);
@@ -133,6 +135,9 @@ const Groups = () => {
     );
     if (resetPage) setPage(0);
   };
+  useEffect(() => {
+    fetchGroupData(true);
+  }, [selectCountyState]);
   useEffect(() => {
     const hasSearchCriteria =
       inputTitleState || activeCategories?.length > 0 || selectCountyState;

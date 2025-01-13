@@ -50,7 +50,6 @@ export default function EventDetail() {
     return `${weekday}, ${day} ${month}`;
   };
   const eventId = useParams();
-  console.log(eventId.id);
   const fetchEventById = async () => {
     try {
       const response = await axios.get(

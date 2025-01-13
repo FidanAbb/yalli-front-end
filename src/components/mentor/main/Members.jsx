@@ -293,7 +293,7 @@ console.log(clickCountryToMembers);
                                 <div
                                   className="profile-image-container-member"
                                   style={{
-                                    backgroundImage: `url(https://minio-server-4oyt.onrender.com/yalli/${user.profilePicture})`,
+                                    backgroundImage: `url(https://yalli-back-end-7v7d.onrender.com/v1/files/${user.profilePicture})`,
                                   }}
                                 ></div>
                               ) : (
